@@ -1,0 +1,5 @@
+{
+    "require": {
+        "landrok/activitypub": "^0.6.0"
+    }
+}
