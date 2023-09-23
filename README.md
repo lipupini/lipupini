@@ -31,7 +31,7 @@ Requires=nginx
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/php -S localhost:4000 index.php -t /opt/webapp/lipupini/view/Lipupini/webroot/
+ExecStart=/usr/bin/php -S localhost:80 index.php -t /opt/webapp/lipupini/view/Lipupini/webroot/
 User=www-data
 Restart=on-failure
 
@@ -42,7 +42,7 @@ WantedBy=multi-user.target
 - Replace `/opt/webapp/lipupini/` with the project root path
 - Replace `User=www-data` with the user account under which the Lipupini process should be run
 - Replace `Requires=nginx` accordingly for a different HTTPS proxy
-- Proxy port 4000 to HTTPS however you will
+- Proxy port 80 to HTTPS however you will
 
 This pattern offers the following benefits:
 
