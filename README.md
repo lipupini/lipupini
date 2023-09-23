@@ -7,7 +7,7 @@
 ## Start Lipupini
 
 ```shell
-cd webroot
+cd view/Lipupini/webroot
 php -S localhost:4000 index.php
 ```
 
