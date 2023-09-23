@@ -1,0 +1,33 @@
+#modal-overlay {
+	background-color: #2d2d2d;
+	opacity: 0.85;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+#modal {
+	background-color: #27272A;
+	padding: 1.5rem;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	box-shadow: 0 0 5px #737373;
+	border-radius: 3px;
+	min-width: 320px;
+}
+
+#modal label {
+	margin-bottom: 0.75rem;
+}
+
+#modal .form-input-label {
+	margin-bottom: 1.5rem;
+}
+
+#modal .form-input-label:last-of-type {
+	margin-bottom: 0;
+}

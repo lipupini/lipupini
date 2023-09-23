@@ -1,0 +1,30 @@
+#media-container {
+	gap: 0;
+}
+
+#media-container.grid {
+	display: grid;
+}
+
+#media-container.square a > div {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+#media-container.square img {
+	aspect-ratio: 1/1;
+}
+
+#media-container img {
+	width: 100%;
+}
+
+#media-container div.video {
+	overflow: hidden;
+	aspect-ratio: 1/1;
+}
+
+#media-container video {
+	width: 100%;
+}
