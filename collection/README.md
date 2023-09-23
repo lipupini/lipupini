@@ -19,8 +19,7 @@ bob@domain $ pwd
 /home/bob/Lipupini
 
 bob@domain $ ls
-cat-computer.jpg  cat-scarf.jpg  toki-ipsum.md
-cat-hat.png       dup.mp4        winamp-intro.mp3
+cat-hat.png  cat-scarf.jpg  dup.mp4  memes  poetry  winamp-intro.mp3
 
 webserver@domain $ su - webserver
 
@@ -30,8 +29,7 @@ webserver@domain $ pwd
 webserver@domain $ sudo ln -s /home/bob/Lipupini /var/www/lipupini/collections/bob@domain.tld
 
 webserver@domain $ ls collections/bob@domain.tld
-cat-computer.jpg  cat-scarf.jpg  toki-ipsum.md
-cat-hat.png       dup.mp4        winamp-intro.mp3
+cat-hat.png  cat-scarf.jpg  dup.mp4  memes  poetry  winamp-intro.mp3
 ```
 After symlinking, user `bob` can log in using SFTP and see a `Lipupini` directory in their `/home/bob` directory. The files placed in this directory are then automatically served by Lipupini.
 
