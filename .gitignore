@@ -7,6 +7,8 @@ GitHub.sublime-settings
 Session.vim
 Sessionx.vim
 .*.swp
+.emacs.desktop
+.emacs.desktop.lock
 .project
 
 # OS
