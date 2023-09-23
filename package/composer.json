@@ -3,6 +3,9 @@
 		"landrok/activitypub": "^0.6.0"
 	},
 	"autoload": {
+		"files": [
+			"../system/Initialize.php"
+		],
 		"psr-4": {
 			"Plugin\\": "../plugin",
 			"System\\": "../system"

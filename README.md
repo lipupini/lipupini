@@ -9,8 +9,8 @@
 ```shell
 # Navigate to the webserver document root folder
 cd view/Lipupini/webroot
-# Symlink `collection` folder inside `webroot` folder as "c" if it is not already linked
-ln -s ../../../collection c
+# The `c` folder inside `webroot` needs to be writeable as it will store cache:
+chmod 755 c
 # Start webserver
 php -S localhost:4000 index.php
 ```
