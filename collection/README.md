@@ -6,7 +6,7 @@ Within an identifier folder is a `.lipupini` folder.
 
 Each file can have a corresponding `.json` file in the `.lipupini` folder with additional metadata such as `caption` or `visibility`.
 
-A minimal corresponding `.json` file required for a file to be served looks like this:
+The minimal corresponding JSON required for a file to be served looks like this:
 
 ```json
 {
