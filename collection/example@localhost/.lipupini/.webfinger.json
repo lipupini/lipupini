@@ -1,15 +1,15 @@
 {
-	"subject": "acct:example@lipupini.dup.bz",
+	"subject": "acct:example@localhost",
 	"links": [
 		{
 			"rel": "http://webfinger.net/rel/profile-page",
 			"type": "text/html",
-			"href": "https://lipupini.dup.bz/@example"
+			"href": "https://localhost/@example"
 		},
 		{
 			"rel": "self",
 			"type": "application/activity+json",
-			"href": "https://lipupini.dup.bz/@example"
+			"href": "https://localhost/@example"
 		}
 	]
 }
