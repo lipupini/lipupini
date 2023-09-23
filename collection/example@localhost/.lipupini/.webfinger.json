@@ -4,12 +4,12 @@
 		{
 			"rel": "http://webfinger.net/rel/profile-page",
 			"type": "text/html",
-			"href": "https://localhost/@example"
+			"href": "http://localhost/@example"
 		},
 		{
 			"rel": "self",
 			"type": "application/activity+json",
-			"href": "https://localhost/@example"
+			"href": "http://localhost/@example"
 		}
 	]
 }
