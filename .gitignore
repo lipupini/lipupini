@@ -4,12 +4,14 @@ nbproject
 .vscode
 .sublime-workspace
 GitHub.sublime-settings
+xcuserdata/
 Session.vim
 Sessionx.vim
 .*.swp
 .emacs.desktop
 .emacs.desktop.lock
 .project
+*.bak
 
 # OS
 .DS_Store
