@@ -9,9 +9,7 @@ Each file can have a corresponding `.json` file in the `.lipupini` folder with a
 The minimal corresponding JSON required for a file to be served looks like this:
 
 ```json
-{
-	"visibility": "public"
-}
+{"visibility":"public"}
 ```
 
 See `plugin/Lipupini/WebFinger/README.md` for information about the `.webfinger.json` file.
