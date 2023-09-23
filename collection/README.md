@@ -12,7 +12,7 @@ The minimal corresponding JSON required for a file to be served looks like this:
 {"visibility":"public"}
 ```
 
-See `plugin/Lipupini/WebFinger/README.md` for information about the `.webfinger.json` file.
+The root `.lipupini` folder also contains a `.webfinger.json` file. See `plugin/Lipupini/WebFinger/README.md` for information about the `.webfinger.json` file.
 
 ## Vision
 
