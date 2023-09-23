@@ -46,7 +46,7 @@ WantedBy=multi-user.target
 
 This pattern offers the following benefits:
 
-- There are far fewer init systems than Linux distributions, so the Liputini service can be the same for any distribution that uses a particular system.
+- There are far fewer init systems than Linux distributions, so the Lipupini service can be the same for any distribution that uses a particular system.
 - PHP's built-in webserver is performant, and you can put the whole setup behind Cloudflare if you feel that you need boatloads of visitors every second of every day.
 - The method to create an HTTPS proxy for each webserver is more boilerplate than configuring each webserver for PHP and application specifics.
 - Allowing the use of Ngrok for HTTPS could drastically speed up deployment time without requiring a separate webserver at all.
