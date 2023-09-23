@@ -18,8 +18,8 @@ Linux user folders symlinked into `collection`, for example:
 bob@domain $ pwd
 /home/bob/Lipupini
 
-bob@domain $ ls
-cat-hat.png  cat-scarf.jpg  dup.mp4  memes  poetry  winamp-intro.mp3
+bob@domain $ ls -A
+cat-hat.png  cat-scarf.jpg  dup.mp4  .lipupini  memes  poetry  winamp-intro.mp3
 
 webserver@domain $ su - webserver
 
@@ -28,8 +28,8 @@ webserver@domain $ pwd
 
 webserver@domain $ sudo ln -s /home/bob/Lipupini /var/www/lipupini/collection/bob@domain.tld
 
-webserver@domain $ ls collection/bob@domain.tld
-cat-hat.png  cat-scarf.jpg  dup.mp4  memes  poetry  winamp-intro.mp3
+webserver@domain $ ls -A collection/bob@domain.tld
+cat-hat.png  cat-scarf.jpg  dup.mp4  .lipupini  memes  poetry  winamp-intro.mp3
 ```
 After symlinking, user `bob` can log in using SFTP and see a `Lipupini` directory in their `/home/bob` directory. The files placed in this directory are then automatically served by Lipupini.
 
