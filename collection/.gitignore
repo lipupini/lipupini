@@ -1,0 +1,6 @@
+# Ignore the whole `collection` directory when committing
+/*
+
+# Except for the example collection and README.md
+!/example@localhost/
+!/README.md

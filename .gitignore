@@ -1,2 +1,18 @@
-/.idea
+# IDE
+.idea
+nbproject
+.vscode
+.sublime-workspace
+GitHub.sublime-settings
+Session.vim
+Sessionx.vim
+.*.swp
+.project
 
+# OS
+.DS_Store
+Thumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+.Trashes
