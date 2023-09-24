@@ -1,1 +1,2 @@
-/Lipupini/webroot/c/
+/Lipupini/webroot/c/*
+!/Lipupini/webroot/c/.gitkeep
