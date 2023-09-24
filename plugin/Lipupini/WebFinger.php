@@ -16,7 +16,7 @@ class WebFinger extends Plugin {
 		if (preg_match('#^/\.well-known/webfinger\?resource=acct(?::|%3A%40)(.*)$#', $_SERVER['REQUEST_URI'], $matches)) {
 			$account = $matches[1];
 
-			Lipupini::requireAccountExists($account);
+			$account = Lipupini::formatAndRequireAccount($account);
 
 			$webfingerJson = DIR_COLLECTION . '/' . $account . '/' . DIR_DOT . '/.webfinger.json';
 

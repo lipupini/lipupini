@@ -19,10 +19,8 @@ class AccountUrl extends Plugin {
 				$account = $account . '@' . HOST;
 			}
 
-			Lipupini::requireAccountExists($account);
-
 			$state += [
-				'account' => $account,
+				'account' => Lipupini::formatAndRequireAccount($account),
 			];
 		}
 

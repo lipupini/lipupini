@@ -35,7 +35,7 @@ class Lipupini {
 		exit();
 	}
 
-	public static function requireAccountExists($account) {
+	private static function formatAccount(&$account) {
 		if (strlen($account) > 255) {
 			throw new Exception('E2462343242363243423');
 		}
@@ -44,9 +44,13 @@ class Lipupini {
 			$account = urldecode($account);
 		}
 
-		if (!filter_var($account, FILTER_VALIDATE_EMAIL)) {
+		if (!filter_var($account, FILTER_VALIDATE_EMAIL) && !preg_match('#@localhost$#', $account)) {
 			throw new Exception('E637545253453453452');
 		}
+	}
+
+	public static function formatAndRequireAccount($account) {
+		self::formatAccount($account);
 
 		$accountDir = DIR_COLLECTION . '/' . $account;
 
@@ -56,6 +60,8 @@ class Lipupini {
 			http_response_code(404);
 			throw new Exception('Could not find account');
 		}
+
+		return $account;
 	}
 }
 
