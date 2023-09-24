@@ -15,8 +15,8 @@ use System\Plugin;
 
 class WebFinger extends Plugin {
 	// This will override the start() method of the parent/extended WebFinger class
-	public function start() {
-
+	public function start(array $state): array {
+		return $state;
 	}
 }
 ```

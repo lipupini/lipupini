@@ -7,5 +7,5 @@ namespace System;
 // Ultimately the order of loading is determined linearly in `webroot/index.php`.
 
 abstract class Plugin {
-	abstract public function start();
+	abstract public function start(array $state): array;
 }
