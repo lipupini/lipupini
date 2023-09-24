@@ -4,19 +4,20 @@ Plugins can be extended, overridden, or swapped.
 
 ---
 
-To extend the `plugins/Lipupini/WebFinger` plugin, make a folder `plugins/OtherNameSpace/WebFinger`.
+To extend the `plugins/Lipupini/WebFinger` plugin, make a file `plugins/OtherNameSpace/WebFinger.php`.
 
-In `OtherNameSpace/WebFinger/WebFinger.php`, use:
+In `OtherNameSpace/WebFinger.php`, use:
 
 ```php
-<?php
-
 namespace Plugin\OtherNameSpace;
 
-use Plugin\Lipupini\WebFinger as LipupiniWebFinger;
+use System\Plugin;
 
-class WebFinger extends LipupiniWebFinger {
+class WebFinger extends Plugin {
+	// This will override the start() method of the parent/extended WebFinger class
+	public function start() {
 
+	}
 }
 ```
 

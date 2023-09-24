@@ -6,6 +6,19 @@ namespace System;
 // Each plugin should extend this file, and can have a list of dependencies that this file can check in the loading process.
 // Ultimately the order of loading is determined linearly in `webroot/index.php`.
 
-abstract class Plugin {
-	abstract public function start();
+class Lipupini {
+	public function __construct(private array $plugins = []) {}
+
+	public function addPlugin($class) {
+		$this->plugins[] = $class;
+		return $this;
+	}
+
+	public function start() {
+		foreach ($this->plugins as $plugin) {
+			$pluginInstance = new $plugin();
+			$pluginInstance->start();
+		}
+	}
 }
+

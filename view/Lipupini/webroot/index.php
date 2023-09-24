@@ -6,6 +6,11 @@ require(__DIR__ . '/../../../package/vendor/autoload.php');
 define('DIR_WEBROOT', __DIR__);
 define('DIR_VIEW', realpath(DIR_WEBROOT . '/../'));
 
-use System\Plugin;
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-echo 'Lipupini';
+use System\Lipupini;
+
+(new Lipupini)
+	->addPlugin(\Plugin\Lipupini\WebFinger::class)
+	->start();
