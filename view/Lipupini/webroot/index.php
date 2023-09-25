@@ -14,4 +14,5 @@ use System\Lipupini;
 (new Lipupini)
 	->addPlugin(\Plugin\Lipupini\WebFinger::class)
 	->addPlugin(\Plugin\Lipupini\AccountUrl::class)
+	->addPlugin(\Plugin\Lipupini\ActivityPub\ProfileLocal::class)
 	->start();

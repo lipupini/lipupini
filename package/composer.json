@@ -1,7 +1,5 @@
 {
-	"require": {
-		"landrok/activitypub": "^0.6.0"
-	},
+	"minimum-stability": "dev",
 	"autoload": {
 		"files": [
 			"../system/Initialize.php"
@@ -10,5 +8,10 @@
 			"Plugin\\": "../plugin",
 			"System\\": "../system"
 		}
+	},
+	"require": {
+		"guzzlehttp/guzzle": "7.9.x-dev",
+		"instalution/activitypub-php-fork": "dev-master",
+		"spatie/crypto": "dev-main"
 	}
 }

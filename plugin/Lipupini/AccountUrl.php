@@ -12,15 +12,25 @@ use System\Plugin;
 
 class AccountUrl extends Plugin {
 	public function start(array $state): array {
-		if (preg_match('#^/@([^/]*)$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (preg_match('#^/@([^/]*)#', $_SERVER['REQUEST_URI'], $matches)) {
 			$account = $matches[1];
 
-			if (!filter_var($account, FILTER_VALIDATE_EMAIL)) {
-				$account = $account . '@' . HOST;
+			if (filter_var($account, FILTER_VALIDATE_EMAIL)) {
+				$split = explode(Lipupini::formatAndRequireAccount($account), '@');
+				$username = $split[0];
+				$host = $split[1];
+			} else {
+				$username = $account;
+				$host = HOST;
+				$account = Lipupini::formatAndRequireAccount($username . '@' . $host);
 			}
 
 			$state += [
-				'account' => Lipupini::formatAndRequireAccount($account),
+				'account' => [
+					'username' => $username,
+					'host' => $host,
+					'address' => $account,
+				]
 			];
 		}
 
