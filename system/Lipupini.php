@@ -37,15 +37,16 @@ class Lipupini {
 
 	private static function formatAccount(&$account) {
 		if (strlen($account) > 255) {
-			throw new Exception('E2462343242363243423');
+			throw new Exception('Suspicious account identifier');
 		}
 
 		if (!str_contains($account, '@')) {
 			$account = urldecode($account);
 		}
 
+		// @TODO: Bookmarking the following line for later
 		if (!filter_var($account, FILTER_VALIDATE_EMAIL) && !preg_match('#@localhost$#', $account)) {
-			throw new Exception('E637545253453453452');
+			throw new Exception('Not a valid account identifier format');
 		}
 	}
 
