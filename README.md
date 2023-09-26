@@ -25,4 +25,4 @@ For example, after starting Lipupini you can run this command:
 ngrok http 4000
 ```
 
-If your ngrok URL is then for example `https://f674-73-83-87-238.ngrok-free.app`, then you should be able to query `@example@f674-73-83-87-238.ngrok-free.app` from another Fediverse client.
+If your Ngrok URL is then for example `https://f674-73-83-87-238.ngrok-free.app`, then you should be able to query `@example@f674-73-83-87-238.ngrok-free.app` from another Fediverse client.
