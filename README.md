@@ -13,7 +13,7 @@ cd view/Lipupini/webroot
 php -S localhost:4000 index.php
 ```
 
-Visit http://localhost:4000/@example
+Visit https://f673-72-83-87-238.ngrok-free.app:4000/@example
 
 ## Note
 
@@ -26,3 +26,5 @@ ngrok http 4000
 ```
 
 If your Ngrok URL is then for example `https://f674-73-83-87-238.ngrok-free.app`, then you should be able to query `@example@f674-73-83-87-238.ngrok-free.app` from another Fediverse client.
+
+All occurrences of `localhost` in the collection's `.lipupini/.profile.json` and `.lipupini/.webfinger.json` will need to be changed to the Ngrok HTTPS address. The domains in the JSON files should always match the hostname.
