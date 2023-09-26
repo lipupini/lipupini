@@ -18,3 +18,11 @@ Visit http://localhost:4000/@example
 ## Note
 
 ActivityPub transactions should occur via HTTPS per spec. https://ngrok.com can be used to get up and running quickly for development.
+
+For example, after starting Lipupini you can run this command:
+
+```shell
+ngrok http 4000
+```
+
+If your ngrok URL is then for example `https://f674-73-83-87-238.ngrok-free.app`, then you should be able to query `@example@f674-73-83-87-238.ngrok-free.app` from another Fediverse client.
