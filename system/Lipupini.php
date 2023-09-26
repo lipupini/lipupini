@@ -53,6 +53,13 @@ class Lipupini {
 	public static function formatAndRequireAccount($account) {
 		self::formatAccount($account);
 
+		$exploded = explode('@', $account);
+
+		// If the requested account is from th hostname
+		if ($exploded[1] === HOST) {
+			$account = $exploded[0];
+		}
+
 		$accountDir = DIR_COLLECTION . '/' . $account;
 
 		if (
