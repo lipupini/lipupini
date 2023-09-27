@@ -1,0 +1,22 @@
+[
+	{
+		"filename": "cat-scarf.jpg",
+		"caption": "Scarf Cat",
+		"date": "2023-09-21T15:18:18Z"
+	},
+	{
+		"filename": "cat-hat.png",
+		"caption": "Hat Cat",
+		"date": "2023-09-21T14:18:18Z"
+	},
+	{
+		"filename": "winamp-intro.mp3",
+		"caption": "It really whips the llama's ass",
+		"date": "2023-09-21T13:18:18Z"
+	},
+	{
+		"filename": "dup.mp4",
+		"caption": "Scarf Cat",
+		"date": "2023-09-21T12:18:18Z"
+	}
+]

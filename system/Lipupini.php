@@ -148,27 +148,21 @@ class Lipupini {
 	}
 
 	public static function getCollectionData($collectionFolderName) {
-		$collectionData = [];
 		$collectionPath = DIR_COLLECTION . '/' . $collectionFolderName;
-		$dir = new \DirectoryIterator('glob://' . $collectionPath . '/.lipupini/*.json');
-		foreach ($dir as $fileinfo) {
-			preg_match('#^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)-(.*)\.json$#', $fileinfo->getFilename(), $matches);
-			$datestamp = $matches[1];
-			$sourceFilename = $matches[2];
-			if (!file_exists($collectionPath . '/' . $sourceFilename)) {
+		$filesJsonPath = $collectionPath . '/.lipupini/.files.json';
+		if (!file_exists($filesJsonPath)) {
+			throw new Exception('Could not find file data');
+		}
+		$collectionData = json_decode(file_get_contents($filesJsonPath), true);
+		foreach ($collectionData as $index => &$fileData) {
+			if (empty($fileData['filename'])) {
+				throw new Exception('Missing filename for entry in ' . $collectionFolderName . '/.lipupini/.files.json');
+			}
+			if (!file_exists($collectionPath . '/' . $fileData['filename'])) {
+				array_splice($collectionData, $index, 1);
 				continue;
 			}
-			$fileData = json_decode(file_get_contents($collectionPath . '/.lipupini/' . $fileinfo->getFilename()), true);
-			if (empty($fileData['visibility']) || $fileData['visibility'] !== 'public') {
-				continue;
-			}
-			$fileData = [
-				...$fileData,
-				'collection' => $collectionFolderName,
-				'filepath' => $sourceFilename,
-				'datestamp' => $datestamp,
-			];
-			$collectionData[] = $fileData;
+			$fileData['collection'] = $collectionFolderName;
 		}
 		return $collectionData;
 	}

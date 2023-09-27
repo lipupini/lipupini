@@ -2,17 +2,28 @@ In the `collection` root folder are folders named with an ActivityPub identifier
 
 The identifier folders contain files of various mime types or other organizational folders.
 
-Within an identifier folder is a `.lipupini` folder.
+Within an identifier folder is a `.lipupini` folder. This folder should have all the necessary data to configure an entire account by dropping it into the filesystem.
 
-Each file can have a corresponding `.json` file in the `.lipupini` folder with additional metadata such as `caption` or `visibility`.
+Within the `.lipupini` folder is a JSON file `.files.json` containing information about each file and the order in which they should be displayed.
 
-The minimal corresponding JSON required for a file to be served looks like this:
+For example, the JSON might look like this:
 
 ```json
-{"visibility":"public"}
+[
+	{
+		"filename": "cat-scarf.jpg",
+		"caption": "Scarf Cat",
+		"date": "2023-09-21T15:18:18Z"
+	},
+	{
+		"filename": "cat-hat.jpg",
+		"caption": "Hat Cat",
+		"date": "2023-09-21T14:18:18Z"
+	},
+]
 ```
 
-The root `.lipupini` folder also contains a `.webfinger.json` file. See `plugin/Lipupini/WebFinger/README.md` for information about the `.webfinger.json` file.
+The root `.lipupini` folder also contains public and private RSA keys for the collection to make signed requests e.g. for ActivityPub.
 
 ## Vision
 

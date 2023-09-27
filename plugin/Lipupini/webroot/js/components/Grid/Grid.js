@@ -5,7 +5,7 @@ import { Audio } from './FileType/Audio.js'
 
 const Grid = ({collectionData}) => {
 	collectionData.forEach((item) => {
-		switch (item.filepath.slice((item.filepath.lastIndexOf(".") - 1 >>> 0) + 2)) {
+		switch (item.filename.slice((item.filename.lastIndexOf(".") - 1 >>> 0) + 2)) {
 			case 'jpg':
 			case 'png':
 				van.add(document.getElementById('media-container'), Image(item))

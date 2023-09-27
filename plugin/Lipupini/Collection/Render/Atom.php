@@ -51,15 +51,6 @@ class Atom extends Plugin {
 	}
 
 	public function getEntriesXml(State $state) {
-		/*$collectionPath = DIR_COLLECTION . '/' . $state->collectionFolderName;
-		$dir = new \DirectoryIterator('glob://' . $collectionPath . '/.lipupini/*.json');
-		foreach ($dir as $fileinfo) {
-			$sourceFile = $collectionPath . '/' . preg_replace('#\.json$#', '', $fileinfo->getFilename());
-			if (!file_exists($sourceFile)) {
-				continue;
-			}
-			var_dump($sourceFile);
-		}*/
 		?>
 	<entry>
 		<id>https://localhost/@example/cat-hat.jpg.html</id>
