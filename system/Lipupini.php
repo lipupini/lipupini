@@ -146,4 +146,30 @@ class Lipupini {
 
 		return $collectionFolderName;
 	}
+
+	public static function getCollectionData($collectionFolderName) {
+		$collectionData = [];
+		$collectionPath = DIR_COLLECTION . '/' . $collectionFolderName;
+		$dir = new \DirectoryIterator('glob://' . $collectionPath . '/.lipupini/*.json');
+		foreach ($dir as $fileinfo) {
+			preg_match('#^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)-(.*)\.json$#', $fileinfo->getFilename(), $matches);
+			$datestamp = $matches[1];
+			$sourceFilename = $matches[2];
+			if (!file_exists($collectionPath . '/' . $sourceFilename)) {
+				continue;
+			}
+			$fileData = json_decode(file_get_contents($collectionPath . '/.lipupini/' . $fileinfo->getFilename()), true);
+			if (empty($fileData['visibility']) || $fileData['visibility'] !== 'public') {
+				continue;
+			}
+			$fileData['fileUrl'] = '/c/file/' . $collectionFolderName . '/' . $sourceFilename;
+			$fileData = [
+				...$fileData,
+				'fileUrl' => '/c/file/' . $collectionFolderName . '/' . $sourceFilename,
+				'datestamp' => $datestamp,
+			];
+			$collectionData[] = $fileData;
+		}
+		return $collectionData;
+	}
 }

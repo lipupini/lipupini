@@ -25,6 +25,12 @@
 	aspect-ratio: 1/1;
 }
 
-#media-container video {
+#media-container video,
+#media-container audio {
 	width: 100%;
+}
+
+#media-container div.audio {
+	display: flex;
+	align-items: center;
 }
