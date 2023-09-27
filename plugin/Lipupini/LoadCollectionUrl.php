@@ -11,28 +11,34 @@ use Plugin\Lipupini\Exception;
 use System\Plugin;
 
 class LoadCollectionUrl extends Plugin {
+	public static function validateCollectionDirectory($collectionDir) {
+		if (str_contains($collectionDir, '@')) {
+			if (substr_count($collectionDir, '@') > 1) {
+				throw new Exception('Invalid account identifier format (E1)');
+			}
+
+			if (!filter_var($collectionDir, FILTER_VALIDATE_EMAIL)) {
+				throw new Exception('Invalid account identifier format (E2)');
+			}
+		}
+
+		// Overwrite with full path
+		$fullCollectionPath = DIR_COLLECTION . '/' . $collectionDir;
+
+		if (
+			!is_dir($fullCollectionPath)
+		) {
+			http_response_code(404);
+			throw new Exception('Could not find account (E1)');
+		}
+
+		return true;
+	}
+
 	public function start(array $state): array {
 		if (preg_match('#^/@([^/]*)#', $_SERVER['REQUEST_URI'], $matches)) {
-			$account = $matches[1];
-
-			if (str_contains($account, '@')) {
-				if (substr_count($account, '@') > 1) {
-					throw new Exception('Invalid account identifier format (E1)');
-				}
-
-				if (!filter_var($account, FILTER_VALIDATE_EMAIL)) {
-					throw new Exception('Invalid account identifier format (E2)');
-				}
-			}
-
-			$collectionDir = DIR_COLLECTION . '/' . $account;
-
-			if (
-				!is_dir($collectionDir)
-			) {
-				http_response_code(404);
-				throw new Exception('Could not find account');
-			}
+			self::validateCollectionDirectory($matches[1]);
+			$collectionDir = $matches[1];
 
 			$state += [
 				'collectionDirectory' => $collectionDir,

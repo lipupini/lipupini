@@ -18,8 +18,6 @@ class CollectionJson extends Plugin {
 			return $state;
 		}
 
-		header('Content-type: application/activity+json');
-
 		$jsonData = [
 			'@context' => [
 				'https://w3id.org/security/v1',
@@ -55,13 +53,14 @@ class CollectionJson extends Plugin {
 			'icon' => [
 				'type' => 'Image',
 				'mediaType' => 'image/png',
-				'url' => 'http://localhost/img/1x1.png?v=4',
+				'url' => 'https://' . HOST . '/c/avatar/' . $state['collectionDirectory'] . '.png',
 			],
 			'endpoints' => [
 				'sharedInbox' => $state['collectionRootUrl'] . '/fuck',
 			]
 		];
 
+		header('Content-type: application/activity+json');
 		echo json_encode($jsonData);
 
 		return $state += [
