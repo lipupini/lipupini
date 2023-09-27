@@ -14,7 +14,7 @@ use System\Plugin;
 
 class WebFinger extends Plugin {
 	public function start(State $state): State {
-		if (preg_match('#^/\.well-known/webfinger\?resource=acct(?::|%3A%40)(.*)$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (preg_match('#^/\.well-known/webfinger\?resource=acct(?::|%3A)(.*)$#', $_SERVER['REQUEST_URI'], $matches)) {
 			$identifier = $matches[1];
 
 			// Webfinger request could be URL encoded, but it should contain "@"

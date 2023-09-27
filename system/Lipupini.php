@@ -96,6 +96,16 @@ class Lipupini {
 
 	public static function validateCollectionFolderName(string $collectionFolderName, bool $disallowHostForLocal = true) {
 		if (str_contains($collectionFolderName, '@')) {
+			$len = strlen($collectionFolderName);
+			if ($len > 250 || $len < 5) {
+				throw new Exception('Suspicious account identifier format (E1)');
+			}
+
+			// Change `@example@localhost` to `example@localhost`
+			if (str_starts_with($collectionFolderName, '@')) {
+				$collectionFolderName = substr($collectionFolderName, 1);
+			}
+
 			if (substr_count($collectionFolderName, '@') > 1) {
 				throw new Exception('Invalid account identifier format (E1)');
 			}
