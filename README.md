@@ -13,7 +13,7 @@ cd view/Lipupini/webroot
 php -S localhost:4000 index.php
 ```
 
-Visit https://f673-72-83-87-238.ngrok-free.app:4000/@example
+Visit https://localhost:4000/@example
 
 ## Note
 
