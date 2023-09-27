@@ -93,4 +93,43 @@ class Lipupini {
 
 		return $matchedMime;
 	}
+
+	public static function validateCollectionFolderName(string $collectionFolderName, bool $disallowHostForLocal = false) {
+		if (str_contains($collectionFolderName, '@')) {
+			if (substr_count($collectionFolderName, '@') > 1) {
+				throw new Exception('Invalid account identifier format (E1)');
+			}
+
+			if (!filter_var($collectionFolderName, FILTER_VALIDATE_EMAIL)) {
+				throw new Exception('Invalid account identifier format (E2)');
+			}
+
+			$exploded = explode('@', $collectionFolderName);
+
+			$username = $exploded[0];
+			$host = $exploded[1];
+
+			// `HOST` is from `system/Initialize.php` and refers to the current hostname
+			if ($host === HOST)  {
+				if ($disallowHostForLocal === true) {
+					http_response_code(404);
+					throw new Exception('Invalid format for local account ');
+				} else {
+					$collectionFolderName = $username;
+				}
+			}
+		}
+
+		// Overwrite with full path
+		$fullCollectionPath = DIR_COLLECTION . '/' . $collectionFolderName;
+
+		if (
+			!is_dir($fullCollectionPath)
+		) {
+			http_response_code(404);
+			throw new Exception('Could not find account (E1)');
+		}
+
+		return true;
+	}
 }
