@@ -57,6 +57,11 @@ class Lipupini {
 	}
 
 	public static function getClientAccept($type) {
+		// HTTP Accept header needs to be preset to proceed
+		if (empty($_SERVER['HTTP_ACCEPT'])) {
+			return false;
+		}
+
 		switch ($type) {
 			case 'HTML' :
 				$relevantAcceptsMimes = [
