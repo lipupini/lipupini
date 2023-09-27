@@ -15,7 +15,7 @@ define('LIPUPINI_DEBUG', false);
 // Set initial state from plugin
 $state = require(DIR_PLUGIN . '/Lipupini/State.php');
 
-(new Lipupini($state))
+return (new Lipupini($state))
 	->addPlugin(\Plugin\Lipupini\Collection\WebFinger::class)
 	->addPlugin(\Plugin\Lipupini\Collection\Url::class)
 	->addPlugin(\Plugin\Lipupini\Collection\Html::class)

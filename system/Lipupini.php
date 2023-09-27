@@ -30,9 +30,23 @@ class Lipupini {
 				$this->{$this->state['lipupini']}();
 			}
 		}
+
+		if (
+			// Using PHP's builtin webserver, this will return a static file (e.g. CSS or JS) if it exists at the requested path
+			php_sapi_name() === 'cli-server' &&
+			$_SERVER['PHP_SELF'] !== '/index.php' &&
+			file_exists(DIR_WEBROOT . $_SERVER['PHP_SELF'])
+		) {
+			return false;
+		}
+
+		http_response_code(404);
+		echo 'Not found';
+
+		$this->shutdown();
 	}
 
-	public function shutdown() {
+	public function shutdown(): void {
 		exit();
 	}
 }

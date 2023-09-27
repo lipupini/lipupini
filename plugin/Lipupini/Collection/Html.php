@@ -25,6 +25,8 @@ class Html extends Plugin {
 	}
 
 	public function renderHtml() {
+		require(__DIR__ . '/Html/Core/Open.php');
 		echo '<div>Lipupini</div>';
+		require(__DIR__ . '/Html/Core/Close.php');
 	}
 }
