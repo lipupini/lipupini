@@ -20,7 +20,7 @@ class Html extends Plugin {
 
 		$this->renderHtml();
 
-		$state->lipupini = 'shutdown';
+		$state->lipupiniMethod = 'shutdown';
 		return $state;
 	}
 

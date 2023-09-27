@@ -18,7 +18,7 @@ class Atom extends Plugin {
 
 		// @TODO: Implement `application/atom+xml` feed for profile
 
-		$state->lipupini = 'shutdown';
+		$state->lipupiniMethod = 'shutdown';
 		return $state;
 	}
 }

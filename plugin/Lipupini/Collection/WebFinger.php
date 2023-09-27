@@ -73,7 +73,7 @@ class WebFinger extends Plugin {
 			header('Content-type: application/jrd+json');
 			echo json_encode($jsonData);
 
-			$state->lipupini = 'shutdown';
+			$state->lipupiniMethod = 'shutdown';
 		}
 
 		return $state;

@@ -65,7 +65,7 @@ class ActivityPubJson extends Plugin {
 		header('Content-type: application/activity+json');
 		echo json_encode($jsonData);
 
-		$state->lipupini = 'shutdown';
+		$state->lipupiniMethod = 'shutdown';
 		return $state;
 	}
 }

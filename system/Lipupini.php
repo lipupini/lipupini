@@ -23,10 +23,10 @@ class Lipupini {
 			// If there is a key called 'lipupini', it can contain a method from this class that can be run after the plugin is finished
 			// For example, a plugin can return ['lipupini' => 'shutdown'] and the shutdown() method will be called
 			if (
-				!empty($this->state->lipupini) &&
-				method_exists($this, $this->state->lipupini)
+				!empty($this->state->lipupiniMethod) &&
+				method_exists($this, $this->state->lipupiniMethod)
 			) {
-				$this->{$this->state->lipupini}();
+				$this->{$this->state->lipupiniMethod}();
 			}
 		}
 
