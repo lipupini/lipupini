@@ -8,7 +8,7 @@ use System\Plugin;
 
 class Html extends Plugin {
 	public function start(State $state): State {
-		if (empty($state->collectionDirectory)) { // We should be able to assume this directory exists here
+		if (empty($state->collectionFolderName)) {
 			return $state;
 		}
 

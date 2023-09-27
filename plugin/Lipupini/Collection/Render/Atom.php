@@ -8,7 +8,7 @@ use System\Plugin;
 
 class Atom extends Plugin {
 	public function start(State $state): State {
-		if (empty($state->collectionDirectory)) { // We should be able to assume this directory exists here
+		if (empty($state->collectionFolderName)) {
 			return $state;
 		}
 

@@ -8,7 +8,7 @@ use System\Plugin;
 
 class ActivityPubJson extends Plugin {
 	public function start(State $state): State {
-		if (empty($state->collectionDirectory)) { // We should be able to assume this directory exists here
+		if (empty($state->collectionFolderName)) {
 			return $state;
 		}
 
@@ -43,8 +43,8 @@ class ActivityPubJson extends Plugin {
 			'followers' => $state->collectionUrl . '/followers',
 			'inbox' => $state->collectionUrl . '/inbox',
 			'outbox' => $state->collectionUrl . '/outbox',
-			'preferredUsername' => $state->collectionDirectory,
-			'name' => $state->collectionDirectory,
+			'preferredUsername' => $state->collectionFolderName,
+			'name' => $state->collectionFolderName,
 			'summary' => null,
 			'url' => $state->collectionUrl,
 			'manuallyApprovesFollowers' => true,
@@ -55,7 +55,7 @@ class ActivityPubJson extends Plugin {
 			'icon' => [
 				'type' => 'Image',
 				'mediaType' => 'image/png',
-				'url' => 'https://' . HOST . '/c/avatar/' . $state->collectionDirectory . '.png',
+				'url' => 'https://' . HOST . '/c/avatar/' . $state->collectionFolderName . '.png',
 			],
 			'endpoints' => [
 				'sharedInbox' => $state->collectionUrl . '/fuck',

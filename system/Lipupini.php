@@ -15,13 +15,20 @@ class Lipupini {
 		return $this;
 	}
 
+	// Start Lipupini
 	public function start() {
+		// Loop through all queued plugin classes
 		foreach ($this->plugins as $plugin) {
+			// Create an instance of the next plugin
 			$pluginInstance = new $plugin;
+			// Start the next plugin, passing in State and returning optionally updated State
 			$this->state = $pluginInstance->start($this->state);
 
-			// If there is a key called 'lipupini', it can contain a method from this class that can be run after the plugin is finished
-			// For example, a plugin can return ['lipupini' => 'shutdown'] and the shutdown() method will be called
+			/*
+			If the State's 'lipupiniMethod' comes back from a plugin with a value, it can contain a method
+			from this class which will be run before the next plugin is started. For example, a plugin can
+			return `$state->lipupiniMethod === 'shutdown'` and `$this->shutdown()` method will be called.
+			*/
 			if (
 				!empty($this->state->lipupiniMethod) &&
 				method_exists($this, $this->state->lipupiniMethod)
