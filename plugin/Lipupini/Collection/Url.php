@@ -8,6 +8,7 @@ https://domain.tld/.well-known/webfinger?resource=acct:user%40domain.org
 namespace Plugin\Lipupini\Collection;
 
 use Plugin\Lipupini\Exception;
+use Plugin\Lipupini\State;
 use System\Plugin;
 
 class Url extends Plugin {
@@ -35,15 +36,11 @@ class Url extends Plugin {
 		return true;
 	}
 
-	public function start(array $state): array {
+	public function start(State $state): State {
 		if (preg_match('#^/@([^/]*)#', $_SERVER['REQUEST_URI'], $matches)) {
 			self::validateCollectionDirectory($matches[1]);
-			$collectionDir = $matches[1];
-
-			$state = [...$state,
-				'collectionDirectory' => $collectionDir,
-				'collectionRootUrl' => 'https://' . HOST . '/@' . $collectionDir,
-			];
+			$state->collectionDirectory = $matches[1];
+			$state->collectionUrl = 'https://' . HOST . '/@' . $matches[1];
 		}
 
 		return $state;

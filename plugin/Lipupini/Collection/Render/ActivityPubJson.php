@@ -2,16 +2,17 @@
 
 namespace Plugin\Lipupini\Collection\Render;
 
+use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
 
 class ActivityPubJson extends Plugin {
-	public function start(array $state): array {
-		if (empty($state['collectionDirectory'])) { // We should be able to assume this directory exists here
+	public function start(State $state): State {
+		if (empty($state->collectionDirectory)) { // We should be able to assume this directory exists here
 			return $state;
 		}
 
-		if (empty($state['collectionRootUrl'])) {
+		if (empty($state->collectionUrl)) {
 			return $state;
 		}
 
@@ -36,36 +37,35 @@ class ActivityPubJson extends Plugin {
 					],*/
 				],
 			],
-			'id' => $state['collectionRootUrl'],
+			'id' => $state->collectionUrl,
 			'type' => 'Person',
-			'following' => $state['collectionRootUrl'] . '/following',
-			'followers' => $state['collectionRootUrl'] . '/followers',
-			'inbox' => $state['collectionRootUrl'] . '/inbox',
-			'outbox' => $state['collectionRootUrl'] . '/outbox',
-			'preferredUsername' => $state['collectionDirectory'],
-			'name' => $state['collectionDirectory'],
+			'following' => $state->collectionUrl . '/following',
+			'followers' => $state->collectionUrl . '/followers',
+			'inbox' => $state->collectionUrl . '/inbox',
+			'outbox' => $state->collectionUrl . '/outbox',
+			'preferredUsername' => $state->collectionDirectory,
+			'name' => $state->collectionDirectory,
 			'summary' => null,
-			'url' => $state['collectionRootUrl'],
+			'url' => $state->collectionUrl,
 			'manuallyApprovesFollowers' => true,
 			'publicKey' => [
-				'id' => $state['collectionRootUrl'] . '#main-key',
-				'owner' => $state['collectionRootUrl']
+				'id' => $state->collectionUrl . '#main-key',
+				'owner' => $state->collectionUrl
 			],
 			'icon' => [
 				'type' => 'Image',
 				'mediaType' => 'image/png',
-				'url' => 'https://' . HOST . '/c/avatar/' . $state['collectionDirectory'] . '.png',
+				'url' => 'https://' . HOST . '/c/avatar/' . $state->collectionDirectory . '.png',
 			],
 			'endpoints' => [
-				'sharedInbox' => $state['collectionRootUrl'] . '/fuck',
+				'sharedInbox' => $state->collectionUrl . '/fuck',
 			]
 		];
 
 		header('Content-type: application/activity+json');
 		echo json_encode($jsonData);
 
-		return [...$state,
-			'lipupini' => 'shutdown',
-		];
+		$state->lipupini = 'shutdown';
+		return $state;
 	}
 }

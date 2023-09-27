@@ -13,7 +13,7 @@ use System\Lipupini;
 define('LIPUPINI_DEBUG', false);
 
 // Set initial state from plugin
-$state = require(DIR_PLUGIN . '/Lipupini/State.php');
+$state = new \Plugin\Lipupini\State;
 
 return (new Lipupini($state))
 	->addPlugin(\Plugin\Lipupini\Collection\WebFinger::class)

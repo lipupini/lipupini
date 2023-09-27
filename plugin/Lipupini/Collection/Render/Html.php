@@ -2,12 +2,13 @@
 
 namespace Plugin\Lipupini\Collection\Render;
 
+use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
 
 class Html extends Plugin {
-	public function start(array $state): array {
-		if (empty($state['collectionDirectory'])) { // We should be able to assume this directory exists here
+	public function start(State $state): State {
+		if (empty($state->collectionDirectory)) { // We should be able to assume this directory exists here
 			return $state;
 		}
 
@@ -19,9 +20,8 @@ class Html extends Plugin {
 
 		$this->renderHtml();
 
-		return [...$state,
-			'lipupini' => 'shutdown',
-		];
+		$state->lipupini = 'shutdown';
+		return $state;
 	}
 
 	public function renderHtml() {

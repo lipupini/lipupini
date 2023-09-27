@@ -8,10 +8,11 @@ https://domain.tld/.well-known/webfinger?resource=acct:user%40domain.org
 namespace Plugin\Lipupini\Collection;
 
 use Plugin\Lipupini\Exception;
+use Plugin\Lipupini\State;
 use System\Plugin;
 
 class WebFinger extends Plugin {
-	public function start(array $state): array {
+	public function start(State $state): State {
 		if (preg_match('#^/\.well-known/webfinger\?resource=acct(?::|%3A%40)(.*)$#', $_SERVER['REQUEST_URI'], $matches)) {
 			$identifier = $matches[1];
 
@@ -72,9 +73,7 @@ class WebFinger extends Plugin {
 			header('Content-type: application/jrd+json');
 			echo json_encode($jsonData);
 
-			$state = [...$state, [
-				'lipupini' => 'shutdown',
-			]];
+			$state->lipupini = 'shutdown';
 		}
 
 		return $state;
