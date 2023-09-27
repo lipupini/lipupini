@@ -17,8 +17,8 @@ define('LIPUPINI_DEBUG', false);
 $state = require(DIR_PLUGIN . '/Lipupini/State.php');
 
 (new Lipupini($state))
-	->addPlugin(\Plugin\Lipupini\WebFinger::class)
-	->addPlugin(\Plugin\Lipupini\LoadCollectionUrl::class)
-	->addPlugin(\Plugin\Lipupini\CollectionHtml::class)
-	->addPlugin(\Plugin\Lipupini\CollectionJson::class)
+	->addPlugin(\Plugin\Lipupini\Collection\WebFinger::class)
+	->addPlugin(\Plugin\Lipupini\Collection\Url::class)
+	->addPlugin(\Plugin\Lipupini\Collection\Html::class)
+	->addPlugin(\Plugin\Lipupini\Collection\Json::class)
 	->start();

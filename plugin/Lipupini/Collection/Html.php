@@ -1,10 +1,11 @@
 <?php
 
-namespace Plugin\Lipupini;
+namespace Plugin\Lipupini\Collection;
 
 use System\Plugin;
+use Plugin\Lipupini\ActivityPub;
 
-class CollectionHtml extends Plugin {
+class Html extends Plugin {
 	public function start(array $state): array {
 		if (empty($state['collectionDirectory'])) { // We should be able to assume this directory exists here
 			return $state;

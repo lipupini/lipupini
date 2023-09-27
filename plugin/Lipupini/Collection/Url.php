@@ -5,11 +5,12 @@ The WebFinger plugin should serve the `collection/user@domain.tld/.lipupini/.web
 https://domain.tld/.well-known/webfinger?resource=acct:user%40domain.org
 */
 
-namespace Plugin\Lipupini;
+namespace Plugin\Lipupini\Collection;
 
+use Plugin\Lipupini\Exception;
 use System\Plugin;
 
-class LoadCollectionUrl extends Plugin {
+class Url extends Plugin {
 	public static function validateCollectionDirectory($collectionDir) {
 		if (str_contains($collectionDir, '@')) {
 			if (substr_count($collectionDir, '@') > 1) {

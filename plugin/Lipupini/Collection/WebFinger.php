@@ -5,8 +5,9 @@ The WebFinger plugin should serve the `collection/user@domain.tld/.lipupini/.web
 https://domain.tld/.well-known/webfinger?resource=acct:user%40domain.org
 */
 
-namespace Plugin\Lipupini;
+namespace Plugin\Lipupini\Collection;
 
+use Plugin\Lipupini\Exception;
 use System\Plugin;
 
 class WebFinger extends Plugin {
