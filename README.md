@@ -13,7 +13,7 @@ cd view/Lipupini/webroot
 php -S localhost:4000 index.php
 ```
 
-Visit https://localhost:4000/@example
+Visit http://localhost:4000/@example
 
 ## Note
 
