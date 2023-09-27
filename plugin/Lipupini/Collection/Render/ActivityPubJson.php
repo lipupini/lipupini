@@ -50,7 +50,8 @@ class ActivityPubJson extends Plugin {
 			'manuallyApprovesFollowers' => true,
 			'publicKey' => [
 				'id' => $state->collectionUrl . '#main-key',
-				'owner' => $state->collectionUrl
+				'owner' => $state->collectionUrl,
+				'publicKeyPem' => file_get_contents(DIR_COLLECTION . '/' . $state->collectionFolderName . '/.lipupini/.rsakey.public')
 			],
 			'icon' => [
 				'type' => 'Image',

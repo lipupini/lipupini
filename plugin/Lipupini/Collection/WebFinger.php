@@ -44,7 +44,12 @@ class WebFinger extends Plugin {
 						'rel' => 'self',
 						'type' => 'application/activity+json',
 						'href' => 'https://' . HOST . '/@' . $collectionFolderName,
-					]
+					],
+					[
+						'rel' => 'http://webfinger.net/rel/avatar',
+						'type' => 'image/png',
+						'href' => 'https://' . HOST . '/c/avatar/' . $collectionFolderName . '.png',
+					],
 				]
 			];
 
