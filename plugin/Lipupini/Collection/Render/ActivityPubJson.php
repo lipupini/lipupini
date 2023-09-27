@@ -2,9 +2,8 @@
 
 namespace Plugin\Lipupini\Collection\Render;
 
+use System\Lipupini;
 use System\Plugin;
-
-use Plugin\Lipupini\ActivityPub;
 
 class ActivityPubJson extends Plugin {
 	public function start(array $state): array {
@@ -16,7 +15,7 @@ class ActivityPubJson extends Plugin {
 			return $state;
 		}
 
-		if (!ActivityPub::getClientAccept('ActivityPub')) {
+		if (!Lipupini::getClientAccept('ActivityPubJson')) {
 			return $state;
 		}
 

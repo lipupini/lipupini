@@ -2,8 +2,8 @@
 
 namespace Plugin\Lipupini\Collection\Render;
 
+use System\Lipupini;
 use System\Plugin;
-use Plugin\Lipupini\ActivityPub;
 
 class Html extends Plugin {
 	public function start(array $state): array {
@@ -11,7 +11,7 @@ class Html extends Plugin {
 			return $state;
 		}
 
-		if (!ActivityPub::getClientAccept('HTML')) {
+		if (!Lipupini::getClientAccept('HTML')) {
 			return $state;
 		}
 

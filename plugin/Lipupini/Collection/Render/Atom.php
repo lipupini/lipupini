@@ -2,7 +2,7 @@
 
 namespace Plugin\Lipupini\Collection\Render;
 
-use Plugin\Lipupini\ActivityPub;
+use System\Lipupini;
 use System\Plugin;
 
 class Atom extends Plugin {
@@ -11,7 +11,7 @@ class Atom extends Plugin {
 			return $state;
 		}
 
-		if (!ActivityPub::getClientAccept('Atom')) {
+		if (!Lipupini::getClientAccept('AtomXML')) {
 			return $state;
 		}
 

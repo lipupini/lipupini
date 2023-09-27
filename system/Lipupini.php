@@ -2,9 +2,7 @@
 
 namespace System;
 
-// This should be sort of a middleware system that loads plugins from the `plugin` directory and queues them.
-// Each plugin should extend this file, and can have a list of dependencies that this file can check in the loading process.
-// Ultimately the order of loading is determined linearly in `webroot/index.php`.
+use Plugin\Lipupini\Exception;
 
 class Lipupini {
 	private array $plugins = [];
@@ -48,5 +46,44 @@ class Lipupini {
 
 	public function shutdown(): void {
 		exit();
+	}
+
+	public static function getClientAccept($type) {
+		switch ($type) {
+			case 'HTML' :
+				$relevantAcceptsMimes = [
+					'text/html',
+				];
+				break;
+			case 'ActivityPubJson' :
+				$relevantAcceptsMimes = [
+					'application/json', // Does it make sense to always consider plain JSON requests to be ActivityPub?
+					'application/activity+json',
+					'application/ld+json',
+					'application/ld+json; profile="https://www.w3.org/ns/activitystreams',
+				];
+				break;
+			case 'AtomXML' :
+				$relevantAcceptsMimes = [
+					'application/atom+xml',
+				];
+				break;
+			default :
+				throw new Exception('Unknown accept type');
+		}
+
+		// Can be comma-separated list so make it an array
+		$clientAcceptsMimes = array_map('trim', explode(',', $_SERVER['HTTP_ACCEPT']));
+
+		$matchedMime = false;
+
+		foreach ($clientAcceptsMimes as $mime) {
+			if (in_array($mime, $relevantAcceptsMimes, true)) {
+				$matchedMime = true;
+				break;
+			}
+		}
+
+		return $matchedMime;
 	}
 }
