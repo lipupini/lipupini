@@ -17,33 +17,33 @@ class WebFinger extends Plugin {
 		if (preg_match('#^/\.well-known/webfinger\?resource=acct(?::|%3A%40)(.*)$#', $_SERVER['REQUEST_URI'], $matches)) {
 			$identifier = $matches[1];
 
-			// Webfinger URL may come in URL encoded
+			// Webfinger request could be URL encoded, but it should contain "@"
 			if (!str_contains($identifier, '@')) {
 				$identifier = urldecode($identifier);
 			}
 
-			Lipupini::validateCollectionFolderName(collectionFolderName: $identifier);
+			$collectionFolderName = Lipupini::validateCollectionFolderName(collectionFolderName: $identifier, disallowHostForLocal: false);
 
 			$jsonData = [
 				'subject' => 'acct:' . $identifier,
 				'aliases' => [
-					'https://' . HOST . '/@' . $username,
+					'https://' . HOST . '/@' . $collectionFolderName,
 				],
 				'links' => [
 					[
 						'rel' => 'http://webfinger.net/rel/profile-page',
 						'type' => 'text/html',
-						'href' => 'https://' . HOST . '/@' . $username,
+						'href' => 'https://' . HOST . '/@' . $collectionFolderName,
 					],
 					[
 						'rel' => 'http://schemas.google.com/g/2010#updates-from',
 						'type' => 'application/atom+xml',
-						'href' => 'https://' . HOST . '/@' . $username,
+						'href' => 'https://' . HOST . '/@' . $collectionFolderName,
 					],
 					[
 						'rel' => 'self',
 						'type' => 'application/activity+json',
-						'href' => 'https://' . HOST . '/@' . $username,
+						'href' => 'https://' . HOST . '/@' . $collectionFolderName,
 					]
 				]
 			];

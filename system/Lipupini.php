@@ -94,7 +94,7 @@ class Lipupini {
 		return $matchedMime;
 	}
 
-	public static function validateCollectionFolderName(string $collectionFolderName, bool $disallowHostForLocal = false) {
+	public static function validateCollectionFolderName(string $collectionFolderName, bool $disallowHostForLocal = true) {
 		if (str_contains($collectionFolderName, '@')) {
 			if (substr_count($collectionFolderName, '@') > 1) {
 				throw new Exception('Invalid account identifier format (E1)');
@@ -111,6 +111,8 @@ class Lipupini {
 
 			// `HOST` is from `system/Initialize.php` and refers to the current hostname
 			if ($host === HOST)  {
+				// For example, don't allow http://localhost/@example@localhost
+				// because it would be a duplicate of http://localhost/@example
 				if ($disallowHostForLocal === true) {
 					http_response_code(404);
 					throw new Exception('Invalid format for local account ');
@@ -130,6 +132,6 @@ class Lipupini {
 			throw new Exception('Could not find account (E1)');
 		}
 
-		return true;
+		return $collectionFolderName;
 	}
 }
