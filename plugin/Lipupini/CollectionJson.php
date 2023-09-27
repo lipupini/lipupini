@@ -1,0 +1,71 @@
+<?php
+
+namespace Plugin\Lipupini;
+
+use System\Plugin;
+
+class CollectionJson extends Plugin {
+	public function start(array $state): array {
+		if (empty($state['collectionDirectory'])) { // We should be able to assume this directory exists here
+			return $state;
+		}
+
+		if (empty($state['collectionRootUrl'])) {
+			return $state;
+		}
+
+		if (!ActivityPub::getClientJsonAccept()) {
+			return $state;
+		}
+
+		header('Content-type: application/activity+json');
+
+		$jsonData = [
+			'@context' => [
+				'https://w3id.org/security/v1',
+				'https://www.w3.org/ns/activitystreams',
+				[
+					'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
+					/*'alsoKnownAs' => [
+						'@id' => 'as:alsoKnownAs',
+						'@type' => '@id',
+					],*/
+					/*'movedTo' => [
+						'@id' => 'as:movedTo',
+						'@type' => '@id',
+
+					],*/
+				],
+			],
+			'id' => $state['collectionRootUrl'],
+			'type' => 'Person',
+			'following' => $state['collectionRootUrl'] . '/following',
+			'followers' => $state['collectionRootUrl'] . '/followers',
+			'inbox' => $state['collectionRootUrl'] . '/inbox',
+			'outbox' => $state['collectionRootUrl'] . '/outbox',
+			'preferredUsername' => $state['collectionDirectory'],
+			'name' => $state['collectionDirectory'],
+			'summary' => null,
+			'url' => $state['collectionRootUrl'],
+			'manuallyApprovesFollowers' => true,
+			'publicKey' => [
+				'id' => $state['collectionRootUrl'] . '#main-key',
+				'owner' => $state['collectionRootUrl']
+			],
+			'icon' => [
+				'type' => 'Image',
+				'mediaType' => 'image/png',
+				'url' => 'http://localhost/img/1x1.png?v=4',
+			],
+			'endpoints' => [
+				'sharedInbox' => $state['collectionRootUrl'] . '/fuck',
+			]
+		];
+
+		echo json_encode($jsonData);
+
+		return $state += [
+			'lipupini' => 'shutdown',
+		];
+	}
+}

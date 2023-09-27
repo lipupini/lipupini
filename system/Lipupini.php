@@ -34,42 +34,4 @@ class Lipupini {
 	public function shutdown() {
 		exit();
 	}
-
-	private static function formatAccount(&$account) {
-		if (strlen($account) > 255) {
-			throw new Exception('Suspicious account identifier');
-		}
-
-		if (!str_contains($account, '@')) {
-			$account = urldecode($account);
-		}
-
-		// @TODO: Bookmarking the following line for later
-		if (!filter_var($account, FILTER_VALIDATE_EMAIL) && !preg_match('#@localhost$#', $account)) {
-			throw new Exception('Not a valid account identifier format');
-		}
-	}
-
-	public static function formatAndRequireAccount($account) {
-		self::formatAccount($account);
-
-		$exploded = explode('@', $account);
-
-		// If the requested account is from th hostname
-		if ($exploded[1] === HOST) {
-			$account = $exploded[0];
-		}
-
-		$accountDir = DIR_COLLECTION . '/' . $account;
-
-		if (
-			!is_dir($accountDir)
-		) {
-			http_response_code(404);
-			throw new Exception('Could not find account');
-		}
-
-		return $account;
-	}
 }
-

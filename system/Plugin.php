@@ -7,5 +7,11 @@ namespace System;
 // Ultimately the order of loading is determined linearly in `webroot/index.php`.
 
 abstract class Plugin {
+	public function __construct() {
+		if (LIPUPINI_DEBUG) {
+			error_log('Starting ' . get_called_class() . ' plugin');
+		}
+	}
+
 	abstract public function start(array $state): array;
 }

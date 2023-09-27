@@ -11,8 +11,11 @@ ini_set('display_errors', 1);
 
 use System\Lipupini;
 
+define('LIPUPINI_DEBUG', false);
+
 (new Lipupini)
 	->addPlugin(\Plugin\Lipupini\WebFinger::class)
-	->addPlugin(\Plugin\Lipupini\AccountUrl::class)
-	->addPlugin(\Plugin\Lipupini\ActivityPub\ProfileLocal::class)
+	->addPlugin(\Plugin\Lipupini\LoadCollectionUrl::class)
+	->addPlugin(\Plugin\Lipupini\CollectionHtml::class)
+	->addPlugin(\Plugin\Lipupini\CollectionJson::class)
 	->start();
