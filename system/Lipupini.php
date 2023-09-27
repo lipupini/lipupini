@@ -62,27 +62,20 @@ class Lipupini {
 			return false;
 		}
 
-		switch ($type) {
-			case 'HTML' :
-				$relevantAcceptsMimes = [
-					'text/html',
-				];
-				break;
-			case 'ActivityPubJson' :
-				$relevantAcceptsMimes = [
-					'application/activity+json',
-					'application/ld+json',
-					'application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
-				];
-				break;
-			case 'AtomXML' :
-				$relevantAcceptsMimes = [
-					'application/atom+xml',
-				];
-				break;
-			default :
-				throw new Exception('Unknown accept type');
-		}
+		$relevantAcceptsMimes = match ($type) {
+			'HTML' => [
+				'text/html',
+			],
+			'ActivityPubJson' => [
+				'application/activity+json',
+				'application/ld+json',
+				'application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
+			],
+			'AtomXML' => [
+				'application/atom+xml',
+			],
+			default => throw new Exception('Unknown accept type'),
+		};
 
 		// Can be comma-separated list so make it an array
 		$clientAcceptsMimes = array_map('trim', explode(',', $_SERVER['HTTP_ACCEPT']));
