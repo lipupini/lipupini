@@ -10,7 +10,7 @@ class CollectionHtml extends Plugin {
 			return $state;
 		}
 
-		if (ActivityPub::getClientJsonAccept()) {
+		if (!ActivityPub::getClientAccept('html')) {
 			return $state;
 		}
 
@@ -18,7 +18,7 @@ class CollectionHtml extends Plugin {
 
 		echo '<div>Liputini</div>';
 
-		return $state += [
+		return [...$state,
 			'lipupini' => 'shutdown',
 		];
 	}

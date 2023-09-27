@@ -8,7 +8,8 @@ namespace System;
 
 class Lipupini {
 	private array $plugins = [];
-	private array $state = [];
+
+	public function __construct(private array $state = []) { }
 
 	public function addPlugin($class) {
 		$this->plugins[] = $class;

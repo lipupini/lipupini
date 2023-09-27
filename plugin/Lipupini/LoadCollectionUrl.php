@@ -7,7 +7,6 @@ https://domain.tld/.well-known/webfinger?resource=acct:user%40domain.org
 
 namespace Plugin\Lipupini;
 
-use Plugin\Lipupini\Exception;
 use System\Plugin;
 
 class LoadCollectionUrl extends Plugin {
@@ -40,7 +39,7 @@ class LoadCollectionUrl extends Plugin {
 			self::validateCollectionDirectory($matches[1]);
 			$collectionDir = $matches[1];
 
-			$state += [
+			$state = [...$state,
 				'collectionDirectory' => $collectionDir,
 				'collectionRootUrl' => 'https://' . HOST . '/@' . $collectionDir,
 			];

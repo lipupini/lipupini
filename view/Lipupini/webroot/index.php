@@ -13,7 +13,10 @@ use System\Lipupini;
 
 define('LIPUPINI_DEBUG', false);
 
-(new Lipupini)
+// Set initial state from plugin
+$state = require(DIR_PLUGIN . '/Lipupini/State.php');
+
+(new Lipupini($state))
 	->addPlugin(\Plugin\Lipupini\WebFinger::class)
 	->addPlugin(\Plugin\Lipupini\LoadCollectionUrl::class)
 	->addPlugin(\Plugin\Lipupini\CollectionHtml::class)

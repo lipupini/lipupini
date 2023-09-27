@@ -14,7 +14,7 @@ class CollectionJson extends Plugin {
 			return $state;
 		}
 
-		if (!ActivityPub::getClientJsonAccept()) {
+		if (!ActivityPub::getClientAccept('json')) {
 			return $state;
 		}
 
@@ -63,7 +63,7 @@ class CollectionJson extends Plugin {
 		header('Content-type: application/activity+json');
 		echo json_encode($jsonData);
 
-		return $state += [
+		return [...$state,
 			'lipupini' => 'shutdown',
 		];
 	}
