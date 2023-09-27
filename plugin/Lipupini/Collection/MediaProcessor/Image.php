@@ -52,7 +52,9 @@ class Image extends Plugin {
 			}
 		}
 
-		mkdir(DIR_WEBROOT . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME), 0755, true);
+		if (!is_dir(DIR_WEBROOT . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME))) {
+			mkdir(DIR_WEBROOT . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME), 0755, true);
+		}
 
 		switch ($sizePreset) {
 			case 'small' :

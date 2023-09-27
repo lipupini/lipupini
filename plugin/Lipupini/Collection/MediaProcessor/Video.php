@@ -34,7 +34,9 @@ class Video extends Plugin {
 			return $state;
 		}
 
-		mkdir(DIR_WEBROOT . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME), 0755, true);
+		if (!is_dir(DIR_WEBROOT . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME))) {
+			mkdir(DIR_WEBROOT . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME), 0755, true);
+		}
 
 		copy($pathOriginal, DIR_WEBROOT . $_SERVER['REQUEST_URI']);
 
