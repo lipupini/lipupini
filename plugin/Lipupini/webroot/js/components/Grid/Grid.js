@@ -5,17 +5,16 @@ import { Audio } from './FileType/Audio.js'
 
 const Grid = ({collectionData}) => {
 	collectionData.forEach((item) => {
-		const params = { url: item.fileUrl, caption: item.caption }
-		switch (item.fileUrl.slice((item.fileUrl.lastIndexOf(".") - 1 >>> 0) + 2)) {
+		switch (item.filepath.slice((item.filepath.lastIndexOf(".") - 1 >>> 0) + 2)) {
 			case 'jpg':
 			case 'png':
-				van.add(document.getElementById('media-container'), Image(params))
+				van.add(document.getElementById('media-container'), Image(item))
 				break
 			case 'mp4':
-				van.add(document.getElementById('media-container'), Video(params))
+				van.add(document.getElementById('media-container'), Video(item))
 				break
 			case 'mp3':
-				van.add(document.getElementById('media-container'), Audio(params))
+				van.add(document.getElementById('media-container'), Audio(item))
 				break
 			default:
 				throw new Error('Unknown file extension')

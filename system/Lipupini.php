@@ -17,6 +17,15 @@ class Lipupini {
 
 	// Start Lipupini
 	public function start() {
+		if (
+			// Using PHP's builtin webserver, this will return a static file (e.g. CSS, JS, image) if it exists at the requested path
+			php_sapi_name() === 'cli-server' &&
+			$_SERVER['PHP_SELF'] !== '/index.php' &&
+			file_exists(DIR_WEBROOT . $_SERVER['PHP_SELF'])
+		) {
+			return false;
+		}
+
 		// Loop through all queued plugin classes
 		foreach ($this->plugins as $plugin) {
 			// Create an instance of the next plugin
@@ -35,15 +44,6 @@ class Lipupini {
 			) {
 				$this->{$this->state->lipupiniMethod}();
 			}
-		}
-
-		if (
-			// Using PHP's builtin webserver, this will return a static file (e.g. CSS or JS) if it exists at the requested path
-			php_sapi_name() === 'cli-server' &&
-			$_SERVER['PHP_SELF'] !== '/index.php' &&
-			file_exists(DIR_WEBROOT . $_SERVER['PHP_SELF'])
-		) {
-			return false;
 		}
 
 		http_response_code(404);
@@ -162,10 +162,10 @@ class Lipupini {
 			if (empty($fileData['visibility']) || $fileData['visibility'] !== 'public') {
 				continue;
 			}
-			$fileData['fileUrl'] = '/c/file/' . $collectionFolderName . '/' . $sourceFilename;
 			$fileData = [
 				...$fileData,
-				'fileUrl' => '/c/file/' . $collectionFolderName . '/' . $sourceFilename,
+				'collection' => $collectionFolderName,
+				'filepath' => $sourceFilename,
 				'datestamp' => $datestamp,
 			];
 			$collectionData[] = $fileData;

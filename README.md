@@ -7,8 +7,11 @@
 ## Start Lipupini
 
 ```shell
+# Install Composer dependencies
+cd packages
+composer install
 # Navigate to the webserver document root folder
-cd plugin/Lipupini/webroot
+cd ../plugin/Lipupini/webroot
 # Start webserver
 php -S localhost:4000 index.php
 ```

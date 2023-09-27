@@ -16,7 +16,7 @@ use System\Plugin;
 
 class Url extends Plugin {
 	public function start(State $state): State {
-		if (!preg_match('#^/@([^/?]*)/?([^?]*)#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/@([^/?]+)/?([^?]*)#', $_SERVER['REQUEST_URI'], $matches)) {
 			return $state;
 		}
 

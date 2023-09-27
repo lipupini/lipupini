@@ -1,5 +1,4 @@
 {
-	"minimum-stability": "dev",
 	"autoload": {
 		"files": [
 			"../system/Initialize.php"
@@ -10,8 +9,8 @@
 		}
 	},
 	"require": {
-		"guzzlehttp/guzzle": "7.9.x-dev",
-		"instalution/activitypub-php-fork": "dev-master",
-		"spatie/crypto": "dev-main"
+		"spatie/crypto": "^2.0",
+		"league/color-extractor": "^0.1.0",
+		"imagine/imagine": "^1.3"
 	}
 }
