@@ -57,7 +57,6 @@ class Lipupini {
 				break;
 			case 'ActivityPubJson' :
 				$relevantAcceptsMimes = [
-					'application/json', // Does it make sense to always consider plain JSON requests to be ActivityPub?
 					'application/activity+json',
 					'application/ld+json',
 					'application/ld+json; profile="https://www.w3.org/ns/activitystreams',
