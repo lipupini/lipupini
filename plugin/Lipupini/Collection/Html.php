@@ -17,10 +17,14 @@ class Html extends Plugin {
 
 		header('Content-type: text/html');
 
-		echo '<div>Liputini</div>';
+		$this->renderHtml();
 
 		return [...$state,
 			'lipupini' => 'shutdown',
 		];
+	}
+
+	public function renderHtml() {
+		echo '<div>Lipupini</div>';
 	}
 }

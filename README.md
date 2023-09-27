@@ -8,7 +8,7 @@
 
 ```shell
 # Navigate to the webserver document root folder
-cd view/Lipupini/webroot
+cd plugin/Lipupini/webroot
 # Start webserver
 php -S localhost:4000 index.php
 ```
