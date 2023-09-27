@@ -63,7 +63,7 @@ class ActivityPubJson extends Plugin {
 			]
 		];
 
-		header('Content-type: application/activity+json');
+		header('Content-type: application/ld+json; profile="https://www.w3.org/ns/activitystreams"');
 		echo json_encode($jsonData);
 
 		$state->lipupiniMethod = 'shutdown';

@@ -67,7 +67,7 @@ class Lipupini {
 				$relevantAcceptsMimes = [
 					'application/activity+json',
 					'application/ld+json',
-					'application/ld+json; profile="https://www.w3.org/ns/activitystreams',
+					'application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
 				];
 				break;
 			case 'AtomXML' :
@@ -81,6 +81,10 @@ class Lipupini {
 
 		// Can be comma-separated list so make it an array
 		$clientAcceptsMimes = array_map('trim', explode(',', $_SERVER['HTTP_ACCEPT']));
+
+		if (count($clientAcceptsMimes) > 20) {
+			throw new Exception('Suspicious number of client accept MIMEs');
+		}
 
 		$matchedMime = false;
 
