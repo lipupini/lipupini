@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\Lipupini\Collection;
+namespace Plugin\Lipupini\Collection\Render;
 
 use System\Plugin;
 
 use Plugin\Lipupini\ActivityPub;
 
-class Json extends Plugin {
+class ActivityPubJson extends Plugin {
 	public function start(array $state): array {
 		if (empty($state['collectionDirectory'])) { // We should be able to assume this directory exists here
 			return $state;
@@ -16,7 +16,7 @@ class Json extends Plugin {
 			return $state;
 		}
 
-		if (!ActivityPub::getClientAccept('json')) {
+		if (!ActivityPub::getClientAccept('ActivityPub')) {
 			return $state;
 		}
 

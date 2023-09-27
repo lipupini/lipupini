@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Lipupini\Collection;
+namespace Plugin\Lipupini\Collection\Render;
 
 use System\Plugin;
 use Plugin\Lipupini\ActivityPub;
@@ -11,7 +11,7 @@ class Html extends Plugin {
 			return $state;
 		}
 
-		if (!ActivityPub::getClientAccept('html')) {
+		if (!ActivityPub::getClientAccept('HTML')) {
 			return $state;
 		}
 

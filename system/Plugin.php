@@ -9,7 +9,7 @@ namespace System;
 abstract class Plugin {
 	public function __construct() {
 		if (LIPUPINI_DEBUG) {
-			error_log('Starting ' . get_called_class() . ' plugin');
+			error_log('DEBUG: Starting ' . get_called_class());
 		}
 	}
 

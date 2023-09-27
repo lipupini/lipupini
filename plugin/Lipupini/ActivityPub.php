@@ -5,17 +5,22 @@ namespace Plugin\Lipupini;
 class ActivityPub {
 	public static function getClientAccept($type) {
 		switch ($type) {
-			case 'html' :
+			case 'HTML' :
 				$relevantAcceptsMimes = [
 					'text/html',
 				];
 				break;
-			case 'json' :
+			case 'ActivityPub' :
 				$relevantAcceptsMimes = [
-					'application/json',
+					'application/json', // Does it make sense to always consider plain JSON requests to be ActivityPub?
 					'application/activity+json',
 					'application/ld+json',
 					'application/ld+json; profile="https://www.w3.org/ns/activitystreams',
+				];
+				break;
+			case 'Atom' :
+				$relevantAcceptsMimes = [
+					'application/atom+xml',
 				];
 				break;
 			default :
