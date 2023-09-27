@@ -3,12 +3,14 @@
 ## Requirements
 
 - PHP8
+- [Composer](https://getcomposer.org/)
+- One of: [PHP GD Extension](https://www.php.net/manual/en/book.image.php), [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php)
 
 ## Start Lipupini
 
 ```shell
 # Install Composer dependencies
-cd packages
+cd package
 composer install
 # Navigate to the webserver document root folder
 cd ../plugin/Lipupini/webroot
