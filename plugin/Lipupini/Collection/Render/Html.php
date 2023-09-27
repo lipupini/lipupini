@@ -16,6 +16,12 @@ class Html extends Plugin {
 			return $state;
 		}
 
+		// Only applies to, e.g. http://locahost/@example
+		// Does not apply to http://locahost/@example/memes/cat-computer.jpg.html
+		if ($state->collectionPath !== '') {
+			return $state;
+		}
+
 		header('Content-type: text/html');
 
 		$this->renderHtml();

@@ -16,6 +16,12 @@ class Atom extends Plugin {
 			return $state;
 		}
 
+		// Only applies to, e.g. http://locahost/@example
+		// Does not apply to http://locahost/@example/memes/cat-computer.jpg.html
+		if ($state->collectionPath !== '') {
+			return $state;
+		}
+
 		// @TODO: Implement `application/atom+xml` feed for profile
 
 		$state->lipupiniMethod = 'shutdown';

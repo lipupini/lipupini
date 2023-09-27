@@ -16,10 +16,11 @@ use System\Plugin;
 
 class Url extends Plugin {
 	public function start(State $state): State {
-		if (preg_match('#^/@([^/?]*)#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (preg_match('#^/@([^/?]*)/?([^?]*)#', $_SERVER['REQUEST_URI'], $matches)) {
 			Lipupini::validateCollectionFolderName(collectionFolderName: $matches[1]);
 			$state->collectionFolderName = $matches[1];
 			$state->collectionUrl = 'https://' . HOST . '/@' . $matches[1];
+			$state->collectionPath = $matches[2];
 		}
 
 		return $state;
