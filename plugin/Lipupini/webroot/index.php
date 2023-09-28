@@ -16,6 +16,7 @@ define('LIPUPINI_DEBUG', false);
 $state = new \Plugin\Lipupini\State;
 
 return (new Lipupini($state))
+	->addPlugin(\Plugin\Lipupini\HomepageHTML::class)
 	->addPlugin(\Plugin\Lipupini\Collection\WebFinger::class)
 	->addPlugin(\Plugin\Lipupini\Collection\Url::class)
 	->addPlugin(\Plugin\Lipupini\Collection\Avatar::class)

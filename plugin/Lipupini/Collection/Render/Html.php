@@ -30,10 +30,10 @@ class Html extends Plugin {
 	}
 
 	public function renderHtml(State $state) {
-		require(__DIR__ . '/Html/Core/Open.php');
+		require(DIR_PLUGIN . '/Lipupini/Html/Core/Open.php');
 		require(__DIR__ . '/Html/Grid/Grid.php');
 		echo '<script>let collectionData = ' . json_encode(Lipupini::getCollectionData($state->collectionFolderName), JSON_UNESCAPED_SLASHES) . '</script>';
 		require(__DIR__ . '/Html/Grid/Footer.php');
-		require(__DIR__ . '/Html/Core/Close.php');
+		require(DIR_PLUGIN . '/Lipupini/Html/Core/Close.php');
 	}
 }
