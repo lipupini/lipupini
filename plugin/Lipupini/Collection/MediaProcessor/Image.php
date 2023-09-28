@@ -15,7 +15,7 @@ class Image extends Plugin {
 			'png' => 'image/png',
 		];
 
-		if (!preg_match('#^/c/file/([^/]+)/(small|large)/(.+(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/file/([^/]+)/(small|large)/(.+\.(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return $state;
 		}
 
