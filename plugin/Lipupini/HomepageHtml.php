@@ -5,7 +5,7 @@ namespace Plugin\Lipupini;
 use System\Plugin;
 use System\Lipupini;
 
-class HomepageHTML extends Plugin {
+class HomepageHtml extends Plugin {
 	public function start(State $state): State {
 		if ($_SERVER['REQUEST_URI'] !== '/') {
 			return $state;
