@@ -2,10 +2,6 @@
 	gap: 0;
 }
 
-#media-container.grid {
-	display: grid;
-}
-
 #media-container.square a > div {
 	background-repeat: no-repeat;
 	background-position: center;
@@ -33,4 +29,16 @@
 #media-container div.audio {
 	display: flex;
 	align-items: center;
+}
+
+#media-container.grid {
+	grid-template-columns: repeat(4, minmax(0px, 1fr));
+	display: grid;
+	columns: unset;
+}
+
+@media screen and (min-width: 600px) {
+	#media-container.grid {
+		grid-template-columns: repeat(6, minmax(0px, 1fr));
+	}
 }
