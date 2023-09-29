@@ -1,8 +1,7 @@
 [
 	{
 		"filename": "cat-scarf.jpg",
-		"caption": "Scarf Cat",
-		"date": "2023-09-21T15:18:18Z"
+		"caption": "Scarf Cat"
 	},
 	{
 		"filename": "Memes",
@@ -10,18 +9,15 @@
 	},
 	{
 		"filename": "cat-hat.png",
-		"caption": "Hat Cat",
-		"date": "2023-09-21T14:18:18Z"
+		"caption": "Hat Cat"
 	},
 	{
 		"filename": "winamp-intro.mp3",
-		"caption": "It really whips the llama's ass",
-		"date": "2023-09-21T13:18:18Z"
+		"caption": "It really whips the llama's ass"
 	},
 	{
 		"filename": "dup.mp4",
-		"caption": "Scarf Cat",
-		"date": "2023-09-21T12:18:18Z"
+		"caption": "Scarf Cat"
 	},
 	{
 		"filename": "Poetry",

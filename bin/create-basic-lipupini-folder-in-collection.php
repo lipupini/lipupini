@@ -50,8 +50,8 @@ if (
 
 		$files[] = [
 			'filename' => $fileinfo->getFilename(),
-			'caption' => '',
-			'date' => (new DateTime)->format(DateTime::ATOM),
+			'caption' => $fileinfo->getFilename(),
+			//'date' => (new DateTime)->format(DateTime::ATOM),
 		];
 	}
 

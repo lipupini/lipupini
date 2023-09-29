@@ -12,14 +12,16 @@ For example, the JSON might look like this:
 [
 	{
 		"filename": "cat-scarf.jpg",
-		"caption": "Scarf Cat",
-		"date": "2023-09-21T15:18:18Z"
+		"caption": "Scarf Cat"
 	},
 	{
 		"filename": "cat-hat.jpg",
-		"caption": "Hat Cat",
-		"date": "2023-09-21T14:18:18Z"
+		"caption": "Hat Cat"
 	},
+	{
+		"filename": "Memes",
+		"caption": "Memes Folder"
+	}
 ]
 ```
 
