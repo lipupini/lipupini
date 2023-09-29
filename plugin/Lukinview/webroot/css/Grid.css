@@ -27,6 +27,13 @@
 }
 #media-container div.markdown a {
 	text-decoration: underline;
+	margin: 1rem;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+#media-container div.markdown a:hover {
+	color: #fff;
 }
 #media-container div.folder {
 	background-image: url(/img/folder.svg);
