@@ -9,7 +9,6 @@ class RclipSearch {
 	public function __construct(
 		public string $collectionFolderName,
 		public string $rclipPath,
-		public int $numResults = 50
 	) {
 		Lipupini::validateCollectionFolderName($collectionFolderName);
 		if (!file_exists($this->rclipPath)) {
@@ -20,19 +19,23 @@ class RclipSearch {
 		}
 	}
 
-	public function query($query) {
-		$this->rclipCommand($query, '--filepath-only --no-indexing --top=' . (int)$this->numResults);
+	public function query(string $query, int $limit = 50) {
+		exec($this->rclipCommand($query, '--filepath-only --no-indexing --top=' . $limit), $results, $result_code);
+		if ($result_code !== 0) {
+			throw new Exception('rclip exited with error result code');
+		}
+		return $results;
 	}
 
 	public function buildIndex() {
-		$this->rclipCommand('*');
+		passthru($this->rclipCommand('*'));
 	}
 
 	private function getRclipDataDir() {
 		return DIR_COLLECTION . '/' . $this->collectionFolderName . '/.lipupini/.rclip';
 	}
 
-	private function rclipCommand(string $query, string $flags = '') {
+	private function rclipCommand(string $query, string $flags = ''): string {
 		$command = 'cd ' . escapeshellarg(DIR_COLLECTION . '/' . $this->collectionFolderName) . ' &&';
 		$command .= ' RCLIP_DATADIR=' . escapeshellarg($this->getRclipDataDir());
 		$command .= ' ' . escapeshellcmd($this->rclipPath);
@@ -41,6 +44,6 @@ class RclipSearch {
 		if ($flags) {
 			$command .= ' ' . $flags;
 		}
-		passthru($command);
+		return $command;
 	}
 }

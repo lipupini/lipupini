@@ -51,11 +51,18 @@ class HtmlPlugin extends Plugin {
 	}
 
 	private function loadViewData(State $state): void {
-		$collectionData = Lipupini::getCollectionData($state);
+		if (empty($_GET['portfolio'])) {
+			$data = Lipupini::getCollectionData($state);
+		} else {
+			if ($state->collectionPath) {
+				throw new Exception('Trying to show portfolio when not at collection root');
+			}
+			$data = Lipupini::getPortfolioData($state, $_GET['portfolio']);
+		}
 
 		$this->page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
-		$this->total = count( $collectionData );
-		$this->numPages = ceil( $this->total / $this->perPage );
+		$this->total = count( $data);
+		$this->numPages = ceil($this->total / $this->perPage);
 
 		if ($state->collectionPath) {
 			$this->pageTitle = $state->collectionPath . '@' . $state->collectionFolderName . '@' . HOST;
@@ -66,26 +73,43 @@ class HtmlPlugin extends Plugin {
 			}
 		} else {
 			$this->pageTitle = '@' . $state->collectionFolderName . '@' . HOST;
-			$this->parentPath = '';
+			if (!empty($_GET['portfolio'])) {
+				$this->pageTitle = $_GET['portfolio'] . $this->pageTitle;
+				$this->parentPath = '@' . $state->collectionFolderName;
+			} else {
+				$this->parentPath = '';
+			}
 		}
 
 		if ($this->page > $this->numPages) {
 			throw new Exception('Invalid page number');
 		}
 
-		$this->collectionData = array_slice( $collectionData, ($this->page - 1) * $this->perPage, $this->perPage );
+		$this->collectionData = array_slice($data, ($this->page - 1) * $this->perPage, $this->perPage);
 
 		$webPath = '/@' . $state->collectionFolderName . ($state->collectionPath ? '/' . $state->collectionPath : '');
 
 		if ($this->page < $this->numPages) {
-			$this->nextUrl = $webPath . '?page=' . $this->page + 1;
+			if (!empty($_GET['portfolio'])) {
+				$query['portfolio'] = $_GET['portfolio'];
+			}
+			$query['page'] = $this->page + 1;
+			$this->nextUrl = $webPath . '?' . http_build_query($query);
 		} else {
 			$this->nextUrl = 'javascript:void(0)';
 		}
 		if ($this->page === 2) {
-			$this->prevUrl = $webPath;
+			if (empty($_GET['portfolio'])) {
+				$this->prevUrl = $webPath;
+			} else {
+				$this->prevUrl = $webPath . '?portfolio=' . $_GET['portfolio'];
+			}
 		} else if ($this->page > 2) {
-			$this->prevUrl = $webPath . '?page=' . $this->page - 1;
+			if (!empty($_GET['portfolio'])) {
+				$query['portfolio'] = $_GET['portfolio'];
+			}
+			$query['page'] = $this->page - 1;
+			$this->prevUrl = $webPath . '?' . http_build_query($query);
 		} else {
 			$this->prevUrl = 'javascript:void(0)';
 		}

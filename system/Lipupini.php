@@ -162,7 +162,6 @@ class Lipupini {
 			throw new Exception('Could not find data');
 		}
 		$collectionData = json_decode(file_get_contents($filesJsonPath), true);
-
 		foreach ($collectionData as $index => &$fileData) {
 			if (empty($fileData['filename'])) {
 				throw new Exception('Missing filename for entry in ' . $state->collectionFolderName . '/.lipupini/.files.json');
@@ -177,5 +176,27 @@ class Lipupini {
 			$fileData['collection'] = $state->collectionFolderName;
 		}
 		return $collectionData;
+	}
+
+	public static function getPortfolioData(State $state, $portfolio) {
+		if (!$portfolio) {
+			throw new Exception('No portfolio specified');
+		}
+
+		$collectionRootPath = DIR_COLLECTION . '/' . $state->collectionFolderName;
+
+		$portfolioJsonPath = $collectionRootPath . '/.lipupini/.portfolios.json';
+		if (!file_exists($portfolioJsonPath)) {
+			throw new Exception('Could not find portfolio data');
+		}
+		$portfolioData = json_decode(file_get_contents($portfolioJsonPath), true);
+		if (!array_key_exists($portfolio, $portfolioData)) {
+			throw new Exception('Could not find specified portfolio');
+		}
+		$portfolioData = $portfolioData[$portfolio];
+		foreach ($portfolioData as &$item) {
+			$item['collection'] = $state->collectionFolderName;
+		}
+		return $portfolioData;
 	}
 }
