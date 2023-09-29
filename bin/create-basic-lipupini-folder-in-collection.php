@@ -15,19 +15,19 @@ $collectionPath = DIR_COLLECTION . '/' . $collectionFolder;
 $lipupiniPath = $collectionPath . '/.lipupini';
 
 // Create the `.lipupini` subfolder if needed
-if (!is_dir($collectionPath)) {
+if (!is_dir($lipupiniPath)) {
 	echo 'Creating `.lipupini` folder...' . "\n";
-	mkdir($lipupiniFolder, 0755, true);
+	mkdir($lipupiniPath, 0755, true);
 }
 
 // Generate RSA keypair if needed
 if (
-	!file_exists($collectionPath . '/.rsakey.public') ||
-	!file_exists($collectionPath . '/.rsakey.private')
+	!file_exists($lipupiniPath . '/.rsakey.public') ||
+	!file_exists($lipupiniPath . '/.rsakey.private')
 ) {
 	echo 'Did not find RSA keypair. Creating...' . "\n";
 	$encryption = new Encryption(2048);
-	$encryption->generateAndSave($collectionPath . '/.rsakey');
+	$encryption->generateAndSave($lipupiniPath . '/.rsakey');
 }
 
 // Generate a basic `.files.json` if needed
