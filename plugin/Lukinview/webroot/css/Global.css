@@ -1,4 +1,4 @@
-body, select, button, input {
+body, select, a.button, input {
 	background-color: #2d2d2d;
 	color: #bfbfbf;
 	font-size: 16px;
@@ -40,7 +40,7 @@ label {
 	display: block;
 }
 
-button[disabled] {
+a.button[disabled] {
 	opacity: 0.2;
 	cursor: unset;
 }
@@ -65,7 +65,7 @@ button[disabled] {
 	text-align: right;
 }
 
-button {
+a.button {
 	padding: 1.5rem;
 	border: none;
 	cursor: pointer;

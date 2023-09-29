@@ -1,5 +1,3 @@
-<h1>Lipupini</h1>
-
 <ul>
 	<?php foreach ($this->getLocalCollections() as $localCollection) : ?>
 

@@ -7,6 +7,15 @@ use System\Lipupini;
 use System\Plugin;
 
 class HtmlPlugin extends Plugin {
+	public int $perPage = 36;
+
+	private int|null $total = null;
+	private int|null $page = null;
+	private string|null $nextUrl = null;
+	private string|null $prevUrl = null;
+	private int|null $numPages = null;
+	private array|null $collectionData = null;
+
 	public function start(State $state): State {
 		if (empty($state->collectionFolderName)) {
 			return $state;
@@ -22,18 +31,51 @@ class HtmlPlugin extends Plugin {
 			return $state;
 		}
 
-		header('Content-type: text/html');
-		$this->renderHtml($state);
-
 		$state->lipupiniMethod = 'shutdown';
-		return $state;
+		header('Content-type: text/html');
+		return $this->renderHtml($state);
 	}
 
 	public function renderHtml(State $state) {
+		if (!$this->loadViewData($state->collectionFolderName)) {
+			http_response_code(500);
+			echo 'Could not load collection data';
+			return $state;
+		}
+
 		require(__DIR__ . '/../Html/Core/Open.php');
 		require(__DIR__ . '/Html/Grid.php');
-		echo '<script>let collectionData = ' . json_encode(Lipupini::getCollectionData($state->collectionFolderName), JSON_UNESCAPED_SLASHES) . '</script>';
-		require(__DIR__ . '/Html/Footer.php');
 		require(__DIR__ . '/../Html/Core/Close.php');
+
+		return $state;
+	}
+
+	private function loadViewData($collectionFolderName): bool {
+		$collectionData = Lipupini::getCollectionData($collectionFolderName);
+
+		$this->page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
+		$this->total = count( $collectionData );
+		$this->numPages = ceil( $this->total / $this->perPage );
+
+		if ($this->page > $this->numPages) {
+			return false;
+		}
+
+		$this->collectionData = array_slice( $collectionData, ($this->page - 1) * $this->perPage, $this->perPage );
+
+		if ($this->page < $this->numPages) {
+			$this->nextUrl = '/@' . $collectionFolderName . '?page=' . $this->page + 1;
+		} else {
+			$this->nextUrl = 'javascript:return false';
+		}
+		if ($this->page === 2) {
+			$this->prevUrl = '/@' . $collectionFolderName;
+		} else if ($this->page > 2) {
+			$this->prevUrl = '/@' . $collectionFolderName . '?page=' . $this->page - 1;
+		} else {
+			$this->prevUrl = 'javascript:return false';
+		}
+
+		return true;
 	}
 }
