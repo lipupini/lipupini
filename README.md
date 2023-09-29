@@ -25,7 +25,8 @@
 cd package
 composer install
 # Navigate to the webserver document root folder
-cd ../plugin/Lipupini/webroot
+# The default one is shipped in a plugin called `Lukinview`
+cd ../plugin/Lukinview/webroot
 # Start webserver
 php -S localhost:4000 index.php
 ```

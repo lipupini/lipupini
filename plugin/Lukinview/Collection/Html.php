@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Lipupini\Collection\Render;
+namespace Plugin\Lukinview\Collection;
 
 use Plugin\Lipupini\State;
 use System\Lipupini;
@@ -30,10 +30,10 @@ class Html extends Plugin {
 	}
 
 	public function renderHtml(State $state) {
-		require(DIR_PLUGIN . '/Lipupini/Html/Core/Open.php');
-		require(__DIR__ . '/Html/Grid/Grid.php');
+		require(__DIR__ . '/../Html/Core/Open.php');
+		require(__DIR__ . '/Html/Grid.php');
 		echo '<script>let collectionData = ' . json_encode(Lipupini::getCollectionData($state->collectionFolderName), JSON_UNESCAPED_SLASHES) . '</script>';
-		require(__DIR__ . '/Html/Grid/Footer.php');
-		require(DIR_PLUGIN . '/Lipupini/Html/Core/Close.php');
+		require(__DIR__ . '/Html/Footer.php');
+		require(__DIR__ . '/../Html/Core/Close.php');
 	}
 }

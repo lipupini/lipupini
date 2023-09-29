@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Lipupini\Collection\Render;
+namespace Plugin\Lukinview\Collection;
 
 use Plugin\Lipupini\State;
 use System\Lipupini;

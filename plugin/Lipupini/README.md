@@ -11,3 +11,5 @@ The `c` folder in `webroot` needs to be writeable as it will store cache:
 ```shell
 cd plugin/Lipupini/webroot
 chmod 755 c
+```
+
