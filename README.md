@@ -10,6 +10,8 @@
 
 [Demo](#demo)
 
+[Contributing](#contributing)
+
 [Acknowledgements](#acknowledgements)
 
 ---
@@ -60,6 +62,14 @@ Though ActivityPub implementation is currently limited, the demo is searchable i
 The demo runs on Apache2. If you already have Apache2 configured to serve PHP, then you can install Composer dependencies and point the virtual host's `DocumentRoot` to `plugin/Lukinview/webroot` and it should "just work."
 
 AI-powered keyword filtering is currently a "hidden feature" due to potential performance issues and ease-of-setup. See `package/rclip/README.md` for more information.
+
+## Contributing
+
+You are welcome to fork it, change it, add plugins! Don't even hesitate to make a PR that includes your own plugin! It could be shipped with or integrated into core.
+
+I hope that the plugin architecture makes for a good workflow, especially being open to merging new plugins. In theory, plugins could just as easily be Composer packages and not have a `plugin` directory at all, but I'd like to keep with this pattern. The composer option can still work seamlessly with this pattern as well.
+
+Email apps@dup.bz if you'd like a point of contact or post in [discussions](https://github.com/instalution/lipupini/discussions) or [issues](https://github.com/instalution/lipupini/issues)! If you begin to find any aspect frustrating or feel that it should be done in a different way, please reach out.
 
 ## Acknowledgements
 
