@@ -72,6 +72,8 @@ I hope that the plugin architecture makes for a good workflow, especially being 
 
 Email apps@dup.bz if you'd like a point of contact or post in [discussions](https://github.com/instalution/lipupini/discussions) or [issues](https://github.com/instalution/lipupini/issues)! If you begin to find any aspect frustrating or feel that it should be done in a different way, please reach out.
 
+If you want to use Liputini for your artist portfolio or business website, I will support your effort.
+
 ## Acknowledgements
 
 Markdown parser: https://parsedown.org
