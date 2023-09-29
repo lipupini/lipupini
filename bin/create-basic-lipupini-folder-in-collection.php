@@ -1,10 +1,10 @@
 #!/usr/bin/env php
 <?php
 
+require(__DIR__ . '/../package/vendor/autoload.php');
+
 use System\Lipupini;
 use Plugin\Lipupini\Encryption;
-
-require(__DIR__ . '/../package/vendor/autoload.php');
 
 // Expects a username as the only argument
 $collectionFolder = $argv[1];
