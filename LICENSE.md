@@ -2,7 +2,7 @@ License: Public Domain
 
 You are not required to let me know if you add anything to improve it, but would be great if you did.
 
-License is (of course) notwithstanding the licenses of dependencies which are not shipped by default in the repository.
+License is (of course) notwithstanding the licenses of dependencies which are not shipped by default in the repository other than VanJS and the icons.
 
 - vanjs-org/van: MIT @ https://github.com/vanjs-org/van/blob/main/LICENSE
 
