@@ -75,7 +75,7 @@ foreach ($results as &$path) {
 }
 
 echo "\n";
-$saveSearch = readline('Save search for @' . $collectionFolderName . ' [Y/n]? ');
+$saveSearch = readline('Save search for @' . $collectionFolderName . '? [Y/n] ');
 if (strtoupper($saveSearch) !== 'Y') {
 	return;
 }

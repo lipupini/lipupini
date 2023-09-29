@@ -46,7 +46,7 @@ Search for cat pictures in the `example` collection and get the top 10 results:
 bin/rclip-api.php example 'Cat' 10
 ```
 
-The search will take a few moments. When it finishes, you are prompted `Save search for @example [Y/n]?`
+The search will take a few moments. When it finishes, you are prompted `Save search for @example? [Y/n]`
 
 If you choose to save it, `collections/example/.liputini/.savedSearches.json` will be created.
 
