@@ -29,8 +29,9 @@
 cd package
 composer install
 # Navigate to the webserver document root folder
-# The default one is shipped in a plugin called `Lukinview`
-cd ../plugin/Lukinview/webroot
+# The default one is shipped in a plugin called `Lukinview` and symlinked to `webroot` in the project root folder
+# You can use another plugin for `webroot` by changing the symlink
+cd ../webroot
 # Start webserver
 php -S localhost:4000 index.php
 ```
@@ -59,7 +60,7 @@ Here is what it can look like so far: https://lipupini-demo.dup.bz/@example
 
 Though ActivityPub implementation is currently limited, the demo is searchable in the Fediverse `@example@lipupini-demo.dup.bz`
 
-The demo runs on Apache2. If you already have Apache2 configured to serve PHP, then you can install Composer dependencies and point the virtual host's `DocumentRoot` to `plugin/Lukinview/webroot` and it should "just work."
+The demo runs on Apache2. If you already have Apache2 configured to serve PHP, then you can install Composer dependencies and point the virtual host's `DocumentRoot` to `webroot` and it should "just work."
 
 AI-powered keyword filtering is currently a "hidden feature" due to potential performance issues and ease-of-setup. See `package/rclip/README.md` for more information.
 
