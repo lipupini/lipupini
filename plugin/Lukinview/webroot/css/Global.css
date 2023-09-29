@@ -50,10 +50,7 @@ a.button[disabled] {
 	padding: 1.5rem;
 }
 .app-bar > div {
-	flex-grow: 1;
-}
-.app-bar > div :first-of-type, .app-bar > div :last-of-type {
-	flex-grow: 0;
+	width: 100%;
 }
 .app-bar .index {
 	text-align: center;
