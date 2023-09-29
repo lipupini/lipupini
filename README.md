@@ -10,6 +10,8 @@
 
 [Demo](#demo)
 
+[Acknowledgements](#acknowledgements)
+
 ---
 
 ## Requirements
@@ -56,3 +58,15 @@ Here is what it can look like so far: https://lipupini-demo.dup.bz/@example
 Though ActivityPub implementation is currently limited, the demo is searchable in the Fediverse `@example@lipupini-demo.dup.bz`
 
 The demo runs on Apache2. If you already have Apache2 configured to serve PHP, then you can install Composer dependencies and point the virtual host's `DocumentRoot` to `plugin/Lipupini/webroot` and it should "just work."
+
+## Acknowledgements
+
+Markdown parser: https://parsedown.org
+
+RSA key generation: https://freek.dev/1829-encrypting-and-signing-data-using-privatepublic-keys-in-php
+
+Image processor: https://github.com/php-imagine/Imagine
+
+Folder icon: https://icons8.com/icon/1e4bYxePiOFA/folder
+
+ActivityPub inspiration: [@dansup@pixelfed.social](https://pixelfed.social/dansup)
