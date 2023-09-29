@@ -2,6 +2,7 @@
 
 namespace Plugin\Lukinview\Collection;
 
+use Plugin\Lipupini\Exception;
 use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
@@ -37,11 +38,7 @@ class HtmlPlugin extends Plugin {
 	}
 
 	public function renderHtml(State $state) {
-		if (!$this->loadViewData($state->collectionFolderName)) {
-			http_response_code(500);
-			echo 'Could not load collection data';
-			return $state;
-		}
+		$this->loadViewData($state->collectionFolderName);
 
 		require(__DIR__ . '/../Html/Core/Open.php');
 		require(__DIR__ . '/Html/Grid.php');
@@ -50,7 +47,7 @@ class HtmlPlugin extends Plugin {
 		return $state;
 	}
 
-	private function loadViewData($collectionFolderName): bool {
+	private function loadViewData($collectionFolderName): void {
 		$collectionData = Lipupini::getCollectionData($collectionFolderName);
 
 		$this->page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
@@ -58,7 +55,7 @@ class HtmlPlugin extends Plugin {
 		$this->numPages = ceil( $this->total / $this->perPage );
 
 		if ($this->page > $this->numPages) {
-			return false;
+			throw new Exception('Invalid page number');
 		}
 
 		$this->collectionData = array_slice( $collectionData, ($this->page - 1) * $this->perPage, $this->perPage );
@@ -75,7 +72,5 @@ class HtmlPlugin extends Plugin {
 		} else {
 			$this->prevUrl = 'javascript:return false';
 		}
-
-		return true;
 	}
 }
