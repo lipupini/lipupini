@@ -8,6 +8,7 @@ use Plugin\Lipupini\Collection\RclipSearch;
 $collectionFolderName = $argv[1] ?? '';
 $query = $argv[2] ?? null;
 $limit = (int)($argv[3] ?? 50);
+$preview = !empty($argv[4]) && $argv[4] === 'preview';
 
 if (!$limit) {
 	throw new Exception('Invalid limit');
@@ -30,6 +31,12 @@ Perform a search in "example" collection for cat pictures and return only the to
 
 > ./rclip-api.php example 'Cat' 10
 
+Perform a search in "example" collection for cat pictures, return only the top 10 results and show preview (if terminal supports iTerm2 Inline Images Protocol):
+
+> ./rclip-api.php example 'Cat' 10 preview
+
+If showing previews, you will need to rerun the search without preview in order to save to portfolio.
+
 HEREDOC;
 	exit();
 }
@@ -43,6 +50,11 @@ if (!$query) {
 	// If there's no query, just build the index
 	echo 'Building index...' . "\n";
 	$rclipSearch->buildIndex();
+	exit();
+}
+
+if ($preview) {
+	$rclipSearch->preview($query, $limit);
 	exit();
 }
 
@@ -63,7 +75,7 @@ foreach ($results as &$path) {
 }
 
 echo "\n";
-$saveToPortfolio = readline('Save to portfolio for ' . $collectionFolderName . ' [Y/n]? ');
+$saveToPortfolio = readline('Save to portfolio for @' . $collectionFolderName . ' [Y/n]? ');
 if (strtoupper($saveToPortfolio) !== 'Y') {
 	return;
 }

@@ -31,6 +31,14 @@ class RclipSearch {
 		passthru($this->rclipCommand('*'));
 	}
 
+	// Few terminal emulators (e.g. Konsole) support showing images within CLI
+	public function preview(string $query, int $limit = 50) {
+		passthru($this->rclipCommand($query, '--preview --no-indexing --top=' . $limit), $result_code);
+		if ($result_code !== 0) {
+			throw new Exception('rclip exited with error result code');
+		}
+	}
+
 	private function getRclipDataDir() {
 		return DIR_COLLECTION . '/' . $this->collectionFolderName . '/.lipupini/.rclip';
 	}

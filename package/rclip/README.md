@@ -1,6 +1,6 @@
-On Linux machines, it is intended that the `rclip` binary v1.7.3 go in this folder.
+On Linux machines, this folder is intended to hold `rclip` binary v1.7.3.
 
-To do that, `cd` to this folder and run the following commands:
+To add it, `cd` to this `rclip` folder and run the following commands:
 
 ```shell
 wget https://github.com/yurijmikhalevich/rclip/releases/download/v1.7.3/rclip-v1.7.3-x86_64.AppImage
@@ -17,3 +17,47 @@ $rclipSearch = new RclipSearch(
 ```
 
 The API is only tested on Linux, and when using Windows you might have to make an update to `plugin/Lipupini/Collection/RclipSearch.php` related to this: https://github.com/yurijmikhalevich/rclip/issues/36
+
+The AI search is kind of a "hidden feature" at the moment because:
+
+1. Setup may a bit complicated or excessively error-prone to include in a quick start.
+2. Searching can take a while and use resources, so it probably does not make sense to have a button to allow arbitrary public searches.
+3. The feature is mainly included as POC for some way to incorporate keyword search results from image recognition.
+4. The feasibility of actually including it as a frontend search box seems rather slim. However, `rclip` creates a SQLite database where it caches the vectors after building the index. Testing may show that exposing the search is feasible when the index is not being rebuilt, which is the default behavior of the API when searching.
+5. The "portfolio" concept can potentially have other uses and in its current state can be revisited.
+
+## Using AI search
+
+From the project root directory, see usage examples by typing:
+
+```shell
+bin/rclip-api.php
+```
+
+Build the search index for the `example` collection:
+
+```shell
+bin/rclip-api.php example
+```
+
+Search for cat pictures in the `example` collection and get the top 10 results:
+
+```shell
+bin/rclip-api.php example 'Cat' 10
+```
+
+The search will take a few moments. When it finishes, you are prompted `Save to portfolio for @insomniscene [Y/n]?`
+
+If you choose to save it, `collections/example/.liputini/.portfolios.json` will be created.
+
+After that, you should be able to view the search results at:
+
+http://localhost/@example?portfolio=Cat
+
+You can edit the `.portfolios.json` file to rename or reorganize saved searches.
+
+If your console (e.g. Konsole) supports iTerm2 Inline Images Protocol, you can try showing images previews in the CLI search without saving to portfolio:
+
+```shell
+bin/rclip-api.php example 'Cat' 10 preview
+```
