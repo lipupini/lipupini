@@ -63,7 +63,7 @@ label {
 	height: 30px;
 }
 .app-bar a.button[disabled] {
-	opacity: 0.2;
+	opacity: 0.125;
 	cursor: unset;
 }
 .app-bar .pagination a.button:not([disabled]):hover {
