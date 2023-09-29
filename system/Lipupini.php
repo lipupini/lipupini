@@ -178,25 +178,25 @@ class Lipupini {
 		return $collectionData;
 	}
 
-	public static function getPortfolioData(State $state, $portfolio) {
-		if (!$portfolio) {
-			throw new Exception('No portfolio specified');
+	public static function getSearchData(State $state, $query) {
+		if (!$query) {
+			throw new Exception('No query specified');
 		}
 
 		$collectionRootPath = DIR_COLLECTION . '/' . $state->collectionFolderName;
 
-		$portfolioJsonPath = $collectionRootPath . '/.lipupini/.portfolios.json';
-		if (!file_exists($portfolioJsonPath)) {
-			throw new Exception('Could not find portfolio data');
+		$searchesJsonPath = $collectionRootPath . '/.lipupini/.savedSearches.json';
+		if (!file_exists($searchesJsonPath)) {
+			throw new Exception('Could not find search data');
 		}
-		$portfolioData = json_decode(file_get_contents($portfolioJsonPath), true);
-		if (!array_key_exists($portfolio, $portfolioData)) {
-			throw new Exception('Could not find specified portfolio');
+		$searchData = json_decode(file_get_contents($searchesJsonPath), true);
+		if (!array_key_exists($query, $searchData)) {
+			throw new Exception('Could not find specified search');
 		}
-		$portfolioData = $portfolioData[$portfolio];
-		foreach ($portfolioData as &$item) {
+		$searchData = $searchData[$query];
+		foreach ($searchData as &$item) {
 			$item['collection'] = $state->collectionFolderName;
 		}
-		return $portfolioData;
+		return $searchData;
 	}
 }

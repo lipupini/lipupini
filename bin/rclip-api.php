@@ -35,7 +35,7 @@ Perform a search in "example" collection for cat pictures, return only the top 1
 
 > ./rclip-api.php example 'Cat' 10 preview
 
-If showing previews, you will need to rerun the search without preview in order to save to portfolio.
+If showing previews, you will need to rerun the search without preview in order to save it into the collection.
 
 HEREDOC;
 	exit();
@@ -75,13 +75,13 @@ foreach ($results as &$path) {
 }
 
 echo "\n";
-$saveToPortfolio = readline('Save to portfolio for @' . $collectionFolderName . ' [Y/n]? ');
-if (strtoupper($saveToPortfolio) !== 'Y') {
+$saveSearch = readline('Save search for @' . $collectionFolderName . ' [Y/n]? ');
+if (strtoupper($saveSearch) !== 'Y') {
 	return;
 }
 
-$portfolioFile = DIR_COLLECTION . '/' . $collectionFolderName . '/.lipupini/.portfolios.json';
-$portfolios = file_exists($portfolioFile) ? json_decode(file_get_contents($portfolioFile), true) : [];
-$portfolios[$query] = $results;
-file_put_contents($portfolioFile, json_encode($portfolios, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
-echo 'Wrote new portfolio to ' . $portfolioFile . "\n";
+$searchesFile = DIR_COLLECTION . '/' . $collectionFolderName . '/.lipupini/.savedSearches.json';
+$searches = file_exists($searchesFile) ? json_decode(file_get_contents($searchesFile), true) : [];
+$searches[$query] = $results;
+file_put_contents($searchesFile, json_encode($searches, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+echo 'Saved search to ' . $searchesFile . "\n";
