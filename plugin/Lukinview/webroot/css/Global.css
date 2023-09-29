@@ -32,10 +32,6 @@ label {
 	font-weight: bold;
 	display: block;
 }
-a.button[disabled] {
-	opacity: 0.2;
-	cursor: unset;
-}
 .app-bar {
 	display: flex;
 	align-items: center;
@@ -53,17 +49,25 @@ a.button[disabled] {
 .app-bar .previous, .app-bar .about {
 	text-align: right;
 }
-.app-bar .pagination a.button {
+.app-bar a.button {
+	display: inline-block;
 	font-size: 24px;
 	font-weight: bold;
-}
-.app-bar a.button {
 	padding: 1.5rem;
 	border: none;
 	cursor: pointer;
+	opacity: .75;
 }
-.app-bar a.button:hover {
-	color: #fff;
+.app-bar .pagination a.button img {
+	width: 30px;
+	height: 30px;
+}
+.app-bar a.button[disabled] {
+	opacity: 0.2;
+	cursor: unset;
+}
+.app-bar .pagination a.button:not([disabled]):hover {
+	opacity: 1;
 }
 .text-center {
 	text-align: center;
