@@ -57,7 +57,7 @@ class WebFingerPlugin extends Plugin {
 		];
 
 		header('Content-type: application/jrd+json');
-		echo json_encode($jsonData);
+		echo json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
 		$state->lipupiniMethod = 'shutdown';
 		return $state;

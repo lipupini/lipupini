@@ -55,7 +55,7 @@ if (
 		];
 	}
 
-	file_put_contents($lipupiniPath . '/.files.json', json_encode($files, JSON_PRETTY_PRINT));
+	file_put_contents($lipupiniPath . '/.files.json', json_encode($files, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 }
 
 // Reminder to add an avatar PNG
