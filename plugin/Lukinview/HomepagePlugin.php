@@ -7,6 +7,8 @@ use System\Lipupini;
 use System\Plugin;
 
 class HomepagePlugin extends Plugin {
+	public string $pageTitle = 'Homepage@' . HOST;
+
 	public function start(State $state): State {
 		if ($_SERVER['REQUEST_URI'] !== '/') {
 			return $state;

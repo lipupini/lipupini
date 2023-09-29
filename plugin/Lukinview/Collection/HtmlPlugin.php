@@ -8,6 +8,8 @@ use System\Lipupini;
 use System\Plugin;
 
 class HtmlPlugin extends Plugin {
+	public string|null $pageTitle = null;
+
 	public int $perPage = 36;
 
 	private int|null $total = null;
@@ -56,12 +58,14 @@ class HtmlPlugin extends Plugin {
 		$this->numPages = ceil( $this->total / $this->perPage );
 
 		if ($state->collectionPath) {
+			$this->pageTitle = $state->collectionPath . '@' . $state->collectionFolderName . '@' . HOST;
 			$this->parentPath = '@' . $state->collectionFolderName;
 			$exploded = explode('/', $state->collectionPath);
 			if (count($exploded) > 1) {
 				$this->parentPath .= '/' . implode('/', array_slice($exploded, 0, -1));
 			}
 		} else {
+			$this->pageTitle = '@' . $state->collectionFolderName . '@' . HOST;
 			$this->parentPath = '';
 		}
 
