@@ -59,6 +59,8 @@ Though ActivityPub implementation is currently limited, the demo is searchable i
 
 The demo runs on Apache2. If you already have Apache2 configured to serve PHP, then you can install Composer dependencies and point the virtual host's `DocumentRoot` to `plugin/Lipupini/webroot` and it should "just work."
 
+AI-powered keyword filtering is currently a "hidden" for performance and ease-of-setup. See `package/rclip/README.md` for more information.
+
 ## Acknowledgements
 
 Markdown parser: https://parsedown.org

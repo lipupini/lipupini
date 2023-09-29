@@ -23,7 +23,7 @@ The AI search is kind of a "hidden feature" at the moment because:
 1. Setup may a bit complicated or excessively error-prone to include in a quick start.
 2. Searching can take a while and use resources, so it probably does not make sense to have a button to allow arbitrary public searches.
 3. The feature is mainly included as POC for some way to incorporate keyword search results from image recognition.
-4. The feasibility of actually including it as a frontend search box seems rather slim. However, `rclip` creates a SQLite database where it caches the vectors after building the index. Testing may show that exposing the search is feasible when the index is not being rebuilt, which is the default behavior of the API when searching.
+4. The feasibility of actually including it as a frontend search box seems rather slim. However, `rclip` creates a SQLite database where it caches the vectors after building the index. Testing may show that exposing the search is feasible when the index is not being rebuilt, which is the default behavior of the API when searching. Perhaps it can be limited to logged-in accounts at some point, or incorporate a faster alternative or hybrid search mechanism.
 5. The "portfolio" concept can potentially have other uses and in its current state can be revisited.
 
 ## Using AI search
@@ -61,3 +61,9 @@ If your console (e.g. Konsole) supports iTerm2 Inline Images Protocol, you can t
 ```shell
 bin/rclip-api.php example 'Cat' 10 preview
 ```
+
+On the demo site you can see examples of curated `rclip` search results in portfolios:
+
+https://lipupini-demo.dup.bz/@example?portfolio=Cat
+
+https://lipupini-demo.dup.bz/@example?portfolio=Pink
