@@ -36,6 +36,22 @@
 	text-decoration: underline;
 }
 
+#media-container div.folder {
+	background-image: url(/img/folder.svg);
+	background-repeat: no-repeat;
+}
+
+#media-container div.folder a {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	align-items: center;
+	color: #967a44;
+	justify-content: center;
+	text-align: center;
+	font-weight: bold;
+}
+
 #media-container.grid {
 	grid-template-columns: repeat(2, minmax(0px, 1fr));
 	display: grid;

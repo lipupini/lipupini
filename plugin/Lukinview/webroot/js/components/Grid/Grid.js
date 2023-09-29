@@ -3,6 +3,7 @@ import { Video } from './FileType/Video.js'
 import { Image } from './FileType/Image.js'
 import { Audio } from './FileType/Audio.js'
 import { Markdown } from './FileType/Markdown.js'
+import { Folder } from './FileType/Folder.js'
 
 const Grid = ({collectionData}) => {
 	collectionData.forEach((item) => {
@@ -19,6 +20,9 @@ const Grid = ({collectionData}) => {
 				break
 			case 'md':
 				van.add(document.getElementById('media-container'), Markdown(item))
+				break
+			case '':
+				van.add(document.getElementById('media-container'), Folder(item))
 				break
 			default:
 				throw new Error('Unknown file extension')

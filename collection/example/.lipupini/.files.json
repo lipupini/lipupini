@@ -5,6 +5,10 @@
 		"date": "2023-09-21T15:18:18Z"
 	},
 	{
+		"filename": "Memes",
+		"caption": "Memes"
+	},
+	{
 		"filename": "cat-hat.png",
 		"caption": "Hat Cat",
 		"date": "2023-09-21T14:18:18Z"
@@ -18,5 +22,9 @@
 		"filename": "dup.mp4",
 		"caption": "Scarf Cat",
 		"date": "2023-09-21T12:18:18Z"
+	},
+	{
+		"filename": "Poetry",
+		"caption": "Poetry"
 	}
 ]
