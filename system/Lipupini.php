@@ -97,10 +97,14 @@ class Lipupini {
 	}
 
 	public static function validateCollectionFolderName(string $collectionFolderName, bool $disallowHostForLocal = true) {
+		if (!trim($collectionFolderName)) {
+			throw new Exception('Invalid collection identifier format (E1)');
+		}
+
 		if (str_contains($collectionFolderName, '@')) {
 			$len = strlen($collectionFolderName);
 			if ($len > 250 || $len < 5) {
-				throw new Exception('Suspicious account identifier format (E1)');
+				throw new Exception('Suspicious collection identifier format (E1)');
 			}
 
 			// Change `@example@localhost` to `example@localhost`
@@ -109,11 +113,11 @@ class Lipupini {
 			}
 
 			if (substr_count($collectionFolderName, '@') > 1) {
-				throw new Exception('Invalid account identifier format (E1)');
+				throw new Exception('Invalid collection identifier format (E1)');
 			}
 
 			if (!filter_var($collectionFolderName, FILTER_VALIDATE_EMAIL)) {
-				throw new Exception('Invalid account identifier format (E2)');
+				throw new Exception('Invalid collection identifier format (E2)');
 			}
 
 			$exploded = explode('@', $collectionFolderName);
@@ -127,7 +131,7 @@ class Lipupini {
 				// because it would be a duplicate of http://localhost/@example
 				if ($disallowHostForLocal === true) {
 					http_response_code(404);
-					throw new Exception('Invalid format for local account ');
+					throw new Exception('Invalid format for local collection ');
 				}
 
 				$collectionFolderName = $username;
@@ -141,7 +145,7 @@ class Lipupini {
 			!is_dir($fullCollectionPath)
 		) {
 			http_response_code(404);
-			throw new Exception('Could not find account (E1)');
+			throw new Exception('Could not find collection (E1)');
 		}
 
 		return $collectionFolderName;
