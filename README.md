@@ -20,7 +20,7 @@
 
 - PHP8
 - [Composer](https://getcomposer.org/)
-- One of: [PHP GD Extension](https://www.php.net/manual/en/book.image.php), [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php)
+- One of: [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php), [PHP GD Extension](https://www.php.net/manual/en/book.image.php)
 
 ## Start Lipupini
 
