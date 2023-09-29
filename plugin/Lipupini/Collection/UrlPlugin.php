@@ -10,6 +10,7 @@ to State and available for subsequent plugins
 
 namespace Plugin\Lipupini\Collection;
 
+use Plugin\Lipupini\Exception;
 use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
@@ -23,7 +24,10 @@ class UrlPlugin extends Plugin {
 		Lipupini::validateCollectionFolderName(collectionFolderName: $matches[1]);
 		$state->collectionFolderName = $matches[1];
 		$state->collectionUrl = 'https://' . HOST . '/@' . $matches[1];
-		$state->collectionPath = $matches[2];
+		if (str_contains($matches[2], '../')) {
+			throw new Exception('Invalid path');
+		}
+		$state->collectionPath = pathinfo($matches[2], PATHINFO_BASENAME);
 		return $state;
 	}
 }

@@ -128,9 +128,9 @@ class Lipupini {
 				if ($disallowHostForLocal === true) {
 					http_response_code(404);
 					throw new Exception('Invalid format for local account ');
-				} else {
-					$collectionFolderName = $username;
 				}
+
+				$collectionFolderName = $username;
 			}
 		}
 
@@ -147,22 +147,30 @@ class Lipupini {
 		return $collectionFolderName;
 	}
 
-	public static function getCollectionData($collectionFolderName) {
-		$collectionPath = DIR_COLLECTION . '/' . $collectionFolderName;
-		$filesJsonPath = $collectionPath . '/.lipupini/.files.json';
+	public static function getCollectionData(State $state) {
+		$collectionRootPath = DIR_COLLECTION . '/' . $state->collectionFolderName;
+		// E.g. `$state->collectionPath` could be `memes/cats`, which would be relative to `$collectionRootPath`. '' keeps the root collection path
+		$collectionRelativePath = $state->collectionPath ?: '';
+		$collectionAbsolutePath = $collectionRelativePath ? $collectionRootPath . '/' . $collectionRelativePath : $collectionRootPath;
+
+		$filesJsonPath = $collectionAbsolutePath . '/.lipupini/.files.json';
 		if (!file_exists($filesJsonPath)) {
-			throw new Exception('Could not find file data');
+			throw new Exception('Could not find data');
 		}
 		$collectionData = json_decode(file_get_contents($filesJsonPath), true);
+
 		foreach ($collectionData as $index => &$fileData) {
 			if (empty($fileData['filename'])) {
-				throw new Exception('Missing filename for entry in ' . $collectionFolderName . '/.lipupini/.files.json');
+				throw new Exception('Missing filename for entry in ' . $state->collectionFolderName . '/.lipupini/.files.json');
 			}
-			if (!file_exists($collectionPath . '/' . $fileData['filename'])) {
+			if ($collectionRelativePath) {
+				$fileData['filename'] = $collectionRelativePath . '/' . $fileData['filename'];
+			}
+			if (!file_exists($collectionRootPath . '/' . $fileData['filename'])) {
 				array_splice($collectionData, $index, 1);
 				continue;
 			}
-			$fileData['collection'] = $collectionFolderName;
+			$fileData['collection'] = $state->collectionFolderName;
 		}
 		return $collectionData;
 	}

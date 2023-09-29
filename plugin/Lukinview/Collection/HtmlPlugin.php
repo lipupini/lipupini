@@ -16,6 +16,7 @@ class HtmlPlugin extends Plugin {
 	private string|null $prevUrl = null;
 	private int|null $numPages = null;
 	private array|null $collectionData = null;
+	private string|null $parentPath = null;
 
 	public function start(State $state): State {
 		if (empty($state->collectionFolderName)) {
@@ -28,7 +29,7 @@ class HtmlPlugin extends Plugin {
 
 		// Only applies to, e.g. http://locahost/@example
 		// Does not apply to http://locahost/@example/memes/cat-computer.jpg.html
-		if ($state->collectionPath !== '') {
+		if (pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION)) {
 			return $state;
 		}
 
@@ -38,7 +39,7 @@ class HtmlPlugin extends Plugin {
 	}
 
 	public function renderHtml(State $state) {
-		$this->loadViewData($state->collectionFolderName);
+		$this->loadViewData($state);
 
 		require(__DIR__ . '/../Html/Core/Open.php');
 		require(__DIR__ . '/Html/Grid.php');
@@ -47,12 +48,22 @@ class HtmlPlugin extends Plugin {
 		return $state;
 	}
 
-	private function loadViewData($collectionFolderName): void {
-		$collectionData = Lipupini::getCollectionData($collectionFolderName);
+	private function loadViewData(State $state): void {
+		$collectionData = Lipupini::getCollectionData($state);
 
 		$this->page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
 		$this->total = count( $collectionData );
 		$this->numPages = ceil( $this->total / $this->perPage );
+
+		if ($state->collectionPath) {
+			$this->parentPath = '@' . $state->collectionFolderName;
+			$exploded = explode('/', $state->collectionPath);
+			if (count($exploded) > 1) {
+				$this->parentPath .= '/' . implode('/', array_slice($exploded, 0, -1));
+			}
+		} else {
+			$this->parentPath = '';
+		}
 
 		if ($this->page > $this->numPages) {
 			throw new Exception('Invalid page number');
@@ -60,17 +71,19 @@ class HtmlPlugin extends Plugin {
 
 		$this->collectionData = array_slice( $collectionData, ($this->page - 1) * $this->perPage, $this->perPage );
 
+		$webPath = '/@' . $state->collectionFolderName . ($state->collectionPath ? '/' . $state->collectionPath : '');
+
 		if ($this->page < $this->numPages) {
-			$this->nextUrl = '/@' . $collectionFolderName . '?page=' . $this->page + 1;
+			$this->nextUrl = $webPath . '?page=' . $this->page + 1;
 		} else {
-			$this->nextUrl = 'javascript:return false';
+			$this->nextUrl = 'javascript:void(0)';
 		}
 		if ($this->page === 2) {
-			$this->prevUrl = '/@' . $collectionFolderName;
+			$this->prevUrl = $webPath;
 		} else if ($this->page > 2) {
-			$this->prevUrl = '/@' . $collectionFolderName . '?page=' . $this->page - 1;
+			$this->prevUrl = $webPath . '?page=' . $this->page - 1;
 		} else {
-			$this->prevUrl = 'javascript:return false';
+			$this->prevUrl = 'javascript:void(0)';
 		}
 	}
 }
