@@ -6,7 +6,7 @@ use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
 
-class Html extends Plugin {
+class HtmlPlugin extends Plugin {
 	public function start(State $state): State {
 		if (empty($state->collectionFolderName)) {
 			return $state;

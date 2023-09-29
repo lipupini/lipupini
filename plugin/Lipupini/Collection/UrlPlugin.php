@@ -14,7 +14,7 @@ use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
 
-class Url extends Plugin {
+class UrlPlugin extends Plugin {
 	public function start(State $state): State {
 		if (!preg_match('#^/@([^/?]+)/?([^?]*)#', $_SERVER['REQUEST_URI'], $matches)) {
 			return $state;

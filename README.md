@@ -53,6 +53,6 @@ If your Ngrok URL is then `https://f674-73-83-87-238.ngrok-free.app`, you should
 
 Here is what it can look like so far: https://lipupini-demo.dup.bz/@example
 
-Though ActivityPub implementation is currently limited, this demo is searchable in the Fediverse `@example@lipupini-demo.dup.bz`
+Though ActivityPub implementation is currently limited, the demo is searchable in the Fediverse `@example@lipupini-demo.dup.bz`
 
 The demo runs on Apache2. If you already have Apache2 configured to serve PHP, then you can install Composer dependencies and point the virtual host's `DocumentRoot` to `plugin/Lipupini/webroot` and it should "just work."

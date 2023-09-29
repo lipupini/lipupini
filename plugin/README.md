@@ -55,12 +55,12 @@ return $state;
 ```php
 <?php
 
-namespace Plugin\MyPluginNamespace;
+namespace Plugin\MyNamespace;
 
 use System\Plugin;
 use System\Lipupini;
 
-class MyPluginThatNeedsARoute extends Plugin {
+class MyPluginNeedsARoutePlugin extends Plugin {
 	public function start(State $state): State {
 		if ($_SERVER['REQUEST_URI'] !== '/myroute') {
 			return $state;
@@ -79,21 +79,20 @@ class MyPluginThatNeedsARoute extends Plugin {
 }
 ```
 
-Then in `index.php` add `Plugin\MyPluginNamespace\MyPluginThatNeedsARoute`:
+Then in `index.php` add `Plugin\MyNamespace\MyPluginNeedsARoutePlugin`:
 
 ```php
 return (new Lipupini($state))
-	->addPlugin(\Plugin\Lukinview\HomepageHtml::class)
-	->addPlugin(\Plugin\MyPluginNamespace\MyPluginThatNeedsARoute::class)
-	->addPlugin(\Plugin\Lipupini\Collection\WebFinger::class)
-	->addPlugin(\Plugin\Lipupini\Collection\Url::class)
-	->addPlugin(\Plugin\Lipupini\Collection\Avatar::class)
-	->addPlugin(\Plugin\Lukinview\Collection\Html::class)
-	->addPlugin(\Plugin\Lukinview\Collection\Atom::class)
-	->addPlugin(\Plugin\Lukinview\Collection\ActivityPubJson::class)
-	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\Image::class)
-	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\Video::class)
-	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\Audio::class)
+	->addPlugin(\Plugin\Lukinview\HomepagePlugin::class)
+	->addPlugin(\Plugin\MyNamespace\MyPluginNeedsARoutePlugin::class)
+	->addPlugin(\Plugin\Lipupini\Collection\WebFingerPlugin::class)
+	->addPlugin(\Plugin\Lipupini\Collection\UrlPlugin::class)
+	->addPlugin(\Plugin\Lipupini\Collection\AvatarPlugin::class)
+	->addPlugin(\Plugin\Lukinview\Collection\HtmlPlugin::class)
+	->addPlugin(\Plugin\Lukinview\Collection\AtomPlugin::class)
+	->addPlugin(\Plugin\Lukinview\Collection\ActivityPubJsonPlugin::class)
+	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\ImagePlugin::class)
+	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\VideoPlugin::class)
+	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\AudioPlugin::class)
 	->start();
-
 ```

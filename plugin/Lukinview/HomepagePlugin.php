@@ -6,7 +6,7 @@ use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
 
-class HomepageHtml extends Plugin {
+class HomepagePlugin extends Plugin {
 	public function start(State $state): State {
 		if ($_SERVER['REQUEST_URI'] !== '/') {
 			return $state;
@@ -25,14 +25,7 @@ class HomepageHtml extends Plugin {
 
 	public function renderHtml(State $state) {
 		require(__DIR__ . '/Html/Core/Open.php');
-		echo '<h1>Lipupini</h1><ul>';
-
-		foreach ($this->getLocalCollections() as $localCollection) {
-		  echo '<li><a href="/@' . htmlentities($localCollection) . '">' . htmlentities($localCollection) . '</a></li>';
-		}
-
-		echo '</ul>';
-
+		require(__DIR__ . '/Html/Homepage.php');
 		require(__DIR__ . '/Html/Core/Close.php');
 	}
 
@@ -41,6 +34,10 @@ class HomepageHtml extends Plugin {
 		$localCollections = [];
 		foreach ($dir as $fileinfo) {
 			if (!$fileinfo->isDir() || $fileinfo->isDot()) {
+				continue;
+			}
+
+			if (!is_dir($fileinfo->getPathname() . '/.lipupini')) {
 				continue;
 			}
 

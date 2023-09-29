@@ -8,7 +8,7 @@ use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
 
-class Image extends Plugin {
+class ImagePlugin extends Plugin {
 	public function start(State $state): State {
 		$extMimes = [
 			'jpg' => 'image/jpeg',

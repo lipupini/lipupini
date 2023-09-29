@@ -6,7 +6,7 @@ use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
 
-class ActivityPubJson extends Plugin {
+class ActivityPubJsonPlugin extends Plugin {
 	public function start(State $state): State {
 		if (empty($state->collectionFolderName)) {
 			return $state;

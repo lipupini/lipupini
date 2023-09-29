@@ -12,7 +12,7 @@ use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
 
-class WebFinger extends Plugin {
+class WebFingerPlugin extends Plugin {
 	public function start(State $state): State {
 		if (!preg_match('#^/\.well-known/webfinger\?resource=acct(?::|%3A)(.+)$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return $state;

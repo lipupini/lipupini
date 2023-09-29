@@ -6,7 +6,7 @@ use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
 
-class Atom extends Plugin {
+class AtomPlugin extends Plugin {
 	public function start(State $state): State {
 		if (empty($state->collectionFolderName)) {
 			return $state;

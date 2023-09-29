@@ -1,18 +1,19 @@
 <?php
 
-namespace Plugin\Lipupini\Collection;
+namespace Plugin\Lipupini\Collection\MediaProcessor;
 
+use Plugin\Lipupini\Exception;
 use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
 
-class Avatar extends Plugin {
+class AudioPlugin extends Plugin {
 	public function start(State $state): State {
 		$extMimes = [
-			'png' => 'image/png',
+			'mp3' => 'audio/mp3',
 		];
 
-		if (!preg_match('#^/c/avatar/([^/]+)(\.(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/file/([^/]+)/(large)/(.+(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return $state;
 		}
 
@@ -20,13 +21,14 @@ class Avatar extends Plugin {
 		$state->lipupiniMethod = 'shutdown';
 
 		$collectionFolderName = $matches[1];
-		$extension = $matches[3];
+		$filePath = $matches[3];
+		$extension = $matches[4];
 
 		Lipupini::validateCollectionFolderName($collectionFolderName);
 
-		$avatarPath = DIR_COLLECTION . '/' . $collectionFolderName . '/.lipupini/.avatar.png';
+		$pathOriginal = DIR_COLLECTION . '/' . $collectionFolderName . '/' . $filePath;
 
-		if (!file_exists($avatarPath)) {
+		if (!file_exists($pathOriginal)) {
 			http_response_code(404);
 			echo 'Not found';
 			return $state;
@@ -36,7 +38,7 @@ class Avatar extends Plugin {
 			mkdir(DIR_WEBROOT . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME), 0755, true);
 		}
 
-		copy($avatarPath, DIR_WEBROOT . $_SERVER['REQUEST_URI']);
+		copy($pathOriginal, DIR_WEBROOT . $_SERVER['REQUEST_URI']);
 
 		header('Content-type: ' . $extMimes[$extension]);
 		readfile(DIR_WEBROOT . $_SERVER['REQUEST_URI']);

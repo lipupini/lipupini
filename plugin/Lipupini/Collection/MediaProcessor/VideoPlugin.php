@@ -7,7 +7,7 @@ use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
 
-class Video extends Plugin {
+class VideoPlugin extends Plugin {
 	public function start(State $state): State {
 		$extMimes = [
 			'mp4' => 'video/mp4',
