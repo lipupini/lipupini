@@ -29,6 +29,7 @@
 #media-container div.audio {
 	display: flex;
 	align-items: center;
+	background-color: #474747;
 }
 
 #media-container.grid {
