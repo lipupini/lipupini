@@ -26,4 +26,5 @@ return (new Lipupini($state))
 	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\ImagePlugin::class)
 	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\VideoPlugin::class)
 	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\AudioPlugin::class)
+	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\MarkdownPlugin::class)
 	->start();

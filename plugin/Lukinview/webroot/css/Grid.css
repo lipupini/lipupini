@@ -32,6 +32,10 @@
 	background-color: #474747;
 }
 
+#media-container div.markdown a {
+	text-decoration: underline;
+}
+
 #media-container.grid {
 	grid-template-columns: repeat(2, minmax(0px, 1fr));
 	display: grid;
