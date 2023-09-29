@@ -4,7 +4,7 @@ const { div, a, span } = van.tags
 
 const Folder = ({collection, filename, caption}) => {
 	return div({class: 'folder'},
-		a({href: `/@${collection}/${filename}`},
+		a({href: `/@${collection}/${filename}`, 'title': caption},
 			span(caption),
 		),
 	)
