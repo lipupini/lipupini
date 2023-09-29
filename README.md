@@ -4,7 +4,7 @@
 
 [Start Lipupini](#start-lipupini)
 
-[ActivityPub HTTPS Note](#activitypub-https-note)
+[ActivityPub Note](#activitypub-note)
 
 [The Name](#the-name)
 
