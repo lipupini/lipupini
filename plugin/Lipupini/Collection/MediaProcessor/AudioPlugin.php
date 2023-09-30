@@ -13,7 +13,7 @@ class AudioPlugin extends Plugin {
 			'mp3' => 'audio/mp3',
 		];
 
-		if (!preg_match('#^/c/file/([^/]+)/(large)/(.+(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/file/([^/]+)/(large)/(.+\.(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return $state;
 		}
 
