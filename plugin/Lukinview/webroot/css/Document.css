@@ -13,6 +13,12 @@ main.media-item {
 	max-width: 100%;
 }
 
+#media-item .image,
+#media-item .video,
+#media-item .audio {
+	padding-bottom: 5rem;
+}
+
 #media-item .markdown {
 	width: 100%;
 	text-align: center;
