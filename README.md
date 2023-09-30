@@ -97,6 +97,8 @@ If you want to use Liputini for your artist portfolio or business website, I wil
 
 ## Acknowledgements
 
+VanJS: https://vanjs.org
+
 Markdown parser: https://parsedown.org
 
 RSA key generation: https://freek.dev/1829-encrypting-and-signing-data-using-privatepublic-keys-in-php
