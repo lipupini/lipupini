@@ -163,11 +163,24 @@ class Lipupini {
 		}
 		$collectionData = json_decode(file_get_contents($filesJsonPath), true);
 		$return = [];
+		// Process collection data first, since it can determine the display order
+		foreach ($collectionData as $filename => $fileData) {
+			if ($collectionRelativePath) {
+				$filename = $collectionRelativePath . '/' . $filename;
+			}
+			if (!file_exists($collectionRootPath . '/' . $filename)) {
+				throw new Exception('Could not find file for entry in ' . $state->collectionFolderName . '/.lipupini/.files.json');
+			}
+			$return[$filename] = $fileData;
+		}
 		foreach (new \DirectoryIterator($collectionAbsolutePath) as $fileData) {
 			if ($fileData->isDot() || $fileData->getFilename()[0] === '.') {
 				continue;
 			}
 			$filePath = $collectionRelativePath ? $collectionRelativePath . '/' . $fileData->getFilename() : $fileData->getFilename();
+			if (array_key_exists($filePath, $return)) {
+				continue;
+			}
 			// Get data from `$collectionData` if exists
 			$return[$filePath] = array_key_exists($fileData->getFilename(), $collectionData) ? $collectionData[$fileData->getFilename()] : [];
 		}

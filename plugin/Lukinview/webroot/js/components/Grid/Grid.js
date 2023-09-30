@@ -6,7 +6,7 @@ import { Markdown } from './FileType/Markdown.js'
 import { Folder } from './FileType/Folder.js'
 
 const Grid = ({collection, collectionData}) => {
-	Object.keys(collectionData).reverse().forEach(filename => {
+	Object.keys(collectionData).forEach(filename => {
 		switch (filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2)) {
 			case 'jpg':
 			case 'png':
