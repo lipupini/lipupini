@@ -6,6 +6,8 @@
 
 [Lipupini Quickstart](#lipupini-quickstart)
 
+[Add Your Collection](#add-your-collection)
+
 [ActivityPub Note](#activitypub-note)
 
 [The Name](#the-name)
@@ -64,6 +66,45 @@ php -S localhost:4000 index.php
 ```
 
 4. Visit http://localhost:4000/@example
+
+## Add Your Collection
+
+Say you have a folder of awesome photos at `/home/sally/Pictures/AwesomePhotos`
+
+Your Lipupini installation is at `/opt/webapp/lipupini`
+
+1) Take the photos from `/home/sally/Pictures/AwesomeCollection` and put them into the collection directory `/opt/webapp/lipupini/collection/sally` either by copying them:
+
+```shell
+cp -R /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/collection/sally
+```
+
+or symlinking them, in which case any compatible photos added in `/home/sally/Pictures/AwesomeCollection` will automatically be served by Lipupini:
+
+```shell
+ln -s /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/collection/sally
+```
+
+2) Initialize the `.lipupini` folder for the collection
+
+```shell
+cd /opt/webapp/lipupini
+bin/create-basic-lipupini-folder-in-collection.php sally
+```
+
+3) Save a file called `.avatar.png` at `/opt/webapp/lipupini/collection/sally/.lipupini/.avatar.png`
+
+4) Edit the file at `/opt/webapp/lipupini/collection/sally/.lipupini/.files.json` to add captions (this is optional)
+
+5) Delete the example collection:
+
+```shell
+rm -r collection/example
+```
+
+6) Sally's collection should now be viewable at http://localhost:4000/@sally
+
+In addition to copying or symlinking, see [collection/README.md#vision](collection/README.md#vision) for ideas on other ways to keep these directories in sync.
 
 ## ActivityPub Note
 
