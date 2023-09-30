@@ -58,7 +58,7 @@ cd ..
 
 3. Navigate to the webserver document root folder symlinked from the `Lukinview` plugin and start PHP's built-in webserver. See [plugin/Lukinview/README.md](plugin/Lukinview/README.md) for more information
 
-```php
+```shell
 cd webroot
 php -S localhost:4000 index.php
 ```
