@@ -22,5 +22,5 @@ A drawback is that changing the document root will also rebuild any media file c
 
 ```php
 cd path/to/project/root
-rm -rf plugin/LukinView/webroot/c/*
+rm -rf plugin/Lukinview/webroot/c/*
 ```

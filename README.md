@@ -2,9 +2,9 @@
 
 [Status](#status)
 
-[Requirements](#requirements)
+[System Dependencies](#system-dependencies)
 
-[Start Lipupini](#start-lipupini)
+[Lipupini Quickstart](#lipupini-quickstart)
 
 [ActivityPub Note](#activitypub-note)
 
@@ -31,33 +31,39 @@ For displaying a media portfolio/posts on the Internet, despite currently limite
 3) Ensure that your files display. If they don't, convert them to supported formats.
 4) Deploy to a PHP server.
 
-## Requirements
+Updating Lipupini should be as simple as running `git pull` from your environment.
+
+## System Dependencies
 
 - [PHP8](https://www.php.net/manual/en/install.php)
 - [Composer](https://getcomposer.org/)
 - One of: [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php), [PHP GD Extension](https://www.php.net/manual/en/book.image.php)
 
-## Start Lipupini
+## Lipupini Quickstart
+
+1) Clone the app and `cd` into the project root
 
 ```shell
-# Clone the app and `cd` into the project root
 git clone git@github.com:instalution/lipupini.git
 cd lipupini
+```
 
-# Install Composer dependencies and go back to project root
+2) Install Composer dependencies and go back to project root
+
+```shell
 cd package
 composer install
 cd ..
+```
 
-# Navigate to the webserver document root folder symlinked from the `Lukinview` plugin
-# See `plugin/Lukinview/README.md` for more information
+3. Navigate to the webserver document root folder symlinked from the `Lukinview` plugin and start PHP's built-in webserver. See [plugin/Lukinview/README.md](plugin/Lukinview/README.md) for more information
+
+```php
 cd webroot
-
-# Start webserver
 php -S localhost:4000 index.php
 ```
 
-Visit http://localhost:4000/@example
+4. Visit http://localhost:4000/@example
 
 ## ActivityPub Note
 
