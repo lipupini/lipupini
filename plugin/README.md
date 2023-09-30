@@ -5,11 +5,11 @@ Default plugins:
 - `Lipupini` - Backend
 - `Lukinview` - General frontend, suitable for visual artists / photographers, writers
 
-Ideas:
+While `Lukinview` can support any context with some creativity, other ideas include:
 
-- `Mokuview` - Frontend for restaurants
-- `Kalamaview` - Frontend for musicians / bands
-- `Nimiview` - Frontend for writers / bloggers
+- `Mokuview` - Frontend for restaurants. You might subscribe to `@specials@crabshack.co` or `@menu@crabshack.co`
+- `Kalamaview` - Frontend for musicians / bands. Could have collections like `@shows@artistname.music` or `@media@artistname.music`
+- `Nimiview` - Frontend for writers / bloggers. You might subscribe to `@thoughts@writing.tld` or `@publications@writing.tld`
 - Additional general frontends that explore various frontend tooling
 
 A goal of Lipupini is to be very modular. Plugins are hopefully as self-contained as possible. For example, the default plugins each do their own routing if they need to read routes.
