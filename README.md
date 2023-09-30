@@ -26,7 +26,7 @@
 
 ## Status
 
-For displaying a media portfolio/posts on the Internet, despite currently limited ActivityPub support Lipupini is considered to be **production-ready**.
+For displaying a media portfolio or posts on the Internet, despite currently limited ActivityPub support Lipupini is considered to be **production-ready**.
 
 1) Install dependencies and clone the repository.
 2) Add and [initialize](#add-your-collection) your collection, customize `.lipupini/.files.json` with captions, and delete the example collection.
