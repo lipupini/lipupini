@@ -156,7 +156,7 @@ class Lipupini {
 		// E.g. `$state->collectionPath` could be `memes/cats`, which would be relative to `$collectionRootPath`. '' keeps the root collection path
 		$collectionRelativePath = $state->collectionPath ?: '';
 		$collectionAbsolutePath = $collectionRelativePath ? $collectionRootPath . '/' . $collectionRelativePath : $collectionRootPath;
-		$return = [];
+		$return = $collectionData = [];
 		$filesJsonPath = $collectionAbsolutePath . '/.lipupini/.files.json';
 		if (file_exists($filesJsonPath)) {
 			$collectionData = json_decode(file_get_contents($filesJsonPath), true);
