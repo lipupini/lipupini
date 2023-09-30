@@ -10,6 +10,7 @@ use System\Plugin;
 
 class HtmlPlugin extends Plugin {
 	public string|null $pageTitle = null;
+	public string|null $htmlHead = null;
 
 	private string|null $collectionPath = null;
 	private string|null $collectionFolderName = null;
@@ -76,5 +77,6 @@ class HtmlPlugin extends Plugin {
 			$this->fileData = [];
 		}
 		$this->parentPath = '@' . $state->collectionFolderName . '/' . dirname($state->collectionPath);
+		$this->htmlHead = '<link rel="stylesheet" href="/css/Document.css">' . "\n";
 	}
 }

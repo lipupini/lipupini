@@ -10,6 +10,7 @@ use System\Plugin;
 
 class HtmlPlugin extends Plugin {
 	public string|null $pageTitle = null;
+	public string|null $htmlHead = null;
 
 	public int $perPage = 36;
 
@@ -116,5 +117,7 @@ class HtmlPlugin extends Plugin {
 		} else {
 			$this->prevUrl = 'javascript:void(0)';
 		}
+
+		$this->htmlHead = '<link rel="stylesheet" href="/css/Grid.css">' . "\n";
 	}
 }

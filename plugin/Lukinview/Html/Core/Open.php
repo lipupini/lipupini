@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php echo htmlentities($this->pageTitle) ?></title>
 <link rel="stylesheet" href="/css/Global.css">
-<link rel="stylesheet" href="/css/Grid.css">
-<link rel="stylesheet" href="/css/Document.css">
+<?php echo $this->htmlHead ?? '' ?>
 </head>
 <body>
