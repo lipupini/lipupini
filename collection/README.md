@@ -9,20 +9,17 @@ Within the `.lipupini` folder is a JSON file `.files.json` containing informatio
 For example, the JSON might look like this:
 
 ```json
-[
-	{
-		"filename": "cat-scarf.jpg",
+{
+	"cat-scarf.jpg": {
 		"caption": "Scarf Cat"
 	},
-	{
-		"filename": "cat-hat.jpg",
+	"cat-hat.jpg": {
 		"caption": "Hat Cat"
 	},
-	{
-		"filename": "Memes",
+	"Memes": {
 		"caption": "Memes Folder"
 	}
-]
+}
 ```
 
 The root `.lipupini` folder also contains public and private RSA keys for the collection to make signed requests e.g. for ActivityPub.

@@ -18,6 +18,7 @@ class HtmlPlugin extends Plugin {
 	private string|null $prevUrl = null;
 	private int|null $numPages = null;
 	private array|null $collectionData = null;
+	private string|null $collectionFolderName = null;
 	private string|null $parentPath = null;
 
 	public function start(State $state): State {
@@ -85,6 +86,7 @@ class HtmlPlugin extends Plugin {
 			throw new Exception('Invalid page number');
 		}
 
+		$this->collectionFolderName = $state->collectionFolderName;
 		$this->collectionData = array_slice($data, ($this->page - 1) * $this->perPage, $this->perPage);
 
 		$webPath = '/@' . $state->collectionFolderName . ($state->collectionPath ? '/' . $state->collectionPath : '');

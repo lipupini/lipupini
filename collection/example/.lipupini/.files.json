@@ -1,26 +1,20 @@
-[
-	{
-		"filename": "cat-scarf.jpg",
+{
+	"cat-scarf.jpg": {
 		"caption": "Scarf Cat"
 	},
-	{
-		"filename": "Memes",
+	"Memes": {
 		"caption": "Memes"
 	},
-	{
-		"filename": "cat-hat.png",
+	"cat-hat.png": {
 		"caption": "Hat Cat"
 	},
-	{
-		"filename": "winamp-intro.mp3",
+	"winamp-intro.mp3": {
 		"caption": "It really whips the llama's ass"
 	},
-	{
-		"filename": "dup.mp4",
+	"dup.mp4": {
 		"caption": "dup"
 	},
-	{
-		"filename": "Poetry",
+	"Poetry": {
 		"caption": "Poetry"
 	}
-]
+}

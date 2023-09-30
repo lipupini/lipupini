@@ -5,24 +5,24 @@ import { Audio } from './FileType/Audio.js'
 import { Markdown } from './FileType/Markdown.js'
 import { Folder } from './FileType/Folder.js'
 
-const Grid = ({collectionData}) => {
-	collectionData.forEach((item) => {
-		switch (item.filename.slice((item.filename.lastIndexOf(".") - 1 >>> 0) + 2)) {
+const Grid = ({collection, collectionData}) => {
+	Object.keys(collectionData).reverse().forEach(filename => {
+		switch (filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2)) {
 			case 'jpg':
 			case 'png':
-				van.add(document.getElementById('media-container'), Image(item))
+				van.add(document.getElementById('media-container'), Image({collection, filename, data: collectionData[filename]}))
 				break
 			case 'mp4':
-				van.add(document.getElementById('media-container'), Video(item))
+				van.add(document.getElementById('media-container'), Video({collection, filename, data: collectionData[filename]}))
 				break
 			case 'mp3':
-				van.add(document.getElementById('media-container'), Audio(item))
+				van.add(document.getElementById('media-container'), Audio({collection, filename, data: collectionData[filename]}))
 				break
 			case 'md':
-				van.add(document.getElementById('media-container'), Markdown(item))
+				van.add(document.getElementById('media-container'), Markdown({collection, filename, data: collectionData[filename]}))
 				break
 			case '':
-				van.add(document.getElementById('media-container'), Folder(item))
+				van.add(document.getElementById('media-container'), Folder({collection, filename, data: collectionData[filename]}))
 				break
 			default:
 				throw new Error('Unknown file extension')
@@ -30,4 +30,4 @@ const Grid = ({collectionData}) => {
 	})
 }
 
-Grid({ collectionData })
+Grid({ collection, collectionData })

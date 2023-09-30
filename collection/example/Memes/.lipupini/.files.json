@@ -1,6 +1,5 @@
-[
-	{
-		"filename": "cat-computer.jpg",
+{
+	"cat-computer.jpg": {
 		"caption": "Computer Cat"
 	}
-]
+}

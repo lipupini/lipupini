@@ -48,9 +48,10 @@ if (
 			continue;
 		}
 
-		$files[] = [
-			'filename' => $fileinfo->getFilename(),
-			'caption' => $fileinfo->getFilename(),
+		$fileName = $fileinfo->getFilename();
+
+		$files[$fileName] = [
+			'caption' => $fileName,
 			//'date' => (new DateTime)->format(DateTime::ATOM),
 		];
 	}

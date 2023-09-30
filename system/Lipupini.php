@@ -162,20 +162,16 @@ class Lipupini {
 			throw new Exception('Could not find data');
 		}
 		$collectionData = json_decode(file_get_contents($filesJsonPath), true);
-		foreach ($collectionData as $index => &$fileData) {
-			if (empty($fileData['filename'])) {
-				throw new Exception('Missing filename for entry in ' . $state->collectionFolderName . '/.lipupini/.files.json');
-			}
-			if ($collectionRelativePath) {
-				$fileData['filename'] = $collectionRelativePath . '/' . $fileData['filename'];
-			}
-			if (!file_exists($collectionRootPath . '/' . $fileData['filename'])) {
-				array_splice($collectionData, $index, 1);
+		$return = [];
+		foreach (new \DirectoryIterator($collectionAbsolutePath) as $fileData) {
+			if ($fileData->isDot() || $fileData->getFilename()[0] === '.') {
 				continue;
 			}
-			$fileData['collection'] = $state->collectionFolderName;
+			$filePath = $collectionRelativePath ? $collectionRelativePath . '/' . $fileData->getFilename() : $fileData->getFilename();
+			// Get data from `$collectionData` if exists
+			$return[$filePath] = array_key_exists($fileData->getFilename(), $collectionData) ? $collectionData[$fileData->getFilename()] : [];
 		}
-		return $collectionData;
+		return $return;
 	}
 
 	public static function getSearchData(State $state, $query) {
@@ -193,10 +189,6 @@ class Lipupini {
 		if (!array_key_exists($query, $searchData)) {
 			throw new Exception('Could not find specified search');
 		}
-		$searchData = $searchData[$query];
-		foreach ($searchData as &$item) {
-			$item['collection'] = $state->collectionFolderName;
-		}
-		return $searchData;
+		return $searchData[$query];
 	}
 }

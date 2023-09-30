@@ -13,5 +13,5 @@
 	<div class="next pagination"><a href="<?php echo htmlentities($this->nextUrl) ?>" class="button" title="Next"<?php if ($this->nextUrl === 'javascript:void(0)') : ?> disabled<?php endif ?>><img src="/img/arrow-right-bold.svg" alt="Previous Page"></a></div>
 	<div></div>
 </footer>
-<script>let collectionData = <?php echo json_encode($this->collectionData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?></script>
+<script>let collection = '<?php echo htmlentities($this->collectionFolderName) ?>';let collectionData = <?php echo json_encode($this->collectionData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?></script>
 <script type="module" src="/js/components/Grid/Grid.js"></script>

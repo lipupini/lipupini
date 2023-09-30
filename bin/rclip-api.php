@@ -66,12 +66,10 @@ if (empty($results)) {
 	return;
 }
 
+$saveData = [];
 foreach ($results as &$path) {
 	echo $path . "\n";
-	$path = [
-			'filename' => preg_replace('#^' . DIR_COLLECTION . '/' . $collectionFolderName . '/#', '', $path),
-			'caption' => pathinfo($path, PATHINFO_FILENAME),
-	];
+	$saveData[preg_replace('#^' . DIR_COLLECTION . '/' . $collectionFolderName . '/#', '', $path)] = ['caption' => pathinfo($path, PATHINFO_FILENAME)];
 }
 
 echo "\n";
@@ -82,6 +80,6 @@ if (strtoupper($saveSearch) !== 'Y') {
 
 $searchesFile = DIR_COLLECTION . '/' . $collectionFolderName . '/.lipupini/.savedSearches.json';
 $searches = file_exists($searchesFile) ? json_decode(file_get_contents($searchesFile), true) : [];
-$searches[$query] = $results;
+$searches[$query] = $saveData;
 file_put_contents($searchesFile, json_encode($searches, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 echo 'Saved search to ' . $searchesFile . "\n";
