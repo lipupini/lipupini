@@ -156,22 +156,20 @@ class Lipupini {
 		// E.g. `$state->collectionPath` could be `memes/cats`, which would be relative to `$collectionRootPath`. '' keeps the root collection path
 		$collectionRelativePath = $state->collectionPath ?: '';
 		$collectionAbsolutePath = $collectionRelativePath ? $collectionRootPath . '/' . $collectionRelativePath : $collectionRootPath;
-
-		$filesJsonPath = $collectionAbsolutePath . '/.lipupini/.files.json';
-		if (!file_exists($filesJsonPath)) {
-			throw new Exception('Could not find data');
-		}
-		$collectionData = json_decode(file_get_contents($filesJsonPath), true);
 		$return = [];
-		// Process collection data first, since it can determine the display order
-		foreach ($collectionData as $filename => $fileData) {
-			if ($collectionRelativePath) {
-				$filename = $collectionRelativePath . '/' . $filename;
+		$filesJsonPath = $collectionAbsolutePath . '/.lipupini/.files.json';
+		if (file_exists($filesJsonPath)) {
+			$collectionData = json_decode(file_get_contents($filesJsonPath), true);
+			// Process collection data first, since it can determine the display order
+			foreach ($collectionData as $filename => $fileData) {
+				if ($collectionRelativePath) {
+					$filename = $collectionRelativePath . '/' . $filename;
+				}
+				if (!file_exists($collectionRootPath . '/' . $filename)) {
+					throw new Exception('Could not find file for entry in ' . $state->collectionFolderName . '/.lipupini/.files.json');
+				}
+				$return[$filename] = $fileData;
 			}
-			if (!file_exists($collectionRootPath . '/' . $filename)) {
-				throw new Exception('Could not find file for entry in ' . $state->collectionFolderName . '/.lipupini/.files.json');
-			}
-			$return[$filename] = $fileData;
 		}
 		foreach (new \DirectoryIterator($collectionAbsolutePath) as $fileData) {
 			if ($fileData->isDot() || $fileData->getFilename()[0] === '.') {

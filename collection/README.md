@@ -1,10 +1,10 @@
-In the `collection` root folder are folders named with an ActivityPub identifier.
+In the `collection` root folder are subfolders that become the names of collections.
 
-The identifier folders contain files of various mime types or other organizational folders.
+Liputini will attempt to serve any non-hidden files in these directories. If you drop a new video file into a collection folder, Liputini will show it in the collection _if it knows how_.
 
-Within an identifier folder is a `.lipupini` folder. This folder should have all the necessary data to configure an entire account by dropping it into the filesystem.
+Within an identifier folder is a `.lipupini` folder. This folder should have all the necessary data to configure an entire account just by dropping it into the filesystem.
 
-Within the `.lipupini` folder is a JSON file `.files.json` containing information about each file and the order in which they should be displayed.
+Within the `.lipupini` folder is a JSON file `.files.json` containing information about each file and the order in which they should be displayed. If a filename matches an entry, the data from that entry will be used when loading the file.
 
 For example, the JSON might look like this:
 
@@ -23,6 +23,14 @@ For example, the JSON might look like this:
 ```
 
 The root `.lipupini` folder also contains public and private RSA keys for the collection to make signed requests e.g. for ActivityPub.
+
+A helper script is included to initialize a new collection (the collection directory `NameOfCollection` should already exist with a few files in it):
+
+```shell
+bin/create-basic-lipupini-folder-in-collection.php NameOfCollection
+```
+
+This script will generate RSA keys, generate `.files.json` based on the files in the folder, and remind you to store an avatar PNG at `.lipupini/.avatar.png`
 
 ## Vision
 
