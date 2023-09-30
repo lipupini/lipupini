@@ -1,7 +1,5 @@
 # Ignore the whole `collection` directory when committing
 /*
 
-# Except for the example collection and README.md
-!/example/
+# Except for README.md
 !/README.md
-/example/.lipupini/.rclip
