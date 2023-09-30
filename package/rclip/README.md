@@ -48,7 +48,7 @@ bin/rclip-api.php example 'Cat' 10
 
 The search will take a few moments. When it finishes, you are prompted `Save search for @example? [Y/n]`
 
-If you choose to save it, `collections/example/.liputini/.savedSearches.json` will be created.
+If you choose to save it, `collections/example/.lipupini/.savedSearches.json` will be created.
 
 After that, you should be able to view the search results at:
 

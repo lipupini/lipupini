@@ -24,7 +24,7 @@
 
 ## Status
 
-For displaying a media portfolio/posts on the Internet, despite currently limited ActivityPub support Liputini is considered to be **production-ready**.
+For displaying a media portfolio/posts on the Internet, despite currently limited ActivityPub support Lipupini is considered to be **production-ready**.
 
 1) Install dependencies and clone the repository.
 2) Add and [initialize](collection/README.md) your collection, customize `.lipupini/.files.json` with captions, and delete the example collection.
@@ -77,6 +77,8 @@ ngrok http 4000
 
 If your Ngrok URL is then `https://f674-73-83-87-238.ngrok-free.app`, you should be able to query `@example@f674-73-83-87-238.ngrok-free.app` from another Fediverse client.
 
+Using Ngrok, with an upgraded plan you can setup a fairly restrictive port firewall, configure it to run on startup, and reliably host any domain with HTTPS.
+
 ## The Name
 
 "Lipupini" is a "word formed by combining other words" (portmanteau), and "lipu pini" in this context translates to "past document" in [Toki Pona core](https://zrajm.github.io/toki-pona-syllabics/dictionary/). Lipupini is for organizing computer files like images, videos, sounds and writings that you might want to display with Fediverse support on the Internet under your domain.
@@ -99,7 +101,7 @@ I hope that the plugin architecture makes for a good workflow, especially being 
 
 Email apps@dup.bz if you'd like a point of contact or post in [discussions](https://github.com/instalution/lipupini/discussions) or [issues](https://github.com/instalution/lipupini/issues)! If you begin to find any aspect frustrating or feel that it should be done in a different way, please reach out.
 
-If you want to use Liputini for your artist portfolio or business website, I will support your effort.
+If you want to use Lipupini for your artist portfolio or business website, I will support your effort.
 
 ## Acknowledgements
 
