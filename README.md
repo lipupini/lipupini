@@ -14,6 +14,8 @@
 
 [Acknowledgements](#acknowledgements)
 
+---
+
 ![image](https://github.com/instalution/lipupini/assets/108841276/843f8a31-0d6c-42d2-a366-c355b03986a6)
 
 ---
