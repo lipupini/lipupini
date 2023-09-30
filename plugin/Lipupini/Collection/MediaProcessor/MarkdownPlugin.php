@@ -65,6 +65,10 @@ class MarkdownPlugin extends Plugin {
 			throw new Exception('Could not render markdown file');
 		}
 
+		$rendered = '<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>' . "\n"
+			. $rendered . "\n"
+			. '</body></html>' . "\n";
+
 		file_put_contents(DIR_WEBROOT . $htmlWebPath, $rendered);
 
 		header('Content-type: ' . $extMimes[$extension]);
