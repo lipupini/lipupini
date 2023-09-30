@@ -1,5 +1,17 @@
 Namespaced plugins are stored here.
 
+Default plugins:
+
+- `Lipupini` - Backend
+- `Lukinview` - General frontend, suitable for visual artists / photographers, writers
+
+Ideas:
+
+- `Mokuview` - Frontend for restaurants
+- `Kalamaview` - Frontend for musicians / bands
+- `Nimiview` - Frontend for writers / bloggers
+- Additional general frontends that explore various frontend tooling
+
 A goal of Lipupini is to be very modular. Plugins are hopefully as self-contained as possible. For example, the default plugins each do their own routing if they need to read routes.
 
 If you don't like the way something is implemented, you can change it with a plugin.
