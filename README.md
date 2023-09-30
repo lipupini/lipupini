@@ -33,7 +33,7 @@ For displaying a media portfolio/posts on the Internet, despite currently limite
 
 ## Requirements
 
-- PHP8
+- [PHP8](https://www.php.net/manual/en/install.php)
 - [Composer](https://getcomposer.org/)
 - One of: [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php), [PHP GD Extension](https://www.php.net/manual/en/book.image.php)
 
@@ -87,7 +87,7 @@ AI-powered keyword filtering is currently a "hidden feature" due to potential pe
 
 ## Contributing
 
-You are welcome to fork it, change it, add plugins! Don't even hesitate to make a PR that includes your own plugin! It could be shipped with or integrated into core.
+You are welcome to fork it, change it, add plugins! Please don't hesitate to make a PR that includes your own plugins - it could be shipped with or integrated into core.
 
 I hope that the plugin architecture makes for a good workflow, especially being open to merging new plugins. In theory, plugins could just as easily be Composer packages and not have a `plugin` directory at all, but I'd like to keep with this pattern. The composer option can still work seamlessly with this pattern as well.
 
