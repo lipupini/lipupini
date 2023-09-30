@@ -2,8 +2,8 @@
 
 namespace Plugin\Lukinview;
 
+use Plugin\Lipupini\Http;
 use Plugin\Lipupini\State;
-use System\Lipupini;
 use System\Plugin;
 
 class HomepagePlugin extends Plugin {
@@ -14,7 +14,7 @@ class HomepagePlugin extends Plugin {
 			return $state;
 		}
 
-		if (!Lipupini::getClientAccept('HTML')) {
+		if (!Http::getClientAccept('HTML')) {
 			return $state;
 		}
 

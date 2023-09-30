@@ -2,8 +2,8 @@
 
 namespace Plugin\Lukinview\Collection;
 
+use Plugin\Lipupini\Http;
 use Plugin\Lipupini\State;
-use System\Lipupini;
 use System\Plugin;
 
 class AtomPlugin extends Plugin {
@@ -12,7 +12,7 @@ class AtomPlugin extends Plugin {
 			return $state;
 		}
 
-		if (!Lipupini::getClientAccept('AtomXML')) {
+		if (!Http::getClientAccept('AtomXML')) {
 			return $state;
 		}
 

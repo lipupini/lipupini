@@ -3,13 +3,13 @@
 
 require(__DIR__ . '/../package/vendor/autoload.php');
 
-use System\Lipupini;
+use Plugin\Lipupini\Collection;
 use Plugin\Lipupini\Encryption;
 
 // Expects a username as the only argument
 $collectionFolder = $argv[1];
 
-Lipupini::validateCollectionFolderName($collectionFolder);
+Collection\Utility::validateCollectionFolderName($collectionFolder);
 
 $collectionPath = DIR_COLLECTION . '/' . $collectionFolder;
 $lipupiniPath = $collectionPath . '/.lipupini';

@@ -2,15 +2,15 @@
 
 namespace Plugin\Lipupini\Collection;
 
+use Plugin\Lipupini\Collection;
 use Plugin\Lipupini\Exception;
-use System\Lipupini;
 
 class RclipSearch {
 	public function __construct(
 		public string $collectionFolderName,
 		public string $rclipPath,
 	) {
-		Lipupini::validateCollectionFolderName($collectionFolderName);
+		Collection\Utility::validateCollectionFolderName($collectionFolderName);
 		if (!file_exists($this->rclipPath)) {
 			throw new Exception('Could not find `rclip`');
 		}

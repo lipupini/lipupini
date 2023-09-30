@@ -2,9 +2,8 @@
 
 namespace Plugin\Lipupini\Collection\MediaProcessor;
 
-use Plugin\Lipupini\Exception;
+use Plugin\Lipupini\Collection;
 use Plugin\Lipupini\State;
-use System\Lipupini;
 use System\Plugin;
 
 class AudioPlugin extends Plugin {
@@ -24,7 +23,7 @@ class AudioPlugin extends Plugin {
 		$filePath = $matches[3];
 		$extension = $matches[4];
 
-		Lipupini::validateCollectionFolderName($collectionFolderName);
+		Collection\Utility::validateCollectionFolderName($collectionFolderName);
 
 		$pathOriginal = DIR_COLLECTION . '/' . $collectionFolderName . '/' . $filePath;
 

@@ -69,8 +69,8 @@ return $state;
 
 namespace Plugin\MyNamespace;
 
+use Plugin\Lipupini\Http;
 use System\Plugin;
-use System\Lipupini;
 
 class MyPluginNeedsARoutePlugin extends Plugin {
 	public function start(State $state): State {
@@ -78,7 +78,7 @@ class MyPluginNeedsARoutePlugin extends Plugin {
 			return $state;
 		}
 
-		if (!Lipupini::getClientAccept('HTML')) {
+		if (!Http::getClientAccept('HTML')) {
 			return $state;
 		}
 

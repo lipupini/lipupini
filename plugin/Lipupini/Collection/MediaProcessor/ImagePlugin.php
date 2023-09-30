@@ -3,9 +3,9 @@
 namespace Plugin\Lipupini\Collection\MediaProcessor;
 
 use Imagine;
+use Plugin\Lipupini\Collection;
 use Plugin\Lipupini\Exception;
 use Plugin\Lipupini\State;
-use System\Lipupini;
 use System\Plugin;
 
 class ImagePlugin extends Plugin {
@@ -27,7 +27,7 @@ class ImagePlugin extends Plugin {
 		$imagePath = $matches[3];
 		$extension = $matches[4];
 
-		Lipupini::validateCollectionFolderName($collectionFolderName);
+		Collection\Utility::validateCollectionFolderName($collectionFolderName);
 
 		$pathOriginal = DIR_COLLECTION . '/' . $collectionFolderName . '/' . $imagePath;
 

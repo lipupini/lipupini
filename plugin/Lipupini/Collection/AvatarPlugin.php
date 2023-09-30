@@ -2,8 +2,8 @@
 
 namespace Plugin\Lipupini\Collection;
 
+use Plugin\Lipupini\Collection;
 use Plugin\Lipupini\State;
-use System\Lipupini;
 use System\Plugin;
 
 class AvatarPlugin extends Plugin {
@@ -22,7 +22,7 @@ class AvatarPlugin extends Plugin {
 		$collectionFolderName = $matches[1];
 		$extension = $matches[3];
 
-		Lipupini::validateCollectionFolderName($collectionFolderName);
+		Collection\Utility::validateCollectionFolderName($collectionFolderName);
 
 		$avatarPath = DIR_COLLECTION . '/' . $collectionFolderName . '/.lipupini/.avatar.png';
 

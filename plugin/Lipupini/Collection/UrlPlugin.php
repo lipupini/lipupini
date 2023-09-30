@@ -10,9 +10,9 @@ to State and available for subsequent plugins
 
 namespace Plugin\Lipupini\Collection;
 
+use Plugin\Lipupini\Collection;
 use Plugin\Lipupini\Exception;
 use Plugin\Lipupini\State;
-use System\Lipupini;
 use System\Plugin;
 
 class UrlPlugin extends Plugin {
@@ -21,7 +21,7 @@ class UrlPlugin extends Plugin {
 			return $state;
 		}
 
-		Lipupini::validateCollectionFolderName(collectionFolderName: $matches[1]);
+		Collection\Utility::validateCollectionFolderName(collectionFolderName: $matches[1]);
 		$state->collectionFolderName = $matches[1];
 		$state->collectionUrl = 'https://' . HOST . '/@' . $matches[1];
 		if (str_contains($matches[2], '../')) {

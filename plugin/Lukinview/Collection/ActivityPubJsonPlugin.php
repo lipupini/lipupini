@@ -2,8 +2,8 @@
 
 namespace Plugin\Lukinview\Collection;
 
+use Plugin\Lipupini\Http;
 use Plugin\Lipupini\State;
-use System\Lipupini;
 use System\Plugin;
 
 class ActivityPubJsonPlugin extends Plugin {
@@ -22,7 +22,7 @@ class ActivityPubJsonPlugin extends Plugin {
 			return $state;
 		}
 
-		if (!Lipupini::getClientAccept('ActivityPubJson')) {
+		if (!Http::getClientAccept('ActivityPubJson')) {
 			return $state;
 		}
 

@@ -2,9 +2,10 @@
 
 namespace Plugin\Lukinview\Collection\Folder;
 
+use Plugin\Lipupini\Collection;
 use Plugin\Lipupini\Exception;
+use Plugin\Lipupini\Http;
 use Plugin\Lipupini\State;
-use System\Lipupini;
 use System\Plugin;
 
 class HtmlPlugin extends Plugin {
@@ -26,7 +27,7 @@ class HtmlPlugin extends Plugin {
 			return $state;
 		}
 
-		if (!Lipupini::getClientAccept('HTML')) {
+		if (!Http::getClientAccept('HTML')) {
 			return $state;
 		}
 
@@ -53,12 +54,12 @@ class HtmlPlugin extends Plugin {
 
 	private function loadViewData(State $state): void {
 		if (empty($_GET['search'])) {
-			$data = Lipupini::getCollectionData($state);
+			$data = Collection\Utility::getCollectionData($state);
 		} else {
 			if ($state->collectionPath) {
 				throw new Exception('Trying to search when not at collection root');
 			}
-			$data = Lipupini::getSearchData($state, $_GET['search']);
+			$data = Collection\Utility::getSearchData($state, $_GET['search']);
 		}
 
 		$this->page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;

@@ -7,9 +7,8 @@ https://domain.tld/.well-known/webfinger?resource=acct:user%40domain.org
 
 namespace Plugin\Lipupini\Collection;
 
-use Plugin\Lipupini\Exception;
+use Plugin\Lipupini\Collection;
 use Plugin\Lipupini\State;
-use System\Lipupini;
 use System\Plugin;
 
 class WebFingerPlugin extends Plugin {
@@ -25,7 +24,7 @@ class WebFingerPlugin extends Plugin {
 			$identifier = urldecode($identifier);
 		}
 
-		$collectionFolderName = Lipupini::validateCollectionFolderName(collectionFolderName: $identifier, disallowHostForLocal: false);
+		$collectionFolderName = Collection\Utility::validateCollectionFolderName(collectionFolderName: $identifier, disallowHostForLocal: false);
 
 		$jsonData = [
 			'subject' => 'acct:' . $identifier,

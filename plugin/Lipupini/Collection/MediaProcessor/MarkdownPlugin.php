@@ -2,11 +2,10 @@
 
 namespace Plugin\Lipupini\Collection\MediaProcessor;
 
+use Plugin\Lipupini\Collection;
 use Plugin\Lipupini\Exception;
 use Plugin\Lipupini\State;
-use System\Lipupini;
 use System\Plugin;
-use Plugin\Lipupini\Collection\MediaProcessor\Parsedown;
 
 class MarkdownPlugin extends Plugin {
 	public function start(State $state): State {
@@ -42,7 +41,7 @@ class MarkdownPlugin extends Plugin {
 			$pathOriginal = DIR_COLLECTION . '/' . $collectionFolderName . $filePath;
 		}
 
-		Lipupini::validateCollectionFolderName($collectionFolderName);
+		Collection\Utility::validateCollectionFolderName($collectionFolderName);
 
 		if (!file_exists($pathOriginal)) {
 			http_response_code(404);
@@ -61,7 +60,7 @@ class MarkdownPlugin extends Plugin {
 		copy($pathOriginal, DIR_WEBROOT . $markdownWebPath);
 
 		try {
-			$rendered = Parsedown::instance()->text(file_get_contents($pathOriginal));
+			$rendered = Collection\MediaProcessor\Parsedown::instance()->text(file_get_contents($pathOriginal));
 		} catch (\Exception $e) {
 			throw new Exception('Could not render markdown file');
 		}

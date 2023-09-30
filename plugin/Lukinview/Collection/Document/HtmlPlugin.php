@@ -2,9 +2,10 @@
 
 namespace Plugin\Lukinview\Collection\Document;
 
+use Plugin\Lipupini\Collection;
 use Plugin\Lipupini\Exception;
+use Plugin\Lipupini\Http;
 use Plugin\Lipupini\State;
-use System\Lipupini;
 use System\Plugin;
 
 class HtmlPlugin extends Plugin {
@@ -24,7 +25,7 @@ class HtmlPlugin extends Plugin {
 			return $state;
 		}
 
-		if (!Lipupini::getClientAccept('HTML')) {
+		if (!Http::getClientAccept('HTML')) {
 			return $state;
 		}
 
@@ -68,7 +69,7 @@ class HtmlPlugin extends Plugin {
 		$this->collectionFolderName = $state->collectionFolderName;
 		$this->pageTitle = $state->collectionPath . '@' . $state->collectionFolderName . '@' . HOST;
 		$this->collectionPath = $state->collectionPath;
-		$collectionData = Lipupini::getCollectionData($state);
+		$collectionData = Collection\Utility::getCollectionData($state);
 		if (array_key_exists($this->collectionPath, $collectionData)) {
 			$this->fileData = $collectionData[$this->collectionPath];
 		} else {
