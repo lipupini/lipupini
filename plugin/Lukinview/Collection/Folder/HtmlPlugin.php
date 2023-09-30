@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Lukinview\Collection;
+namespace Plugin\Lukinview\Collection\Folder;
 
 use Plugin\Lipupini\Exception;
 use Plugin\Lipupini\State;
@@ -44,9 +44,9 @@ class HtmlPlugin extends Plugin {
 	public function renderHtml(State $state) {
 		$this->loadViewData($state);
 
-		require(__DIR__ . '/../Html/Core/Open.php');
+		require(__DIR__ . '/../../Html/Core/Open.php');
 		require(__DIR__ . '/Html/Grid.php');
-		require(__DIR__ . '/../Html/Core/Close.php');
+		require(__DIR__ . '/../../Html/Core/Close.php');
 
 		return $state;
 	}

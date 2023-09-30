@@ -27,7 +27,7 @@ class UrlPlugin extends Plugin {
 		if (str_contains($matches[2], '../')) {
 			throw new Exception('Invalid path');
 		}
-		$state->collectionPath = pathinfo($matches[2], PATHINFO_BASENAME);
+		$state->collectionPath = preg_replace('#\.html$#', '', $matches[2]);
 		return $state;
 	}
 }

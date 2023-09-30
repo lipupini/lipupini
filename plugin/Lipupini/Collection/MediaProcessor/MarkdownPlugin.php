@@ -6,7 +6,7 @@ use Plugin\Lipupini\Exception;
 use Plugin\Lipupini\State;
 use System\Lipupini;
 use System\Plugin;
-use Parsedown;
+use Plugin\Lipupini\Collection\MediaProcessor\Parsedown;
 
 class MarkdownPlugin extends Plugin {
 	public function start(State $state): State {
@@ -74,3 +74,4 @@ class MarkdownPlugin extends Plugin {
 		return $state;
 	}
 }
+

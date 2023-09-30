@@ -1,0 +1,29 @@
+main.media-item {
+	display: flex;
+	flex-direction: column;
+}
+
+#media-item {
+	display: flex;
+	justify-content: center;
+	flex-grow: 1;
+}
+
+#media-item * {
+	max-width: 100%;
+}
+
+#media-item .markdown {
+	width: 100%;
+	text-align: center;
+}
+
+#media-item .markdown object {
+	width: 99%;
+	height: 98%;
+	background-color: #ccc;
+}
+
+.markdown object {
+	color: #fff;
+}

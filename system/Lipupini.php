@@ -153,8 +153,19 @@ class Lipupini {
 
 	public static function getCollectionData(State $state) {
 		$collectionRootPath = DIR_COLLECTION . '/' . $state->collectionFolderName;
-		// E.g. `$state->collectionPath` could be `memes/cats`, which would be relative to `$collectionRootPath`. '' keeps the root collection path
-		$collectionRelativePath = $state->collectionPath ?: '';
+		// `$state->collectionPath` could be `memes/cats`, which would be relative to `$collectionRootPath`
+		if ($state->collectionPath) {
+			if (pathinfo($state->collectionPath, PATHINFO_EXTENSION)) {
+				// `$state->collectionPath` could be a file: `memes/cats/cat123.jpg`
+				$collectionRelativePath = dirname($state->collectionPath) === '.' ? '' : dirname($state->collectionPath);
+			} else {
+				// `$state->collectionPath` could be a directory: `memes/cats`
+				$collectionRelativePath = $state->collectionPath;
+			}
+		} else {
+			// This would be the root of the collection
+			$collectionRelativePath = '';
+		}
 		$collectionAbsolutePath = $collectionRelativePath ? $collectionRootPath . '/' . $collectionRelativePath : $collectionRootPath;
 		$return = $collectionData = [];
 		$filesJsonPath = $collectionAbsolutePath . '/.lipupini/.files.json';

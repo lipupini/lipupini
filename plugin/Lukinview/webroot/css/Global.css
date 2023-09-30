@@ -1,3 +1,6 @@
+html, body, main {
+	height: 100%;
+}
 body, select, a.button, input {
 	background-color: #2d2d2d;
 	color: #bfbfbf;

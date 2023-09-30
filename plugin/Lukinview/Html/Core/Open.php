@@ -6,7 +6,6 @@
 <title><?php echo htmlentities($this->pageTitle) ?></title>
 <link rel="stylesheet" href="/css/Global.css">
 <link rel="stylesheet" href="/css/Grid.css">
+<link rel="stylesheet" href="/css/Document.css">
 </head>
 <body>
-<div>
-<main>
