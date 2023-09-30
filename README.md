@@ -25,13 +25,16 @@
 ## Start Lipupini
 
 ```shell
-# Install Composer dependencies
+# Clone the app and `cd` into the project root
+git clone git@github.com:instalution/lipupini.git
+cd lipupini
+# Install Composer dependencies and go back to project root
 cd package
 composer install
-# Navigate to the webserver document root folder
-# The default one is shipped in a plugin called `Lukinview` and symlinked to `webroot` in the project root folder
-# You can use another plugin for `webroot` by changing the symlink
-cd ../webroot
+cd ..
+# Navigate to the webserver document root folder symlinked from the `Lukinview` plugin
+# See `plugin/Lukinview/README.md` for more information
+cd webroot
 # Start webserver
 php -S localhost:4000 index.php
 ```
