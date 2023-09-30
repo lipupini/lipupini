@@ -2,8 +2,8 @@ Namespaced plugins are stored here.
 
 Default plugins:
 
-- [Lipupini](Lipupini/README.md) - Backend
-- [Lukinview](Lukinview/README.md) - General frontend, suitable for visual artists / photographers, writers
+- [Lipupini](Lipupini) - Backend
+- [Lukinview](Lukinview) - General frontend, suitable for visual artists / photographers, writers
 
 While `Lukinview` can support any context with some creativity, other ideas include:
 
