@@ -13,14 +13,14 @@ chmod 755 c
 
 To make a new frontend, copy this plugin and change the symlink. For example, to use plugin `Mokuview`'s document root:
 
-```php
+```shell
 cd path/to/project/root
 ln -sf plugin/Mokuview/webroot webroot
 ```
 
 A drawback is that changing the document root will also rebuild any media file cache, if there is any already. Delete or move the cache in the previous `webroot` to save space:
 
-```php
+```shell
 cd path/to/project/root
 rm -rf plugin/Lukinview/webroot/c/*
 ```
