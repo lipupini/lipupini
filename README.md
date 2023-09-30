@@ -130,7 +130,7 @@ Here is what it can look like so far: https://lipupini-demo.dup.bz/@example
 
 Though ActivityPub implementation is currently limited, the demo is searchable in the Fediverse `@example@lipupini-demo.dup.bz`
 
-The demo runs on Apache2. If you already have Apache2 configured to serve PHP, then you can install Composer dependencies and point the virtual host's `DocumentRoot` to `webroot` and it should "just work."
+The demo is the `master` branch running on Apache2. If you already have Apache2 configured to serve PHP, you can install Composer dependencies and point the virtual host's `DocumentRoot` to `webroot` and it should "just work."
 
 AI-powered keyword filtering is currently a "hidden feature" due to potential performance issues and ease-of-setup. See [package/rclip/README.md](package/rclip/README.md) for more information.
 
