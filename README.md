@@ -1,5 +1,7 @@
 # Lipupini
 
+[Status](#status)
+
 [Requirements](#requirements)
 
 [Start Lipupini](#start-lipupini)
@@ -19,6 +21,15 @@
 ![image](https://github.com/instalution/lipupini/assets/108841276/843f8a31-0d6c-42d2-a366-c355b03986a6)
 
 ---
+
+## Status
+
+For displaying a media portfolio/posts on the Internet, despite currently limited ActivityPub support Liputini is considered to be **production-ready**.
+
+1) Install dependencies and clone the repository.
+2) Add and [initialize](collection/README.md) your collection, customize `.lipupini/.files.json` with captions, and delete the example collection.
+3) Ensure that your files display. If they don't, convert them to supported formats.
+4) Deploy to a PHP server.
 
 ## Requirements
 
