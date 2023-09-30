@@ -1,11 +1,19 @@
 <?php
 
 /*
-The Url plugin should be able to parse a request that starts with an "@".
-For example: http://localhost/@example
-An error will be thrown if there is not a corresponding directory in `collection`
-After this URL is detected and validated, the collection directory is added
-to State and available for subsequent plugins
+
+After the UrlPlugin runs, the state is updated with information about the requested collection.
+For example, if the request is: http://localhost/@example/Meme/cat-computer.jpg.html
+
+$state->collectionFolderName === 'example`
+$state->collectionUrl === http://localhost/@example
+$state->collectionPath === 'Meme/cat-computer.jpg`
+
+Subsequent queued plugins can then check for this data.
+
+$state->collectionPath does not include the `.html` because it also refers to the path of the
+actual image in the collection folder, not just the cached web path.
+
 */
 
 namespace Plugin\Lipupini\Collection;

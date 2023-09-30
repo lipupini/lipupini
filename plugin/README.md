@@ -64,6 +64,8 @@ return $state;
 
 ### Detecting a route from a plugin
 
+If more complex route detection is needed, use `preg_match` instead of checking `$_SERVER['REQUEST_URI']`. See [Lipupini/Collection/UrlPlugin.php](Lipupini/Collection/UrlPlugin.php) for one such example.
+
 ```php
 <?php
 
