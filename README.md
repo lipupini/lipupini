@@ -28,13 +28,16 @@
 # Clone the app and `cd` into the project root
 git clone git@github.com:instalution/lipupini.git
 cd lipupini
+
 # Install Composer dependencies and go back to project root
 cd package
 composer install
 cd ..
+
 # Navigate to the webserver document root folder symlinked from the `Lukinview` plugin
 # See `plugin/Lukinview/README.md` for more information
 cd webroot
+
 # Start webserver
 php -S localhost:4000 index.php
 ```
