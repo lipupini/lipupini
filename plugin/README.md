@@ -27,11 +27,12 @@ In `OtherNameSpace/WebFinger.php`, use:
 ```php
 namespace Plugin\OtherNameSpace;
 
+use Plugin\Lipupini\State;
 use System\Plugin;
 
 class WebFinger extends Plugin {
 	// This will override the start() method of the parent/extended WebFinger class
-	public function start(array $state): array {
+	public function start(State $state): State {
 		return $state;
 	}
 }
