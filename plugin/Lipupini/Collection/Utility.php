@@ -11,10 +11,14 @@ class Utility {
 			throw new Exception('Invalid collection identifier format (E1)');
 		}
 
+		if (str_contains($collectionFolderName, '..')) {
+			throw new Exception('Suspicious collection folder name (E3)');
+		}
+
 		if (str_contains($collectionFolderName, '@')) {
 			$len = strlen($collectionFolderName);
 			if ($len > 250 || $len < 5) {
-				throw new Exception('Suspicious collection identifier format (E1)');
+				throw new Exception('Suspicious collection folder format (E1)');
 			}
 
 			// Change `@example@localhost` to `example@localhost`
@@ -23,11 +27,11 @@ class Utility {
 			}
 
 			if (substr_count($collectionFolderName, '@') > 1) {
-				throw new Exception('Invalid collection identifier format (E1)');
+				throw new Exception('Invalid collection folder format (E1)');
 			}
 
 			if (!filter_var($collectionFolderName, FILTER_VALIDATE_EMAIL)) {
-				throw new Exception('Invalid collection identifier format (E2)');
+				throw new Exception('Invalid collection folder format (E2)');
 			}
 
 			$exploded = explode('@', $collectionFolderName);
