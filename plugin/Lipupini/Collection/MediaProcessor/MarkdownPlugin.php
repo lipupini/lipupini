@@ -8,13 +8,13 @@ use Plugin\Lipupini\State;
 use System\Plugin;
 
 class MarkdownPlugin extends Plugin {
-	public function start(State $state): State {
-		$extMimes = [
-			'md' => 'text/markdown',
-			'html' => 'text/html',
-		];
+	public static array $extMimes = [
+		'md' => 'text/markdown',
+		'html' => 'text/html',
+	];
 
-		if (!preg_match('#^/c/file/([^/]+)/markdown/(original|rendered)(.+\.(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+	public function start(State $state): State {
+		if (!preg_match('#^/c/file/([^/]+)/markdown/(original|rendered)(.+\.(' . implode('|', array_keys(static::$extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return $state;
 		}
 
@@ -71,7 +71,7 @@ class MarkdownPlugin extends Plugin {
 
 		file_put_contents(DIR_WEBROOT . $htmlWebPath, $rendered);
 
-		header('Content-type: ' . $extMimes[$extension]);
+		header('Content-type: ' . static::$extMimes[$extension]);
 		readfile(DIR_WEBROOT . $_SERVER['REQUEST_URI']);
 
 		return $state;

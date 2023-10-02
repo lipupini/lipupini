@@ -9,13 +9,13 @@ use Plugin\Lipupini\State;
 use System\Plugin;
 
 class ImagePlugin extends Plugin {
-	public function start(State $state): State {
-		$extMimes = [
-			'jpg' => 'image/jpeg',
-			'png' => 'image/png',
-		];
+	public static array $extMimes = [
+		'jpg' => 'image/jpeg',
+		'png' => 'image/png',
+	];
 
-		if (!preg_match('#^/c/file/([^/]+)/(small|large)/(.+\.(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+	public function start(State $state): State {
+		if (!preg_match('#^/c/file/([^/]+)/(small|large)/(.+\.(' . implode('|', array_keys(static::$extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return $state;
 		}
 
@@ -72,7 +72,7 @@ class ImagePlugin extends Plugin {
 				throw new Exception('Unknown size preset');
 		}
 
-		header('Content-type: ' . $extMimes[$extension]);
+		header('Content-type: ' . static::$extMimes[$extension]);
 		readfile(DIR_WEBROOT . $_SERVER['REQUEST_URI']);
 
 		return $state;

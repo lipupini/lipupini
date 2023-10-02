@@ -7,12 +7,12 @@ use Plugin\Lipupini\State;
 use System\Plugin;
 
 class VideoPlugin extends Plugin {
-	public function start(State $state): State {
-		$extMimes = [
-			'mp4' => 'video/mp4',
-		];
+	public static array $extMimes = [
+		'mp4' => 'video/mp4',
+	];
 
-		if (!preg_match('#^/c/file/([^/]+)/(large)/(.+\.(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+	public function start(State $state): State {
+		if (!preg_match('#^/c/file/([^/]+)/(large)/(.+\.(' . implode('|', array_keys(static::$extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return $state;
 		}
 
@@ -39,7 +39,7 @@ class VideoPlugin extends Plugin {
 
 		copy($pathOriginal, DIR_WEBROOT . $_SERVER['REQUEST_URI']);
 
-		header('Content-type: ' . $extMimes[$extension]);
+		header('Content-type: ' . static::$extMimes[$extension]);
 		readfile(DIR_WEBROOT . $_SERVER['REQUEST_URI']);
 
 		return $state;
