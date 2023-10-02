@@ -56,3 +56,11 @@ cat-hat.png  cat-scarf.jpg  dup.mp4  .lipupini  memes  poetry  winamp-intro.mp3
 After symlinking, user `bob` can log in using SFTP and see a `Lipupini` directory in their `/home/bob` directory. The files placed in this directory are then automatically served by Lipupini.
 
 In this way, "Bob" can log in and upload or sync files using many standard methods for which tons of great tutorials are already written. The organization of the files stays the same as it is on Bob's local computer. "Bob" can use WinSCP, FileZilla, drag-n-drop, Windows file manager, MacOS file manager, Linux file manager, various mobile file managers, remote drive mount, a Git repository, rsync, Unison, Syncthing, inotify, etc etc. This method also does not place any limitation on what can be achieved later via the website.
+
+Developers who may be inspired by the concept are equipped to make a way to add files to the filesystem folders, and the associated metadata is just a matter of modifying JSON. A simple example could be:
+
+1) Add the file, e.g. `smiling-faces.jpg`
+2) Ask for a caption, e.g. "Smiling faces"
+3) Modify `.files.json` to include the key `"smiling-faces.jpg": {"caption": "Smiling faces"}`
+
+From there, Lipupini should serve the file with caption to the web.
