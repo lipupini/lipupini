@@ -5,9 +5,11 @@ The WebFinger plugin should serve the following request for valid local collecti
 https://domain.tld/.well-known/webfinger?resource=acct:user%40domain.org
 */
 
-namespace Plugin\Lipupini\Collection;
+namespace Plugin\Lukinview\Collection;
 
 use Plugin\Lipupini\Collection;
+use Plugin\Lipupini\Exception;
+use Plugin\Lipupini\Http;
 use Plugin\Lipupini\State;
 use System\Plugin;
 
@@ -17,17 +19,29 @@ class WebFingerPlugin extends Plugin {
 			return $state;
 		}
 
-		$identifier = $matches[1];
-
-		// Webfinger request could be URL encoded, but it should contain "@"
-		if (!str_contains($identifier, '@')) {
-			$identifier = urldecode($identifier);
+		if (!Http::getClientAccept('WebFingerJson')) {
+			return $state;
 		}
 
-		$collectionFolderName = Collection\Utility::validateCollectionFolderName(collectionFolderName: $identifier, disallowHostForLocal: false);
+		$collectionFolderName = $matches[1];
+
+		// Webfinger request could be URL encoded, but it should contain "@"
+		if (!str_contains($collectionFolderName, '@')) {
+			$collectionFolderName = urldecode($collectionFolderName);
+		}
+
+		if ($collectionFolderName[0] === '@') {
+			$collectionFolderName = preg_replace('#^@#', '', $collectionFolderName);
+		}
+
+		if (!$collectionFolderName) {
+			throw new Exception('Could not determine collection');
+		}
+
+		Collection\Utility::validateCollectionFolderName(collectionFolderName: $collectionFolderName, disallowHostForLocal: false);
 
 		$jsonData = [
-			'subject' => 'acct:' . $identifier,
+			'subject' => 'acct:' . $collectionFolderName,
 			'aliases' => [
 				'https://' . HOST . '/@' . $collectionFolderName,
 			],

@@ -30,8 +30,8 @@ class AtomPlugin extends Plugin {
 	}
 
 	public function getAtomXml(State $state) {
-		echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n"; ?>
-<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
+		echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">' . "\n" ?>
+
 	<id>https://<?php echo htmlentities(HOST) ?>/@<?php echo htmlentities($state->collectionFolderName) ?></id>
 	<title><?php echo htmlentities($state->collectionFolderName . '@' . HOST) ?></title>
 	<subtitle type="html"></subtitle>

@@ -3,15 +3,15 @@
 namespace Plugin\Lipupini;
 
 class Http {
-	public static function getClientAccept($type) {
-		// HTTP Accept header needs to be preset to proceed
-		if (empty($_SERVER['HTTP_ACCEPT'])) {
-			return false;
-		}
-
-		$relevantAcceptsMimes = match ($type) {
+	public static function getRelevantAcceptMimes($type) {
+		return match ($type) {
 			'HTML' => [
 				'text/html',
+			],
+			'WebFingerJson' => [
+				'application/activity+json',
+				'application/jrd+json',
+				'application/json',
 			],
 			'ActivityPubJson' => [
 				'application/activity+json',
@@ -23,6 +23,15 @@ class Http {
 			],
 			default => throw new Exception('Unknown accept type'),
 		};
+	}
+
+	public static function getClientAccept($type) {
+		// HTTP Accept header needs to be preset to proceed
+		if (empty($_SERVER['HTTP_ACCEPT'])) {
+			return false;
+		}
+
+		$relevantAcceptsMimes = static::getRelevantAcceptMimes($type);
 
 		// Can be comma-separated list so make it an array
 		$clientAcceptsMimes = array_map('trim', explode(',', $_SERVER['HTTP_ACCEPT']));

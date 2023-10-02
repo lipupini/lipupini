@@ -1,12 +1,12 @@
 <?php
 
-namespace Plugin\Lukinview\Collection;
+namespace Plugin\Lukinview\ActivityPub;
 
 use Plugin\Lipupini\Http;
 use Plugin\Lipupini\State;
 use System\Plugin;
 
-class ActivityPubJsonPlugin extends Plugin {
+class CollectionInfoPlugin extends Plugin {
 	public function start(State $state): State {
 		if (empty($state->collectionFolderName)) {
 			return $state;
@@ -45,15 +45,15 @@ class ActivityPubJsonPlugin extends Plugin {
 			],
 			'id' => $state->collectionUrl,
 			'type' => 'Person',
-			'following' => $state->collectionUrl . '/following',
-			'followers' => $state->collectionUrl . '/followers',
-			'inbox' => $state->collectionUrl . '/inbox',
-			'outbox' => $state->collectionUrl . '/outbox',
+			'following' => $state->collectionUrl . '?following',
+			'followers' => $state->collectionUrl . '?followers',
+			'inbox' => $state->collectionUrl . '?inbox',
+			'outbox' => $state->collectionUrl . '?outbox',
 			'preferredUsername' => $state->collectionFolderName,
 			'name' => $state->collectionFolderName,
 			'summary' => null,
 			'url' => $state->collectionUrl,
-			'manuallyApprovesFollowers' => true,
+			'manuallyApprovesFollowers' => false,
 			'publicKey' => [
 				'id' => $state->collectionUrl . '#main-key',
 				'owner' => $state->collectionUrl,
@@ -65,7 +65,7 @@ class ActivityPubJsonPlugin extends Plugin {
 				'url' => 'https://' . HOST . '/c/avatar/' . $state->collectionFolderName . '.png',
 			],
 			'endpoints' => [
-				'sharedInbox' => $state->collectionUrl . '/fuck',
+				'sharedInbox' => '/?sharedInbox',
 			]
 		];
 

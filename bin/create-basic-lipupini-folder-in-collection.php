@@ -26,8 +26,8 @@ if (
 	!file_exists($lipupiniPath . '/.rsakey.private')
 ) {
 	echo 'Did not find RSA keypair. Creating...' . "\n";
-	$encryption = new Encryption(2048);
-	$encryption->generateAndSave($lipupiniPath . '/.rsakey');
+	$encryption = new Encryption;
+	$encryption->generateAndSave($lipupiniPath . '/.rsakey', 2048);
 }
 
 // Generate a basic `.files.json` if needed

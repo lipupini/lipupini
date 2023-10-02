@@ -8,20 +8,15 @@ use Spatie\Crypto\Rsa\PrivateKey;
 use Spatie\Crypto\Rsa\PublicKey;
 
 class Encryption {
-	private int $privateKeyBits;
 	public const VALID_BITS = [512, 1024, 2048, 3072, 4096];
 
-	public function __construct(int $privateKeyBits) {
+	public function generate(int $privateKeyBits, string $password = '') : array {
 		if (!in_array($privateKeyBits, $this::VALID_BITS, true)) {
 			throw new Exception('Invalid bits');
 		}
 
-		$this->privateKeyBits = $privateKeyBits;
-	}
-
-	public function generate(string $password = '') : array {
 		[$private, $public] = (
-			new KeyPair(OPENSSL_ALGO_SHA512, $this->privateKeyBits)
+			new KeyPair(OPENSSL_ALGO_SHA512, $privateKeyBits)
 		)->password($password)->generate();
 
 		return [
