@@ -38,7 +38,7 @@ class WebFingerPlugin extends Plugin {
 			throw new Exception('Could not determine collection');
 		}
 
-		Collection\Utility::validateCollectionFolderName(collectionFolderName: $collectionFolderName, disallowHostForLocal: false);
+		$collectionFolderName = Collection\Utility::validateCollectionFolderName(collectionFolderName: $collectionFolderName, disallowHostForLocal: false);
 
 		$jsonData = [
 			'subject' => 'acct:' . $collectionFolderName,
