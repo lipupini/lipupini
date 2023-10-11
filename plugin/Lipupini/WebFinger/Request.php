@@ -8,7 +8,7 @@ use ActivityPhp;
 class Request extends Lipupini\Http\Request {
 	public string $responseType = 'application/jrd+json';
 
-	public function initialize() {
+	public function initialize(): void {
 		$webFingerAccount = $this->getWebFingerAccountFromRequest();
 
 		if ($webFingerAccount === false) {

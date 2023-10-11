@@ -11,7 +11,7 @@ use Plugin\Lipupini\WebFinger\Exception;
 class NodeInfo extends Lipupini\Http\Request {
 	public string $responseType = 'application/json; profile="https://raw.githubusercontent.com/instalution/lipupini/v2.x/plugin/Lipupini/ActivityPub/NodeSchema.json"';
 
-	public function initialize() {
+	public function initialize(): void {
 		if (!str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . '.well-known/nodeinfo')) {
 			return;
 		}

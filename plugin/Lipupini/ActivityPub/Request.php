@@ -11,7 +11,7 @@ class Request extends Lipupini\Http\Request {
 	public string $activityPubAccount = '';
 	public string $responseType = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
 
-	public function initialize() {
+	public function initialize(): void {
 		if (empty($this->system->requests[Collection\Request::class]->collectionFolderName)) {
 			// If requesting sharedInbox, we would not expect to be at a collection URL
 			if (isset($_GET['sharedInbox'])) {

@@ -13,9 +13,9 @@ abstract class Request {
 		$this->initialize();
 	}
 
-	abstract public function initialize();
+	abstract public function initialize(): void;
 
-	public static function clientAcceptsMimeTypes(array $relevantAcceptsMimes) {
+	public static function clientAcceptsMimeTypes(array $relevantAcceptsMimes): bool {
 		// HTTP Accept header needs to be preset to proceed
 		if (empty($_SERVER['HTTP_ACCEPT'])) {
 			return false;

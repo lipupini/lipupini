@@ -8,7 +8,7 @@ class Request extends Lipupini\Http\Request {
 	public string $responseType = 'text/html';
 	public string|null $collectionFolderName = null;
 
-	public function initialize() {
+	public function initialize(): void {
 		$collectionFolderName = $this->getCollectionFolderNameFromRequest();
 
 		if ($collectionFolderName === false) {
