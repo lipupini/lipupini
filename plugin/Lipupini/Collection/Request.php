@@ -38,10 +38,11 @@ class Request extends Lipupini\Http\Request {
 			return false;
 		}
 
-		$collectionFolderName = preg_replace(
-			'#^' . preg_quote($this->system->baseUriPath) . '@' . '#', '',
-			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
-		);
+		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@([^/?]+)' . '#', $_SERVER['REQUEST_URI'], $matches)) {
+			return false;
+		}
+
+		$collectionFolderName = $matches[1];
 
 		if (!$collectionFolderName || strlen($collectionFolderName) > 200) {
 			throw new Exception('Suspicious collection identifier (E1)');
