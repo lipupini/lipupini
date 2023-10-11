@@ -10,6 +10,7 @@ class State {
 		public string $webrootDirectory, // Reasonably safe default
 		public string $baseUri = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URL e.g. https://example.org/~basePath/
 		public string $baseUriPath = '/',
+		public string $frontendView = 'Lukinview',
 		public array $requests = [],
 		public string $host = 'null.localhost',
 		public string $dirRoot = '/dev/null', // Reasonably safe default, this is set after instantiation

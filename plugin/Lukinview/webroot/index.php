@@ -9,6 +9,7 @@ $isHttps = !empty($_SERVER['HTTPS']) || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO
 $systemState = new System\State(
 	webrootDirectory: __DIR__,
 	baseUri: 'http' . ($isHttps ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/',
+	frontendView: 'Lukinview',
 	debug: true
 );
 
@@ -19,6 +20,7 @@ error_log(print_r(file_get_contents('php://input'), true));
 (new System\Lipupini(
 	$systemState
 ))->requestQueue([
+	"Plugin\\{$systemState->frontendView}\\HomepageRequest",
 	Plugin\Lipupini\WebFinger\Request::class,
 	Plugin\Lipupini\ActivityPub\NodeInfo::class,
 	Plugin\Lipupini\Collection\Request::class,

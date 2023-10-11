@@ -3,36 +3,35 @@
 namespace Plugin\Lukinview;
 
 use Plugin\Lipupini\Http;
-use Plugin\Lipupini\State;
-use System\Plugin;
 
-class HomepagePlugin extends Plugin {
-	public string $pageTitle = 'Homepage@' . HOST;
+class HomepageRequest extends Http\Request {
+	public string $pageTitle = '';
 
-	public function start(State $state): State {
+	public function initialize(): void  {
 		if ($_SERVER['REQUEST_URI'] !== '/') {
-			return $state;
+			return;
 		}
 
-		if (!Http::getClientAccept('HTML')) {
-			return $state;
+		if (!$this->clientAcceptsMimeTypes(['text/html'])) {
+			return;
 		}
+
+		$this->pageTitle = 'Homepage@' . $this->system->host;
 
 		header('Content-type: text/html');
-		$this->renderHtml($state);
+		$this->renderHtml();
 
-		$state->lipupiniMethod = 'shutdown';
-		return $state;
+		$this->system->shutdown = true;
 	}
 
-	public function renderHtml(State $state) {
+	public function renderHtml() {
 		require(__DIR__ . '/Html/Core/Open.php');
 		require(__DIR__ . '/Html/Homepage.php');
 		require(__DIR__ . '/Html/Core/Close.php');
 	}
 
 	public function getLocalCollections() {
-		$dir = new \DirectoryIterator(DIR_COLLECTION);
+		$dir = new \DirectoryIterator($this->system->dirCollection);
 		$localCollections = [];
 		foreach ($dir as $fileinfo) {
 			if (!$fileinfo->isDir() || $fileinfo->isDot()) {

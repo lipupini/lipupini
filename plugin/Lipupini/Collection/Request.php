@@ -24,7 +24,7 @@ class Request extends Lipupini\Http\Request {
 			return;
 		}
 
-		exit('HTML');
+		exit('HTML with frontend ' . $this->system->frontendView);
 	}
 
 	public function validateCollectionFolderName($collectionFolderName): void {
