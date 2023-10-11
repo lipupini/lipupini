@@ -19,6 +19,10 @@ class State {
 		public bool $shutdown = false,
 		public bool $debug = false
 	) {
+		if ($baseUri === 'http://dev.null/') {
+			throw new Exception('`baseUri` is required');
+		}
+
 		$parsedUri = parse_url($this->baseUri);
 
 		if ($this->host === 'null.localhost') {
