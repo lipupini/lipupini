@@ -2,6 +2,4 @@
 
 namespace Plugin\Lipupini\Collection;
 
-class Exception extends \System\Exception {
-
-}
+class Exception extends \System\Exception { }
