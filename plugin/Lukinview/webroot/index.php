@@ -2,31 +2,29 @@
 
 require(__DIR__ . '/../../../package/vendor/autoload.php');
 
-// Other core directory constants are defined in `system/Initialize.php`
-define('DIR_WEBROOT', __DIR__);
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-use System\Lipupini;
+$isHttps = !empty($_SERVER['HTTPS']) || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+$systemState = new System\State(
+	webrootDirectory: __DIR__,
+	baseUri: 'http' . ($isHttps ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/',
+	debug: true
+);
 
-define('LIPUPINI_DEBUG', false);
+error_log(print_r($_REQUEST, true));
+error_log(print_r($_SERVER, true));
+error_log(print_r(file_get_contents('php://input'), true));
 
-// Set initial state from plugin
-$state = new \Plugin\Lipupini\State;
-
-return (new Lipupini($state))
-	->addPlugin(\Plugin\Lukinview\HomepagePlugin::class)
-	->addPlugin(\Plugin\Lukinview\ActivityPub\NodeInfoPlugin::class)
-	->addPlugin(\Plugin\Lukinview\Collection\WebFingerPlugin::class)
-	->addPlugin(\Plugin\Lipupini\Collection\UrlPlugin::class)
-	->addPlugin(\Plugin\Lipupini\Collection\AvatarPlugin::class)
-	->addPlugin(\Plugin\Lukinview\Collection\Folder\HtmlPlugin::class)
-	->addPlugin(\Plugin\Lukinview\Collection\Document\HtmlPlugin::class)
-	->addPlugin(\Plugin\Lukinview\Collection\AtomPlugin::class)
-	->addPlugin(\Plugin\Lukinview\ActivityPub\CollectionInfoPlugin::class)
-	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\ImagePlugin::class)
-	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\VideoPlugin::class)
-	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\AudioPlugin::class)
-	->addPlugin(\Plugin\Lipupini\Collection\MediaProcessor\MarkdownPlugin::class)
-	->start();
+(new System\Lipupini(
+	$systemState
+))->requestQueue([
+	Plugin\Lipupini\WebFinger\Request::class,
+	Plugin\Lipupini\ActivityPub\NodeInfo::class,
+	Plugin\Lipupini\Collection\Request::class,
+	Plugin\Lipupini\ActivityPub\Request::class,
+])->shutdown(function (System\State $systemStateShutdown) {
+	http_response_code(404);
+	echo '<pre>404 Not found' . "\n\n";
+	echo $systemStateShutdown->executionTimeSeconds;
+});

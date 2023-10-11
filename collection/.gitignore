@@ -1,5 +1,0 @@
-# Ignore the whole `collection` directory when committing
-/*
-
-# Except for README.md
-!/README.md
