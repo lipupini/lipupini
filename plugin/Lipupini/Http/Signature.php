@@ -15,8 +15,8 @@ class Signature {
 		$headers = self::_headersToSign($url, $body ? self::_digest($body) : false);
 		$headers = array_merge($headers, $extraHeaders);
 		$signedHeaders = implode(' ', array_map('strtolower', array_keys($headers)));
-		$rsa = PublicKeyLoader::loadPrivateKey(file_get_contents($privateKeyPath))->withHash('sha256');
 		$stringToSign = self::_headersToSigningString($headers);
+		$rsa = PublicKeyLoader::loadPrivateKey(file_get_contents($privateKeyPath))->withHash('sha256');
 		$signature = $rsa->sign($stringToSign);
 		$signatureHeader = 'keyId="' . $keyId . '",algorithm="rsa-sha256",headers="' . $signedHeaders . '",signature="' . base64_encode($signature) . '"';
 		unset($headers['(request-target)']);

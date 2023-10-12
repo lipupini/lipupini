@@ -13,7 +13,7 @@ class Request extends Lipupini\Http\Request {
 	public function initialize(): void {
 		if (empty($this->system->requests[Collection\Request::class]->collectionFolderName)) {
 			// If requesting sharedInbox, we would not expect to be at a collection URL
-			if (isset($_GET['sharedInbox'])) {
+			if (!empty($_GET['inbox']) && $_GET['inbox'] === 'shared') {
 				$this->sharedInboxRequest();
 			}
 			return;
@@ -262,7 +262,7 @@ class Request extends Lipupini\Http\Request {
 				'url' => $this->system->baseUri . 'c/avatar/' . $this->activityPubAccount . '.png',
 			],
 			'endpoints' => [
-				'sharedInbox' => $this->system->baseUri . '?sharedInbox',
+				'sharedInbox' => $this->system->baseUri . '?inbox=shared',
 			]
 		];
 
