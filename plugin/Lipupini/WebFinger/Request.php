@@ -66,6 +66,7 @@ class Request extends Lipupini\Http\Request {
 		if (!$this->clientAcceptsMimeTypes([
 			'application/activity+json',
 			'application/jrd+json',
+			'application/ld+json',
 			'application/json',
 			$this->system->debug ? 'text/html' : null,
 		])) {

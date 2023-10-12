@@ -13,9 +13,14 @@ $systemState = new System\State(
 	debug: true
 );
 
-error_log(print_r($_REQUEST, true));
-error_log(print_r($_SERVER, true));
-error_log(print_r(file_get_contents('php://input'), true));
+if (
+	// Using PHP's builtin webserver, this will return a static file (e.g. CSS, JS, image) if it exists at the requested path
+	php_sapi_name() === 'cli-server' &&
+	$_SERVER['PHP_SELF'] !== '/index.php' &&
+	file_exists($systemState->webrootDirectory . $_SERVER['PHP_SELF'])
+) {
+	return false;
+}
 
 (new System\Lipupini(
 	$systemState
