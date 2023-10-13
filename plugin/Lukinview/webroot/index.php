@@ -8,7 +8,7 @@ ini_set('display_errors', 1);
 $isHttps = !empty($_SERVER['HTTPS']) || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
 $systemState = new System\State(
 	webrootDirectory: __DIR__,
-	baseUri: 'http' . ($isHttps ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/',
+	baseUri: 'http' . ($isHttps ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/', // Include trailing slash
 	frontendView: 'Lukinview',
 	debug: true
 );
