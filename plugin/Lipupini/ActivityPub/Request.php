@@ -30,6 +30,10 @@ class Request extends Lipupini\Http\Request {
 			return;
 		}
 
+		if ($this->system->debug) {
+			error_log('DEBUG: ' . __CLASS__ . ' initialize()');
+		}
+
 		// This will compute to a method in this class. E.g., `$this->selfRequest()` or `$this->inboxRequest()`
 		$do = ($_GET['request'] ?? 'self') . 'Request';
 
@@ -72,6 +76,10 @@ class Request extends Lipupini\Http\Request {
 	}
 
 	public function followRequest() {
+		if ($this->system->debug) {
+			error_log('DEBUG: ' . __CLASS__ . ' followRequest()');
+		}
+
 		if (empty($_GET['remote'])) {
 			throw new Exception('No remote account specified');
 		}
@@ -125,16 +133,28 @@ class Request extends Lipupini\Http\Request {
 	}
 
 	public function followingRequest() {
+		if ($this->system->debug) {
+			error_log('DEBUG: ' . __CLASS__ . ' followingRequest()');
+		}
+
 		header('Content-type: ' . $this->responseType);
 		echo json_encode([], JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 	}
 
 	public function followersRequest() {
+		if ($this->system->debug) {
+			error_log('DEBUG: ' . __CLASS__ . ' followersRequest()');
+		}
+
 		header('Content-type: ' . $this->responseType);
 		echo json_encode([], JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 	}
 
 	public function inboxRequest() {
+		if ($this->system->debug) {
+			error_log('DEBUG: ' . __CLASS__ . ' inboxRequest()');
+		}
+
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 			throw new Exception('Expected POST request');
 		}
@@ -232,6 +252,10 @@ class Request extends Lipupini\Http\Request {
 	}
 
 	public function outboxRequest() {
+		if ($this->system->debug) {
+			error_log('DEBUG: ' . __CLASS__ . ' outboxRequest()');
+		}
+
 		$collectionFolderName = $this->system->requests[Collection\Request::class]->collectionFolderName;
 
 		$jsonData = [
@@ -247,6 +271,10 @@ class Request extends Lipupini\Http\Request {
 	}
 
 	public function sharedInboxRequest() {
+		if ($this->system->debug) {
+			error_log('DEBUG: ' . __CLASS__ . ' sharedInboxRequest()');
+		}
+
 		$requestData = print_r($_REQUEST, true) . "\n";
 		$requestData .= print_r($_SERVER, true) . "\n";
 		$requestData .= print_r(file_get_contents('php://input'), true);
