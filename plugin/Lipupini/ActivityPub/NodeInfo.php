@@ -16,7 +16,7 @@ class NodeInfo extends Lipupini\Http\Request {
 			return;
 		}
 
-		if (!$this->clientAcceptsMimeTypes([
+		if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
 			'application/json',
 			$this->system->debug ? 'text/html' : null,
 		])) {

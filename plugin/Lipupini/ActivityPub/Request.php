@@ -18,7 +18,15 @@ class Request extends Lipupini\Http\Request {
 			return;
 		}
 
-		if (!$this->clientAcceptsMimeTypes($this->mimeTypes())) {
+		if (
+			$_SERVER['REQUEST_METHOD'] === 'GET' &&
+			!$this->validateRequestMimeTypes('HTTP_ACCEPT', $this->mimeTypes())
+		) {
+			return;
+		} else if (
+			$_SERVER['REQUEST_METHOD'] === 'POST' &&
+			!$this->validateRequestMimeTypes('HTTP_CONTENT_TYPE', $this->mimeTypes())
+		) {
 			return;
 		}
 
@@ -164,10 +172,9 @@ class Request extends Lipupini\Http\Request {
 			. '/.lipupini/inbox/'
 			. date('Ymdhis')
 			. '-' . microtime(true)
-			. '-' . $requestData->type
-			. '-' . $requestData->actor . '.json';
+			. '-' . preg_replace('#[^\w]#', '', $requestData->type) . '.json';
 
-		file_put_contents($activityQueueFilename, $requestBody);
+		file_put_contents($activityQueueFilename, json_encode($requestData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 
 		/* END STORE INBOX ACTIVITY */
 
@@ -190,6 +197,7 @@ class Request extends Lipupini\Http\Request {
 		}
 
 		$activityJson = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
+
 		$server = $this->_activityPubServer();
 		$actor = $server->actor($requestData->actor);
 		$sendToInbox = $actor->get('inbox') ?? null;
@@ -198,7 +206,7 @@ class Request extends Lipupini\Http\Request {
 			throw new Exception('Could not determine inbox URL');
 		}
 
-		$response = $server->inbox($_GET['remote'])->post(
+		$response = $server->inbox($requestData->actor)->post(
 			$this->createSignedRequest($sendToInbox, $activityJson)
 		);
 

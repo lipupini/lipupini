@@ -63,7 +63,7 @@ class Request extends Lipupini\Http\Request {
 			return false;
 		}
 
-		if (!$this->clientAcceptsMimeTypes([
+		if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
 			'application/activity+json',
 			'application/jrd+json',
 			'application/ld+json',

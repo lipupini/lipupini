@@ -1,3 +1,5 @@
+<?php require(__DIR__ . '/../Core/Open.php') ?>
+
 <main class="media-item">
 <header class="app-bar">
 	<div></div>
@@ -10,3 +12,5 @@
 <script>let collection = '<?php echo htmlentities($this->collectionFolderName) ?>';let filename = '<?php echo htmlentities($this->collectionPath) ?>';let fileData = <?php echo json_encode($this->fileData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
 <script type="module" src="/js/components/Document/Document.js"></script>
 </main>
+
+<?php require(__DIR__ . '/../Core/Close.php') ?>

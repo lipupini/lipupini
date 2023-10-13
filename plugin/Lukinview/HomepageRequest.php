@@ -12,7 +12,7 @@ class HomepageRequest extends Http\Request {
 			return;
 		}
 
-		if (!$this->clientAcceptsMimeTypes(['text/html'])) {
+		if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', ['text/html'])) {
 			return;
 		}
 

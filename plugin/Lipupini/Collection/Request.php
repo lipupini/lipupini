@@ -9,6 +9,8 @@ class Request extends Lipupini\Http\Request {
 	public string|null $collectionFolderName = null;
 	public string|null $collectionPath = null;
 
+	public string $pageTitle = 'Testing';
+
 	public function initialize(): void {
 		$collectionFolderName = $this->getCollectionFolderNameFromRequest();
 
@@ -19,7 +21,7 @@ class Request extends Lipupini\Http\Request {
 		$this->collectionFolderName = $collectionFolderName;
 
 		// Every computer requesting collection HTML will need to explicitly accept "text/html"
-		if (!$this->clientAcceptsMimeTypes([
+		if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
 			'text/html',
 		])) {
 			return;
@@ -27,7 +29,14 @@ class Request extends Lipupini\Http\Request {
 
 		$this->collectionPath = preg_replace('#^/@' . $this->collectionFolderName . '/?#', '', $_SERVER['REQUEST_URI']);
 
-		exit('HTML with frontend ' . $this->system->frontendView);
+		// Here I think we'll determine whether the request is for a folder in the collection or a document in the collection
+		// and have a method to include the frontend for each request
+		$this->renderHtml();
+		$this->system->shutdown = true;
+	}
+
+	public function renderHtml(): void {
+		require($this->system->dirPlugin . '/' . $this->system->frontendView . '/Html/Collection/Grid.php');
 	}
 
 	public function validateCollectionFolderName($collectionFolderName): void {
