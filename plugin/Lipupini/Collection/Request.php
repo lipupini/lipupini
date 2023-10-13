@@ -7,6 +7,7 @@ use Plugin\Lipupini;
 class Request extends Lipupini\Http\Request {
 	public string $responseType = 'text/html';
 	public string|null $collectionFolderName = null;
+	public string|null $collectionPath = null;
 
 	public function initialize(): void {
 		$collectionFolderName = $this->getCollectionFolderNameFromRequest();
@@ -23,6 +24,8 @@ class Request extends Lipupini\Http\Request {
 		])) {
 			return;
 		}
+
+		$this->collectionPath = preg_replace('#^/@' . $this->collectionFolderName . '/?#', '', $_SERVER['REQUEST_URI']);
 
 		exit('HTML with frontend ' . $this->system->frontendView);
 	}
