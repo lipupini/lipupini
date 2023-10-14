@@ -5,12 +5,14 @@ namespace Plugin\Lipupini\Collection;
 use Plugin\Lipupini\Collection;
 
 class AvatarRequest extends MediaProcessor\MediaProcessorRequest {
-	public function initialize(): void {
-		$extMimes = [
+	public static function mimeTypes(): array {
+		return [
 			'png' => 'image/png',
 		];
+	}
 
-		if (!preg_match('#^/c/avatar/([^/]+)(\.(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+	public function initialize(): void {
+		if (!preg_match('#^/c/avatar/([^/]+)(\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -23,7 +25,6 @@ class AvatarRequest extends MediaProcessor\MediaProcessorRequest {
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 
 		$avatarPath = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/.avatar.png';
-
-		$this->cacheAndServe($avatarPath, $extMimes[$extension]);
+		$this->cacheAndServe($avatarPath, self::mimeTypes()[$extension]);
 	}
 }

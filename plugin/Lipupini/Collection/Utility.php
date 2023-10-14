@@ -69,6 +69,20 @@ class Utility {
 		return $return;
 	}
 
+	public function getCollectionDataRecursive(string $collectionFolderName) {
+		$collectionData = $this->getCollectionData($collectionFolderName, '');
+
+		foreach (new \RecursiveDirectoryIterator($this->system->dirCollection . '/' . $collectionFolderName) as $item) {
+			if ($item->getFilename()[0] === '.' || !$item->isDir()) {
+				continue;
+			}
+			$collectionPath = preg_replace('#^' . preg_quote($this->system->dirCollection . '/' . $collectionFolderName . '/') . '#', '', $item->getFilename());
+			$collectionData += $this->getCollectionData($collectionFolderName, $collectionPath);
+		}
+
+		return $collectionData;
+	}
+
 	public function getSearchData($query) {
 		$collectionFolderName = $this->system->requests[Collection\FolderRequest::class]->collectionFolderName;
 

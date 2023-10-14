@@ -6,13 +6,15 @@ use Plugin\Lipupini;
 use Plugin\Lipupini\Collection;
 
 class MarkdownRequest extends MediaProcessorRequest {
-	public function initialize(): void {
-		$extMimes = [
+	public static function mimeTypes(): array {
+		return [
 			'md' => 'text/markdown',
 			'html' => 'text/html',
 		];
+	}
 
-		if (!preg_match('#^/c/file/([^/]+)/markdown/(original|rendered)(.+\.(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+	public function initialize(): void {
+		if (!preg_match('#^/c/file/([^/]+)/markdown(/.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -20,23 +22,19 @@ class MarkdownRequest extends MediaProcessorRequest {
 		$this->system->shutdown = true;
 
 		$collectionFolderName = $matches[1];
-		$mode = $matches[2];
-		$filePath = $matches[3];
-		$extension = $matches[4];
+		$filePath = $matches[2];
+		$extension = $matches[3];
 
-		if ($mode === 'rendered') {
-			if ($extension !== 'html') {
-				throw new Exception('Invalid rendered markdown extension');
-			}
+		if ($extension === 'html') {
 			$htmlWebPath = $_SERVER['REQUEST_URI'];
-			$mdFilePath = preg_replace('#\.html$#', '.md', $filePath);
-			$markdownWebPath = '/c/file/' . $collectionFolderName . '/markdown/original' . $mdFilePath;
-			$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . $mdFilePath;
+			$mdFilePath = preg_replace('#\.html$#', '', $filePath);
+			$markdownWebPath = '/c/file/' . $collectionFolderName . '/markdown' . $mdFilePath;
+			$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $mdFilePath;
 		} else {
 			$markdownWebPath = $_SERVER['REQUEST_URI'];
-			$htmlFilePath = preg_replace('#\.md$#', '.html', $filePath);
-			$htmlWebPath = '/c/file/' . $collectionFolderName . '/markdown/rendered' . $htmlFilePath;
-			$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . $filePath;
+			$htmlFilePath = $_SERVER['REQUEST_URI'] . '.html';
+			$htmlWebPath = '/c/file/' . $collectionFolderName . '/markdown' . $htmlFilePath;
+			$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . $htmlFilePath;
 		}
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
@@ -69,7 +67,7 @@ class MarkdownRequest extends MediaProcessorRequest {
 
 		file_put_contents($this->system->dirWebroot . $htmlWebPath, $rendered);
 
-		header('Content-type: ' . $extMimes[$extension]);
+		header('Content-type: ' . self::mimeTypes()[$extension]);
 		readfile($this->system->dirWebroot . $_SERVER['REQUEST_URI']);
 	}
 }

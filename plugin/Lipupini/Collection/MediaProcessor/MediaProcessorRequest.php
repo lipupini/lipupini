@@ -5,6 +5,8 @@ namespace Plugin\Lipupini\Collection\MediaProcessor;
 use Plugin\Lipupini\Http;
 
 abstract class MediaProcessorRequest extends Http\Request {
+	abstract static public function mimeTypes(): array;
+
 	public function cacheAndServe($filePath, $mimeType) {
 		if (!file_exists($filePath)) {
 			http_response_code(404);

@@ -37,7 +37,7 @@ class Request extends Lipupini\Http\Request {
 				[
 					'rel' => 'http://schemas.google.com/g/2010#updates-from',
 					'type' => 'application/atom+xml',
-					'href' => $this->system->baseUri . '@' . $user . '.atom',
+					'href' => $this->system->baseUri . '@' . $user . '?atom',
 				],
 				[
 					'rel' => 'self',

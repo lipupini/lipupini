@@ -22,6 +22,13 @@ if (
 	return false;
 }
 
+if ($systemState->debug) {
+	error_log('begin shared inbox request');
+	error_log(print_r($_REQUEST, true));
+	error_log(print_r($_SERVER, true));
+	error_log(print_r(file_get_contents('php://input'), true));
+}
+
 (new System\Lipupini(
 	$systemState
 ))->requestQueue([
@@ -35,6 +42,7 @@ if (
 	Plugin\Lipupini\Collection\MediaProcessor\VideoRequest::class,
 	Plugin\Lipupini\Collection\MediaProcessor\MarkdownRequest::class,
 	Plugin\Lipupini\Collection\MediaProcessor\AudioRequest::class,
+	Plugin\Lipupini\AtomRss\Request::class,
 	Plugin\Lipupini\ActivityPub\Request::class,
 ])->shutdown(function (System\State $systemStateShutdown) {
 	http_response_code(404);

@@ -6,13 +6,15 @@ use Imagine;
 use Plugin\Lipupini\Collection;
 
 class ImageRequest extends MediaProcessorRequest {
-	public function initialize(): void {
-		$extMimes = [
+	public static function mimeTypes(): array {
+		return [
 			'jpg' => 'image/jpeg',
 			'png' => 'image/png',
 		];
+	}
 
-		if (!preg_match('#^/c/file/([^/]+)/image/(small|large)/(.+\.(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+	public function initialize(): void {
+		if (!preg_match('#^/c/file/([^/]+)/image/(small|large)/(.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -69,7 +71,7 @@ class ImageRequest extends MediaProcessorRequest {
 				throw new Exception('Unknown size preset');
 		}
 
-		header('Content-type: ' . $extMimes[$extension]);
+		header('Content-type: ' . self::mimeTypes()[$extension]);
 		readfile($this->system->dirWebroot . $_SERVER['REQUEST_URI']);
 	}
 }

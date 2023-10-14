@@ -34,10 +34,10 @@ class Lipupini {
 		$microtimeLater = microtime(true);
 		$this->system->executionTimeSeconds = $microtimeLater - $this->system->microtimeInit;
 
-		header('X-Powered-By: Lipupini');
+		//header('X-Powered-By: Lipupini');
 
 		if ($this->system->debug) {
-			header('Server-Timing: app;dur=' . $this->system->executionTimeSeconds);
+			//header('Server-Timing: app;dur=' . $this->system->executionTimeSeconds);
 		}
 
 		if (is_callable($callback)) {

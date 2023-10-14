@@ -19,6 +19,10 @@ main.media-item {
 	padding-bottom: 5rem;
 }
 
+#media-item .image img {
+	max-height: 85vh;
+}
+
 #media-item .markdown {
 	width: 100%;
 	text-align: center;

@@ -5,12 +5,14 @@ namespace Plugin\Lipupini\Collection\MediaProcessor;
 use Plugin\Lipupini\Collection;
 
 class VideoRequest extends MediaProcessorRequest {
-	public function initialize(): void {
-		$extMimes = [
+	public static function mimeTypes(): array {
+		return [
 			'mp4' => 'video/mp4',
 		];
+	}
 
-		if (!preg_match('#^/c/file/([^/]+)/video/(.+\.(' . implode('|', array_keys($extMimes)) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+	public function initialize(): void {
+		if (!preg_match('#^/c/file/([^/]+)/video/(.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -23,6 +25,6 @@ class VideoRequest extends MediaProcessorRequest {
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $filePath;
-		$this->cacheAndServe($pathOriginal, $extMimes[$extension]);
+		$this->cacheAndServe($pathOriginal, self::mimeTypes()[$extension]);
 	}
 }
