@@ -51,44 +51,27 @@ class ImageRequest extends MediaProcessorRequest {
 			}
 		}
 
-		if ($this->system->enableCache) {
-			if (!is_dir($this->system->dirWebroot . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME))) {
-				mkdir($this->system->dirWebroot . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME), 0755, true);
-			}
+		if (!is_dir($this->system->dirWebroot . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME))) {
+			mkdir($this->system->dirWebroot . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME), 0755, true);
 		}
 
 		switch ($sizePreset) {
 			case 'small' :
 				$size = new Imagine\Image\Box(500, 1000);
 				$mode = Imagine\Image\ImageInterface::THUMBNAIL_INSET;
-				$thumbnail = $imagine->open($pathOriginal)->thumbnail($size, $mode);
-				if ($this->system->enableCache) {
-					$thumbnail->save($this->system->dirWebroot . $_SERVER['REQUEST_URI']);
-				}
+				$imagine->open($pathOriginal)
+					->thumbnail($size, $mode)
+					->save($this->system->dirWebroot . $_SERVER['REQUEST_URI'])
+				;
 				break;
 			case 'large' :
-				if ($this->system->enableCache) {
-					copy($pathOriginal, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
-				}
+				copy($pathOriginal, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
 				break;
 			default :
 				throw new Exception('Unknown size preset');
 		}
 
 		header('Content-type: ' . self::mimeTypes()[$extension]);
-		if ($this->system->enableCache) {
-			readfile($pathOriginal);
-		} else {
-			switch ($sizePreset) {
-				case 'small' :
-					$thumbnail->show($extension === 'jpeg' ? 'jpg' : $extension);
-					break;
-				case 'large' :
-					readfile($pathOriginal);
-					break;
-				default :
-					throw new Exception('Unknown size preset');
-			}
-		}
+		readfile($this->system->dirWebroot . $_SERVER['REQUEST_URI']);
 	}
 }

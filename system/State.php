@@ -18,11 +18,8 @@ class State {
 		public string $frontendView = 'Lukinview',
 		public array $requests = [],
 		public bool $shutdown = false,
-		public bool $debug = false,
-		public bool|null $enableCache = null
+		public bool $debug = false
 	) {
-		$this->microtimeInit = microtime(true);
-
 		if ($baseUri === 'http://dev.null/') {
 			throw new Exception('`baseUri` is required');
 		}
@@ -53,8 +50,6 @@ class State {
 			$this->dirStorage = $this->dirRoot . '/storage';
 		}
 
-		// If ``enableCache`` is not specified, it will be `null`. If it is null,
-		// then enable cache by default if we have debugging disabled
-		$this->enableCache = is_null($this->enableCache) ? !$this->debug : $this->enableCache;
+		$this->microtimeInit = microtime(true);
 	}
 }

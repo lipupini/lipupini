@@ -10,8 +10,7 @@ $systemState = new System\State(
 	dirWebroot: __DIR__,
 	baseUri: 'http' . ($isHttps ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/', // Include trailing slash
 	frontendView: 'Lukinview',
-	debug: true,
-	enableCache: true
+	debug: true
 );
 
 if (
