@@ -9,6 +9,7 @@ class ImageRequest extends MediaProcessorRequest {
 	public static function mimeTypes(): array {
 		return [
 			'jpg' => 'image/jpeg',
+			'jpeg' => 'image/jpeg',
 			'png' => 'image/png',
 		];
 	}
