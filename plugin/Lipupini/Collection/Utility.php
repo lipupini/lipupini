@@ -15,7 +15,15 @@ class Utility {
 	}
 
 	public function getCollectionData(string $collectionFolderName, string $collectionRequestPath) {
+		if (parse_url($collectionRequestPath, PHP_URL_QUERY)) {
+			throw new Exception('Suspicious collection path');
+		}
+
 		$collectionRootPath = $this->system->dirCollection . '/' . $collectionFolderName;
+
+		if (str_contains($collectionRootPath, '..')) {
+			throw new Exception('Suspicious collection path');
+		}
 
 		// `$system->collectionRequestPath` could be `memes/cats`, which would be relative to `$collectionRootPath`
 		if ($collectionRequestPath) {

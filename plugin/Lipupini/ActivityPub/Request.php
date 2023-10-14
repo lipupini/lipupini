@@ -50,7 +50,7 @@ class Request extends Lipupini\Http\Request {
 			'application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
 			'application/activity+json',
 			'application/ld+json',
-			$this->system->debug ? 'text/html' : null,
+			//$this->system->debug ? 'text/html' : null,
 		];
 	}
 

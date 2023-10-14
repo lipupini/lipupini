@@ -38,11 +38,13 @@ class FolderRequest extends Lipupini\Http\Request {
 			return;
 		}
 
-		$this->collectionRequestPath = preg_replace('#^/@' . $this->collectionFolderName . '/?#', '', $_SERVER['REQUEST_URI']);
+		$this->collectionRequestPath = $this->getCollectionRequestPath();
 
 		// Only applies to, e.g. http://locahost/@example
 		// Does not apply to http://locahost/@example/memes/cat-computer.jpg.html
 		if (pathinfo($this->collectionRequestPath, PATHINFO_EXTENSION)) {
+			return;
+		} else if (!is_dir($this->system->dirCollection . '/' . $collectionFolderName . '/' . $this->collectionRequestPath)) {
 			return;
 		}
 
@@ -56,6 +58,13 @@ class FolderRequest extends Lipupini\Http\Request {
 		require($this->system->dirPlugin . '/' . $this->system->frontendView . '/Html/Collection/Folder.php');
 	}
 
+	protected function getCollectionRequestPath() {
+		return parse_url(
+			preg_replace('#^/@' . $this->collectionFolderName . '/?#', '', $_SERVER['REQUEST_URI']),
+			PHP_URL_PATH
+		) ?? '';
+	}
+
 	protected function getCollectionFolderNameFromRequest() {
 		if (!str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . '@')) {
 			return false;
@@ -63,6 +72,10 @@ class FolderRequest extends Lipupini\Http\Request {
 
 		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@([^/?]+)' . '#', $_SERVER['REQUEST_URI'], $matches)) {
 			return false;
+		}
+
+		if (str_contains($_SERVER['REQUEST_URI'], '..')) {
+			throw new Exception('Suspicious collection URL');
 		}
 
 		$collectionFolderName = $matches[1];
