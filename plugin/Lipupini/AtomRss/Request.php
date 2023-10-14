@@ -34,23 +34,31 @@ class Request extends Lipupini\Http\Request {
 
 		$feed->appendChild($dom->createElement('id', $this->system->baseUri . '@' . $collectionFolderName));
 		$feed->appendChild($dom->createElement('title', $collectionFolderName . '@' . $this->system->host));
-		$feed->appendChild($dom->createElement('link', $this->system->baseUri . '@' . $collectionFolderName));
+
+		$linkSelf = $dom->createElement('link');
+		$linkSelf->setAttribute('rel', 'self');
+		$linkSelf->setAttribute('href', $this->system->baseUri . '@' . $collectionFolderName . '?atom');
+		$feed->appendChild($linkSelf);
+
+		$linkAlternate = $dom->createElement('link');
+		$linkAlternate->setAttribute('rel', 'alternate');
+		$linkAlternate->setAttribute('href', $this->system->baseUri . '@' . $collectionFolderName);
+		$feed->appendChild($linkAlternate);
 
 		$author = $dom->createElement('author');
 		$author->appendChild($dom->createElement('name', $collectionFolderName));
 		$author->appendChild($dom->createElement('uri', $collectionFolderName . '@' . $this->system->host));
 		$feed->appendChild($author);
 
-		$this->renderRssEntries($dom, $feed, $collectionFolderName, $latestUpdated);
-
-		$feed->appendChild($dom->createElement('updated', $latestUpdated));
+		$this->renderRssEntries($dom, $feed, $collectionFolderName);
 
 		header('Content-type: application/atom+xml');
 		echo  $dom->saveXML();
 	}
 
-	public function renderRssEntries(\DOMDocument $dom, \DOMElement $feed, string $collectionFolderName, string|null &$latestUpdated): void {
+	public function renderRssEntries(\DOMDocument $dom, \DOMElement $feed, string $collectionFolderName): void {
 		$collectionData = (new Collection\Utility($this->system))->getCollectionDataRecursive($collectionFolderName);
+		$latestUpdated = '';
 		foreach ($collectionData as $filePath => &$metaData) {
 			if (empty($metaData['date'])) {
 				$metaData['date'] = (new \DateTime)
@@ -62,6 +70,7 @@ class Request extends Lipupini\Http\Request {
 			}
 		} unset($metaData);
 
+		$entries = [];
 		foreach ($collectionData as $filePath => $metaData) {
 			// Excluding directories
 			if (!($extension = pathinfo($filePath, PATHINFO_EXTENSION))) {
@@ -87,7 +96,7 @@ class Request extends Lipupini\Http\Request {
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<audio controls><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></audio>';
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\MarkdownRequest::mimeTypes()))) {
-				$metaData['medium'] = 'text';
+				$metaData['medium'] = 'document';
 				$metaData['mime'] = Collection\MediaProcessor\MarkdownRequest::mimeTypes()[$extension];
 				$metaData['cacheUrl'] = $this->system->baseUri . 'c/file/' . $collectionFolderName . '/markdown/' . $filePath . '.html';
 				$metaData['content'] = 	'<p><a href="' . $metaData['cacheUrl'] . '">' . htmlentities($metaData['caption'] ?? $filePath) . '</a></p>';
@@ -117,7 +126,12 @@ class Request extends Lipupini\Http\Request {
 			$entry->appendChild($media);
 
 			$entry->appendChild($dom->createElement('updated', $metaData['date']));
-			$feed->appendChild($entry);
+			$entries[] = $entry;
+		}
+
+		$feed->appendChild($dom->createElement('updated', $latestUpdated));
+		foreach ($entries as $entry) {
+			$feed->append($entry);
 		}
 	}
 
