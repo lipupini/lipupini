@@ -45,16 +45,6 @@ class MarkdownRequest extends MediaProcessorRequest {
 			return;
 		}
 
-		if (!is_dir($this->system->dirWebroot . pathinfo($markdownWebPath, PATHINFO_DIRNAME))) {
-			mkdir($this->system->dirWebroot . pathinfo($markdownWebPath, PATHINFO_DIRNAME), 0755, true);
-		}
-
-		if (!is_dir($this->system->dirWebroot . pathinfo($htmlWebPath, PATHINFO_DIRNAME))) {
-			mkdir($this->system->dirWebroot . pathinfo($htmlWebPath, PATHINFO_DIRNAME), 0755, true);
-		}
-
-		copy($pathOriginal, $this->system->dirWebroot . $markdownWebPath);
-
 		try {
 			$rendered = Collection\MediaProcessor\Parsedown::instance()->text(file_get_contents($pathOriginal));
 		} catch (\Exception $e) {
@@ -65,10 +55,22 @@ class MarkdownRequest extends MediaProcessorRequest {
 			. $rendered . "\n"
 			. '</body></html>' . "\n";
 
-		file_put_contents($this->system->dirWebroot . $htmlWebPath, $rendered);
+		if ($this->system->enableCache) {
+			if (!is_dir($this->system->dirWebroot . pathinfo($markdownWebPath, PATHINFO_DIRNAME))) {
+				mkdir($this->system->dirWebroot . pathinfo($markdownWebPath, PATHINFO_DIRNAME), 0755, true);
+			}
+
+			if (!is_dir($this->system->dirWebroot . pathinfo($htmlWebPath, PATHINFO_DIRNAME))) {
+				mkdir($this->system->dirWebroot . pathinfo($htmlWebPath, PATHINFO_DIRNAME), 0755, true);
+			}
+
+			copy($pathOriginal, $this->system->dirWebroot . $markdownWebPath);
+
+			file_put_contents($this->system->dirWebroot . $htmlWebPath, $rendered);
+		}
 
 		header('Content-type: ' . self::mimeTypes()[$extension]);
-		readfile($this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+		echo $rendered;
 	}
 }
 

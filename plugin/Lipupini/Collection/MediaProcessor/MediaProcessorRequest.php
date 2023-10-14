@@ -14,13 +14,15 @@ abstract class MediaProcessorRequest extends Http\Request {
 			return;
 		}
 
-		if (!is_dir($this->system->dirWebroot . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME))) {
-			mkdir($this->system->dirWebroot . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME), 0755, true);
+		if ($this->system->enableCache) {
+			if (!is_dir($this->system->dirWebroot . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME))) {
+				mkdir($this->system->dirWebroot . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME), 0755, true);
+			}
+
+			copy($filePath, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
 		}
 
-		copy($filePath, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
-
 		header('Content-type: ' . $mimeType);
-		readfile($this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+		readfile($filePath);
 	}
 }
