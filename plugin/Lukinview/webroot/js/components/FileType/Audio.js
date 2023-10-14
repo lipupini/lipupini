@@ -5,7 +5,7 @@ const { div, audio, source } = van.tags
 const Audio = ({collection, filename, data}) => {
 	return div({class: 'audio'},
 		audio({controls: 'true', preload: 'metadata', title: data.caption ?? filename},
-			source({src: `/c/file/${collection}/large/${filename}`, type: 'audio/mp3'}),
+			source({src: `/c/file/${collection}/audio/${filename}`, type: 'audio/mp3'}),
 		),
 	)
 }

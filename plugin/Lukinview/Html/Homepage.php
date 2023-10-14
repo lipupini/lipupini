@@ -1,3 +1,5 @@
+<?php require(__DIR__ . '/Core/Open.php') ?>
+
 <ul>
 	<?php foreach ($this->getLocalCollections() as $localCollection) : ?>
 
@@ -5,3 +7,5 @@
 	<?php endforeach ?>
 
 </ul>
+
+<?php require(__DIR__ . '/Core/Close.php') ?>

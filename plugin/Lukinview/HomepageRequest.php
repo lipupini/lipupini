@@ -8,7 +8,7 @@ class HomepageRequest extends Http\Request {
 	public string $pageTitle = '';
 
 	public function initialize(): void  {
-		if ($_SERVER['REQUEST_URI'] !== '/') {
+		if ($_SERVER['REQUEST_URI'] !== $this->system->baseUriPath) {
 			return;
 		}
 
@@ -25,9 +25,7 @@ class HomepageRequest extends Http\Request {
 	}
 
 	public function renderHtml() {
-		require(__DIR__ . '/Html/Core/Open.php');
 		require(__DIR__ . '/Html/Homepage.php');
-		require(__DIR__ . '/Html/Core/Close.php');
 	}
 
 	public function getLocalCollections() {

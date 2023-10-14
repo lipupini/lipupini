@@ -10,11 +10,7 @@ class Request extends Lipupini\Http\Request {
 	public string $responseType = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
 
 	public function initialize(): void {
-		if (empty($this->system->requests[Collection\Request::class]->collectionFolderName)) {
-			// If requesting sharedInbox, we would not expect to be at a collection URL
-			if (!empty($_GET['inbox']) && $_GET['inbox'] === 'shared ') {
-				$this->sharedInboxRequest();
-			}
+		if (empty($this->system->requests[Collection\FolderRequest::class]->collectionFolderName)) {
 			return;
 		}
 
@@ -105,7 +101,7 @@ class Request extends Lipupini\Http\Request {
 			throw new Exception('Could not determine inbox URL');
 		}
 
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->collectionFolderName;
+		$collectionFolderName = $this->system->requests[Collection\FolderRequest::class]->collectionFolderName;
 
 		// Create the JSON payload for the Follow activity (adjust as needed)
 		$followActivity = [
@@ -182,7 +178,7 @@ class Request extends Lipupini\Http\Request {
 			error_log('DEBUG: Received ' . $requestData->type . ' request from ' . $requestData->actor);
 		}
 
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->collectionFolderName;
+		$collectionFolderName = $this->system->requests[Collection\FolderRequest::class]->collectionFolderName;
 
 		/* BEGIN STORE INBOX ACTIVITY */
 
@@ -235,7 +231,7 @@ class Request extends Lipupini\Http\Request {
 	}
 
 	public function createSignedRequest(string $sendToInbox, string $activityJson) {
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->collectionFolderName;
+		$collectionFolderName = $this->system->requests[Collection\FolderRequest::class]->collectionFolderName;
 
 		return Lipupini\Http\Signature::signedRequest(
 			privateKeyPath: $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/.rsakey.private',
@@ -256,7 +252,7 @@ class Request extends Lipupini\Http\Request {
 			error_log('DEBUG: ' . __CLASS__ . ' outboxRequest()');
 		}
 
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->collectionFolderName;
+		$collectionFolderName = $this->system->requests[Collection\FolderRequest::class]->collectionFolderName;
 
 		$jsonData = [
 			'@context' => ['https://www.w3.org/ns/activitystreams'],
@@ -275,21 +271,11 @@ class Request extends Lipupini\Http\Request {
 			error_log('DEBUG: ' . __CLASS__ . ' sharedInboxRequest()');
 		}
 
-		$requestData = print_r($_REQUEST, true) . "\n";
-		$requestData .= print_r($_SERVER, true) . "\n";
-		$requestData .= print_r(file_get_contents('php://input'), true);
-
-		$activityQueueFilename =
-			$this->system->dirStorage . '/sharedInbox/'
-			. date('Ymdhis')
-			. '-' . microtime(true)
-			. '.json';
-
-		file_put_contents($activityQueueFilename, $requestData);
+		$this->inboxRequest();
 	}
 
 	public function selfRequest() {
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->collectionFolderName;
+		$collectionFolderName = $this->system->requests[Collection\FolderRequest::class]->collectionFolderName;
 
 		$jsonData = [
 			'@context' => [
@@ -320,7 +306,7 @@ class Request extends Lipupini\Http\Request {
 				'url' => $this->system->baseUri . 'c/avatar/' . $collectionFolderName . '.png',
 			],
 			'endpoints' => [
-				'sharedInbox' => $this->system->baseUri . '?inbox=shared',
+				'sharedInbox' => $this->system->baseUri . '@' . $collectionFolderName . '?request=sharedInbox',
 			]
 		];
 

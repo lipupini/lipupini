@@ -1,4 +1,8 @@
-<?php require(__DIR__ . '/../Core/Open.php') ?>
+<?php
+
+use Plugin\Lipupini\Collection;
+
+require(__DIR__ . '/../Core/Open.php') ?>
 
 <main class="media-item">
 <header class="app-bar">
@@ -9,8 +13,8 @@
 	<div class="about"><a href="https://github.com/instalution/lipupini" target="_blank" rel="noopener noreferrer" class="button" title="More information about this software">?</a></div>
 </header>
 <div id="media-item"></div>
-<script>let collection = '<?php echo htmlentities($this->collectionFolderName) ?>';let filename = '<?php echo htmlentities($this->collectionPath) ?>';let fileData = <?php echo json_encode($this->fileData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
-<script type="module" src="/js/components/Document/Document.js"></script>
+<script>let collection = '<?php echo htmlentities($this->system->requests[Collection\FolderRequest::class]->collectionFolderName) ?>';let filename = '<?php echo htmlentities($this->collectionFileName) ?>';let fileData = <?php echo json_encode($this->fileData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
+<script type="module" src="/js/components/Document.js"></script>
 </main>
 
 <?php require(__DIR__ . '/../Core/Close.php') ?>
