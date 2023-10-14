@@ -62,7 +62,8 @@ class DocumentRequest extends Lipupini\Http\Request {
 			$this->fileData = [];
 		}
 
-		$this->parentPath = '@' . $collectionFolderName . '/' . dirname($collectionRequestPath);
+		$parentFolder = dirname($collectionRequestPath);
+		$this->parentPath = '@' . $collectionFolderName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
 		$this->htmlHead = '<link rel="stylesheet" href="/css/Document.css">' . "\n";
 	}
 }

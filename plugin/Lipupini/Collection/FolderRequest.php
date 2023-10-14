@@ -111,7 +111,7 @@ class FolderRequest extends Lipupini\Http\Request {
 			$this->pageTitle = $this->collectionRequestPath . '@' . $this->collectionFolderName . '@' . $this->system->host;
 			$this->parentPath = '@' . $this->collectionFolderName;
 			$exploded = explode('/', $this->collectionRequestPath);
-			if (count($exploded) > 1) {
+			if (count($exploded) > 2) {
 				$this->parentPath .= '/' . implode('/', array_slice($exploded, 0, -1));
 			}
 		} else {
