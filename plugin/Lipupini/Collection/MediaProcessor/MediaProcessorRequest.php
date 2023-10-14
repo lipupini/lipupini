@@ -7,7 +7,7 @@ use Plugin\Lipupini\Http;
 abstract class MediaProcessorRequest extends Http\Request {
 	abstract static public function mimeTypes(): array;
 
-	public function cacheAndServe($filePath, $mimeType) {
+	public function cacheAndServe(string $filePath, string $mimeType): void {
 		if (!file_exists($filePath)) {
 			http_response_code(404);
 			echo 'Not found';
