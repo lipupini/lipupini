@@ -104,7 +104,7 @@ class FolderRequest extends Lipupini\Http\Request {
 		}
 
 		$this->page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
-		$this->total = count( $data);
+		$this->total = count($data);
 		$this->numPages = ceil($this->total / $this->perPage);
 
 		if ($this->collectionRequestPath) {
