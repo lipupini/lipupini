@@ -5,13 +5,7 @@ require(__DIR__ . '/../../../package/vendor/autoload.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$isHttps = !empty($_SERVER['HTTPS']) || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
-$systemState = new System\State(
-	dirWebroot: __DIR__,
-	baseUri: 'http' . ($isHttps ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/', // Include trailing slash
-	frontendView: 'Lukinview',
-	debug: true
-);
+$systemState = require(__DIR__ . '/../State.php');
 
 if (
 	// Using PHP's builtin webserver, this will return a static file (e.g. CSS, JS, image) if it exists at the requested path
