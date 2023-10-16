@@ -22,7 +22,7 @@ class Outbox {
 
 		if (empty($_GET['page'])) {
 			$jsonData = [
-				'@context' => ['https://www.w3.org/ns/activitystreams'],
+				'@context' => 'https://www.w3.org/ns/activitystreams',
 				'id' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox',
 				'type' => 'OrderedCollection',
 				'first' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox&page=1',
@@ -48,11 +48,19 @@ class Outbox {
 			}
 
 			$item = [
+				'@context' => [
+					'https://www.w3.org/ns/activitystreams',
+					'https://w3id.org/security/v1', [
+						'sensitive' => 'as:sensitive',
+					],
+				],
 				'id' => $htmlUrl . '#activity',
 				'actor' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName,
 				'published' => $metaData['date'],
 				'type' => 'Create',
-				'to' => 'https://www.w3.org/ns/activitystreams#Public',
+				'to' => [
+					'https://www.w3.org/ns/activitystreams#Public'
+				],
 				'cc' => [
 					$activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName .'?request=followers'
 				]
@@ -62,13 +70,16 @@ class Outbox {
 				'id' => $htmlUrl,
 				'published' => $metaData['date'],
 				'url' => $htmlUrl,
+				'mediaType' => 'text/html',
 				'inReplyTo' => null,
 				'summary' => $filePath,
-				'type' => 'Note',
+				'type' => 'Page',
+				'name' => $filePath,
 				'attributedTo' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName,
 				'sensitive' => $metaData['sensitive'] ?? false,
+				'content' => $metaData['caption'] ?? $filePath,
 				'contentMap' => [
-					'en' => $metaData['caption'] ?? $filePath
+					'en' => $metaData['caption'] ?? $filePath,
 				],
 			];
 
@@ -78,28 +89,28 @@ class Outbox {
 				$object['attachment'] = [
 					'type' => 'Image',
 					'mediaType' => Collection\MediaProcessor\ImageRequest::mimeTypes()[$extension],
-					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . 'image/large/' . $filePath,
+					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/image/large/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\VideoRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Video',
 					'mediaType' => Collection\MediaProcessor\VideoRequest::mimeTypes()[$extension],
-					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . 'video/' . $filePath,
+					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/video/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\AudioRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Audio',
 					'mediaType' => Collection\MediaProcessor\AudioRequest::mimeTypes()[$extension],
-					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . 'audio/' . $filePath,
+					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/audio/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\MarkdownRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Note',
 					'mediaType' => 'text/html',
-					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . 'markdown/' . $filePath . '.html',
+					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/markdown/' . $filePath . '.html',
 					'name' => $filePath,
 				];
 			} else {
