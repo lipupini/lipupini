@@ -70,7 +70,7 @@ class Request extends Lipupini\Http\Request {
 		return new ActivityPhp\Server([
 			'cache' => [
 				'enabled' => !$this->system->debug,
-				'stream' => $this->system->dirStorage . '/cache/activitypub',
+				'stream' => $this->system->dirCollection . '/.apcache',
 			],
 			'instance' => [
 				'debug' => $this->system->debug,

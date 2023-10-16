@@ -2,9 +2,10 @@
 
 namespace Plugin\Lipupini\Encryption;
 
-use Spatie\Crypto\Rsa\KeyPair;
-use Spatie\Crypto\Rsa\PrivateKey;
-use Spatie\Crypto\Rsa\PublicKey;
+use phpseclib3\Crypt\Common\PrivateKey;
+use phpseclib3\Crypt\Common\PublicKey;
+use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Crypt\RSA;
 
 class Key {
 	public const VALID_BITS = [512, 1024, 2048, 3072, 4096];
@@ -14,9 +15,13 @@ class Key {
 			throw new Exception('Invalid bits');
 		}
 
-		[$private, $public] = (
-			new KeyPair(OPENSSL_ALGO_SHA512, $privateKeyBits)
-		)->password($password)->generate();
+		if ($password) {
+			$private = RSA::createKey($privateKeyBits)->withPassword($password);
+		} else {
+			$private = RSA::createKey($privateKeyBits);
+		}
+
+		$public = $private->getPublicKey();
 
 		return [
 			'private' => $private,
@@ -24,32 +29,40 @@ class Key {
 		];
 	}
 
-	public function generateAndSave(string $privateKeyPath, string $publicKeyPath, string $password = ''): void {
-		$generated = $this->generate($password);
+	public function generateAndSave(string $privateKeyPath, string $publicKeyPath, int $privateKeyBits, string $password = ''): void {
+		$generated = $this->generate($privateKeyBits, $password);
 		file_put_contents($publicKeyPath, $generated['public']);
 		file_put_contents($privateKeyPath, $generated['private']);
 	}
 
-	public function load(string $fullPath, string $type, string $password = ''): PrivateKey | PublicKey {
-		return match ($type) {
-			'public' => PublicKey::fromFile($fullPath),
-			'private' => PrivateKey::fromFile($fullPath, $password),
-		};
+	public function load(string $fullPath, string $type, string $password = ''): PublicKey | PrivateKey {
+		switch ($type) {
+			case 'public':
+				return PublicKeyLoader::loadPublicKey(file_get_contents($fullPath));
+			case 'private':
+				if ($password) {
+					return PublicKeyLoader::loadPrivateKey(file_get_contents($fullPath))->withPassword($password)->withHash('sha256');
+				} else {
+					return PublicKeyLoader::loadPrivateKey(file_get_contents($fullPath))->withHash('sha256');
+				}
+		}
+
+		throw new Exception('Unknown key type');
 	}
 
 	public function sign(string $privateKeyPath, $message): string {
 		return $this->load($privateKeyPath, 'private')->sign($message);
 	}
 
-	public function verify($message, $keyPath, $fromKeyType, $signature): int | false{
+	public function verify($message, $signature, $keyPath, $fromKeyType = 'public'): bool {
 		return $this->load($keyPath, $fromKeyType)->verify($message, $signature);
 	}
 
-	public function encrypt($privateKeyPath, $data): string {
-		return $this->load($privateKeyPath, 'private')->encrypt($data);
+	public function encrypt($publicKeyPath, $data): string {
+		return $this->load($publicKeyPath, 'public')->encrypt($data);
 	}
 
-	public function decrypt($publicKeyPath, $data): string {
-		return $this->load($publicKeyPath, 'public')->decrypt($data);
+	public function decrypt($privateKeyPath, $data): string {
+		return $this->load($privateKeyPath, 'private')->decrypt($data);
 	}
 }

@@ -149,6 +149,10 @@ class FolderRequest extends Lipupini\Http\Request {
 			$this->prevUrl = 'javascript:void(0)';
 		}
 
-		$this->htmlHead = '<link rel="stylesheet" href="/css/Folder.css">' . "\n";
+		$this->htmlHead = '<link rel="stylesheet" href="/css/Folder.css">' . "\n"
+			. '<link rel="alternate" type="application/rss+xml" title="'
+				. htmlentities($this->collectionFolderName .  '@' . $this->system->host) . '" href="'
+				. htmlentities($this->system->baseUri . '@' . $this->collectionFolderName . '?feed=rss')
+			. '">' . "\n";
 	}
 }

@@ -35,7 +35,7 @@ class HomepageRequest extends Http\Request {
 		$dir = new \DirectoryIterator($this->system->dirCollection);
 		$localCollections = [];
 		foreach ($dir as $fileinfo) {
-			if (!$fileinfo->isDir() || $fileinfo->isDot()) {
+			if (!$fileinfo->isDir() || $fileinfo->isDot() || $fileinfo->getFilename()[0] === '.') {
 				continue;
 			}
 

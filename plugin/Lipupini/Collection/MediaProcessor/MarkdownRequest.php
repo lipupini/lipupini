@@ -61,7 +61,7 @@ class MarkdownRequest extends MediaProcessorRequest {
 			throw new Exception('Could not render markdown file');
 		}
 
-		$rendered = '<!DOCTYPE html><html><head><meta charset="utf-8"></head><body>' . "\n"
+		$rendered = '<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body>' . "\n"
 			. $rendered . "\n"
 			. '</body></html>' . "\n";
 

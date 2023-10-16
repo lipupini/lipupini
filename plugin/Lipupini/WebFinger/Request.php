@@ -3,7 +3,6 @@
 namespace Plugin\Lipupini\WebFinger;
 
 use Plugin\Lipupini;
-use ActivityPhp;
 
 class Request extends Lipupini\Http\Request {
 	public string $responseType = 'application/jrd+json';

@@ -13,3 +13,12 @@ These media processor request classes can take the route and file extension and 
 They will take the corresponding media file from a collection, process it in the relevant way for the media type, and store the cache file for future static loading.
 
 NOTE: Once the static file is created, the Media Processor class is no longer needed in the request for as long as the cache file exists! So, if you need to debug a media processor, the cache will need to be cleared.
+
+If you need to clear your plugin webroots's media cache directory for any reason, one of many ways to do it is with an included script:
+
+```shell
+cd path/to/project/root
+bin/clear-cache.php
+```
+
+See [plugin/Lukinview/README.md](../../../Lukinview/README.md) for another way.

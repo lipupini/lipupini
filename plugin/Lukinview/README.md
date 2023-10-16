@@ -11,7 +11,18 @@ cd plugin/Lukinview/webroot
 chmod 755 c
 ```
 
-To make a new frontend, copy this plugin and use your new plugin's `webroot` for your webserver's document root.
+To make a new frontend plugin, copy this plugin and use your new plugin's `webroot` for your webserver's document root.
+
+You will need to update the `$systemState` in `index.php` to reflect your new plugin, for example if the name is `Mokuview`:
+
+```php
+$systemState = new Plugin\Lipupini\State(
+	baseUri: $baseUri, // Include trailing slash
+	cacheBaseUri: $baseUri . 'c/', // If you'd like to use another URL for static files (e.g. CDN), put that here
+	frontendView: 'Mokuview',
+	debug: true
+);
+```
 
 Changing the document root will also rebuild any media file cache, if there is any. Delete or move the cache in the previous `webroot` to save space:
 
