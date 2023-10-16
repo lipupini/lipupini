@@ -8,7 +8,7 @@ use Plugin\Lipupini\Rss\Exception;
 
 class Outbox {
 	public array $collectionData = [];
-	public int $perPage = 20;
+	public int $perPage = 48;
 
 	use Collection\Trait\HasPaginatedCollectionData;
 
@@ -133,6 +133,14 @@ class Outbox {
 			'totalItems' => count($this->collectionData),
 			'orderedItems' => $items
 		];
+
+		if ($this->page > 1) {
+			$outboxJsonArray['prev'] = $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox&page=' . ($this->page - 1);
+		}
+
+		if ($this->page < $this->numPages) {
+			$outboxJsonArray['next'] = $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox&page=' . ($this->page + 1);
+		}
 
 		$activityPubRequest->system->responseContent = json_encode($outboxJsonArray, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 	}
