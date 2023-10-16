@@ -52,16 +52,20 @@ class NodeInfoRequest extends Lipupini\Http\Request {
 			],
 			'protocols' => [
 				'activitypub',
-				'atom',
+				'rss',
 			],
 			'usage' => [
 				'users' => [
-					'total' => 420,
-					'activeHalfYear' => 69,
-					'activeMonth' => 0,
+					'total' => 1,
+					'activeHalfYear' => 1,
+					'activeMonth' => 1,
 				],
 				'localPosts' => 420,
 				'localComments' => 69,
+			],
+			'services' => [
+				'outbound' => [],
+				'inbound' => [],
 			],
 			'openRegistrations' => 'false',
 		];
