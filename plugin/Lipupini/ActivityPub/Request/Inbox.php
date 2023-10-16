@@ -40,10 +40,15 @@ class Inbox {
 
 		/* BEGIN STORE INBOX ACTIVITY */
 
-		$activityQueueFilename =
-			$activityPubRequest->system->dirCollection . '/'
+		$inboxFolder = $activityPubRequest->system->dirCollection . '/'
 			. $activityPubRequest->collectionFolderName
-			. '/.lipupini/inbox/'
+			. '/.lipupini/inbox/';
+
+		if (!is_dir($inboxFolder)) {
+			mkdir($inboxFolder, 0755, true);
+		}
+
+		$activityQueueFilename = $inboxFolder
 			. date('Ymdhis')
 			. '-' . microtime(true)
 			. '-' . preg_replace('#[^\w]#', '', $requestData->type) . '.json';
