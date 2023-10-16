@@ -54,6 +54,7 @@ class NodeInfoRequest extends Lipupini\Http\Request {
 				'activitypub',
 				'rss',
 			],
+			'openRegistrations' => 'false',
 			'usage' => [
 				'users' => [
 					'total' => 1,
@@ -67,7 +68,13 @@ class NodeInfoRequest extends Lipupini\Http\Request {
 				'outbound' => [],
 				'inbound' => [],
 			],
-			'openRegistrations' => 'false',
+			'metadata' => [
+				'nodeName' => $this->system->host,
+				'software' => [
+					'homepage' => 'https://github.com/instalution/lipupini',
+					'repository' => 'https://github.com/instalution/lipupini',
+				],
+			]
 		];
 
 		header('Content-type: application/json');
