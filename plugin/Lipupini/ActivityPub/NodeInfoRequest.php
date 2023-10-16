@@ -67,6 +67,6 @@ class NodeInfoRequest extends Lipupini\Http\Request {
 		];
 
 		header('Content-type: application/json');
-		echo json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
+		$this->system->responseContent = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 	}
 }
