@@ -2,6 +2,8 @@
 
 [Status](#status)
 
+[Features](#features)
+
 [System Dependencies](#system-dependencies)
 
 [Lipupini Quickstart](#lipupini-quickstart)
@@ -35,11 +37,26 @@ For displaying a media portfolio or posts on the Internet, despite currently lim
 
 Updating Lipupini can be as simple as running `git pull` from your environment depending on the setup.
 
+## Features
+
+- Supports the following formats for media files, more will be added: JPG, PNG, MP4, MP3, Markdown
+- Allows subscribing to your content collection via RSS2.0.
+- Search Lipupini accounts from other Fediverse platforms via the ActivityPub protocol.
+- Show an avatar PNG when searching from an external ActivityPub or RSS client.
+- Once the dependencies are installed, Lipupini is designed to get up and running quickly.
+- Your media collection are self-contained, served as they are on your filesystem. Metadata is stored in a special `.lipupini` folder, making account collections are completely portable.
+- Lipupini manages to implement ActivityPub without a database. For example, certain inbox activities are logged to your collection in raw JSON.
+- Plugin system paves a way for modular development.
+- Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend plugin.
+- Building a way to keyword search collections using AI image recognition.
+- On-demand caching system creates and serves static media files. Support for custom caching URL can facilitate the use of a CDN.
+- A Public Domain license is the most permissive license there is. You can do whatever you want with this thing. Please feel free to contribute back to upstream, post in discussions, etc. There's no obligation of any kind.
+
 ## System Dependencies
 
 - [PHP8](https://www.php.net/manual/en/install.php)
 - [Composer](https://getcomposer.org/)
-- One of: [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php), [PHP GD Extension](https://www.php.net/manual/en/book.image.php)
+- One of: [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php), or [PHP GD Extension](https://www.php.net/manual/en/book.image.php)
 - [PHP cUrl Extension](https://www.php.net/manual/en/book.curl.php)
 - [PHP DOM Extension](https://www.php.net/manual/en/book.dom.php)
 
