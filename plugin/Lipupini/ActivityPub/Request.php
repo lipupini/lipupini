@@ -29,7 +29,10 @@ class Request extends Lipupini\Http\Request {
 			return;
 		} else if (
 			$_SERVER['REQUEST_METHOD'] === 'POST' &&
-			!$this->validateRequestMimeTypes('HTTP_CONTENT_TYPE', $this->mimeTypes())
+			(
+				!$this->validateRequestMimeTypes('CONTENT_TYPE', $this->mimeTypes()) &&
+				!$this->validateRequestMimeTypes('HTTP_CONTENT_TYPE', $this->mimeTypes())
+			)
 		) {
 			return;
 		}
