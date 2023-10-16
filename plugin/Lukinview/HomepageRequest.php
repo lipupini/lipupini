@@ -24,8 +24,11 @@ class HomepageRequest extends Http\Request {
 		$this->system->shutdown = true;
 	}
 
-	public function renderHtml() {
+	public function renderHtml(): void {
+		ob_start();
+		header('Content-type: text/html');
 		require(__DIR__ . '/Html/Homepage.php');
+		$this->system->responseContent = ob_get_clean();
 	}
 
 	public function getLocalCollections() {

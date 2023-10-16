@@ -73,6 +73,6 @@ class ImageRequest extends MediaProcessorRequest {
 		}
 
 		header('Content-type: ' . self::mimeTypes()[$extension]);
-		readfile($this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+		$this->system->responseContent = file_get_contents($pathOriginal);
 	}
 }

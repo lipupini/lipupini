@@ -53,8 +53,7 @@ class Request extends Lipupini\Http\Request {
 		];
 
 		header('Content-type: ' . $this->responseType);
-		echo json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
-
+		$this->system->responseContent = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 		$this->system->shutdown = true;
 	}
 

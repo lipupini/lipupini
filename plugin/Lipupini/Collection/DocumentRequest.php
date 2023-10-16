@@ -44,7 +44,9 @@ class DocumentRequest extends Lipupini\Http\Request {
 	public function renderHtml(): void {
 		$this->loadViewData();
 		header('Content-type: text/html');
+		ob_start();
 		require($this->system->dirPlugin . '/' . $this->system->frontendView . '/Html/Collection/Document.php');
+		$this->system->responseContent = ob_get_clean();
 	}
 
 	private function loadViewData(): void {

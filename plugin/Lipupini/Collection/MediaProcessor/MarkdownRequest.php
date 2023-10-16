@@ -68,7 +68,6 @@ class MarkdownRequest extends MediaProcessorRequest {
 		file_put_contents($this->system->dirWebroot . $htmlWebPath, $rendered);
 
 		header('Content-type: ' . self::mimeTypes()[$extension]);
-		readfile($this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+		$this->system->responseContent = $rendered;
 	}
 }
-

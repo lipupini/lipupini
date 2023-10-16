@@ -53,7 +53,7 @@ class Request extends Lipupini\Http\Request {
 		$this->renderRssEntries($dom, $feed, $collectionFolderName);
 
 		header('Content-type: application/atom+xml');
-		echo  $dom->saveXML();
+		$this->system->responseContent = $dom->saveXML();
 	}
 
 	public function renderRssEntries(\DOMDocument $dom, \DOMElement $feed, string $collectionFolderName): void {

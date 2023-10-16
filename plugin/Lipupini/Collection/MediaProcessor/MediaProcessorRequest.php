@@ -21,6 +21,6 @@ abstract class MediaProcessorRequest extends Http\Request {
 		copy($filePath, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
 
 		header('Content-type: ' . $mimeType);
-		readfile($this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+		$this->system->responseContent = file_get_contents($filePath);
 	}
 }
