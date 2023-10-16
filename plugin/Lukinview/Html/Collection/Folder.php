@@ -10,7 +10,10 @@
 </header>
 <div id="media-grid" class="grid square"></div>
 <script>let collection = '<?php echo htmlentities($this->collectionFolderName) ?>';let collectionData = <?php echo json_encode($this->collectionData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
-<script type="module" src="/js/components/Folder.js"></script>
+<script type="module">
+import { Folder } from '/js/components/Folder.js'
+Folder({collection, collectionData})
+</script>
 <footer class="app-bar">
 	<div></div>
 	<div class="previous pagination"><a href="<?php echo htmlentities($this->prevUrl) ?>" class="button" title="Previous"<?php if ($this->prevUrl === 'javascript:void(0)') : ?> disabled<?php endif ?>><img src="/img/arrow-left-bold.svg" alt="Previous Page"></a></div>

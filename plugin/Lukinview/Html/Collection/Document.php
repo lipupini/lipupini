@@ -14,7 +14,11 @@ require(__DIR__ . '/../Core/Open.php') ?>
 </header>
 <div id="media-item"></div>
 <script>let collection = '<?php echo htmlentities($this->system->requests[Collection\FolderRequest::class]->collectionFolderName) ?>';let filename = '<?php echo htmlentities($this->collectionFileName) ?>';let fileData = <?php echo json_encode($this->fileData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
-<script type="module" src="/js/components/Document.js"></script>
+<script type="module">
+import van from '/lib/van-1.2.1.min.js'
+import { Document } from '/js/components/Document.js'
+van.add(document.getElementById('media-item'), Document({collection, filename, data: fileData}))
+</script>
 </main>
 
 <?php require(__DIR__ . '/../Core/Close.php') ?>
