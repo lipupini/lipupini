@@ -4,20 +4,20 @@ import { Audio } from './FileType/Audio.js'
 import { Markdown } from './FileType/Markdown.js'
 import { CollectionFolder } from './FileType/CollectionFolder.js'
 
-const Document = ({collection, filename, data, gridView = false}) => {
+const Document = ({collection, baseUri, filename, data, gridView = false}) => {
 	let extension = filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2)
 	switch (extension) {
 		case 'jpg':
 		case 'png':
-			return Image({collection, filename, data, background: gridView})
+			return Image({collection, baseUri, filename, data, background: gridView})
 		case 'mp4':
-			return Video({collection, filename, data})
+			return Video({collection, baseUri, filename, data})
 		case 'mp3':
-			return Audio({collection, filename, data})
+			return Audio({collection, baseUri, filename, data})
 		case 'md':
-			return Markdown({collection, filename, data, load: !gridView})
+			return Markdown({collection, baseUri, filename, data, load: !gridView})
 		case '':
-			return CollectionFolder({collection, filename, data})
+			return CollectionFolder({collection, baseUri, filename, data})
 		default:
 			throw new Error('Unknown file extension: ' + extension)
 	}

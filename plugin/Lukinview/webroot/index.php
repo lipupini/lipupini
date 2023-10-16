@@ -6,8 +6,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $isHttps = !empty($_SERVER['HTTPS']) || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+$baseUri = 'http' . ($isHttps ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/';
 $systemState = new Plugin\Lipupini\State(
-	baseUri: 'http' . ($isHttps ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . '/', // Include trailing slash
+	baseUri: $baseUri, // Include trailing slash
+	cacheBaseUri: $baseUri . 'c/', // If you'd like to use another URL for static files (e.g. CDN), put that here
 	frontendView: 'Lukinview',
 	debug: true
 );
@@ -25,6 +27,6 @@ return (new System\Lipupini(
 	Plugin\Lipupini\Collection\MediaProcessor\VideoRequest::class,
 	Plugin\Lipupini\Collection\MediaProcessor\MarkdownRequest::class,
 	Plugin\Lipupini\Collection\MediaProcessor\AudioRequest::class,
-	Plugin\Lipupini\AtomRss\Request::class,
+	Plugin\Lipupini\Rss\Request::class,
 	Plugin\Lipupini\ActivityPub\Request::class,
 ])->render();

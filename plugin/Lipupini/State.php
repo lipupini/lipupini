@@ -12,7 +12,8 @@ class State extends \System\State {
 		public string $dirStorage = '/dev/null', // Reasonably safe default, this is set after instantiation
 		public string $dirCollection = '/dev/null', // Reasonably safe default, this is set after instantiation
 		public string $host = 'null.localhost',
-		public string $baseUri = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URL e.g. https://example.org/~basePath/
+		public string $baseUri = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URI e.g. https://example.org/~basePath/
+		public string $cacheBaseUri = 'http://dev.null/c/',
 		public string $baseUriPath = '/',
 		public string $frontendView = 'Lukinview',
 		public array $requests = [],
@@ -31,6 +32,10 @@ class State extends \System\State {
 
 		if ($this->baseUriPath === '/dev/null') {
 			$this->baseUriPath = $parsedUri['path'];
+		}
+
+		if ($cacheBaseUri === 'http://dev.null/c/') {
+			$this->cacheBaseUri = $this->baseUriPath . 'c/';
 		}
 
 		if ($this->dirRoot === '/dev/null') {
