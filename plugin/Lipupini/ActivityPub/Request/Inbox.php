@@ -60,10 +60,10 @@ class Inbox {
 		switch ($requestData->type) {
 			case 'Follow' :
 				$jsonData = [
-					'@context' => ['https://www.w3.org/ns/activitystreams'],
+					'@context' => 'https://www.w3.org/ns/activitystreams',
 					'id' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '#accept/' . md5(rand(0, 1000000) . microtime(true)),
 					'type' => 'Accept',
-					'actor' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '&request=outbox&page=1',
+					'actor' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName,
 					'object' => $requestData->id,
 				];
 				break;
