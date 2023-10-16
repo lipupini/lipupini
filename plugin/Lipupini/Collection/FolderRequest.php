@@ -8,18 +8,16 @@ use Plugin\Lipupini\Collection;
 class FolderRequest extends Lipupini\Http\Request {
 	public string|null $collectionFolderName = null;
 	public string|null $collectionRequestPath = null;
+	public array $collectionData = [];
 
 	public int $perPage = 36;
 
-	private int|null $total = null;
-	private int|null $page = null;
-	private string|null $nextUrl = null;
-	private string|null $prevUrl = null;
-	private int|null $numPages = null;
-	private array|null $collectionData = null;
-	private string|null $parentPath = null;
+	protected string|null $nextUrl = null;
+	protected string|null $prevUrl = null;
 
-	public string $pageTitle = 'Testing';
+	use Collection\Trait\HasPaginatedCollectionData;
+
+	public string $pageTitle = '';
 	public string|null $htmlHead = null;
 
 	public function initialize(): void {
@@ -97,17 +95,15 @@ class FolderRequest extends Lipupini\Http\Request {
 
 	private function loadViewData(): void {
 		if (empty($_GET['search'])) {
-			$data = (new Collection\Utility($this->system))->getCollectionData($this->collectionFolderName, $this->collectionRequestPath);
+			$this->collectionData = (new Collection\Utility($this->system))->getCollectionData($this->collectionFolderName, $this->collectionRequestPath);
 		} else {
 			if ($this->collectionRequestPath) {
-				throw new Exception('Trying to search when not at collection root');
+				throw new Collection\Exception('Trying to search when not at collection root');
 			}
-			$data = (new Collection\Utility($this->system))->getSearchData($_GET['search']);
+			$this->collectionData = (new Collection\Utility($this->system))->getSearchData($_GET['search']);
 		}
 
-		$this->page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
-		$this->total = count($data);
-		$this->numPages = ceil($this->total / $this->perPage);
+		$this->loadPaginationAttributes();
 
 		if ($this->collectionRequestPath) {
 			$this->pageTitle = $this->collectionRequestPath . '@' . $this->collectionFolderName . '@' . $this->system->host;
@@ -125,12 +121,6 @@ class FolderRequest extends Lipupini\Http\Request {
 				$this->parentPath = '';
 			}
 		}
-
-		if ($this->page > $this->numPages) {
-			throw new Exception('Invalid page number');
-		}
-
-		$this->collectionData = array_slice($data, ($this->page - 1) * $this->perPage, $this->perPage);
 
 		$webPath = '/@' . $this->collectionFolderName . ($this->collectionRequestPath ? '/' . $this->collectionRequestPath : '');
 

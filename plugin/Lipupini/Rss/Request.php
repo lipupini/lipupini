@@ -64,24 +64,20 @@ class Request extends Lipupini\Http\Request {
 
 	public function renderRssItems(\DOMDocument $dom, \DOMElement $channel, string $collectionFolderName): void {
 		$collectionData = (new Collection\Utility($this->system))->getCollectionDataRecursive($collectionFolderName);
-		//$latestUpdated = '';
 		foreach ($collectionData as $filePath => &$metaData) {
 			if (empty($metaData['date'])) {
 				$metaData['date'] = (new \DateTime)
 					->setTimestamp(filemtime($this->system->dirCollection . '/' . $collectionFolderName . '/' . $filePath))
 					->format(\DateTime::RSS);
-				/*if (empty($latestUpdated) || $latestUpdated < $metaData['date']) {
-					$latestUpdated = $metaData['date'];
-				}*/
+			} else {
+				$metaData['date'] = (new \DateTime($metaData['date']))
+					->format(\DateTime::ISO8601);
 			}
 		} unset($metaData);
 
 		$items = [];
 		foreach ($collectionData as $filePath => $metaData) {
-			// Excluding directories
-			if (!($extension = pathinfo($filePath, PATHINFO_EXTENSION))) {
-				continue;
-			}
+			$extension = pathinfo($filePath, PATHINFO_EXTENSION);
 
 			if (in_array($extension, array_keys(Collection\MediaProcessor\ImageRequest::mimeTypes()))) {
 				$metaData['medium'] = 'image';

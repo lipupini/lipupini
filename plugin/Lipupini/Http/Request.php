@@ -5,7 +5,7 @@ namespace Plugin\Lipupini\Http;
 use System\State;
 
 abstract class Request {
-	public function __construct(protected State $system) {
+	public function __construct(public State $system) {
 		if ($this->system->debug) {
 			error_log('DEBUG: Starting request plugin ' . get_called_class());
 		}

@@ -8,3 +8,5 @@ TODO:
     - Currently in the `shutdown()` method of `Lipupini.php` the timing and `X-Powered-By` header is commented out, but it should be possible to send those before output.
 - New window from frontend, might not need to use the `Parsedown.php` extension
 - Optionally specify separate URL in config for cache files (`c` folder)
+- Look into X-Frame-Options "SAMEORIGIN" header
+- Check out Laravel middleware for additional security ideas

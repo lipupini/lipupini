@@ -80,6 +80,13 @@ class Utility {
 			$collectionData += $this->getCollectionData($collectionFolderName, $collectionPath);
 		}
 
+		foreach ($collectionData as $fileName => $metaData) {
+			// Excluding directories
+			if (!pathinfo($fileName, PATHINFO_EXTENSION)) {
+				unset($collectionData[$fileName]);
+			}
+		}
+
 		return $collectionData;
 	}
 
