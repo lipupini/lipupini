@@ -52,7 +52,7 @@ class Lipupini {
 		$this->system->requests[$requestClassName] = $request;
 	}
 
-	public function render(callable $then = null): bool {
+	public function render(): bool {
 		if ($this->serveStaticRequest) {
 			return false;
 		}
@@ -64,10 +64,6 @@ class Lipupini {
 
 		if ($this->system->debug) {
 			header('Server-Timing: app;dur=' . $this->system->executionTimeSeconds);
-		}
-
-		if (is_callable($then)) {
-			$then($this->system);
 		}
 
 		if (is_null($this->system->responseContent)) {
