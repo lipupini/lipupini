@@ -39,13 +39,13 @@ class ImageRequest extends MediaProcessorRequest {
 
 		// Try all possible graphics drivers for Imagine
 		try {
-			$imagine = new Imagine\Imagick\Imagine();
+			$imagine = new Imagine\Gd\Imagine();
 		} catch (\Exception $e) {
 			try {
 				$imagine = new Imagine\Gmagick\Imagine();
 			} catch (\Exception $e) {
 				try {
-					$imagine = new Imagine\Gd\Imagine();
+					$imagine = new Imagine\Imagick\Imagine();
 				} catch (\Exception $e) {
 					throw new Exception('Could not find a graphics library to process images');
 				}
