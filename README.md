@@ -62,7 +62,7 @@ Some distros may include varying PHP extensions with PHP.
 - [PHP cURL Extension](https://www.php.net/manual/en/book.curl.php)
 - [PHP DOM Extension](https://www.php.net/manual/en/book.dom.php)
 
-Ubuntu 23.10
+Debian 12
 
 ```shell
 sudo apt update -y
@@ -84,6 +84,13 @@ sudo yum install -y git php php-gd php-curl php-dom
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 sudo php composer-setup.php --filename=composer --install-dir=/usr/local/bin
 php -r "unlink('composer-setup.php');"
+```
+
+Ubuntu 23.10
+
+```shell
+sudo apt update -y
+sudo apt install -y git php php-gd php-curl php-dom composer
 ```
 
 Void Linux
@@ -127,6 +134,8 @@ php -r "unlink('composer-setup.php');"
 ```
 
 ## Lipupini Quickstart
+
+Make sure all [dependencies are installed first](#system-dependencies).
 
 1) Clone the app and `cd` into the project root
 
