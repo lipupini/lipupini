@@ -65,7 +65,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 1) Clone the app and `cd` into the project root
 
 ```shell
-git clone git@github.com:instalution/lipupini.git
+git clone https://github.com/instalution/lipupini.git
 cd lipupini
 ```
 
