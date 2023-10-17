@@ -108,8 +108,8 @@ sudo vi /etc/php8.2/php.ini
 Arch Linux
 
 ```shell
-pacman -Sy
-pacman -Sy git php php-gd composer
+sudo pacman -Sy
+sudo pacman -Sy git php php-gd composer
 # Edit `php.ini`, e.g.:
 sudo vi /etc/php/php.ini
 # Uncomment the following extension lines to enable them:
@@ -120,8 +120,8 @@ Alpine Linux (tested with 3.18)
 
 ```shell
 # Make sure that both "main" and "community" repositories are enabled
-apk update
-apk add git php php-gd php-curl php-dom composer
+sudo apk update
+sudo apk add git php php-gd php-curl php-dom composer
 ```
 
 Slackware 15
