@@ -59,7 +59,7 @@ Some distros may include varying PHP extensions with PHP.
 - [PHP8](https://www.php.net/manual/en/install.php)
 - [Composer](https://getcomposer.org/)
 - One of: [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php), or [PHP GD Extension](https://www.php.net/manual/en/book.image.php)
-- [PHP cUrl Extension](https://www.php.net/manual/en/book.curl.php)
+- [PHP cURL Extension](https://www.php.net/manual/en/book.curl.php)
 - [PHP DOM Extension](https://www.php.net/manual/en/book.dom.php)
 
 Ubuntu 23.10
