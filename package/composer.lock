@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ccfb286fde4e00eb8694d70f061a2f29",
+    "content-hash": "b520a621df548bd51571045166d85ad1",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -1177,67 +1177,6 @@
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
-            "name": "spatie/crypto",
-            "version": "2.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/crypto.git",
-                "reference": "afaa9968bbd8e066d4e73b31671e3cc45467c4e0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/crypto/zipball/afaa9968bbd8e066d4e73b31671e3cc45467c4e0",
-                "reference": "afaa9968bbd8e066d4e73b31671e3cc45467c4e0",
-                "shasum": ""
-            },
-            "require": {
-                "ext-openssl": "*",
-                "php": "^7.4|^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.3",
-                "symfony/var-dumper": "^5.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\Crypto\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Encrypting and signing data using private/public keys",
-            "homepage": "https://github.com/spatie/crypto",
-            "keywords": [
-                "crypto",
-                "spatie"
-            ],
-            "support": {
-                "source": "https://github.com/spatie/crypto/tree/2.0.2"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/spatie",
-                    "type": "github"
-                },
-                {
-                    "url": "https://spatie.be/open-source/support-us",
-                    "type": "other"
-                }
-            ],
-            "time": "2023-01-25T09:26:10+00:00"
-        },
-        {
             "name": "symfony/cache",
             "version": "v6.3.5",
             "source": {
@@ -1963,7 +1902,10 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.0"
+        "php": "^8.0",
+        "ext-curl": "*",
+        "ext-dom": "*",
+        "ext-openssl": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.2.0"
