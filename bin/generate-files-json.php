@@ -1,9 +1,11 @@
 #!/usr/bin/env php
 <?php
 
-require(__DIR__ . '/../module/Lipupini/vendor/autoload.php');
-
 use Module\Lipupini\Collection;
+use Module\Lipupini\State;
+
+/** @var State $systemState */
+$systemState = require(__DIR__ . '/../config/system.php');
 
 if (empty($argv[1])) {
 	echo 'Must specify collection name' . "\n";
@@ -11,14 +13,6 @@ if (empty($argv[1])) {
 }
 
 $collectionFolder = $argv[1];
-
-$baseUri = 'http://localhost/';
-$systemState = new Module\Lipupini\State(
-	baseUri: $baseUri, // Include trailing slash
-	cacheBaseUri: $baseUri . 'c/', // If you'd like to use another URL for static files (e.g. CDN), put that here
-	frontendView: 'Lukinview',
-	debug: true
-);
 
 (new Collection\Utility($systemState))->validateCollectionFolderName($collectionFolder);
 

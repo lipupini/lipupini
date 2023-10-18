@@ -1,15 +1,11 @@
 #!/usr/bin/env php
 <?php
 
-require(__DIR__ . '/../module/Lipupini/vendor/autoload.php');
+use Module\Lipupini\Exception;
+use Module\Lipupini\State;
 
-$baseUri = 'http://localhost/';
-$systemState = new Module\Lipupini\State(
-	baseUri: $baseUri, // Include trailing slash
-	cacheBaseUri: $baseUri . 'c/', // If you'd like to use another URL for static files (e.g. CDN), put that here
-	frontendView: 'Lukinview',
-	debug: true
-);
+/** @var State $systemState */
+$systemState = require(__DIR__ . '/../config/system.php');
 
 $staticCache = $systemState->dirWebroot . parse_url($systemState->cacheBaseUri, PHP_URL_PATH);
 $activityPubCache = $systemState->dirCollection . '/.apcache';
@@ -36,11 +32,11 @@ exit(0);
 
 function deleteDirectory($directory, $systemState) {
 	if (empty($directory)) {
-		throw new \Lipupini\Exception('No directory specified');
+		throw new Exception('No directory specified');
 	}
 
 	if (!$systemState->dirRoot || !str_starts_with($directory, $systemState->dirRoot)) {
-		throw new \Lipupini\Exception('Expected directory within project');
+		throw new Exception('Expected directory within project');
 	}
 
 	passthru('rm -r ' . escapeshellarg($directory),$resultCode);

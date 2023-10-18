@@ -15,6 +15,7 @@ class Queue {
 			file_exists($this->system->dirWebroot . $_SERVER['PHP_SELF'])
 		) {
 			$this->serveStaticRequest = true;
+			return;
 		}
 
 		if ($this->system->debug) {
