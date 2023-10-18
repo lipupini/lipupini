@@ -109,7 +109,7 @@ return new Module\Lipupini\State(
 	requests: [
 		[...]
 		Module\Lukinview\HomepageRequest::class => null,
-		Module\MyNamespace\MyModule\HasARouteRequest:class => null, // Here is your new module
+		Module\MyNamespace\MyModule\HasARouteRequest::class => null, // Here is your new module
 		Module\Lipupini\WebFinger\Request::class => null,
 		Module\Lipupini\ActivityPub\NodeInfoRequest::class => null,
 		[...]
