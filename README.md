@@ -186,3 +186,4 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 - Look into X-Frame-Options "SAMEORIGIN" header
 - Make `bin/generate-files-json.php` recursive
 - Check out Laravel middleware for additional security ideas
+- Create script to normalize file and directory user/group/permissions

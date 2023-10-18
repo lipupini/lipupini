@@ -4,11 +4,11 @@ The webserver's document root (`webroot`) is contained here. You can symlink it 
 
 Using this pattern, things like `favicon.ico`, loaded modules, and the entire frontend can be efficiently customized.
 
-The `c` folder in `webroot` needs to be writeable as it will store cache:
+The `c` folder in `webroot` needs to be writeable as it will store cache. This should be performed as the webserver user. If the `c` folder is already there, then it was writeable and this step can be skipped.
 
 ```shell
 cd module/Lukinview/webroot
-chmod 755 c
+mkdir c || chmod 755 c
 ```
 
 To make a new frontend module, copy this module and use your new module's `webroot` for your webserver's document root.
