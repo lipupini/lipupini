@@ -50,7 +50,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
 - Building a way to keyword search collections using AI image recognition.
 - On-demand caching system creates and serves static media files. Support for custom caching URL can facilitate the use of a CDN.
-- A Public Domain license is the most permissive license there is. You can do whatever you want with this thing. Please feel free to contribute back to upstream, post in discussions, etc. There's no obligation of any kind.
+- A [Public Domain license](LICENSE.md) is the most permissive license there is. You can do whatever you want with this thing. Please feel free to contribute back to upstream, post in discussions, etc. There is no obligation of any kind.
 
 ## Lipupini Quickstart
 
@@ -92,7 +92,7 @@ Your Lipupini installation is at `/opt/webapp/lipupini`
 cp -R /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/collection/sally
 ```
 
-or symlinking them, in which case any compatible photos added in `/home/sally/Pictures/AwesomeCollection` will be automatically served by Lipupini:
+or symlinking them:
 
 ```shell
 ln -s /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/collection/sally
@@ -116,7 +116,7 @@ bin/create-files-json.php sally
 rm -r collection/example
 ```
 
-6) Sally's collection should now be viewable at http://localhost:4000/@sally
+6) Your collection should now be viewable at http://localhost:4000/@sally
 
 In addition to copying or symlinking, see [collection/README.md#vision](collection/README.md#vision) for ideas on other ways to keep these directories in sync.
 
@@ -182,10 +182,7 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 - Validate HTTP signatures, this could help improve outgoing signature flow too
 - i18n
-- All module output gets added to a buffer. This way any headers can be modified before output.
-    - Currently in the `shutdown()` method of `Lipupini.php` the timing and `X-Powered-By` header is commented out, but it should be possible to send those before output.
 - New window from frontend, might not need to use the `Parsedown.php` extension
-- Optionally specify separate URL in config for cache files (`c` folder)
 - Look into X-Frame-Options "SAMEORIGIN" header
 - Make `bin/generate-files-json.php` recursive
 - Check out Laravel middleware for additional security ideas
