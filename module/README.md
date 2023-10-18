@@ -31,7 +31,7 @@ namespace Module\OtherNameSpace\WebFinger;
 use Module\Lipupini\WebFinger;
 
 class Request extends WebFinger\Request {
-	// This will override the start() method of the parent/extended WebFinger class
+	// This will override the `initialize()` method of the parent/extended WebFinger class
 	public function initialize(): void {
 		if (!str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . '.well-known/webfinger')) {
 			return false;
@@ -44,13 +44,13 @@ class Request extends WebFinger\Request {
 }
 ```
 
-Then in `webroot/index.php`, queue the `Module\OtherNameSpace\WebFinger\Request` module instead of the `Module\Lipupini\WebFinger\Request` module.
+Then in `config/system.php`, queue the `Module\OtherNameSpace\WebFinger\Request` module instead of the `Module\Lipupini\WebFinger\Request` module.
 
 ## Basic development guide
 
 There are no real rules. The `.editorconfig` file outlines some formatting preferences, but you don't have to follow them if you have a different preference for your module. Please feel free to contribute in your own style. You can even ship a custom `.editorconfig` in your module with totally different preferences, and [most IDEs](https://editorconfig.org/#pre-installed) should be able to pick it up.
 
-In most cases for errors, throw an exception that _extends_ `Lipupini\Exception`, or throw `Lipupini\Exception`, or your own Exception handler extending that one. This allows for some future extendability, but is not a hard rule for creating a PR either (there are no rules for creating a PR).
+In most cases for errors, throw an exception that _extends_ `Module\Lipupini\Exception`, or throw `Module\Lipupini\Exception` itself, or your own Exception handler extending that one. This allows for some future extendability, but is not a hard rule for creating a PR either (there are no rules for creating a PR).
 
 ### Throwing a 404 error with some output
 
@@ -60,11 +60,11 @@ echo 'Not found';
 exit();
 ```
 
-via module method syntax:
+Or via module syntax (recommended):
 
 ```php
 http_response_code(404);
-echo 'Not found';
+$this->system->responseContent 'Not found';
 $this->system->shutdown = true;
 return;
 ```
@@ -101,28 +101,33 @@ class HasARouteRequest extends Http {
 }
 ```
 
-Then in `index.php` add `Module\MyNamespace\MyModule\HasARouteRequest`:
+Then in `config/system.php` add `Module\MyNamespace\MyModule\HasARouteRequest`:
 
 ```php
-return (new \Module\Lipupini\Request\Queue(
-	$systemState
-))->requestQueue([
-	"Module\\{$systemState->frontendView}\\HomepageRequest",
-	Module\Lipupini\WebFinger\Request::class,
-	Module\Lipupini\ActivityPub\NodeInfoRequest::class,
-	Module\Lipupini\Collection\FolderRequest::class,
-	Module\MyNamespace\MyModule\HasARouteRequest::class, // Here is your new module
-	Module\Lipupini\Collection\DocumentRequest::class,
-	Module\Lipupini\Collection\AvatarRequest::class,
-	Module\Lipupini\Collection\MediaProcessor\ImageRequest::class,
-	Module\Lipupini\Collection\MediaProcessor\VideoRequest::class,
-	Module\Lipupini\Collection\MediaProcessor\MarkdownRequest::class,
-	Module\Lipupini\Collection\MediaProcessor\AudioRequest::class,
-	Module\Lipupini\Rss\Request::class,
-	Module\Lipupini\ActivityPub\Request::class,
-])->render();
+return new Module\Lipupini\State(
+	[...]
+	requests: [
+		[...]
+		Module\Lukinview\HomepageRequest::class => null,
+		Module\MyNamespace\MyModule\HasARouteRequest:class => null, // Here is your new module
+		Module\Lipupini\WebFinger\Request::class => null,
+		Module\Lipupini\ActivityPub\NodeInfoRequest::class => null,
+		[...]
+	],
+	[...]
+);
 ```
 
-Request modules are initialized in the order they are specified in `index.php`. Since your `MyModule\HasARouteRequest` comes after `Collection\FolderRequest`, it will have available to it the currently requested collection folder and collection path, if present, because those are initialized in the `Collection\FolderRequest` module.
+Request modules are initialized in the order they are specified in `config/system.php`. Since your module comes after `Collection\Request`, it will have available to it the currently requested collection folder and collection path, if present, because those are initialized **and** validated in the `Collection\Request` module.
 
-See [Module\Lipupini\Rss\Request](Lipupini/Rss/Request.php) for an example of using the extracted variables. It should be best to use them in the same way, since they are sanitized and verified before they become available in the module state.
+See [Module\Lipupini\Rss\Request](Lipupini/Rss/Request.php) for an example of using the extracted collection information from `Collection\Request`.
+
+```php
+if (empty($this->system->requests[Collection\Request::class]->folderName)) {
+	return;
+}
+
+$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
+```
+
+It should be best to use them in the same way, since they are sanitized and verified before they become available to subsequent modules in the request queue.
