@@ -54,7 +54,7 @@ class FolderRequest extends Http {
 		$this->loadViewData();
 		header('Content-type: text/html');
 		ob_start();
-		require($this->system->dirModule . '/' . $this->system->frontendView . '/Html/Collection/Folder.php');
+		require($this->system->dirModule . '/' . $this->system->frontendModule . '/Html/Collection/Folder.php');
 		$this->system->responseContent = ob_get_clean();
 	}
 

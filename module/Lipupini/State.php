@@ -17,7 +17,7 @@ class State {
 		public string $baseUri = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URI e.g. https://example.org/~basePath/
 		public string $cacheBaseUri = 'http://dev.null/c/',
 		public string $baseUriPath = '/',
-		public string $frontendView = 'Lukinview',
+		public string $frontendModule = 'Lukinview',
 		public array $requests = [],
 		public bool $shutdown = false,
 		public bool $debug = false
@@ -53,7 +53,7 @@ class State {
 		}
 
 		if ($this->dirWebroot === '/dev/null') {
-			$this->dirWebroot = $this->dirModule . '/' . $this->frontendView . '/webroot';
+			$this->dirWebroot = $this->dirModule . '/' . $this->frontendModule . '/webroot';
 		}
 
 		if ($this->dirStorage === '/dev/null') {
