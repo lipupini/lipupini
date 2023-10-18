@@ -1,6 +1,6 @@
 In the `collection` root folder are subfolders that become the names of collections.
 
-Lipupini will attempt to serve any non-hidden files in these directories. If you drop a new video file into a collection folder, Lipupini will show it in the collection if it knows how to read the filetype. (See [MediaProcessors](../plugin/Lipupini/Collection/MediaProcessor/))
+Lipupini will attempt to serve any non-hidden files in these directories. If you drop a new video file into a collection folder, Lipupini will show it in the collection if it knows how to read the filetype. (See [MediaProcessors](../module/Lipupini/Collection/MediaProcessor/))
 
 Within an identifier folder is a `.lipupini` folder. This folder should have all the necessary data to configure an entire account just by dropping it into the filesystem.
 

@@ -46,8 +46,8 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
 - Your media collections are self-contained, served as they are on your filesystem. Metadata is stored in a special `.lipupini` folder, making account collections completely portable.
 - Lipupini manages to implement ActivityPub without a database. For example, certain inbox activities are logged to your collection in raw JSON.
-- Plugin system paves a way for modular development.
-- Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend plugin.
+- Module system paves a way for collaborative development.
+- Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
 - Building a way to keyword search collections using AI image recognition.
 - On-demand caching system creates and serves static media files. Support for custom caching URL can facilitate the use of a CDN.
 - A Public Domain license is the most permissive license there is. You can do whatever you want with this thing. Please feel free to contribute back to upstream, post in discussions, etc. There's no obligation of any kind.
@@ -147,15 +147,15 @@ cd lipupini
 2) Install Composer dependencies and go back to project root
 
 ```shell
-cd package
+cd module/Lipupini
 composer install
-cd ..
+cd ../..
 ```
 
-3. Navigate to the webserver document root and start PHP's built-in webserver. See [plugin/Lukinview/README.md](plugin/Lukinview/README.md) for more information.
+3. Navigate to the webserver document root and start PHP's built-in webserver. See [module/Lukinview/README.md](module/Lukinview/README.md) for more information.
 
 ```shell
-cd plugin/Lukinview/webroot
+cd module/Lukinview/webroot
 PHP_CLI_SERVER_WORKERS=2 php -S localhost:4000 index.php
 ```
 
@@ -231,9 +231,9 @@ The demo is the `demo` branch running on Apache2. If you already have Apache2 co
 
 ## Contributing
 
-You are welcome to fork it, change it, add plugins! Please don't hesitate to make a PR that includes your own plugins - it could be shipped with or integrated into core.
+You are welcome to fork it, change it, add modules! Please don't hesitate to make a PR that includes your own modules - it could be shipped with or integrated into core.
 
-I hope that the plugin architecture makes for a good workflow, especially being open to merging new plugins. In theory, plugins could just as easily be Composer packages and not have a `plugin` directory at all. The current architecture can still work seamlessly with the Composer pattern as well.
+I hope that the module architecture makes for a good workflow, especially being open to merging new modules. In theory, modules could just as easily be Composer packages and not have a `module` directory at all. The current architecture can still work seamlessly with the Composer pattern as well.
 
 Email apps [at] dup.bz if you'd like a point of contact or post in [discussions](https://github.com/instalution/lipupini/discussions) or [issues](https://github.com/instalution/lipupini/issues)! Please reach out if you begin to find any aspect frustrating or feel that it should be done in a different way.
 
@@ -263,7 +263,7 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 - Validate HTTP signatures, this could help improve outgoing signature flow too
 - i18n
-- All plugin output gets added to a buffer. This way any headers can be modified before output.
+- All module output gets added to a buffer. This way any headers can be modified before output.
     - Currently in the `shutdown()` method of `Lipupini.php` the timing and `X-Powered-By` header is commented out, but it should be possible to send those before output.
 - New window from frontend, might not need to use the `Parsedown.php` extension
 - Optionally specify separate URL in config for cache files (`c` folder)

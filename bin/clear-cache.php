@@ -1,10 +1,10 @@
 #!/usr/bin/env php
 <?php
 
-require(__DIR__ . '/../package/vendor/autoload.php');
+require(__DIR__ . '/../module/Lipupini/vendor/autoload.php');
 
 $baseUri = 'http://localhost/';
-$systemState = new Plugin\Lipupini\State(
+$systemState = new Module\Lipupini\State(
 	baseUri: $baseUri, // Include trailing slash
 	cacheBaseUri: $baseUri . 'c/', // If you'd like to use another URL for static files (e.g. CDN), put that here
 	frontendView: 'Lukinview',
@@ -36,11 +36,11 @@ exit(0);
 
 function deleteDirectory($directory, $systemState) {
 	if (empty($directory)) {
-		throw new \System\Exception('No directory specified');
+		throw new \Lipupini\Exception('No directory specified');
 	}
 
 	if (!$systemState->dirRoot || !str_starts_with($directory, $systemState->dirRoot)) {
-		throw new \System\Exception('Expected directory within project');
+		throw new \Lipupini\Exception('Expected directory within project');
 	}
 
 	passthru('rm -r ' . escapeshellarg($directory),$resultCode);
