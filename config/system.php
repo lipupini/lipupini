@@ -15,7 +15,7 @@ return new Module\Lipupini\State(
 	frontendModule: 'Lukinview',
 	requests: [
 		// Once instantiated by the Request\Queue `render()`,
-		// each key will hold the instance the module itself
+		// each key will hold the module instance itself
 		Module\Lukinview\HomepageRequest::class => null,
 		Module\Lipupini\WebFinger\Request::class => null,
 		Module\Lipupini\ActivityPub\NodeInfoRequest::class => null,
