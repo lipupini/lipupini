@@ -183,7 +183,5 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 - Validate HTTP signatures, this could help improve outgoing signature flow too
 - i18n
 - New window from frontend, might not need to use the `Parsedown.php` extension
-- Look into X-Frame-Options "SAMEORIGIN" header
 - Make `bin/generate-files-json.php` recursive
-- Check out Laravel middleware for additional security ideas
 - Create script to normalize file and directory user/group/permissions
