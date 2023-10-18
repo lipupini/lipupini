@@ -1,5 +1,15 @@
 The Selopini module namespace folder contains DevOps-related resources
 
+## System Dependencies
+
+Note: Some distros may already include varying extensions bundled with PHP.
+
+- [PHP8](https://www.php.net/manual/en/install.php)
+- [Composer](https://getcomposer.org/)
+- One of: [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php), or [PHP GD Extension](https://www.php.net/manual/en/book.image.php)
+- [PHP cURL Extension](https://www.php.net/manual/en/book.curl.php)
+- [PHP DOM Extension](https://www.php.net/manual/en/book.dom.php)
+
 ## Installing System Dependencies
 
 Debian 12

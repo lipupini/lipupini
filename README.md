@@ -4,7 +4,7 @@
 
 [Features](#features)
 
-[System Dependencies](#system-dependencies)
+[System Dependencies](module/Selopini/README.md#system-dependencies)
 
 [Lipupini Quickstart](#lipupini-quickstart)
 
@@ -51,18 +51,6 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Building a way to keyword search collections using AI image recognition.
 - On-demand caching system creates and serves static media files. Support for custom caching URL can facilitate the use of a CDN.
 - A Public Domain license is the most permissive license there is. You can do whatever you want with this thing. Please feel free to contribute back to upstream, post in discussions, etc. There's no obligation of any kind.
-
-## System Dependencies
-
-Some distros may include varying PHP extensions with PHP.
-
-- [PHP8](https://www.php.net/manual/en/install.php)
-- [Composer](https://getcomposer.org/)
-- One of: [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php), or [PHP GD Extension](https://www.php.net/manual/en/book.image.php)
-- [PHP cURL Extension](https://www.php.net/manual/en/book.curl.php)
-- [PHP DOM Extension](https://www.php.net/manual/en/book.dom.php)
-
-Instructions for installing system dependencies can be found at [module/Selopini/README.md](module/Selopini/README.md#installing-system-dependencies)
 
 ## Lipupini Quickstart
 
