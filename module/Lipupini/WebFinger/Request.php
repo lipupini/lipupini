@@ -8,6 +8,16 @@ class Request extends Http {
 	public string $responseType = 'application/jrd+json';
 
 	public function initialize(): void {
+		// https://webconcepts.info/concepts/well-known-uri/host-meta
+		if (str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . '.well-known/host-meta')) {
+			header('Content-type: application/xrd+xml');
+			$this->system->responseContent ='<?xml version="1.0" encoding="UTF-8"?>'
+				. '<XRD xmlns="http://docs.oasis-open.org/ns/xri/xrd-1.0">'
+				. '<Link rel="lrdd" template="' . $this->system->baseUri . '.well-known/webfinger?resource={uri}"/>'
+				. '</XRD>';
+			return;
+		}
+
 		$webFingerAccount = $this->getWebFingerAccountFromRequest();
 
 		if ($webFingerAccount === false) {
