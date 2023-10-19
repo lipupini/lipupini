@@ -22,7 +22,8 @@ RUN cd /app/module/Lipupini \
 COPY ./ /app/
 COPY ./docker/etc/unit/* /docker-entrypoint.d/
 RUN chown -R root:unit /app \
-  && chmod -R g+w /app/collection
+  && chmod -R g+w /app/collection \
+  && chmod -R g+w /app/module/Lukinview/webroot
 
 # ---
 
@@ -38,5 +39,5 @@ RUN apt-get update && apt-get install --yes curl git vim zip \
     useradd --create-home --gid $(getent group ${APP_GID} | cut --delimiter=: --fields=1) --uid ${APP_UID} app \
   ) \
   && apt-get clean && rm --recursive --force /var/lib/apt/lists/*
-WORKDIR /app
 COPY ./docker/etc/unit/* /docker-entrypoint.d/
+WORKDIR /app
