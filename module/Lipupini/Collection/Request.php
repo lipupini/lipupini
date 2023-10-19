@@ -17,14 +17,6 @@ class Request extends Http {
 		}
 
 		$this->folderName = $collectionFolderName;
-
-		// Every computer requesting collection HTML will need to explicitly accept "text/html"
-		if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
-			'text/html',
-		]) || !empty($_GET['feed'])) {
-			return;
-		}
-
 		$this->path = $this->getCollectionRequestPath();
 	}
 
@@ -36,7 +28,10 @@ class Request extends Http {
 	}
 
 	protected function getCollectionFolderNameFromRequest() {
-		if (!str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . '@')) {
+		if (
+			empty($_SERVER['REQUEST_URI']) ||
+			!str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . '@')
+		) {
 			return false;
 		}
 
