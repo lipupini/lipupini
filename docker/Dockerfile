@@ -5,8 +5,9 @@ EXPOSE 4000
 ARG PHP_COMPOSER_VERSION=2.6.5
 ARG DEBIAN_NONINTERACTIVE=1
 
-RUN apt-get update && apt-get install -y libpng-dev zlib1g-dev wget zip \
-  && docker-php-ext-install gd \
+RUN apt-get update && apt-get install -y libjpeg-dev libpng-dev zlib1g-dev wget zip \
+  && docker-php-ext-configure gd --enable-gd --with-jpeg \
+  && docker-php-ext-install -j$(nproc) gd \
   && wget -qO /usr/bin/composer https://github.com/composer/composer/releases/download/${PHP_COMPOSER_VERSION}/composer.phar \
   && chmod +x /usr/bin/composer \
   && apt-get remove -y wget \
