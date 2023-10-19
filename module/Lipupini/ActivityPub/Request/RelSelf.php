@@ -10,6 +10,9 @@ class RelSelf {
 			error_log('DEBUG: ' . get_called_class());
 		}
 
+		$profileFile = $activityPubRequest->system->dirCollection . '/' . $activityPubRequest->collectionFolderName . '/.lipupini/.profile.json';
+		$profileData = file_exists($profileFile) ? json_decode(file_get_contents($profileFile), true) : [];
+
 		$jsonData = [
 			'@context' => [
 				'https://w3id.org/security/v1',
@@ -25,7 +28,7 @@ class RelSelf {
 			'outbox' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox',
 			'preferredUsername' => $activityPubRequest->collectionFolderName,
 			'name' => $activityPubRequest->collectionFolderName,
-			'summary' => null,
+			'summary' => $profileData['summary'] ?? '',
 			'url' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName,
 			'manuallyApprovesFollowers' => false,
 			'publicKey' => [
