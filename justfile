@@ -1,6 +1,3 @@
-set dotenv-load := true
-set positional-arguments
-
 default:
 	just --list
 
@@ -14,6 +11,9 @@ dc *args="":
 
 down:
 	docker-compose -f docker/docker-compose.yml down
+
+prod *args="":
+	docker-compose -f docker/docker-compose.prod.yml {{args}}
 
 sh *args="":
 	docker-compose -f docker/docker-compose.yml exec {{args}} app bash
