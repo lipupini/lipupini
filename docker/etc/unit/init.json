@@ -1,0 +1,26 @@
+{
+	"listeners": {
+		"*:4000": {
+			"pass": "routes"
+		}
+	},
+	"routes": [
+		{
+			"action": {
+				"share": "/app/module/Lukinview/webroot/$uri",
+				"fallback": {
+					"pass": "applications/app"
+				}
+			}
+		}
+	],
+	"applications": {
+		"app": {
+			"type": "php",
+			"root": "/app/module/Lukinview/webroot",
+			"script": "index.php",
+			"user": "app",
+			"group": "app"
+		}
+	}
+}

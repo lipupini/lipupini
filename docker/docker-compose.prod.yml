@@ -1,0 +1,11 @@
+version: "3"
+name: lipupini
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: "prod"
+    ports:
+      - "4000:4000"
+
