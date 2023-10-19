@@ -1,0 +1,23 @@
+default:
+	just --list
+
+# ---
+
+build:
+	docker-compose build --build-arg APP_UID=$(id -u) --build-arg APP_GID=$(id -g)
+
+dc *args="":
+	docker-compose {{args}}
+
+down:
+	docker-compose down
+
+prod *args="":
+	docker-compose -f docker-compose.prod.yml {{args}}
+
+sh *args="":
+	docker-compose exec {{args}} app bash
+
+up *services: build
+	docker-compose up --no-build {{services}}
+
