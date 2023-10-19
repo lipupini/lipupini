@@ -1,9 +1,9 @@
 {
-  "listeners": {
-    "*:4000": {
-      "pass": "routes"
-    }
-  },
+	"listeners": {
+		"*:4000": {
+			"pass": "routes"
+		}
+	},
 	"routes": [
 		{
 			"action": {
@@ -14,13 +14,13 @@
 			}
 		}
 	],
-  "applications": {
-    "app": {
-      "type": "php",
-      "root": "/app/module/Lukinview/webroot",
+	"applications": {
+		"app": {
+			"type": "php",
+			"root": "/app/module/Lukinview/webroot",
 			"script": "index.php",
 			"user": "app",
 			"group": "app"
-    }
-  }
+		}
+	}
 }
