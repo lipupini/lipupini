@@ -81,6 +81,9 @@ class Request extends Http {
 				'timeout' => $this->system->debug ? 2 : 11,
 				'agent' => $this->userAgent(),
 			],
+			'logger' => [
+				'driver' => $this->system->debug ? 'Monolog\Logger' : '\Psr\Log\NullLogger',
+			],
 		]);
 	}
 
