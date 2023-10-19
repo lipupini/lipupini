@@ -31,6 +31,7 @@ RUN cd /app/module/Lipupini \
 COPY --chown=root:app ./ /app/
 COPY ./docker/etc/unit/* /docker-entrypoint.d/
 RUN chmod -R g+w /app/collection /app/module/Lukinview/webroot
+VOLUME /app/collection
 
 # ---
 
