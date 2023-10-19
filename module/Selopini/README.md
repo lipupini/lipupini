@@ -1,4 +1,4 @@
-The Selopini module namespace folder contains DevOps-related resources
+The Selopini module namespace folder contains DevOps-related resources.
 
 ## System Dependencies
 

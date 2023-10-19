@@ -190,3 +190,4 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
   - https://indieweb.org/Microsub
   - https://indieweb.org/Micropub
   - https://micropub.rocks
+- In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
