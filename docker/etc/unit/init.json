@@ -1,0 +1,13 @@
+{
+  "listeners": {
+    "*:4000": {
+      "application": "app"
+    }
+  },
+  "applications": {
+    "app": {
+      "type": "php",
+      "root": "/app/module/Lukinview/webroot"
+    }
+  }
+}
