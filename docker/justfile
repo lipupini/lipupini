@@ -14,4 +14,3 @@ sh *args="":
 
 up *services: build
 	docker-compose up --no-build {{services}}
-

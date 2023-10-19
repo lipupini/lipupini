@@ -1,6 +1,47 @@
-The Selopini module namespace folder contains DevOps-related resources.
+This document outlines deployment processes and other DevOps concerns.
+
+[Deploying with Docker](#deploying-with-docker)
+
+[System Dependencies](#system-dependencies)
+
+[Installing System Dependencies](#installing-system-dependencies)
+
+[Using PHP's Built-in Webserver](README.md#lipupini-development-quickstart)
+
+---
+
+## Deploying with Docker
+
+Start by entering the `docker` directory:
+
+```shell
+# Start in the project root
+cd path/to/project/root
+# Docker resources directory
+cd docker
+```
+
+If you have [Just](https://github.com/casey/just/) installed:
+
+```shell
+# Start Docker for development
+just up
+# Or start Docker for production
+just prod up
+```
+
+Raw `docker-compose` commands:
+
+```shell
+# Start Docker for development
+docker-compose up
+# Or start Docker for production
+docker-compose -f docker-compose.prod.yml up
+```
 
 ## System Dependencies
+
+When not using Docker to run Lipupini, you'll need to make sure system dependencies are met.
 
 Note: Some distros may already include varying extensions bundled with PHP.
 

@@ -4,9 +4,9 @@
 
 [Features](#features)
 
-[System Dependencies](module/Selopini/README.md#system-dependencies)
+[Lipupini Docker Setup](DEPLOY.md#deploying-with-docker)
 
-[Lipupini Quickstart](#lipupini-quickstart)
+[Running Lipupini Locally for Development](#lipupini-development-server)
 
 [Add Your Collection](#add-your-collection)
 
@@ -52,9 +52,9 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - On-demand caching system creates and serves static media files. Support for custom caching URL can facilitate the use of a CDN.
 - A [Public Domain license](LICENSE.md) is the most permissive license there is. You can do whatever you want with this thing. Please feel free to contribute back to upstream, post in discussions, etc. There is no obligation of any kind.
 
-## Lipupini Quickstart
+## Lipupini Development Server
 
-Make sure all [dependencies are installed first](module/Selopini/README.md#installing-system-dependencies).
+Make sure all [dependencies are installed first](DEPLOY.md#installing-system-dependencies).
 
 1) Clone the app and `cd` into the project root
 

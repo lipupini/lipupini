@@ -4,7 +4,6 @@ Default modules:
 
 - [Lipupini](Lipupini) - Backend
 - [Lukinview](Lukinview) - General frontend, suitable for visual artists / photographers, writers
-- [Selopini](Selopini) - DevOps-related resources
 
 While `Lukinview` can already support _any_ context with some creativity, other ideas include:
 
