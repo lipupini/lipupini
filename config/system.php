@@ -30,5 +30,5 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Rss\Request::class => null,
 		Module\Lipupini\ActivityPub\Request::class => null,
 	],
-	debug: true
+	debug: false
 );
