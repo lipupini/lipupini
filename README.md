@@ -191,3 +191,6 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
   - https://indieweb.org/Micropub
   - https://micropub.rocks
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
+- Contributions to `landrok/activitypub`:
+  - Propose error messages in `HttpSignature.php` be sent back to requester
+  - Propose adding an `.editorconfig`
