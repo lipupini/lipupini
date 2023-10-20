@@ -6,11 +6,13 @@ This document outlines deployment processes and other DevOps concerns.
 
 [Installing System Dependencies](#installing-system-dependencies)
 
-[Using PHP's Built-in Webserver](README.md#lipupini-development-quickstart)
+[Using PHP's Built-in Webserver](README.md#lipupini-development-server)
 
 ---
 
 ## Deploying with Docker
+
+Files, configuration, and scripts related to Docker deployment are contained in the `docker` directory.
 
 Start by entering the `docker` directory:
 
