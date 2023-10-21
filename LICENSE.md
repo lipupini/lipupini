@@ -8,10 +8,6 @@ License is (of course) notwithstanding the licenses of dependencies which are no
 
 - erusev/parsedown: MIT @ https://github.com/erusev/parsedown/blob/master/LICENSE.txt
 
-- phpseclib/phpseclib: https://github.com/phpseclib/phpseclib/blob/master/LICENSE
-
-- landrok/activitypub: MIT @ https://github.com/landrok/activitypub/blob/master/LICENSE
-
 - php-imagine/Imagine: https://github.com/php-imagine/Imagine/blob/develop/LICENSE
 
 - yurijmikhalevich/rclip: MIT @ https://github.com/yurijmikhalevich/rclip/blob/main/LICENSE
