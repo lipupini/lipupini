@@ -14,26 +14,26 @@ class Inbox {
 		}
 
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-			throw new Exception('Expected POST request');
+			throw new Exception('Expected POST request', 400);
 		}
 
 		$requestBody = file_get_contents('php://input');
 		$requestData = json_decode($requestBody);
 
 		if (!$requestData) {
-			throw new Exception('Could not load activity JSON');
+			throw new Exception('Could not load activity JSON', 400);
 		}
 
 		if (empty($requestData->actor)) {
-			throw new Exception('Could not determine request actor');
+			throw new Exception('Could not determine request actor', 400);
 		}
 
 		if (empty($requestData->type)) {
-			throw new Exception('Could not determine request type');
+			throw new Exception('Could not determine request type', 400);
 		}
 
 		if (empty($requestData->id)) {
-			throw new Exception('Could not determine request ID');
+			throw new Exception('Could not determine request ID', 400);
 		}
 
 		if ($activityPubRequest->system->debug) {
@@ -41,7 +41,7 @@ class Inbox {
 		}
 
 		if (empty($_SERVER['HTTP_SIGNATURE'])) {
-			throw new Exception('Expected request to be signed');
+			throw new Exception('Expected request to be signed', 403);
 		}
 
 		$remoteActor = RemoteActor::fromUrl(
@@ -55,7 +55,7 @@ class Inbox {
 			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), // Path without query string
 			$requestBody
 		)) {
-			throw new Exception('HTTP Signature did not validate');
+			throw new Exception('HTTP Signature did not validate', 403);
 		}
 
 		/* BEGIN STORE INBOX ACTIVITY */
@@ -92,7 +92,7 @@ class Inbox {
 				http_response_code(201);
 				return;
 			default :
-				throw new Exception('Unsupported ActivityPub type: ' . $requestData->type);
+				throw new Exception('Unsupported ActivityPub type: ' . $requestData->type, 400);
 		}
 
 		$activityJson = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);

@@ -14,11 +14,11 @@ class Follow {
 		}
 
 		if (empty($_GET['remote'])) {
-			throw new Exception('No remote account specified');
+			throw new Exception('No remote account specified', 400);
 		}
 
 		if (substr_count($_GET['remote'], '@') !== 1) {
-			throw new Exception('Invalid remote account format (E1)');
+			throw new Exception('Invalid remote account format (E1)', 400);
 		}
 
 		// The reason to do this way is even if ActivityPub doesn't support paths in handles, I still want to in case it does somewhere
@@ -27,7 +27,7 @@ class Follow {
 		$exploded = explode('@', $_GET['remote']);
 
 		if (!Outgoing\Ping::host($exploded[1])) {
-			throw new Exception('Could not ping remote host @ ' . $exploded[1] . ', giving up');
+			throw new Exception('Could not ping remote host @ ' . $exploded[1] . ', giving up', 400);
 		}
 
 		$remoteActor = RemoteActor::fromHandle(
@@ -38,7 +38,7 @@ class Follow {
 		$sendToInbox = $remoteActor->getInboxUrl();
 
 		if (!filter_var($sendToInbox, FILTER_VALIDATE_URL)) {
-			throw new Exception('Could not determine inbox URL');
+			throw new Exception('Could not determine inbox URL', 400);
 		}
 
 		// Create the JSON payload for the Follow activity (adjust as needed)

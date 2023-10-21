@@ -38,7 +38,11 @@ class Request extends Http {
 		}
 
 		header('Content-type: ' . static::$mimeType);
-		new $activityPubRequestClass($this);
+		try {
+			new $activityPubRequestClass($this);
+		} catch (Exception $e) {
+			$this->system->responseContent = $e;
+		}
 		$this->system->shutdown = true;
 	}
 

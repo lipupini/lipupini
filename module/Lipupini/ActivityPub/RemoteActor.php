@@ -15,7 +15,7 @@ class RemoteActor {
 
 	public static function fromUrl(string $url, string $cacheDir) {
 		if (!filter_var($url, FILTER_VALIDATE_URL)) {
-			throw new Exception('Invalid actor URL');
+			throw new Exception('Invalid actor URL', 400);
 		}
 
 		$actor = new static($cacheDir);
@@ -30,11 +30,11 @@ class RemoteActor {
 		}
 
 		if (substr_count($handle, '@') !== 1) {
-			throw new Exception('Suspicious remote actor handle format');
+			throw new Exception('Suspicious remote actor handle format', 400);
 		}
 
 		if (!$handle) {
-			throw new Exception('Could not determine remote actor handle');
+			throw new Exception('Could not determine remote actor handle', 400);
 		}
 
 		$actor = new static($cacheDir);
@@ -45,7 +45,7 @@ class RemoteActor {
 
 		$webFinger = $actor->webFinger($handle);
 		if (empty($webFinger->links)) {
-			throw new Exception('Could not find WebFinger links');
+			throw new Exception('Could not find WebFinger links', 400);
 		}
 
 		$apProfileUrl = null;
@@ -60,7 +60,7 @@ class RemoteActor {
 		}
 
 		if (!$apProfileUrl) {
-			throw new Exception('Could not find link for rel="self"');
+			throw new Exception('Could not find link for rel="self"', 400);
 		}
 
 		$actor->profileUrl = $apProfileUrl;
@@ -76,7 +76,7 @@ class RemoteActor {
 	public function getId() {
 		$profile = $this->getProfileJson();
 		if (empty($profile->id)) {
-			throw new Exception('Could not determine actor ID');
+			throw new Exception('Could not determine actor ID', 400);
 		}
 		return $profile->id;
 	}
@@ -84,7 +84,7 @@ class RemoteActor {
 	public function getInboxUrl() {
 		$profile = $this->getProfileJson();
 		if (empty($profile->inbox) || !filter_var($profile->inbox, FILTER_VALIDATE_URL)) {
-			throw new Exception('Could not determine inbox URL');
+			throw new Exception('Could not determine inbox URL', 400);
 		}
 		return $profile->inbox;
 	}
@@ -92,7 +92,7 @@ class RemoteActor {
 	public function getPreferredUsername() {
 		$profile = $this->getProfileJson();
 		if (empty($profile->preferredUsername)) {
-			throw new Exception('Could not determine remote preferred username');
+			throw new Exception('Could not determine remote preferred username', 400);
 		}
 		return $profile->preferredUsername;
 	}
@@ -100,7 +100,7 @@ class RemoteActor {
 	public function getPublicKeyPem() {
 		$profile = $this->getProfileJson();
 		if (empty($profile->publicKey->publicKeyPem)) {
-			throw new Exception('Could not determine public key PEM');
+			throw new Exception('Could not determine public key PEM', 400);
 		}
 		return $profile->publicKey->publicKeyPem;
 	}

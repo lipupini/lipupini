@@ -114,7 +114,7 @@ class Outbox {
 					'name' => $filePath,
 				];
 			} else {
-				throw new Exception('Unexpected file extension: ' . $extension);
+				throw new Exception('Unexpected file extension: ' . $extension, 400);
 			}
 
 			$item['object'] = $object;
