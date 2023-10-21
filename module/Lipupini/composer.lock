@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b520a621df548bd51571045166d85ad1",
+    "content-hash": "c58e4174b7c62d27cef4f45d7f41363f",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -444,30 +444,30 @@
             "time": "2023-06-07T14:49:52+00:00"
         },
         {
-            "name": "landrok/activitypub",
-            "version": "0.6.0",
+            "name": "instalution/activitypub",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/landrok/activitypub.git",
-                "reference": "61800a944e833c8a260d19461c17fc10040526ac"
+                "url": "https://github.com/instalution/activitypub.git",
+                "reference": "2a2ec2b458a6b421691b96649299265cafbdab83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/landrok/activitypub/zipball/61800a944e833c8a260d19461c17fc10040526ac",
-                "reference": "61800a944e833c8a260d19461c17fc10040526ac",
+                "url": "https://api.github.com/repos/instalution/activitypub/zipball/2a2ec2b458a6b421691b96649299265cafbdab83",
+                "reference": "2a2ec2b458a6b421691b96649299265cafbdab83",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": ">=6.3",
-                "monolog/monolog": "^1.12|^2.0|^3.0",
-                "php": "^7.3|^8.0",
-                "phpseclib/phpseclib": "^3.0.7",
-                "psr/cache": "^1.0|^2.0|^3.0",
-                "symfony/cache": ">=4.0",
-                "symfony/http-foundation": ">=3.4"
+                "guzzlehttp/guzzle": "^7.8",
+                "monolog/monolog": "^3.4",
+                "php": "^8.0",
+                "phpseclib/phpseclib": "^3.0",
+                "psr/cache": "^3.0",
+                "symfony/cache": "^6.3",
+                "symfony/http-foundation": "^6.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "*"
+                "phpunit/phpunit": "^10.0"
             },
             "type": "library",
             "autoload": {
@@ -479,18 +479,17 @@
             "license": [
                 "MIT"
             ],
-            "description": "A PHP implementation of ActivityPub protocol based upon the ActivityStreams 2.0 data format.",
-            "homepage": "https://github.com/landrok/activitypub",
+            "description": "Fork of `landrok/activitypub` @ https://github.com/landrok/activitypub",
+            "homepage": "https://github.com/instalution/activitypub",
             "keywords": [
                 "Federation",
                 "activitypub",
                 "activitystreams"
             ],
             "support": {
-                "issues": "https://github.com/landrok/activitypub/issues",
-                "source": "https://github.com/landrok/activitypub/tree/0.6.0"
+                "source": "https://github.com/instalution/activitypub/tree/0.7.0"
             },
-            "time": "2023-07-05T21:01:45+00:00"
+            "time": "2023-10-21T08:15:03+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1908,5 +1907,5 @@
         "ext-openssl": "*"
     },
     "platform-dev": [],
-    "module-api-version": "2.2.0"
+    "plugin-api-version": "2.2.0"
 }
