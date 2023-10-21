@@ -71,7 +71,8 @@ class Request extends Http {
 			return false;
 		}
 
-		if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
+		// Uncomment this to enforce request type
+		/*if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
 			'application/activity+json',
 			'application/jrd+json',
 			'application/ld+json',
@@ -79,7 +80,7 @@ class Request extends Http {
 			$this->system->debug ? 'text/html' : null,
 		])) {
 			throw new Exception('Invalid request type');
-		}
+		}*/
 
 		if (empty($_GET['resource'])) {
 			throw new Exception('Could not find webfinger resource');

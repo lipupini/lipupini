@@ -3,7 +3,6 @@
 namespace Module\Lipupini\ActivityPub;
 
 use Module\Lipupini\Request\Http;
-use Module\Lipupini\WebFinger\Exception;
 
 // https://github.com/jhass/nodeinfo/blob/main/PROTOCOL.md
 
@@ -13,12 +12,12 @@ class NodeInfoRequest extends Http {
 			return;
 		}
 
-		if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
+		// Uncomment this to enforce request type
+		/*if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
 			'application/json',
-			$this->system->debug ? 'text/html' : null,
 		])) {
 			throw new Exception('Invalid request type');
-		}
+		}*/
 
 		if (isset($_GET['local'])) {
 			$this->local();
