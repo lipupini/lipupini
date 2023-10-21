@@ -40,11 +40,13 @@ webserver@domain $ su - webserver
 webserver@domain $ pwd
 /var/www/lipupini
 
-webserver@domain $ sudo ln -s /home/bob/Lipupini /var/www/lipupini/storage/collection/bob@domain.tld
+webserver@domain $ sudo ln -s /home/bob/Lipupini /var/www/lipupini/storage/collection/bob
 
-webserver@domain $ ls -A collection/bob@domain.tld
+webserver@domain $ ls -A storage/collection/bob
 cat-hat.png  cat-scarf.jpg  dup.mp4  .lipupini  memes  poetry  winamp-intro.mp3
 ```
-After symlinking, user `bob` can log in using SFTP and see a `Lipupini` directory in their `/home/bob` directory. The files placed in this directory are then automatically served by Lipupini.
+After symlinking, user `bob` can log in using SFTP and see a `Lipupini` directory in their `/home/bob` directory. The files placed in this directory are then automatically served by Lipupini. The collection is also searchable in the Fediverse and can be subscribed via RSS.
 
-In this way, "Bob" can log in and upload or sync files using many standard methods for which tons of great tutorials are already written. The organization of the files stays the same as it is on Bob's local computer. "Bob" can use WinSCP, FileZilla, drag-n-drop, Windows file manager, MacOS file manager, Linux file manager, various mobile file managers, remote drive mount, a Git repository, rsync, Unison, Syncthing, inotify, etc etc. This method also does not place any limitation on what can be achieved later via the website.
+Now "Bob" can log in and upload or sync files using many standard methods for which tons of great tutorials are already written. The organization of the files stays the same as it is on Bob's local computer. "Bob" can use WinSCP, FileZilla, drag-n-drop, Windows file manager, MacOS file manager, Linux file manager, various mobile file managers, remote drive mount, a Git repository, rsync, Unison, Syncthing, inotify, etc etc.
+
+Additionally, native applications can be created to add files and update the JSON for collections. This method also does not place any limitation on what can be achieved later via the website.
