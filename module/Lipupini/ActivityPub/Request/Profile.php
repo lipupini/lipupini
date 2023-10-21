@@ -33,7 +33,7 @@ class Profile {
 			'manuallyApprovesFollowers' => false,
 			'publicKey' => [
 				'id' =>$activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=profile#main-key',
-				'owner' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName,
+				'owner' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=profile',
 				'publicKeyPem' => file_get_contents($activityPubRequest->system->dirCollection . '/' . $activityPubRequest->collectionFolderName . '/.lipupini/.rsakey.public')
 			],
 			'icon' => [
