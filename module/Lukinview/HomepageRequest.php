@@ -2,7 +2,7 @@
 
 namespace Module\Lukinview;
 
-use Module\Lipupini\Request\Http;
+use Module\Lipupini\Request\Incoming\Http;
 
 class HomepageRequest extends Http {
 	public string $pageTitle = '';

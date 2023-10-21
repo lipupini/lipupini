@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Lipupini\Request;
+namespace Module\Lipupini\Request\Incoming;
 
 use Module\Lipupini\State;
 

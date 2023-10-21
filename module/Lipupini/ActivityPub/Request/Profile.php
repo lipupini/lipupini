@@ -4,7 +4,7 @@ namespace Module\Lipupini\ActivityPub\Request;
 
 use Module\Lipupini\ActivityPub\Request;
 
-class RelSelf {
+class Profile {
 	public function __construct(Request $activityPubRequest) {
 		if ($activityPubRequest->system->debug) {
 			error_log('DEBUG: ' . get_called_class());
@@ -20,19 +20,19 @@ class RelSelf {
 					'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
 				],
 			],
-			'id' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName,
+			'id' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=profile',
 			'type' => 'Person',
-			'following' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=following',
-			'followers' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=followers',
-			'inbox' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=inbox',
-			'outbox' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox',
+			'following' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=following',
+			'followers' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=followers',
+			'inbox' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=inbox',
+			'outbox' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=outbox',
 			'preferredUsername' => $activityPubRequest->collectionFolderName,
 			'name' => $activityPubRequest->collectionFolderName,
 			'summary' => $profileData['summary'] ?? '',
 			'url' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName,
 			'manuallyApprovesFollowers' => false,
 			'publicKey' => [
-				'id' =>$activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '#main-key',
+				'id' =>$activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=profile#main-key',
 				'owner' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName,
 				'publicKeyPem' => file_get_contents($activityPubRequest->system->dirCollection . '/' . $activityPubRequest->collectionFolderName . '/.lipupini/.rsakey.public')
 			],
@@ -42,7 +42,7 @@ class RelSelf {
 				'url' => $activityPubRequest->system->baseUri . 'c/avatar/' . $activityPubRequest->collectionFolderName . '.png',
 			],
 			'endpoints' => [
-				'sharedInbox' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=sharedInbox',
+				'sharedInbox' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=sharedInbox',
 			]
 		];
 

@@ -86,16 +86,16 @@ Say you have a folder of awesome photos at `/home/sally/Pictures/AwesomePhotos`
 
 Your Lipupini installation is at `/opt/webapp/lipupini`
 
-1) Take the photos from `/home/sally/Pictures/AwesomeCollection` and put them into the collection directory `/opt/webapp/lipupini/collection/sally` either by copying them:
+1) Take the photos from `/home/sally/Pictures/AwesomeCollection` and put them into the collection directory `/opt/webapp/lipupini/storage/collection/sally` either by copying them:
 
 ```shell
-cp -R /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/collection/sally
+cp -R /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/storage/collection/sally
 ```
 
 or symlinking them:
 
 ```shell
-ln -s /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/collection/sally
+ln -s /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/storage/collection/sally
 ```
 
 2) Initialize the `.lipupini` folder for the collection
@@ -106,9 +106,9 @@ bin/generate-keys.php sally
 bin/create-files-json.php sally
 ```
 
-3) Save a file called `.avatar.png` at `/opt/webapp/lipupini/collection/sally/.lipupini/.avatar.png`
+3) Save a file called `.avatar.png` at `/opt/webapp/lipupini/storage/collection/sally/.lipupini/.avatar.png`
 
-4) Edit the file at `/opt/webapp/lipupini/collection/sally/.lipupini/.files.json` to add captions (this is optional)
+4) Edit the file at `/opt/webapp/lipupini/storage/collection/sally/.lipupini/.files.json` to add captions (this is optional)
 
 5) Delete the example collection:
 
@@ -118,7 +118,7 @@ rm -r collection/example
 
 6) Your collection should now be viewable at http://localhost:4000/@sally
 
-In addition to copying or symlinking, see [collection/README.md#vision](collection/README.md#vision) for ideas on other ways to keep these directories in sync.
+In addition to copying or symlinking, see [storage/collection/README.md#vision](storage/collection/README.md#vision) for ideas on other ways to keep these directories in sync.
 
 ## ActivityPub Note
 

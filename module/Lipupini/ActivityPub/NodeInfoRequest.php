@@ -2,7 +2,7 @@
 
 namespace Module\Lipupini\ActivityPub;
 
-use Module\Lipupini\Request\Http;
+use Module\Lipupini\Request\Incoming\Http;
 
 // https://github.com/jhass/nodeinfo/blob/main/PROTOCOL.md
 
@@ -11,13 +11,6 @@ class NodeInfoRequest extends Http {
 		if (!str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . '.well-known/nodeinfo')) {
 			return;
 		}
-
-		// Uncomment this to enforce request type
-		/*if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
-			'application/json',
-		])) {
-			throw new Exception('Invalid request type');
-		}*/
 
 		if (isset($_GET['local'])) {
 			$this->local();

@@ -18,6 +18,7 @@ class State {
 		public string $cacheBaseUri = 'http://dev.null/c/',
 		public string $baseUriPath = '/',
 		public string $frontendModule = 'Lukinview',
+		public string $userAgent = '(Lipupini/69.420; +https://github.com/instalution/lipupini)',
 		public array $requests = [],
 		public bool $shutdown = false,
 		public bool $debug = false
@@ -44,10 +45,6 @@ class State {
 			$this->dirRoot = realpath(__DIR__ . '/../../');
 		}
 
-		if ($this->dirCollection === '/dev/null') {
-			$this->dirCollection = $this->dirRoot . '/collection';
-		}
-
 		if ($this->dirModule === '/dev/null') {
 			$this->dirModule = $this->dirRoot . '/module';
 		}
@@ -58,6 +55,10 @@ class State {
 
 		if ($this->dirStorage === '/dev/null') {
 			$this->dirStorage = $this->dirRoot . '/storage';
+		}
+
+		if ($this->dirCollection === '/dev/null') {
+			$this->dirCollection = $this->dirStorage . '/collection';
 		}
 
 		$this->microtimeInit = microtime(true);

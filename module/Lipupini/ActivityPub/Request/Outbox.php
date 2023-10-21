@@ -23,9 +23,9 @@ class Outbox {
 		if (empty($_GET['page'])) {
 			$jsonData = [
 				'@context' => 'https://www.w3.org/ns/activitystreams',
-				'id' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox',
+				'id' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=outbox',
 				'type' => 'OrderedCollection',
-				'first' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox&page=1',
+				'first' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=outbox&page=1',
 				'totalItems' => count($this->collectionData),
 			];
 			$activityPubRequest->system->responseContent = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
@@ -62,7 +62,7 @@ class Outbox {
 					'https://www.w3.org/ns/activitystreams#Public'
 				],
 				'cc' => [
-					$activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName .'?request=followers'
+					$activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName .'?ap=followers'
 				]
 			];
 
@@ -127,19 +127,19 @@ class Outbox {
 					'sensitive' => 'as:sensitive',
 				],
 			],
-			'id' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox&page=' . (int)$_GET['page'],
+			'id' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=outbox&page=' . (int)$_GET['page'],
 			'type' => 'OrderedCollectionPage',
-			'partOf' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox',
+			'partOf' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=outbox',
 			'totalItems' => count($this->collectionData),
 			'orderedItems' => $items
 		];
 
 		if ($this->page > 1) {
-			$outboxJsonArray['prev'] = $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox&page=' . ($this->page - 1);
+			$outboxJsonArray['prev'] = $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=outbox&page=' . ($this->page - 1);
 		}
 
 		if ($this->page < $this->numPages) {
-			$outboxJsonArray['next'] = $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?request=outbox&page=' . ($this->page + 1);
+			$outboxJsonArray['next'] = $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '?ap=outbox&page=' . ($this->page + 1);
 		}
 
 		$activityPubRequest->system->responseContent = json_encode($outboxJsonArray, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);

@@ -2,30 +2,32 @@
 
 namespace Module\Lipupini\Encryption;
 
-use phpseclib3\Crypt\Common\PrivateKey;
-use phpseclib3\Crypt\Common\PublicKey;
-use phpseclib3\Crypt\PublicKeyLoader;
-use phpseclib3\Crypt\RSA;
-
 class Key {
 	public const VALID_BITS = [512, 1024, 2048, 3072, 4096];
 
-	public function generate(int $privateKeyBits, string $password = ''): array {
+	public function generate(int $privateKeyBits, string $password = null): array {
 		if (!in_array($privateKeyBits, $this::VALID_BITS, true)) {
 			throw new Exception('Invalid bits');
 		}
 
-		if ($password) {
-			$private = RSA::createKey($privateKeyBits)->withPassword($password);
-		} else {
-			$private = RSA::createKey($privateKeyBits);
-		}
+		// Configuration for the keypair
+		$config = array(
+			'private_key_bits' => $privateKeyBits,
+			'private_key_type' => OPENSSL_KEYTYPE_RSA,
+		);
 
-		$public = $private->getPublicKey();
+		// Generate the keypair
+		$res = openssl_pkey_new($config);
+
+		// Extract the private key
+		openssl_pkey_export($res, $privateKey, $password);
+
+		// Extract the public key
+		$publicKey = openssl_pkey_get_details($res)['key'];
 
 		return [
-			'private' => $private,
-			'public' => $public,
+			'private' => $privateKey,
+			'public' => $publicKey,
 		];
 	}
 
@@ -35,34 +37,18 @@ class Key {
 		file_put_contents($privateKeyPath, $generated['private']);
 	}
 
-	public function load(string $fullPath, string $type, string $password = ''): PublicKey | PrivateKey {
-		switch ($type) {
-			case 'public':
-				return PublicKeyLoader::loadPublicKey(file_get_contents($fullPath));
-			case 'private':
-				if ($password) {
-					return PublicKeyLoader::loadPrivateKey(file_get_contents($fullPath))->withPassword($password)->withHash('sha256');
-				} else {
-					return PublicKeyLoader::loadPrivateKey(file_get_contents($fullPath))->withHash('sha256');
-				}
-		}
-
-		throw new Exception('Unknown key type');
+	public function sign(string $privateKeyPem, $message): string {
+		openssl_sign($message, $signature, openssl_pkey_get_private($privateKeyPem), OPENSSL_ALGO_SHA256);
+		return $signature;
 	}
 
-	public function sign(string $privateKeyPath, $message): string {
-		return $this->load($privateKeyPath, 'private')->sign($message);
+	public function verify($message, $signature, $publicKeyPem): bool {
+		return openssl_verify($message, $signature, $publicKeyPem, OPENSSL_ALGO_SHA256);
 	}
 
-	public function verify($message, $signature, $keyPath, $fromKeyType = 'public'): bool {
-		return $this->load($keyPath, $fromKeyType)->verify($message, $signature);
-	}
-
-	public function encrypt($publicKeyPath, $data): string {
-		return $this->load($publicKeyPath, 'public')->encrypt($data);
-	}
-
-	public function decrypt($privateKeyPath, $data): string {
-		return $this->load($privateKeyPath, 'private')->decrypt($data);
+	public function httpHeadersToSigningString(array $headers): string {
+		return implode("\n", array_map(function ($k, $v) {
+			return strtolower($k) . ': ' . $v;
+		}, array_keys($headers), $headers));
 	}
 }

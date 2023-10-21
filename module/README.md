@@ -77,7 +77,7 @@ If more complex route detection is needed, use `preg_match` instead of checking 
 
 namespace Module\MyNamespace\MyModule;
 
-use Lipupini\Request\Http;
+use Module\Lipupini\Request\Incoming\Http;
 
 class HasARouteRequest extends Http {
 	public function initialize(): void {

@@ -1,0 +1,5 @@
+/cache/*
+!/cache/.gitkeep
+!/collection/example
+/collection/example/inbox
+/collection/*

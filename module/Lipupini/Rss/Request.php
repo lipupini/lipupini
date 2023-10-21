@@ -3,7 +3,7 @@
 namespace Module\Lipupini\Rss;
 
 use Module\Lipupini\Collection;
-use Module\Lipupini\Request\Http;
+use Module\Lipupini\Request\Incoming\Http;
 
 class Request extends Http {
 	public function initialize(): void {
@@ -11,10 +11,7 @@ class Request extends Http {
 			return;
 		}
 
-		if (
-			!$this->validateRequestMimeTypes('HTTP_ACCEPT', $this->mimeTypes()) &&
-			(!isset($_GET['feed']) || $_GET['feed'] !== 'rss')
-		) {
+		if (!isset($_GET['feed']) || $_GET['feed'] !== 'rss') {
 			return;
 		}
 
@@ -143,7 +140,6 @@ class Request extends Http {
 	public function mimeTypes(): array {
 		return [
 			'application/rss+xml',
-			'application/atom+xml',
 			'application/xml',
 		];
 	}

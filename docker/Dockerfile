@@ -31,8 +31,8 @@ RUN cd /app/module/Lipupini \
   && composer install --prefer-dist --no-progress --optimize-autoloader --no-dev
 COPY --chown=root:app ./ /app/
 COPY ./docker/etc/unit/* /docker-entrypoint.d/
-RUN chmod -R g+w /app/collection /app/module/Lukinview/webroot
-VOLUME /app/collection
+RUN chmod -R g+w /app/storage /app/module/Lukinview/webroot/c
+VOLUME /app/storage/collection
 
 # ---
 

@@ -2,10 +2,10 @@
 
 namespace Module\Lipupini\WebFinger;
 
-use Module\Lipupini\Request\Http;
+use Module\Lipupini\Request\Incoming\Http;
 
 class Request extends Http {
-	public string $responseType = 'application/jrd+json';
+	public static string $mimeType = 'application/jrd+json';
 
 	public function initialize(): void {
 		// https://webconcepts.info/concepts/well-known-uri/host-meta
@@ -51,7 +51,7 @@ class Request extends Http {
 				[
 					'rel' => 'self',
 					'type' => 'application/activity+json',
-					'href' => $this->system->baseUri . '@' . $user,
+					'href' => $this->system->baseUri . '@' . $user . '?ap=profile',
 				],
 				[
 					'rel' => 'http://webfinger.net/rel/avatar',
@@ -61,7 +61,7 @@ class Request extends Http {
 			]
 		];
 
-		header('Content-type: ' . $this->responseType);
+		header('Content-type: ' . static::$mimeType);
 		$this->system->responseContent = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 		$this->system->shutdown = true;
 	}
@@ -70,17 +70,6 @@ class Request extends Http {
 		if (!str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . '.well-known/webfinger')) {
 			return false;
 		}
-
-		// Uncomment this to enforce request type
-		/*if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
-			'application/activity+json',
-			'application/jrd+json',
-			'application/ld+json',
-			'application/json',
-			$this->system->debug ? 'text/html' : null,
-		])) {
-			throw new Exception('Invalid request type');
-		}*/
 
 		if (empty($_GET['resource'])) {
 			throw new Exception('Could not find webfinger resource');

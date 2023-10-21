@@ -3,7 +3,9 @@
 namespace Module\Lipupini\ActivityPub\Request;
 
 use Module\Lipupini\ActivityPub\Exception;
+use Module\Lipupini\ActivityPub\RemoteActor;
 use Module\Lipupini\ActivityPub\Request;
+use Module\Lipupini\Request\Incoming;
 
 class Inbox {
 	public function __construct(Request $activityPubRequest) {
@@ -36,6 +38,24 @@ class Inbox {
 
 		if ($activityPubRequest->system->debug) {
 			error_log('DEBUG: Received ' . $requestData->type . ' request from ' . $requestData->actor);
+		}
+
+		if (empty($_SERVER['HTTP_SIGNATURE'])) {
+			throw new Exception('Expected request to be signed');
+		}
+
+		$remoteActor = RemoteActor::fromUrl(
+			url: $requestData->actor,
+			cacheDir: $activityPubRequest->system->dirStorage . '/cache/ap'
+		);
+
+		if (!(new Incoming\Signature)->verify(
+			$remoteActor->getPublicKeyPem(),
+			$_SERVER,
+			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), // Path without query string
+			$requestBody
+		)) {
+			throw new Exception('HTTP Signature did not validate');
 		}
 
 		/* BEGIN STORE INBOX ACTIVITY */
@@ -77,20 +97,11 @@ class Inbox {
 
 		$activityJson = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
-		$server = $activityPubRequest->activityPubServer();
-		$actor = $server->actor($requestData->actor);
-		$sendToInbox = $actor->get('inbox') ?? null;
+		$response = $activityPubRequest->sendSigned($remoteActor->getInboxUrl(), $activityJson);
 
-		if (!filter_var($sendToInbox, FILTER_VALIDATE_URL)) {
-			throw new Exception('Could not determine inbox URL');
-		}
-
-		$response = $server->inbox($requestData->actor)->post(
-			$activityPubRequest->createSignedRequest($sendToInbox, $activityJson)
-		);
-
-		header('Content-type: ' . $activityPubRequest->responseType);
+		header('Content-type: ' . $activityPubRequest->mimeTypes()[0]);
 		// Just pass through the status code received from the remote
-		http_response_code($response->getStatusCode());
+		http_response_code($response['code']);
+		$activityPubRequest->system->responseContent = json_encode($response, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 	}
 }

@@ -3,7 +3,7 @@
 namespace Module\Lipupini\Collection;
 
 use Module\Lipupini\Collection;
-use Module\Lipupini\Request\Http;
+use Module\Lipupini\Request\Incoming\Http;
 
 class Request extends Http {
 	public string|null $folderName = null;

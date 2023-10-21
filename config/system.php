@@ -14,12 +14,14 @@ return new Module\Lipupini\State(
 	cacheBaseUri: $baseUri . 'c/', // If you'd like to use another URL for static files (e.g. CDN), put that here
 	frontendModule: 'Lukinview',
 	requests: [
-		// Once instantiated by the Request\Queue `render()`,
+		// Once instantiated by Request\Incoming\Queue `render()`,
 		// each key will hold the module instance itself
 		Module\Lukinview\HomepageRequest::class => null,
 		Module\Lipupini\WebFinger\Request::class => null,
 		Module\Lipupini\ActivityPub\NodeInfoRequest::class => null,
 		Module\Lipupini\Collection\Request::class => null,
+		Module\Lipupini\ActivityPub\Request::class => null,
+		Module\Lipupini\Rss\Request::class => null,
 		Module\Lipupini\Collection\FolderRequest::class => null,
 		Module\Lipupini\Collection\DocumentRequest::class => null,
 		Module\Lipupini\Collection\AvatarRequest::class => null,
@@ -27,8 +29,6 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\MediaProcessor\VideoRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\MarkdownRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\AudioRequest::class => null,
-		Module\Lipupini\Rss\Request::class => null,
-		Module\Lipupini\ActivityPub\Request::class => null,
 	],
 	debug: false
 );

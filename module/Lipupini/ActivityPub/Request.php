@@ -2,13 +2,12 @@
 
 namespace Module\Lipupini\ActivityPub;
 
-use ActivityPhp;
-use Module\Lipupini\Request\Http;
 use Module\Lipupini\Collection;
-use Module\Lipupini\Encryption;
+use Module\Lipupini\Request\Incoming\Http;
+use Module\Lipupini\Request\Outgoing;
 
 class Request extends Http {
-	public string $responseType = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
+	public static string $mimeType = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
 	public string|null $collectionFolderName = null;
 	public string|null $collectionRequestPath = '';
 
@@ -23,26 +22,11 @@ class Request extends Http {
 			$this->collectionRequestPath = $this->system->requests[Collection\Request::class]->path;
 		}
 
-		if (
-			$_SERVER['REQUEST_METHOD'] === 'GET' &&
-			!$this->validateRequestMimeTypes('HTTP_ACCEPT', $this->mimeTypes())
-		) {
-			return;
-		} else if (
-			$_SERVER['REQUEST_METHOD'] === 'POST' &&
-			(
-				!$this->validateRequestMimeTypes('CONTENT_TYPE', $this->mimeTypes()) &&
-				!$this->validateRequestMimeTypes('HTTP_CONTENT_TYPE', $this->mimeTypes())
-			)
-		) {
+		if (empty($_GET['ap'])) {
 			return;
 		}
 
-		if ($this->system->debug) {
-			error_log('DEBUG: ' . __CLASS__ . ' initialize()');
-		}
-
-		$activityPubRequest = !empty($_GET['request']) ? ucfirst($_GET['request']) : 'RelSelf';
+		$activityPubRequest = ucfirst($_GET['ap']);
 
 		// This will compute to a class in the `./Request` folder e.g. `./Request/Follow.php`;
 		if (!class_exists($activityPubRequestClass = '\\Module\\Lipupini\\ActivityPub\\Request\\' . $activityPubRequest)) {
@@ -53,9 +37,24 @@ class Request extends Http {
 			error_log('DEBUG: Performing ActivityPub request "' . $activityPubRequest . '"');
 		}
 
-		header('Content-type: ' . $this->responseType);
+		header('Content-type: ' . static::$mimeType);
 		new $activityPubRequestClass($this);
 		$this->system->shutdown = true;
+	}
+
+	public function sendSigned(string $inboxUrl, string $activityJson) {
+		$headers = Outgoing\Signature::sign(
+			$this->system->baseUri . '@' . $this->collectionFolderName . '?ap=profile#main-key',
+			file_get_contents($this->system->dirCollection . '/' . $this->collectionFolderName . '/.lipupini/.rsakey.private'),
+			$inboxUrl,
+			$activityJson, [
+				'Content-type' => $this->mimeTypes()[0],
+				'Accept' => $this->mimeTypes()[0],
+				'User-agent' => $this->system->userAgent,
+			]
+		);
+
+		return Outgoing\Http::post($inboxUrl, $activityJson, $headers);
 	}
 
 	public function mimeTypes(): array {
@@ -63,57 +62,7 @@ class Request extends Http {
 			'application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
 			'application/activity+json',
 			'application/ld+json',
-			//$this->system->debug ? 'text/html' : null,
+			'*/*',
 		];
-	}
-
-	public function activityPubServer() {
-		return new ActivityPhp\Server([
-			'cache' => [
-				'enabled' => !$this->system->debug,
-				'stream' => $this->system->dirCollection . '/.apcache',
-			],
-			'instance' => [
-				'debug' => $this->system->debug,
-				'types' => 'ignore',
-			],
-			'http' => [
-				'timeout' => $this->system->debug ? 2 : 11,
-				'agent' => $this->userAgent(),
-			],
-			'logger' => [
-				'driver' => $this->system->debug ? 'Monolog\Logger' : '\Psr\Log\NullLogger',
-			],
-		]);
-	}
-
-	public function ping(string $host) : bool {
-		exec('ping -c 1 ' . escapeshellarg($host), $output, $resultCode);
-		return $resultCode === 0;
-	}
-
-	public function verifySignature(string $signature, string $digest = null) {
-
-	}
-
-	public function createSignedRequest(string $sendToInbox, string $activityJson) {
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
-
-		return Encryption\Signature::signedRequest(
-			privateKeyPath: $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/.rsakey.private',
-			keyId: $this->system->baseUri . '@' . $collectionFolderName . '#main-key',
-			url: $sendToInbox,
-			body: $activityJson,
-			extraHeaders: [
-				'Content-type' => $this->mimeTypes()[0],
-				'Accept' => $this->mimeTypes()[0],
-				'User-Agent' => $this->userAgent(),
-				'Host' => $this->system->host, // Host without port
-			]
-		);
-	}
-
-	public function userAgent() {
-		return  '(Lipupini/69.420; +' . $this->system->baseUri . ')';
 	}
 }

@@ -2,7 +2,6 @@
 
 namespace Module\Lipupini\Collection\MediaProcessor;
 
-use Module\Lipupini\Request\Http;
 use Module\Lipupini\Collection;
 
 class AudioRequest extends MediaProcessorRequest {

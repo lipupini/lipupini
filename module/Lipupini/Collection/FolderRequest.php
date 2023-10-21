@@ -3,7 +3,7 @@
 namespace Module\Lipupini\Collection;
 
 use Module\Lipupini\Collection;
-use Module\Lipupini\Request\Http;
+use Module\Lipupini\Request\Incoming\Http;
 
 class FolderRequest extends Http {
 	public array $collectionData = [];
@@ -21,21 +21,12 @@ class FolderRequest extends Http {
 	public string|null $collectionFolderName = null;
 	public string|null $collectionRequestPath = null;
 
-
 	public function initialize(): void {
 		if (empty($this->system->requests[Collection\Request::class]->folderName)) {
 			return;
 		}
 
 		$this->collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
-
-		// Every computer requesting collection HTML will need to explicitly accept "text/html"
-		if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
-			'text/html',
-		]) || !empty($_GET['feed'])) {
-			return;
-		}
-
 		$this->collectionRequestPath = $this->system->requests[Collection\Request::class]->path;
 
 		// Only applies to, e.g. http://locahost/@example

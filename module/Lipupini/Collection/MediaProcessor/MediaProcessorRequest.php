@@ -2,7 +2,7 @@
 
 namespace Module\Lipupini\Collection\MediaProcessor;
 
-use Module\Lipupini\Request\Http;
+use Module\Lipupini\Request\Incoming\Http;
 
 abstract class MediaProcessorRequest extends Http {
 	abstract static public function mimeTypes(): array;

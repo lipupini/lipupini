@@ -3,7 +3,9 @@
 namespace Module\Lipupini\ActivityPub\Request;
 
 use Module\Lipupini\ActivityPub\Exception;
+use Module\Lipupini\ActivityPub\RemoteActor;
 use Module\Lipupini\ActivityPub\Request;
+use Module\Lipupini\Request\Outgoing;
 
 class Follow {
 	public function __construct(Request $activityPubRequest) {
@@ -24,13 +26,16 @@ class Follow {
 		// Ideally it will always be possible to test between localhost ports
 		$exploded = explode('@', $_GET['remote']);
 
-		if (!$activityPubRequest->ping(parse_url('//' . $exploded[1], PHP_URL_HOST))) { // Host without port
+		if (!Outgoing\Ping::host($exploded[1])) {
 			throw new Exception('Could not ping remote host @ ' . $exploded[1] . ', giving up');
 		}
 
-		$server = $activityPubRequest->activityPubServer();
-		$actor = $server->actor($_GET['remote']);
-		$sendToInbox = $actor->get('inbox') ?? null;
+		$remoteActor = RemoteActor::fromHandle(
+			handle: $_GET['remote'],
+			cacheDir: $activityPubRequest->system->dirStorage . '/cache/ap'
+		);
+
+		$sendToInbox = $remoteActor->getInboxUrl();
 
 		if (!filter_var($sendToInbox, FILTER_VALIDATE_URL)) {
 			throw new Exception('Could not determine inbox URL');
@@ -42,19 +47,14 @@ class Follow {
 			'id' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '#follow/' . md5(rand(0, 1000000) . microtime(true)),
 			'type' => 'Follow',
 			'actor' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName,
-			'object' => $actor->get('id'),
+			'object' => $remoteActor->getId(),
 		];
 
 		$activityJson = json_encode($followActivity, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
-		// 201 response status means the follow request was "Created"
-		$response = $server->inbox($_GET['remote'])->post(
-			$activityPubRequest->createSignedRequest($sendToInbox, $activityJson)
-		);
+		$response = $activityPubRequest->sendSigned($sendToInbox, $activityJson);
 
-		$activityPubRequest->system->responseContent = json_encode([
-			'status' => $response->getStatusCode(),
-			'content' => $response->getContent()
-		], JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
+		header('Content-type: ' . $activityPubRequest->mimeTypes()[0]);
+		$activityPubRequest->system->responseContent = json_encode($response, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 	}
 }

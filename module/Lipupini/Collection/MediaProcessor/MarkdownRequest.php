@@ -2,7 +2,6 @@
 
 namespace Module\Lipupini\Collection\MediaProcessor;
 
-use Module\Lipupini;
 use Module\Lipupini\Collection;
 
 class MarkdownRequest extends MediaProcessorRequest {
