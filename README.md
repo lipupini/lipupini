@@ -130,7 +130,7 @@ For example, after starting Lipupini you can run this command:
 ngrok http 4000
 ```
 
-If your Ngrok URL is then `https://f674-73-83-87-238.ngrok-free.app`, you should be able to query `@example@f674-73-83-87-238.ngrok-free.app` from another Fediverse client.
+Continuing with the example above in "Add Your Collection," if your Ngrok URL is then `https://f674-73-83-87-238.ngrok-free.app`, you should then be able to query `@sally@f674-73-83-87-238.ngrok-free.app` from another Fediverse client once the collection is initialized.
 
 Using Ngrok, with an upgraded plan you can setup a fairly restrictive port firewall, configure it to run on startup, and reliably host any domain with HTTPS.
 
