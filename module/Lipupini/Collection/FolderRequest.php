@@ -87,7 +87,7 @@ class FolderRequest extends Http {
 			$query['page'] = $this->page + 1;
 			$this->nextUrl = $webPath . '?' . http_build_query($query);
 		} else {
-			$this->nextUrl = 'javascript:void(0)';
+			$this->nextUrl = false;
 		}
 		if ($this->page === 2) {
 			if (empty($_GET['search'])) {
@@ -102,7 +102,7 @@ class FolderRequest extends Http {
 			$query['page'] = $this->page - 1;
 			$this->prevUrl = $webPath . '?' . http_build_query($query);
 		} else {
-			$this->prevUrl = 'javascript:void(0)';
+			$this->prevUrl = false;
 		}
 
 		$this->htmlHead = '<link rel="stylesheet" href="/css/Folder.css">' . "\n"

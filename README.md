@@ -180,8 +180,7 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 ## TODO
 
-- Validate HTTP signatures, this could help improve outgoing signature flow too
-- i18n
+- Outgoing HTTP request signatures
 - New window from frontend, might not need to use the `Parsedown.php` extension
 - Make `bin/generate-files-json.php` recursive
 - Create script to normalize file and directory user/group/permissions
@@ -189,6 +188,7 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
   - https://indieweb.org/Webmention
   - https://indieweb.org/Microsub
   - https://indieweb.org/Micropub
+  - https://atproto.com
   - https://micropub.rocks
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
 - Contributions to `landrok/activitypub`:

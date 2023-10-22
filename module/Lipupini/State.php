@@ -2,40 +2,37 @@
 
 namespace Module\Lipupini;
 
+use Module\Lipupini\L18n\A;
+
 class State {
-	public float $microtimeInit = -1;
-	public float $executionTimeSeconds = -1;
-	public string|null $responseContent = null;
+	public float $microtimeInit = -1; // Set automatically
+	public float $executionTimeSeconds = -1; // Set automatically
+	public string|null $responseContent = null; // Final output to browser/client
+	public string $baseUriPath = '/'; // Set automatically in `__construct()` by specifying `baseUri`
+	public string $host  = 'null.localhost'; // Set automatically in `__construct()` by specifying `baseUri`
 
 	public function __construct(
-		public string $dirWebroot = '/dev/null', // Reasonably safe default, this is set after instantiation
-		public string $dirRoot = '/dev/null', // Reasonably safe default, this is set after instantiation
-		public string $dirModule = '/dev/null', // Reasonably safe default, this is set after instantiation
-		public string $dirStorage = '/dev/null', // Reasonably safe default, this is set after instantiation
-		public string $dirCollection = '/dev/null', // Reasonably safe default, this is set after instantiation
-		public string $host = 'null.localhost',
-		public string $baseUri = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URI e.g. https://example.org/~basePath/
-		public string $staticMediaBaseUri = 'http://dev.null/c/',
-		public string $baseUriPath = '/',
-		public string $frontendModule = 'Lukinview',
-		public string $userAgent = '(Lipupini/69.420; +https://github.com/instalution/lipupini)',
-		public array $requests = [],
-		public bool $shutdown = false,
-		public bool $debug = false
+		public string $dirWebroot         = '/dev/null', // Reasonably safe default, this is set after instantiation
+		public string $dirRoot            = '/dev/null',
+		public string $dirModule          = '/dev/null',
+		public string $dirStorage         = '/dev/null',
+		public string $dirCollection      = '/dev/null',
+		public string $baseUri            = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URI e.g. https://example.org/~basePath/
+		public string $staticMediaBaseUri = 'http://dev.null/c/', // Also has a trailing slash
+		public string $frontendModule     = 'Lukinview',
+		public string $viewLanguage       = 'en',
+		public string $userAgent          = '(Lipupini/69.420; +https://github.com/instalution/lipupini)',
+		public array  $requests           = [],
+		public bool   $shutdown           = false,
+		public bool   $debug              = false
 	) {
 		if ($baseUri === 'http://dev.null/') {
 			throw new Exception('`baseUri` is required');
 		}
 
 		$parsedUri = parse_url($this->baseUri);
-
-		if ($this->host === 'null.localhost') {
-			$this->host = $parsedUri['host'] . (empty($parsedUri['port']) ? '' : ':' . $parsedUri['port']);
-		}
-
-		if ($this->baseUriPath === '/dev/null') {
-			$this->baseUriPath = $parsedUri['path'];
-		}
+		$this->baseUriPath = $parsedUri['path'];
+		$this->host = $parsedUri['host'] . (empty($parsedUri['port']) ? '' : ':' . $parsedUri['port']);
 
 		if ($staticMediaBaseUri === 'http://dev.null/c/') {
 			$this->staticMediaBaseUri = $this->baseUriPath . 'c/';
@@ -67,6 +64,8 @@ class State {
 		if ($this->userAgent === '(Lipupini/69.420; +' . $baseUri . ')') {
 			$this->dirCollection = $this->dirStorage . '/collection';
 		}
+
+		A::$viewLanguage = $this->viewLanguage;
 
 		$this->microtimeInit = microtime(true);
 	}

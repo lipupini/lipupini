@@ -1,6 +1,8 @@
 <?php
 
 use Module\Lipupini\Collection;
+use Module\Lipupini\L18n\A;
+A::$path = realpath(__DIR__ . '/../../');
 
 require(__DIR__ . '/../Core/Open.php') ?>
 
@@ -8,9 +10,9 @@ require(__DIR__ . '/../Core/Open.php') ?>
 <header class="app-bar">
 	<div></div>
 	<div class="previous pagination"></div>
-	<div class="index pagination"><a href="/<?php echo htmlentities($this->parentPath) ?>" class="button" title="<?php echo $this->parentPath ? htmlentities($this->parentPath) : 'Homepage' ?>"><img src="/img/arrow-up-bold.svg" alt="<?php echo $this->parentPath ? htmlentities($this->parentPath) : 'Homepage' ?>"></a></div>
+	<div class="index pagination"><a href="/<?php echo htmlentities($this->parentPath) ?>" class="button" title="<?php echo $this->parentPath ? htmlentities($this->parentPath) : A::z('Homepage') ?>"><img src="/img/arrow-up-bold.svg" alt="<?php echo $this->parentPath ? htmlentities($this->parentPath) : A::z('Homepage') ?>"></a></div>
 	<div class="next pagination"></div>
-	<div class="about"><a href="https://github.com/instalution/lipupini" target="_blank" rel="noopener noreferrer" class="button" title="More information about this software">?</a></div>
+	<div class="about"><a href="https://github.com/instalution/lipupini" target="_blank" rel="noopener noreferrer" class="button" title="<?php echo A::z('More information about this software') ?>">?</a></div>
 </header>
 <div id="media-item"></div>
 <script>let baseUri = '<?php echo htmlentities($this->system->staticMediaBaseUri) ?>';let collection = '<?php echo htmlentities($this->system->requests[Collection\Request::class]->folderName) ?>';let filename = '<?php echo htmlentities($this->collectionFileName) ?>';let fileData = <?php echo json_encode($this->fileData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
