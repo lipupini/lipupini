@@ -89,28 +89,28 @@ class Outbox {
 				$object['attachment'] = [
 					'type' => 'Image',
 					'mediaType' => Collection\MediaProcessor\ImageRequest::mimeTypes()[$extension],
-					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/image/large/' . $filePath,
+					'url' => $activityPubRequest->system->staticMediaBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/image/large/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\VideoRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Video',
 					'mediaType' => Collection\MediaProcessor\VideoRequest::mimeTypes()[$extension],
-					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/video/' . $filePath,
+					'url' => $activityPubRequest->system->staticMediaBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/video/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\AudioRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Audio',
 					'mediaType' => Collection\MediaProcessor\AudioRequest::mimeTypes()[$extension],
-					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/audio/' . $filePath,
+					'url' => $activityPubRequest->system->staticMediaBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/audio/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\MarkdownRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Note',
 					'mediaType' => 'text/html',
-					'url' => $activityPubRequest->system->cacheBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/markdown/' . $filePath . '.html',
+					'url' => $activityPubRequest->system->staticMediaBaseUri . 'file/' . $activityPubRequest->collectionFolderName . '/markdown/' . $filePath . '.html',
 					'name' => $filePath,
 				];
 			} else {

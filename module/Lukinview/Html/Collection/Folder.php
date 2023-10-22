@@ -9,7 +9,7 @@
 	<div class="about"><a href="https://github.com/instalution/lipupini" target="_blank" rel="noopener noreferrer" class="button" title="More information about this software">?</a></div>
 </header>
 <div id="media-grid" class="grid square"></div>
-<script>let baseUri = '<?php echo htmlentities($this->system->cacheBaseUri) ?>';let collection = '<?php echo htmlentities($this->collectionFolderName) ?>';let collectionData = <?php echo json_encode($this->collectionData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
+<script>let baseUri = '<?php echo htmlentities($this->system->staticMediaBaseUri) ?>';let collection = '<?php echo htmlentities($this->collectionFolderName) ?>';let collectionData = <?php echo json_encode($this->collectionData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
 <script type="module">
 import { Folder } from '/js/components/Folder.js'
 Folder({collection, collectionData, baseUri})

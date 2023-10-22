@@ -15,7 +15,7 @@ class State {
 		public string $dirCollection = '/dev/null', // Reasonably safe default, this is set after instantiation
 		public string $host = 'null.localhost',
 		public string $baseUri = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URI e.g. https://example.org/~basePath/
-		public string $cacheBaseUri = 'http://dev.null/c/',
+		public string $staticMediaBaseUri = 'http://dev.null/c/',
 		public string $baseUriPath = '/',
 		public string $frontendModule = 'Lukinview',
 		public string $userAgent = '(Lipupini/69.420; +https://github.com/instalution/lipupini)',
@@ -37,8 +37,8 @@ class State {
 			$this->baseUriPath = $parsedUri['path'];
 		}
 
-		if ($cacheBaseUri === 'http://dev.null/c/') {
-			$this->cacheBaseUri = $this->baseUriPath . 'c/';
+		if ($staticMediaBaseUri === 'http://dev.null/c/') {
+			$this->staticMediaBaseUri = $this->baseUriPath . 'c/';
 		}
 
 		if ($this->dirRoot === '/dev/null') {
