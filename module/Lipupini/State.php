@@ -61,6 +61,13 @@ class State {
 			$this->dirCollection = $this->dirStorage . '/collection';
 		}
 
+		// For security reasons, a completely random version number is always statically served. Lipupini should
+		// not change anything about the ActivityPub protocol, therefore the version is irrelevant to other
+		// instances and particularly to any instance that may suspect that the version number is relevant.
+		if ($this->userAgent === '(Lipupini/69.420; +' . $baseUri . ')') {
+			$this->dirCollection = $this->dirStorage . '/collection';
+		}
+
 		$this->microtimeInit = microtime(true);
 	}
 }
