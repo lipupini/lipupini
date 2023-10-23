@@ -42,7 +42,6 @@ class RemoteActor {
 		$actor->handle = $handle;
 		$actor->host = explode('@', $handle)[1];
 
-
 		$webFinger = $actor->webFinger($handle);
 		if (empty($webFinger->links)) {
 			throw new Exception('Could not find WebFinger links', 400);

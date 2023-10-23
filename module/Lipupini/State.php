@@ -26,7 +26,7 @@ class State {
 		public bool   $shutdown           = false,
 		public bool   $debug              = false
 	) {
-		if ($baseUri === 'http://dev.null/') {
+		if ($this->baseUri === 'http://dev.null/') {
 			throw new Exception('`baseUri` is required');
 		}
 
@@ -61,8 +61,8 @@ class State {
 		// For security reasons, a completely random version number is always statically served. Lipupini should
 		// not change anything about the ActivityPub protocol, therefore the version is irrelevant to other
 		// instances and particularly to any instance that may suspect that the version number is relevant.
-		if ($this->userAgent === '(Lipupini/69.420; +' . $baseUri . ')') {
-			$this->dirCollection = $this->dirStorage . '/collection';
+		if ($this->userAgent === '(Lipupini/69.420; +https://github.com/instalution/lipupini)') {
+			$this->userAgent = '(Lipupini/69.420; +' . $this->baseUri . ')';
 		}
 
 		A::$viewLanguage = $this->viewLanguage;

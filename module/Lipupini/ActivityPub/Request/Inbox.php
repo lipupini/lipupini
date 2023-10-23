@@ -83,7 +83,7 @@ class Inbox extends Request {
 					'@context' => 'https://www.w3.org/ns/activitystreams',
 					'id' => $this->system->baseUri . '@' . $this->collectionFolderName . '#accept/' . md5(rand(0, 1000000) . microtime(true)),
 					'type' => 'Accept',
-					'actor' => $this->system->baseUri . '@' . $this->collectionFolderName,
+					'actor' => $this->system->baseUri . '@' . $this->collectionFolderName . '?ap=profile',
 					'object' => $requestData->id,
 				];
 				break;

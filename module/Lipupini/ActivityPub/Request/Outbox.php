@@ -56,7 +56,7 @@ class Outbox extends Request {
 					],
 				],
 				'id' => $htmlUrl . '#activity',
-				'actor' => $this->system->baseUri . '@' . $collectionFolderName,
+				'actor' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile',
 				'published' => $metaData['date'],
 				'type' => 'Create',
 				'to' => [
@@ -76,7 +76,7 @@ class Outbox extends Request {
 				'summary' => $filePath,
 				'type' => 'Page',
 				'name' => $filePath,
-				'attributedTo' => $this->system->baseUri . '@' . $collectionFolderName,
+				'attributedTo' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile',
 				'sensitive' => $metaData['sensitive'] ?? false,
 				'content' => $metaData['caption'] ?? $filePath,
 				'contentMap' => [
