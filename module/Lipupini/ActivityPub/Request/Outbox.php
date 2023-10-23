@@ -17,15 +17,16 @@ class Outbox extends Request {
 			error_log('DEBUG: ' . get_called_class());
 		}
 
-		$this->collectionData = (new Collection\Utility($this->system))
-			->getCollectionDataRecursive($this->collectionFolderName);
+		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
+
+		$this->collectionData = (new Collection\Utility($this->system))->getCollectionDataRecursive($collectionFolderName);
 
 		if (empty($_GET['page'])) {
 			$jsonData = [
 				'@context' => 'https://www.w3.org/ns/activitystreams',
-				'id' => $this->system->baseUri . '@' . $this->collectionFolderName . '?ap=outbox',
+				'id' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox',
 				'type' => 'OrderedCollection',
-				'first' => $this->system->baseUri . '@' . $this->collectionFolderName . '?ap=outbox&page=1',
+				'first' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox&page=1',
 				'totalItems' => count($this->collectionData),
 			];
 			$this->system->responseContent = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
@@ -37,10 +38,10 @@ class Outbox extends Request {
 		$items = [];
 		foreach ($this->collectionData as $filePath => $metaData) {
 
-			$htmlUrl = $this->system->baseUri . '@' . $this->collectionFolderName . '/' . $filePath . '.html';
+			$htmlUrl = $this->system->baseUri . '@' . $collectionFolderName . '/' . $filePath . '.html';
 			if (empty($metaData['date'])) {
 				$metaData['date'] = (new \DateTime)
-					->setTimestamp(filemtime($this->system->dirCollection . '/' . $this->collectionFolderName . '/' . $filePath))
+					->setTimestamp(filemtime($this->system->dirCollection . '/' . $collectionFolderName . '/' . $filePath))
 					->format(\DateTime::ISO8601);
 			} else {
 				$metaData['date'] = (new \DateTime($metaData['date']))
@@ -55,14 +56,14 @@ class Outbox extends Request {
 					],
 				],
 				'id' => $htmlUrl . '#activity',
-				'actor' => $this->system->baseUri . '@' . $this->collectionFolderName,
+				'actor' => $this->system->baseUri . '@' . $collectionFolderName,
 				'published' => $metaData['date'],
 				'type' => 'Create',
 				'to' => [
 					'https://www.w3.org/ns/activitystreams#Public'
 				],
 				'cc' => [
-					$this->system->baseUri . '@' . $this->collectionFolderName .'?ap=followers'
+					$this->system->baseUri . '@' . $collectionFolderName .'?ap=followers'
 				]
 			];
 
@@ -75,7 +76,7 @@ class Outbox extends Request {
 				'summary' => $filePath,
 				'type' => 'Page',
 				'name' => $filePath,
-				'attributedTo' => $this->system->baseUri . '@' . $this->collectionFolderName,
+				'attributedTo' => $this->system->baseUri . '@' . $collectionFolderName,
 				'sensitive' => $metaData['sensitive'] ?? false,
 				'content' => $metaData['caption'] ?? $filePath,
 				'contentMap' => [
@@ -89,28 +90,28 @@ class Outbox extends Request {
 				$object['attachment'] = [
 					'type' => 'Image',
 					'mediaType' => Collection\MediaProcessor\ImageRequest::mimeTypes()[$extension],
-					'url' => $this->system->staticMediaBaseUri . 'file/' . $this->collectionFolderName . '/image/large/' . $filePath,
+					'url' => $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/image/large/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\VideoRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Video',
 					'mediaType' => Collection\MediaProcessor\VideoRequest::mimeTypes()[$extension],
-					'url' => $this->system->staticMediaBaseUri . 'file/' . $this->collectionFolderName . '/video/' . $filePath,
+					'url' => $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/video/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\AudioRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Audio',
 					'mediaType' => Collection\MediaProcessor\AudioRequest::mimeTypes()[$extension],
-					'url' => $this->system->staticMediaBaseUri . 'file/' . $this->collectionFolderName . '/audio/' . $filePath,
+					'url' => $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/audio/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\MarkdownRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Note',
 					'mediaType' => 'text/html',
-					'url' => $this->system->staticMediaBaseUri . 'file/' . $this->collectionFolderName . '/markdown/' . $filePath . '.html',
+					'url' => $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/markdown/' . $filePath . '.html',
 					'name' => $filePath,
 				];
 			} else {
@@ -127,19 +128,19 @@ class Outbox extends Request {
 					'sensitive' => 'as:sensitive',
 				],
 			],
-			'id' => $this->system->baseUri . '@' . $this->collectionFolderName . '?ap=outbox&page=' . (int)$_GET['page'],
+			'id' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox&page=' . (int)$_GET['page'],
 			'type' => 'OrderedCollectionPage',
-			'partOf' => $this->system->baseUri . '@' . $this->collectionFolderName . '?ap=outbox',
+			'partOf' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox',
 			'totalItems' => count($this->collectionData),
 			'orderedItems' => $items
 		];
 
 		if ($this->page > 1) {
-			$outboxJsonArray['prev'] = $this->system->baseUri . '@' . $this->collectionFolderName . '?ap=outbox&page=' . ($this->page - 1);
+			$outboxJsonArray['prev'] = $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox&page=' . ($this->page - 1);
 		}
 
 		if ($this->page < $this->numPages) {
-			$outboxJsonArray['next'] = $this->system->baseUri . '@' . $this->collectionFolderName . '?ap=outbox&page=' . ($this->page + 1);
+			$outboxJsonArray['next'] = $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox&page=' . ($this->page + 1);
 		}
 
 		$this->system->responseContent = json_encode($outboxJsonArray, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
