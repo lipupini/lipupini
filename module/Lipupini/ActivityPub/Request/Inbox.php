@@ -103,9 +103,6 @@ class Inbox extends Request {
 
 		$activityJson = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
-		//error_log(print_r($_SERVER, true));
-		//error_log(print_r($this, true));
-
 		Outgoing\Http::sendSigned(
 			keyId: $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile#main-key',
 			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/.rsakey.private'),
