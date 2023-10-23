@@ -5,6 +5,7 @@ namespace Module\Lipupini\ActivityPub\Request;
 use Module\Lipupini\ActivityPub\Exception;
 use Module\Lipupini\ActivityPub\RemoteActor;
 use Module\Lipupini\ActivityPub\Request;
+use Module\Lipupini\Collection;
 use Module\Lipupini\Request\Incoming;
 use Module\Lipupini\Request\Outgoing;
 
@@ -59,10 +60,12 @@ class Inbox extends Request {
 			throw new Exception('HTTP Signature did not validate', 403);
 		}
 
+		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
+
 		/* BEGIN STORE INBOX ACTIVITY */
 
 		$inboxFolder = $this->system->dirCollection . '/'
-			. $this->collectionFolderName
+			. $collectionFolderName
 			. '/.lipupini/inbox/';
 
 		if (!is_dir($inboxFolder)) {
@@ -83,10 +86,10 @@ class Inbox extends Request {
 				http_response_code(202);
 				$jsonData = [
 					'@context' => 'https://www.w3.org/ns/activitystreams',
-					'id' => $this->system->baseUri . '@' . $this->collectionFolderName . '#accept/' . md5(rand(0, 1000000) . microtime(true)),
+					'id' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile#accept/' . md5(rand(0, 1000000) . microtime(true)),
 					'type' => 'Accept',
-					'actor' => $this->system->baseUri . '@' . $this->collectionFolderName . '?ap=profile',
-					'object' => $requestData->id,
+					'actor' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile',
+					'object' => $requestData,
 				];
 				$this->system->responseContent = '"accepted"';
 				break;
@@ -100,9 +103,12 @@ class Inbox extends Request {
 
 		$activityJson = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
+		//error_log(print_r($_SERVER, true));
+		//error_log(print_r($this, true));
+
 		Outgoing\Http::sendSigned(
-			keyId: $this->system->baseUri . '@' . $this->collectionFolderName . '?ap=profile#main-key',
-			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $this->collectionFolderName . '/.lipupini/.rsakey.private'),
+			keyId: $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile#main-key',
+			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/.rsakey.private'),
 			inboxUrl: $remoteActor->getInboxUrl(),
 			body: $activityJson,
 			headers: [

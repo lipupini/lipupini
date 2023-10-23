@@ -4,22 +4,13 @@ namespace Module\Lipupini\ActivityPub;
 
 use Module\Lipupini\Collection;
 use Module\Lipupini\Request\Incoming\Http;
-use Module\Lipupini\Request\Outgoing;
 
 class Request extends Http {
 	public static string $mimeType = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
-	public string|null $collectionFolderName = null;
-	public string|null $collectionRequestPath = '';
 
 	public function initialize(): void {
 		if (empty($this->system->requests[Collection\Request::class]->folderName)) {
 			return;
-		}
-
-		$this->collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
-
-		if (!empty($this->system->requests[Collection\Request::class]->path)) {
-			$this->collectionRequestPath = $this->system->requests[Collection\Request::class]->path;
 		}
 
 		if (empty($_GET['ap'])) {
