@@ -25,7 +25,7 @@ class DocumentRequest extends Http {
 		// Does not apply to http://locahost/@example/memes/
 		if (
 			!pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION) ||
-			!preg_match('#\.(?:[^.]+)\.html$#', $_SERVER['REQUEST_URI'])
+			!preg_match('#\.(?:[^.]+)\.html$#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))
 		) {
 			return;
 		}
