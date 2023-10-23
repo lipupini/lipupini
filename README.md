@@ -28,9 +28,9 @@
 
 ## Status
 
-For displaying a media portfolio or posts on the Internet, despite currently limited ActivityPub support Lipupini is considered to be **production-ready**.
+For displaying a media portfolio or posts on the Internet, despite currently limited ActivityPub support the [latest release of Lipupini](https://github.com/instalution/lipupini/releases/latest) is considered to be **production-ready**. The [demo site](https://lipupini-demo.dup.bz/@example) is running the `demo` branch which is usually ahead of the latest release.
 
-1) Install dependencies and clone the repository.
+1) Install dependencies and clone the repository to the latest release tag or demo branch.
 2) Add and [initialize](#add-your-collection) your collection, customize `.lipupini/.files.json` with captions, and delete the example collection.
 3) Ensure that your files display. If they don't, convert them to supported formats.
 4) Deploy to a PHP server.
