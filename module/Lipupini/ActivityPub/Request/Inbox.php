@@ -6,6 +6,7 @@ use Module\Lipupini\ActivityPub\Exception;
 use Module\Lipupini\ActivityPub\RemoteActor;
 use Module\Lipupini\ActivityPub\Request;
 use Module\Lipupini\Request\Incoming;
+use Module\Lipupini\Request\Outgoing;
 
 class Inbox extends Request {
 	public function initialize(): void {
@@ -79,6 +80,7 @@ class Inbox extends Request {
 
 		switch ($requestData->type) {
 			case 'Follow' :
+				http_response_code(202);
 				$jsonData = [
 					'@context' => 'https://www.w3.org/ns/activitystreams',
 					'id' => $this->system->baseUri . '@' . $this->collectionFolderName . '#accept/' . md5(rand(0, 1000000) . microtime(true)),
@@ -86,10 +88,11 @@ class Inbox extends Request {
 					'actor' => $this->system->baseUri . '@' . $this->collectionFolderName . '?ap=profile',
 					'object' => $requestData->id,
 				];
+				$this->system->responseContent = '"accepted"';
 				break;
 			case 'Undo' :
 			case 'Accept' :
-				http_response_code(201);
+				$this->system->responseContent = '"ok"';
 				return;
 			default :
 				throw new Exception('Unsupported ActivityPub type: ' . $requestData->type, 400);
@@ -97,11 +100,16 @@ class Inbox extends Request {
 
 		$activityJson = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
-		$response = $this->sendSigned($remoteActor->getInboxUrl(), $activityJson);
-
-		header('Content-type: ' . $this->mimeTypes()[0]);
-		// Just pass through the status code received from the remote
-		http_response_code($response['code']);
-		$this->system->responseContent = json_encode($response, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
+		Outgoing\Http::sendSigned(
+			keyId: $this->system->baseUri . '@' . $this->collectionFolderName . '?ap=profile#main-key',
+			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $this->collectionFolderName . '/.lipupini/.rsakey.private'),
+			inboxUrl: $remoteActor->getInboxUrl(),
+			body: $activityJson,
+			headers: [
+				'Content-type' => $this::$mimeType,
+				'Accept' => $this::$mimeType,
+				'User-agent' => $this->system->userAgent,
+			]
+		);
 	}
 }

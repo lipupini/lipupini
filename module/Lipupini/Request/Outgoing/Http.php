@@ -2,6 +2,8 @@
 
 namespace Module\Lipupini\Request\Outgoing;
 
+use Module\Lipupini\Request\Outgoing;
+
 class Http {
 	public function __construct(public string $cacheDir) { }
 
@@ -36,5 +38,24 @@ class Http {
 		return array_map(function ($k, $v) {
 			return "$k: $v";
 		}, array_keys($headers), $headers);
+	}
+
+	public static function sendSigned(string $keyId, string $privateKeyPem, string $inboxUrl, string $body, array $headers) {
+		$headers = Outgoing\Signature::sign(
+			$keyId,
+			$privateKeyPem,
+			$inboxUrl,
+			$body,
+			$headers
+		);
+
+		$response = static::post($inboxUrl, $body, $headers);
+
+		// Check for a 2xx HTTP Status Code response
+		if (((string)$response['code'])[0] !== '2') {
+			throw new Exception('Did not receive 2xx response to signed request', 400);
+		}
+
+		return $response;
 	}
 }

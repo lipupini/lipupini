@@ -9,7 +9,7 @@ use Module\Lipupini\State;
 class Follow {
 	public function __construct(protected State $system) { }
 
-	public function request(string $remote): array {
+	public function request(string $remote): bool {
 		if ($this->system->debug) {
 			error_log('DEBUG: ' . get_called_class());
 		}
@@ -58,7 +58,19 @@ class Follow {
 		];
 
 		$activityJson = json_encode($followActivity, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
-		$activityPubRequest = new Request($this->system);
-		return $activityPubRequest->sendSigned($sendToInbox, $activityJson);
+
+		Outgoing\Http::sendSigned(
+			keyId: $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile#main-key',
+			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/.rsakey.private'),
+			inboxUrl: $remoteActor->getInboxUrl(),
+			body: $activityJson,
+			headers: [
+				'Content-type' => Request::$mimeType,
+				'Accept' => Request::$mimeType,
+				'User-agent' => $this->system->userAgent,
+			]
+		);
+
+		return true;
 	}
 }
