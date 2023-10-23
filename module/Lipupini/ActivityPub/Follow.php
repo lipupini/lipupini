@@ -4,12 +4,15 @@ namespace Module\Lipupini\ActivityPub\Request;
 
 use Module\Lipupini\ActivityPub\Exception;
 use Module\Lipupini\ActivityPub\RemoteActor;
-use Module\Lipupini\ActivityPub\Request;
+use Module\Lipupini\Collection;
 use Module\Lipupini\Request\Outgoing;
+use Module\Lipupini\State;
 
 class Follow {
-	public function __construct(Request $activityPubRequest) {
-		if ($activityPubRequest->system->debug) {
+	public function __construct(protected State $system) { }
+
+	public function initialize(): void {
+		if ($this->system->debug) {
 			error_log('DEBUG: ' . get_called_class());
 		}
 
@@ -32,7 +35,7 @@ class Follow {
 
 		$remoteActor = RemoteActor::fromHandle(
 			handle: $_GET['remote'],
-			cacheDir: $activityPubRequest->system->dirStorage . '/cache/ap'
+			cacheDir: $this->system->dirStorage . '/cache/ap'
 		);
 
 		$sendToInbox = $remoteActor->getInboxUrl();
@@ -41,20 +44,22 @@ class Follow {
 			throw new Exception('Could not determine inbox URL', 400);
 		}
 
+		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
+
 		// Create the JSON payload for the Follow activity (adjust as needed)
 		$followActivity = [
 			'@context' => 'https://www.w3.org/ns/activitystreams',
-			'id' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '#follow/' . md5(rand(0, 1000000) . microtime(true)),
+			'id' => $this->system->baseUri . '@' . $collectionFolderName . '#follow/' . md5(rand(0, 1000000) . microtime(true)),
 			'type' => 'Follow',
-			'actor' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName,
+			'actor' => $this->system->baseUri . '@' . $collectionFolderName,
 			'object' => $remoteActor->getId(),
 		];
 
 		$activityJson = json_encode($followActivity, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
-		$response = $activityPubRequest->sendSigned($sendToInbox, $activityJson);
+		/*$response = $this->sendSigned($sendToInbox, $activityJson);
 
-		header('Content-type: ' . $activityPubRequest->mimeTypes()[0]);
-		$activityPubRequest->system->responseContent = json_encode($response, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
+		header('Content-type: ' . $this->mimeTypes()[0]);
+		$this->system->responseContent = json_encode($response, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);*/
 	}
 }

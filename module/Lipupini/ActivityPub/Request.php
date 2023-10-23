@@ -39,7 +39,7 @@ class Request extends Http {
 
 		header('Content-type: ' . static::$mimeType);
 		try {
-			new $activityPubRequestClass($this);
+			new $activityPubRequestClass();
 		} catch (Exception $e) {
 			$this->system->responseContent = $e;
 		}

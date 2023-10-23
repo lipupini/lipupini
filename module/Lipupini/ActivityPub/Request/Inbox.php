@@ -7,9 +7,9 @@ use Module\Lipupini\ActivityPub\RemoteActor;
 use Module\Lipupini\ActivityPub\Request;
 use Module\Lipupini\Request\Incoming;
 
-class Inbox {
-	public function __construct(Request $activityPubRequest) {
-		if ($activityPubRequest->system->debug) {
+class Inbox extends Request {
+	public function initialize(): void {
+		if ($this->system->debug) {
 			error_log('DEBUG: ' . get_called_class());
 		}
 
@@ -36,7 +36,7 @@ class Inbox {
 			throw new Exception('Could not determine request ID', 400);
 		}
 
-		if ($activityPubRequest->system->debug) {
+		if ($this->system->debug) {
 			error_log('DEBUG: Received ' . $requestData->type . ' request from ' . $requestData->actor);
 		}
 
@@ -46,7 +46,7 @@ class Inbox {
 
 		$remoteActor = RemoteActor::fromUrl(
 			url: $requestData->actor,
-			cacheDir: $activityPubRequest->system->dirStorage . '/cache/ap'
+			cacheDir: $this->system->dirStorage . '/cache/ap'
 		);
 
 		if (!(new Incoming\Signature)->verify(
@@ -60,8 +60,8 @@ class Inbox {
 
 		/* BEGIN STORE INBOX ACTIVITY */
 
-		$inboxFolder = $activityPubRequest->system->dirCollection . '/'
-			. $activityPubRequest->collectionFolderName
+		$inboxFolder = $this->system->dirCollection . '/'
+			. $this->collectionFolderName
 			. '/.lipupini/inbox/';
 
 		if (!is_dir($inboxFolder)) {
@@ -81,9 +81,9 @@ class Inbox {
 			case 'Follow' :
 				$jsonData = [
 					'@context' => 'https://www.w3.org/ns/activitystreams',
-					'id' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName . '#accept/' . md5(rand(0, 1000000) . microtime(true)),
+					'id' => $this->system->baseUri . '@' . $this->collectionFolderName . '#accept/' . md5(rand(0, 1000000) . microtime(true)),
 					'type' => 'Accept',
-					'actor' => $activityPubRequest->system->baseUri . '@' . $activityPubRequest->collectionFolderName,
+					'actor' => $this->system->baseUri . '@' . $this->collectionFolderName,
 					'object' => $requestData->id,
 				];
 				break;
@@ -97,11 +97,11 @@ class Inbox {
 
 		$activityJson = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
-		$response = $activityPubRequest->sendSigned($remoteActor->getInboxUrl(), $activityJson);
+		$response = $this->sendSigned($remoteActor->getInboxUrl(), $activityJson);
 
-		header('Content-type: ' . $activityPubRequest->mimeTypes()[0]);
+		header('Content-type: ' . $this->mimeTypes()[0]);
 		// Just pass through the status code received from the remote
 		http_response_code($response['code']);
-		$activityPubRequest->system->responseContent = json_encode($response, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
+		$this->system->responseContent = json_encode($response, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 	}
 }
