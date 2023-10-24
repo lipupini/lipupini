@@ -172,8 +172,6 @@ Arrow icons: https://www.svgrepo.com/author/Pictogrammers
 
 ActivityPub inspiration: [@dansup@pixelfed.social](https://pixelfed.social/dansup)
 
-PHP Secure Communications Library: https://phpseclib.com
-
 Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 ## TODO
