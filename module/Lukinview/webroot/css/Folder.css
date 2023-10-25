@@ -15,6 +15,8 @@
 #media-grid div.video {
 	overflow: hidden;
 	aspect-ratio: 1/1;
+	display: flex;
+	justify-content: center;
 }
 #media-grid video,
 #media-grid audio {
