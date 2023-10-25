@@ -13,7 +13,7 @@ return new Module\Lipupini\State(
 	baseUri: $baseUri, // Include trailing slash
 	staticMediaBaseUri: $baseUri . 'c/', // If you'd like to use another URL for static files (e.g. CDN), put that here
 	frontendModule: 'Lukinview',
-	viewLanguage: 'en',
+	viewLanguage: 'english',
 	requests: [
 		// Once instantiated by Request\Incoming\Queue `render()`,
 		// each key will hold the module instance itself

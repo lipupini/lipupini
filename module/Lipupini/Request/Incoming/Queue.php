@@ -10,8 +10,8 @@ class Queue {
 	public function __construct(protected State $system) {
 		if (
 			// Using PHP's builtin webserver, this will return a static file (e.g. CSS, JS, image) if it exists at the requested path
-			php_sapi_name() === 'cli-server' &&
 			$_SERVER['PHP_SELF'] !== '/index.php' &&
+			PHP_SAPI === 'cli-server' &&
 			file_exists($this->system->dirWebroot . $_SERVER['PHP_SELF'])
 		) {
 			$this->serveStaticRequest = true;

@@ -31,7 +31,7 @@ class DocumentRequest extends Http {
 		}
 
 		// Every computer requesting collection HTML will need to explicitly accept "text/html"
-		if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', [
+		if (!static::validateRequestMimeTypes('HTTP_ACCEPT', [
 			'text/html',
 		])) {
 			return;

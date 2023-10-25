@@ -20,12 +20,14 @@ class State {
 		public string $baseUri            = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URI e.g. https://example.org/~basePath/
 		public string $staticMediaBaseUri = 'http://dev.null/c/', // Also has a trailing slash
 		public string $frontendModule     = 'Lukinview',
-		public string $viewLanguage       = 'en',
+		public string $viewLanguage       = 'english',
 		public string $userAgent          = '(Lipupini/69.420; +https://github.com/instalution/lipupini)',
 		public array  $requests           = [],
 		public bool   $shutdown           = false,
 		public bool   $debug              = false
 	) {
+		session_start();
+
 		if ($this->baseUri === 'http://dev.null/') {
 			throw new Exception('`baseUri` is required');
 		}
@@ -65,7 +67,7 @@ class State {
 			$this->userAgent = '(Lipupini/69.420; +' . $this->baseUri . ')';
 		}
 
-		A::$viewLanguage = $this->viewLanguage;
+		A::initializeViewLanguages($this);
 
 		$this->microtimeInit = microtime(true);
 	}

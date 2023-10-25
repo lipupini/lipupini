@@ -8,11 +8,11 @@ class HomepageRequest extends Http {
 	public string $pageTitle = '';
 
 	public function initialize(): void  {
-		if ($_SERVER['REQUEST_URI'] !== $this->system->baseUriPath) {
+		if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) !== $this->system->baseUriPath) {
 			return;
 		}
 
-		if (!$this->validateRequestMimeTypes('HTTP_ACCEPT', ['text/html'])) {
+		if (!static::validateRequestMimeTypes('HTTP_ACCEPT', ['text/html'])) {
 			return;
 		}
 

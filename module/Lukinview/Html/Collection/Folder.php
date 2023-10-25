@@ -1,7 +1,6 @@
 <?php
 
 use Module\Lipupini\L18n\A;
-A::$path = realpath(__DIR__ . '/../../');
 
 require(__DIR__ . '/../Core/Open.php') ?>
 
