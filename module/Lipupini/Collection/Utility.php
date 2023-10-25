@@ -46,6 +46,9 @@ class Utility {
 			$collectionData = json_decode(file_get_contents($filesJsonPath), true);
 			// Process collection data first, since it can determine the display order
 			foreach ($collectionData as $filename => $fileData) {
+				if ($fileData['visibility'] ?? null === 'hidden') {
+					continue;
+				}
 				if ($collectionRelativePath) {
 					$filename = $collectionRelativePath . '/' . $filename;
 				}

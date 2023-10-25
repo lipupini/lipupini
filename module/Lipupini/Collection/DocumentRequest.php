@@ -42,14 +42,17 @@ class DocumentRequest extends Http {
 	}
 
 	public function renderHtml(): void {
-		$this->loadViewData();
+		if (!$this->loadViewData()) {
+			return;
+		}
+
 		header('Content-type: text/html');
 		ob_start();
 		require($this->system->dirModule . '/' . $this->system->frontendModule . '/Html/Collection/Document.php');
 		$this->system->responseContent = ob_get_clean();
 	}
 
-	private function loadViewData(): void {
+	private function loadViewData(): bool {
 		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
 		$collectionRequestPath = $this->system->requests[Collection\Request::class]->path;
 
@@ -64,8 +67,14 @@ class DocumentRequest extends Http {
 			$this->fileData = [];
 		}
 
+		if ($this->fileData['visibility'] ?? null === 'hidden') {
+			return false;
+		}
+
 		$parentFolder = dirname($collectionRequestPath);
 		$this->parentPath = '@' . $collectionFolderName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
 		$this->htmlHead = '<link rel="stylesheet" href="/css/Document.css">' . "\n";
+
+		return true;
 	}
 }
