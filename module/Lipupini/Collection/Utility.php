@@ -49,7 +49,6 @@ class Utility {
 			foreach ($collectionData as $filename => $fileData) {
 				if ($fileData['visibility'] ?? null === 'hidden') {
 					$skipFiles[] = $filename;
-					continue;
 				}
 				if ($collectionRelativePath) {
 					$filename = $collectionRelativePath . '/' . $filename;
@@ -84,7 +83,7 @@ class Utility {
 			if ($item->getFilename()[0] === '.' || !$item->isDir()) {
 				continue;
 			}
-			$collectionPath = preg_replace('#^' . preg_quote($this->system->dirCollection . '/' . $collectionFolderName . '/') . '#', '', $item->getFilename());
+			$collectionPath = preg_replace('#^' . preg_quote($this->system->dirCollection . '/' . $collectionFolderName . '/', '#') . '#', '', $item->getFilename());
 			$collectionData += $this->getCollectionData($collectionFolderName, $collectionPath);
 		}
 
