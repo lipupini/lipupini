@@ -3,7 +3,7 @@ import van from '/lib/van-1.2.1.min.js'
 const { div, a, img } = van.tags
 
 const Image = ({collection, baseUri, filename, data, background = true}) => {
-	let image = img({src: background ? '/img/1x1.png' : `${baseUri}file/${collection}/image/large/${filename}`, alt: data.caption ?? filename, title: data.caption ?? filename});
+	let image = img({src: background ? '/img/1x1.png' : `${baseUri}file/${collection}/image/large/${filename}`, alt: data.caption ?? filename, title: data.caption ?? filename, loading: 'lazy'});
 	let anchorAttrs = background ? {href:`/@${collection}/${filename}.html`} : {href:`${baseUri}file/${collection}/image/large/${filename}`, target: '_blank'}
 
 	return div({class: 'image'},
