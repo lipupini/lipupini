@@ -178,7 +178,6 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 ## TODO
 
-- Outgoing HTTP request signatures
 - New window from frontend, might not need to use the `Parsedown.php` extension
 - Make `bin/generate-files-json.php` recursive
 - Create script to normalize file and directory user/group/permissions
@@ -189,6 +188,4 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
   - https://atproto.com
   - https://micropub.rocks
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
-- Contributions to `landrok/activitypub`:
-  - Propose error messages in `HttpSignature.php` be sent back to requester
-  - Propose adding an `.editorconfig`
+- Make contributions to `landrok/activitypub`
