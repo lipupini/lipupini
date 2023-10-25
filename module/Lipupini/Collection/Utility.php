@@ -42,11 +42,13 @@ class Utility {
 		$collectionAbsolutePath = $collectionRelativePath ? $collectionRootPath . '/' . $collectionRelativePath : $collectionRootPath;
 		$return = $collectionData = [];
 		$filesJsonPath = $collectionAbsolutePath . '/.lipupini/.files.json';
+		$skipFiles = [];
 		if (file_exists($filesJsonPath)) {
 			$collectionData = json_decode(file_get_contents($filesJsonPath), true);
 			// Process collection data first, since it can determine the display order
 			foreach ($collectionData as $filename => $fileData) {
 				if ($fileData['visibility'] ?? null === 'hidden') {
+					$skipFiles[] = $filename;
 					continue;
 				}
 				if ($collectionRelativePath) {
@@ -60,6 +62,9 @@ class Utility {
 		}
 		foreach (new \DirectoryIterator($collectionAbsolutePath) as $fileData) {
 			if ($fileData->isDot() || $fileData->getFilename()[0] === '.') {
+				continue;
+			}
+			if (in_array($fileData->getFilename(), $skipFiles, true)) {
 				continue;
 			}
 			$filePath = $collectionRelativePath ? $collectionRelativePath . '/' . $fileData->getFilename() : $fileData->getFilename();
