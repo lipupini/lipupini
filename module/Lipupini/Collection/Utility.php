@@ -14,7 +14,7 @@ class Utility {
 		}
 	}
 
-	public function getCollectionData(string $collectionFolderName, string $collectionRequestPath) {
+	public function getCollectionData(string $collectionFolderName, string $collectionRequestPath, bool $includeHidden = false) {
 		if (parse_url($collectionRequestPath, PHP_URL_QUERY)) {
 			throw new Exception('Suspicious collection path');
 		}
@@ -47,11 +47,14 @@ class Utility {
 			$collectionData = json_decode(file_get_contents($filesJsonPath), true);
 			// Process collection data first, since it can determine the display order
 			foreach ($collectionData as $filename => $fileData) {
-				if ($fileData['visibility'] ?? null === 'hidden') {
-					$skipFiles[] = $filename;
-				}
 				if ($collectionRelativePath) {
 					$filename = $collectionRelativePath . '/' . $filename;
+				}
+				if ($fileData['visibility'] ?? null === 'hidden') {
+					$skipFiles[] = $filename;
+					if (!$includeHidden) {
+						continue;
+					}
 				}
 				if (!file_exists($collectionRootPath . '/' . $filename)) {
 					throw new Exception('Could not find file for entry in ' . $collectionFolderName . '/.lipupini/.files.json');
@@ -63,10 +66,10 @@ class Utility {
 			if ($fileData->isDot() || $fileData->getFilename()[0] === '.') {
 				continue;
 			}
-			if (in_array($fileData->getFilename(), $skipFiles, true)) {
+			$filePath = $collectionRelativePath ? $collectionRelativePath . '/' . $fileData->getFilename() : $fileData->getFilename();
+			if (!$includeHidden && in_array($filePath, $skipFiles, true)) {
 				continue;
 			}
-			$filePath = $collectionRelativePath ? $collectionRelativePath . '/' . $fileData->getFilename() : $fileData->getFilename();
 			if (array_key_exists($filePath, $return)) {
 				continue;
 			}
