@@ -8,6 +8,7 @@ class AudioRequest extends MediaProcessorRequest {
 	public static function mimeTypes(): array {
 		return [
 			'mp3' => 'audio/mp3',
+			'ogg' => 'audio/ogg',
 		];
 	}
 
