@@ -9,6 +9,7 @@ class AudioRequest extends MediaProcessorRequest {
 		return [
 			'mp3' => 'audio/mp3',
 			'ogg' => 'audio/ogg',
+			'flac' => 'audio/flac',
 		];
 	}
 
