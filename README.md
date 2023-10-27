@@ -181,6 +181,7 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 - New window from frontend, might not need to use the `Parsedown.php` extension
 - Make `bin/generate-files-json.php` recursive
 - Create script to normalize file and directory user/group/permissions
+- Make a `bin/generate-cache.php`
 - Look into:
   - https://indieweb.org/Webmention
   - https://indieweb.org/Microsub
