@@ -18,16 +18,16 @@ const Document = ({collection, baseUri, filename, data, gridView = false}) => {
 			if (fileExtension === extension) {
 				switch (fileType) {
 					case 'Audio':
-						DocumentComponent = Audio({collection, baseUri, filename, data, background: gridView, fileType: fileTypes[fileType][fileExtension]})
+						DocumentComponent = Audio({collection, baseUri, filename, data, fileType: fileTypes[fileType][fileExtension]})
 						break
 					case 'Video':
-						DocumentComponent = Video({collection, baseUri, filename, data, background: gridView, fileType: fileTypes[fileType][fileExtension]})
+						DocumentComponent = Video({collection, baseUri, filename, data, fileType: fileTypes[fileType][fileExtension]})
 						break
 					case 'Image':
 						DocumentComponent = Image({collection, baseUri, filename, data, background: gridView})
 						break
 					case 'Markdown':
-						DocumentComponent = Markdown({collection, baseUri, filename, data, background: gridView})
+						DocumentComponent = Markdown({collection, baseUri, filename, data, load: !gridView})
 						break
 					default:
 						throw new Error('Unknown file extension: ' + extension)
