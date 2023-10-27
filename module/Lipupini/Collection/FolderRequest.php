@@ -17,6 +17,7 @@ class FolderRequest extends Http {
 
 	public string $pageTitle = '';
 	public string|null $htmlHead = null;
+	public array $fileTypes = [];
 
 	public string|null $collectionFolderName = null;
 	public string|null $collectionRequestPath = null;
@@ -104,6 +105,13 @@ class FolderRequest extends Http {
 		} else {
 			$this->prevUrl = false;
 		}
+
+		$this->fileTypes = [
+			'Video' => MediaProcessor\VideoRequest::mimeTypes(),
+			'Audio' => MediaProcessor\AudioRequest::mimeTypes(),
+			'Image' => MediaProcessor\ImageRequest::mimeTypes(),
+			'Markdown' => MediaProcessor\MarkdownRequest::mimeTypes(),
+		];
 
 		$this->htmlHead = '<link rel="stylesheet" href="/css/Folder.css">' . "\n"
 			. '<link rel="alternate" type="application/rss+xml" title="'
