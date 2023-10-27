@@ -154,7 +154,7 @@ You are welcome to fork it, change it, add modules! Please don't hesitate to mak
 
 I hope that the module architecture makes for a good workflow, especially being open to merging new modules. In theory, modules could just as easily be Composer packages and not have a `module` directory at all. The current architecture can still work seamlessly with the Composer pattern as well.
 
-Email apps [at] dup.bz if you'd like a point of contact or post in [discussions](https://github.com/instalution/lipupini/discussions) or [issues](https://github.com/instalution/lipupini/issues)! Please reach out if you begin to find any aspect frustrating or feel that it should be done in a different way.
+Email apps [at] dup.bz if you'd like a point of contact or post in [discussions](https://github.com/instalution/lipupini/issues)! Please reach out if you begin to find any aspect frustrating or feel that it should be done in a different way.
 
 If you want to use Lipupini for your artist portfolio or business website, I will support your effort.
 
@@ -178,7 +178,6 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 ## TODO
 
-- New window from frontend, might not need to use the `Parsedown.php` extension
 - Make `bin/generate-files-json.php` recursive
 - Create script to normalize file and directory user/group/permissions
 - Make a `bin/generate-cache.php`
@@ -190,3 +189,4 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
   - https://micropub.rocks
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
 - Make contributions to `landrok/activitypub`
+- Consider symlinking documents to webroot media cache instead of copying
