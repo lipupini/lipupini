@@ -180,7 +180,6 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 - Make `bin/generate-files-json.php` recursive
 - Create script to normalize file and directory user/group/permissions
-- Make a `bin/generate-cache.php`
 - Look into:
   - https://indieweb.org/Webmention
   - https://indieweb.org/Microsub
@@ -189,4 +188,6 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
   - https://micropub.rocks
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
 - Make contributions to `landrok/activitypub`
+- Make a `bin/generate-cache.php`
 - Consider symlinking documents to webroot media cache instead of copying
+- Do not let same account try to follow more than once
