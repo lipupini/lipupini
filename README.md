@@ -144,7 +144,7 @@ Here is what it can look like so far: https://lipupini-demo.dup.bz/@example
 
 Though ActivityPub implementation is currently limited, the demo is searchable in the Fediverse `@example@lipupini-demo.dup.bz`
 
-**NOTE:** Please use [activitypub.academy](https://activitypub.academy) Mastondon server for testing, as this is a test server. Some production servers like Mastodon.social won't load it in search. [/kbin](https://kbin.pub) instances should work correctly.
+**NOTE:** Please use [activitypub.academy](https://activitypub.academy) Mastondon server for testing, as this is a test server.
 
 The demo is the `demo` branch running on Apache2. If you already have Apache2 configured to serve PHP, you can install Composer dependencies and point the virtual host's `DocumentRoot` to `webroot` and it should "just work."
 
