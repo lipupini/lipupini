@@ -6,7 +6,7 @@ const Markdown = ({collection, baseUri, filename, data, load = false}) => {
 	return div({class: 'markdown'},
 		load ?
 			object({type: 'text/html', data: `${baseUri}file/${collection}/markdown/${filename + '.html'}`}) :
-			a({href: `${filename}.html`},
+			a({href: `/@${collection}/${filename}.html`},
 				div(data.caption ?? filename),
 			)
 	)

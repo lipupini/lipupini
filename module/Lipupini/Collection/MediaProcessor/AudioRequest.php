@@ -22,7 +22,7 @@ class AudioRequest extends MediaProcessorRequest {
 		$this->system->shutdown = true;
 
 		$collectionFolderName = $matches[1];
-		$filePath = $matches[2];
+		$filePath = urldecode($matches[2]);
 		$extension = $matches[3];
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
