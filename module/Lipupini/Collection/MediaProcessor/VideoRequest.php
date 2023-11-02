@@ -26,6 +26,6 @@ class VideoRequest extends MediaProcessorRequest {
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $filePath;
 
-		$this->cacheAndServe($pathOriginal, self::mimeTypes()[$extension]);
+		$this->symlinkAndServe($pathOriginal, self::mimeTypes()[$extension]);
 	}
 }

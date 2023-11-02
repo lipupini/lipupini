@@ -66,7 +66,7 @@ class ImageRequest extends MediaProcessorRequest {
 				;
 				break;
 			case 'large' :
-				copy($pathOriginal, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+				symlink($pathOriginal, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
 				break;
 			default :
 				throw new Exception('Unknown size preset');

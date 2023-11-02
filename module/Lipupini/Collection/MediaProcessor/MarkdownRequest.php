@@ -52,7 +52,7 @@ class MarkdownRequest extends MediaProcessorRequest {
 			mkdir($this->system->dirWebroot . pathinfo($htmlWebPath, PATHINFO_DIRNAME), 0755, true);
 		}
 
-		copy($pathOriginal, $this->system->dirWebroot . '/' . $markdownWebPath);
+		symlink($pathOriginal, $this->system->dirWebroot . '/' . $markdownWebPath);
 
 		try {
 			$rendered = Collection\MediaProcessor\Parsedown::instance()->text(file_get_contents($pathOriginal));

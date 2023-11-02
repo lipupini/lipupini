@@ -1,3 +1,10 @@
+# Lipupini
+/cache/*
+!/cache/.gitkeep
+!/collection/example
+/collection/example/inbox
+/collection/*
+
 # IDE
 .idea
 nbproject
