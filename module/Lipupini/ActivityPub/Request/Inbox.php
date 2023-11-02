@@ -48,7 +48,7 @@ class Inbox extends Request {
 
 		$remoteActor = RemoteActor::fromUrl(
 			url: $requestData->actor,
-			cacheDir: $this->system->dirStorage . '/cache/ap'
+			cacheDir: $this->system->dirCache . '/ap'
 		);
 
 		if (!(new Incoming\Signature)->verify(

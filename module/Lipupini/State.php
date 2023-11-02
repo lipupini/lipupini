@@ -15,7 +15,7 @@ class State {
 		public string $dirWebroot         = '/dev/null', // Reasonably safe default, this is set after instantiation
 		public string $dirRoot            = '/dev/null',
 		public string $dirModule          = '/dev/null',
-		public string $dirStorage         = '/dev/null',
+		public string $dirCache         = '/dev/null',
 		public string $dirCollection      = '/dev/null',
 		public string $baseUri            = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URI e.g. https://example.org/~basePath/
 		public string $staticMediaBaseUri = 'http://dev.null/c/', // Also has a trailing slash
@@ -52,12 +52,12 @@ class State {
 			$this->dirWebroot = $this->dirModule . '/' . $this->frontendModule . '/webroot';
 		}
 
-		if ($this->dirStorage === '/dev/null') {
-			$this->dirStorage = $this->dirRoot . '/storage';
+		if ($this->dirCache === '/dev/null') {
+			$this->dirCache = $this->dirRoot . '/cache';
 		}
 
 		if ($this->dirCollection === '/dev/null') {
-			$this->dirCollection = $this->dirStorage . '/collection';
+			$this->dirCollection = $this->dirRoot . '/collection';
 		}
 
 		// For security reasons, a completely random version number is always statically served. Lipupini should

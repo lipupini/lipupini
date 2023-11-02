@@ -118,7 +118,7 @@ rm -r collection/example
 
 6) Your collection should now be viewable at http://localhost:4000/@sally
 
-In addition to copying or symlinking, see [storage/collection/README.md#vision](storage/collection/README.md#vision) for ideas on other ways to keep these directories in sync.
+In addition to copying or symlinking, see [storage/collection/README.md#vision](collection/README.md#vision) for ideas on other ways to keep these directories in sync.
 
 ## ActivityPub Note
 
@@ -189,5 +189,4 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
 - Make contributions to `landrok/activitypub`
 - Make a `bin/generate-cache.php`
-- Consider symlinking documents to webroot media cache instead of copying
 - Do not let same account try to follow more than once
