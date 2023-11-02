@@ -190,3 +190,5 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 - Make contributions to `landrok/activitypub`
 - Make a `bin/generate-cache.php`
 - Do not let same account try to follow more than once
+- When there are no collections, resolve error
+- Output errors in layout
