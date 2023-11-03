@@ -5,7 +5,7 @@ default:
 
 # An idea for a way to grep an account inbox
 inbox account:
-	ls -l --color=auto --format=single-column storage/collection/{{account}}/.lipupini/inbox
+	ls -l --color=auto --format=single-column collection/{{account}}/.lipupini/inbox
 
 # Start PHP's built-in webserver
 serve port='4000':
