@@ -126,6 +126,6 @@ sudo php composer-setup.php --filename=composer --install-dir=/usr/bin
 php -r "unlink('composer-setup.php');"
 ```
 
-Here is a screenshot of Lipupini running locally on Android :D Post in [discussions](https://github.com/instalution/lipupini/issues) if you would like to see this process documented with instructions.
+Here is a screenshot of Lipupini running locally on Android :D Post in [discussions](https://github.com/lipupini/lipupini/issues) if you would like to see this process documented with instructions.
 
-![IMG_20231019_124846](https://github.com/instalution/lipupini/assets/108841276/60785bb6-9caf-424a-8abe-735684657deb)
+![IMG_20231019_124846](https://github.com/lipupini/lipupini/assets/108841276/60785bb6-9caf-424a-8abe-735684657deb)
