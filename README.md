@@ -178,6 +178,7 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 ## TODO
 
+- Figure out something else besides exception when file in `.files.json` does not exist in collection
 - Make `bin/generate-files-json.php` recursive
 - Create script to normalize file and directory user/group/permissions
 - Look into:
