@@ -21,7 +21,7 @@ class State {
 		public string $staticMediaBaseUri = 'http://dev.null/c/', // Also has a trailing slash
 		public string $frontendModule     = 'Lukinview',
 		public string $viewLanguage       = 'english',
-		public string $userAgent          = '(Lipupini/69.420; +https://github.com/instalution/lipupini)',
+		public string $userAgent          = '(Lipupini/69.420; +https://github.com/lipupini/lipupini)',
 		public array  $requests           = [],
 		public bool   $activityPubLog     = true,
 		public bool   $shutdown           = false,
@@ -64,7 +64,7 @@ class State {
 		// For security reasons, a completely random version number is always statically served. Lipupini should
 		// not change anything about the ActivityPub protocol, therefore the version is irrelevant to other
 		// instances and particularly to any instance that may suspect that the version number is relevant.
-		if ($this->userAgent === '(Lipupini/69.420; +https://github.com/instalution/lipupini)') {
+		if ($this->userAgent === '(Lipupini/69.420; +https://github.com/lipupini/lipupini)') {
 			$this->userAgent = '(Lipupini/69.420; +' . $this->baseUri . ')';
 		}
 

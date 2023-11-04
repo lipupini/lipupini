@@ -63,8 +63,8 @@ class NodeInfoRequest extends Http {
 			'metadata' => [
 				'nodeName' => $this->system->host,
 				'software' => [
-					'homepage' => 'https://github.com/instalution/lipupini',
-					'repository' => 'https://github.com/instalution/lipupini',
+					'homepage' => 'https://github.com/lipupini/lipupini',
+					'repository' => 'https://github.com/lipupini/lipupini',
 				],
 			]
 		];
