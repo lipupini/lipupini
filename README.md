@@ -45,7 +45,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Show an avatar PNG when searching from an external ActivityPub or RSS client.
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
 - Your media collections are self-contained, served as they are on your filesystem. Metadata is stored in a special `.lipupini` folder, making account collections completely portable.
-- Lipupini manages to implement ActivityPub without a database. For example, certain inbox activities are logged to your collection in raw JSON.
+- Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `config/system.php` for the option.
 - Module system paves a way for collaborative development.
 - Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
 - Building a way to keyword search collections using AI image recognition.
