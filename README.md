@@ -193,3 +193,4 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 - Do not let same account try to follow more than once
 - When there are no collections, resolve error
 - Output errors in layout
+- Add favicon to `.lipupini` folder
