@@ -1,5 +1,7 @@
 This document outlines deployment processes and other DevOps concerns.
 
+[Error handling](#error-handling)
+
 [Deploying with Docker](#deploying-with-docker)
 
 [System Dependencies](#system-dependencies)
@@ -9,6 +11,26 @@ This document outlines deployment processes and other DevOps concerns.
 [Using PHP's Built-in Webserver](README.md#lipupini-development-server)
 
 ---
+
+## Error Handling
+
+By default, Lipupini will display error messages (exceptions). This is on purpose. If you want, you can hide those messages, and it is something to consider in production. To a malicious actor, the information these messages can provide is the path to your Lipupini installation. As well that you are using Lipupini. If your hosting is not managed, a malicious actor knowing the path is still not likely much of an issue unless you really like your path and do not want most people to know what it is. There are also benefits to showing them, particularly during development and when you are hosting other people's collections so that they can tell you what the error message is.
+
+To hide the messages, open `config/system.php`, and change:
+
+```php
+ini_set('display_errors', 1);
+```
+
+to:
+
+```php
+ini_set('display_errors', 0);
+```
+
+You can also change the `error_reporting()` value by referencing here: https://www.php.net/manual/en/function.error-reporting.php
+
+Please file an issue if you would like to see these errors handled in an alternative, more fancy and nearly equally secure way.
 
 ## Deploying with Docker
 
