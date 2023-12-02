@@ -22,13 +22,13 @@
 
 ---
 
-![image](https://github.com/instalution/lipupini/assets/108841276/843f8a31-0d6c-42d2-a366-c355b03986a6)
+![image](https://github.com/lipupini/lipupini/assets/108841276/843f8a31-0d6c-42d2-a366-c355b03986a6)
 
 ---
 
 ## Status
 
-For displaying a media portfolio or posts on the Internet, despite currently limited ActivityPub support the [latest release of Lipupini](https://github.com/instalution/lipupini/releases/latest) is considered to be **production-ready**. The [demo site](https://lipupini-demo.dup.bz/@example) is running the `demo` branch which is usually ahead of the latest release.
+For displaying a media portfolio or posts on the Internet, despite currently limited ActivityPub support the [latest release of Lipupini](https://github.com/lipupini/lipupini/releases/latest) is considered to be **production-ready**. The [demo site](https://lipupini-demo.dup.bz/@example) is running the `demo` branch which is usually ahead of the latest release.
 
 1) Install dependencies and clone the repository to the latest release tag or demo branch.
 2) Add and [initialize](#add-your-collection) your collection, customize `.lipupini/.files.json` with captions, and delete the example collection.
@@ -59,7 +59,7 @@ Make sure all [dependencies are installed first](DEPLOY.md#installing-system-dep
 1) Clone the app and `cd` into the project root
 
 ```shell
-git clone https://github.com/instalution/lipupini.git
+git clone https://github.com/lipupini/lipupini.git
 cd lipupini
 ```
 
@@ -86,16 +86,16 @@ Say you have a folder of awesome photos at `/home/sally/Pictures/AwesomePhotos`
 
 Your Lipupini installation is at `/opt/webapp/lipupini`
 
-1) Take the photos from `/home/sally/Pictures/AwesomeCollection` and put them into the collection directory `/opt/webapp/lipupini/storage/collection/sally` either by copying them:
+1) Take the photos from `/home/sally/Pictures/AwesomeCollection` and put them into the collection directory `/opt/webapp/lipupini/collection/sally` either by copying them:
 
 ```shell
-cp -R /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/storage/collection/sally
+cp -R /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/collection/sally
 ```
 
 or symlinking them:
 
 ```shell
-ln -s /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/storage/collection/sally
+ln -s /home/sally/Pictures/AwesomeCollection /opt/webapp/lipupini/collection/sally
 ```
 
 2) Initialize the `.lipupini` folder for the collection
@@ -106,9 +106,9 @@ bin/generate-keys.php sally
 bin/create-files-json.php sally
 ```
 
-3) Save a file called `.avatar.png` at `/opt/webapp/lipupini/storage/collection/sally/.lipupini/.avatar.png`
+3) Save a file called `.avatar.png` at `/opt/webapp/lipupini/collection/sally/.lipupini/.avatar.png`
 
-4) Edit the file at `/opt/webapp/lipupini/storage/collection/sally/.lipupini/.files.json` to add captions (this is optional)
+4) Edit the file at `/opt/webapp/lipupini/collection/sally/.lipupini/.files.json` to add captions (this is optional)
 
 5) Delete the example collection:
 
@@ -118,7 +118,7 @@ rm -r collection/example
 
 6) Your collection should now be viewable at http://localhost:4000/@sally
 
-In addition to copying or symlinking, see [storage/collection/README.md#vision](storage/collection/README.md#vision) for ideas on other ways to keep these directories in sync.
+In addition to copying or symlinking, see [collection/README.md#vision](collection/README.md#vision) for ideas on other ways to keep these directories in sync.
 
 ## ActivityPub Note
 
@@ -144,7 +144,7 @@ Here is what it can look like so far: https://lipupini-demo.dup.bz/@example
 
 Though ActivityPub implementation is currently limited, the demo is searchable in the Fediverse `@example@lipupini-demo.dup.bz`
 
-**NOTE:** Please use [activitypub.academy](https://activitypub.academy) Mastondon server for testing, as this is a test server. Some production servers like Mastodon.social won't load it in search. [/kbin](https://kbin.pub) instances should work correctly.
+**NOTE:** Please use [activitypub.academy](https://activitypub.academy) Mastondon server for testing, as this is a test server.
 
 The demo is the `demo` branch running on Apache2. If you already have Apache2 configured to serve PHP, you can install Composer dependencies and point the virtual host's `DocumentRoot` to `webroot` and it should "just work."
 
@@ -154,7 +154,7 @@ You are welcome to fork it, change it, add modules! Please don't hesitate to mak
 
 I hope that the module architecture makes for a good workflow, especially being open to merging new modules. In theory, modules could just as easily be Composer packages and not have a `module` directory at all. The current architecture can still work seamlessly with the Composer pattern as well.
 
-Email apps [at] dup.bz if you'd like a point of contact or post in [discussions](https://github.com/instalution/lipupini/issues)! Please reach out if you begin to find any aspect frustrating or feel that it should be done in a different way.
+Email apps [at] dup.bz if you'd like a point of contact or post in [discussions](https://github.com/lipupini/lipupini/issues)! Please reach out if you begin to find any aspect frustrating or feel that it should be done in a different way.
 
 If you want to use Lipupini for your artist portfolio or business website, I will support your effort.
 
@@ -180,7 +180,6 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 - Make `bin/generate-files-json.php` recursive
 - Create script to normalize file and directory user/group/permissions
-- Make a `bin/generate-cache.php`
 - Look into:
   - https://indieweb.org/Webmention
   - https://indieweb.org/Microsub
@@ -189,4 +188,5 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
   - https://micropub.rocks
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
 - Make contributions to `landrok/activitypub`
-- Consider symlinking documents to webroot media cache instead of copying
+- Make a `bin/generate-cache.php`
+- Do not let same account try to follow more than once

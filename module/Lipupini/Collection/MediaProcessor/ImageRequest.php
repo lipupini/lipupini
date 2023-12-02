@@ -24,7 +24,7 @@ class ImageRequest extends MediaProcessorRequest {
 
 		$collectionFolderName = $matches[1];
 		$sizePreset = $matches[2];
-		$imagePath = $matches[3];
+		$imagePath = urldecode($matches[3]);
 		$extension = $matches[4];
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
@@ -66,7 +66,7 @@ class ImageRequest extends MediaProcessorRequest {
 				;
 				break;
 			case 'large' :
-				copy($pathOriginal, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+				symlink($pathOriginal, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
 				break;
 			default :
 				throw new Exception('Unknown size preset');

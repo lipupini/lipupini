@@ -8,7 +8,7 @@ use Module\Lipupini\State;
 $systemState = require(__DIR__ . '/../config/system.php');
 
 $staticCache = $systemState->dirWebroot . parse_url($systemState->staticMediaBaseUri, PHP_URL_PATH);
-$activityPubCache = $systemState->dirStorage . '/cache/ap';
+$activityPubCache = $systemState->dirCache . '/ap';
 echo 'About to delete the following folders if they exist:' . "\n\n";
 echo '1) ' . $staticCache . ' (Static media cache)' . "\n";
 echo '2) ' . $activityPubCache . ' (ActivityPub cache)' . "\n\n";

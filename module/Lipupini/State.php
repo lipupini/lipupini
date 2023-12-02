@@ -15,13 +15,13 @@ class State {
 		public string $dirWebroot         = '/dev/null', // Reasonably safe default, this is set after instantiation
 		public string $dirRoot            = '/dev/null',
 		public string $dirModule          = '/dev/null',
-		public string $dirStorage         = '/dev/null',
+		public string $dirCache         = '/dev/null',
 		public string $dirCollection      = '/dev/null',
 		public string $baseUri            = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URI e.g. https://example.org/~basePath/
 		public string $staticMediaBaseUri = 'http://dev.null/c/', // Also has a trailing slash
 		public string $frontendModule     = 'Lukinview',
 		public string $viewLanguage       = 'english',
-		public string $userAgent          = '(Lipupini/69.420; +https://github.com/instalution/lipupini)',
+		public string $userAgent          = '(Lipupini/69.420; +https://github.com/lipupini/lipupini)',
 		public array  $requests           = [],
 		public bool   $shutdown           = false,
 		public bool   $debug              = false
@@ -52,18 +52,18 @@ class State {
 			$this->dirWebroot = $this->dirModule . '/' . $this->frontendModule . '/webroot';
 		}
 
-		if ($this->dirStorage === '/dev/null') {
-			$this->dirStorage = $this->dirRoot . '/storage';
+		if ($this->dirCache === '/dev/null') {
+			$this->dirCache = $this->dirRoot . '/cache';
 		}
 
 		if ($this->dirCollection === '/dev/null') {
-			$this->dirCollection = $this->dirStorage . '/collection';
+			$this->dirCollection = $this->dirRoot . '/collection';
 		}
 
 		// For security reasons, a completely random version number is always statically served. Lipupini should
 		// not change anything about the ActivityPub protocol, therefore the version is irrelevant to other
 		// instances and particularly to any instance that may suspect that the version number is relevant.
-		if ($this->userAgent === '(Lipupini/69.420; +https://github.com/instalution/lipupini)') {
+		if ($this->userAgent === '(Lipupini/69.420; +https://github.com/lipupini/lipupini)') {
 			$this->userAgent = '(Lipupini/69.420; +' . $this->baseUri . ')';
 		}
 

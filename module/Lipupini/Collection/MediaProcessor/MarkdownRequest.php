@@ -13,7 +13,7 @@ class MarkdownRequest extends MediaProcessorRequest {
 	}
 
 	public function initialize(): void {
-		if (!preg_match('#^/c/file/([^/]+)/markdown(/.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/file/([^/]+)/markdown/(.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -26,12 +26,12 @@ class MarkdownRequest extends MediaProcessorRequest {
 
 		if ($extension === 'html') {
 			$htmlWebPath = $_SERVER['REQUEST_URI'];
-			$mdFilePath = preg_replace('#\.html$#', '', $filePath);
-			$markdownWebPath = '/c/file/' . $collectionFolderName . '/markdown' . $mdFilePath;
+			$mdFilePath = urldecode(preg_replace('#\.html$#', '', $filePath));
+			$markdownWebPath = '/c/file/' . $collectionFolderName . '/markdown/' . $mdFilePath;
 			$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $mdFilePath;
 		} else {
 			$markdownWebPath = $_SERVER['REQUEST_URI'];
-			$htmlFilePath = $_SERVER['REQUEST_URI'] . '.html';
+			$htmlFilePath = urldecode($_SERVER['REQUEST_URI'] . '.html');
 			$htmlWebPath = '/c/file/' . $collectionFolderName . '/markdown' . $htmlFilePath;
 			$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . $htmlFilePath;
 		}
@@ -52,7 +52,7 @@ class MarkdownRequest extends MediaProcessorRequest {
 			mkdir($this->system->dirWebroot . pathinfo($htmlWebPath, PATHINFO_DIRNAME), 0755, true);
 		}
 
-		copy($pathOriginal, $this->system->dirWebroot . $markdownWebPath);
+		symlink($pathOriginal, $this->system->dirWebroot . '/' . $markdownWebPath);
 
 		try {
 			$rendered = Collection\MediaProcessor\Parsedown::instance()->text(file_get_contents($pathOriginal));
