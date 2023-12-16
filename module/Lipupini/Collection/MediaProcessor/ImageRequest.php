@@ -58,15 +58,19 @@ class ImageRequest extends MediaProcessorRequest {
 
 		switch ($sizePreset) {
 			case 'small' :
-				$size = new Imagine\Image\Box(500, 1000);
-				$mode = Imagine\Image\ImageInterface::THUMBNAIL_INSET;
-				$imagine->open($pathOriginal)
-					->thumbnail($size, $mode)
-					->save($this->system->dirWebroot . $_SERVER['REQUEST_URI'])
-				;
+				if (!file_exists($this->system->dirWebroot . $_SERVER['REQUEST_URI'])) {
+					$size = new Imagine\Image\Box(500, 1000);
+					$mode = Imagine\Image\ImageInterface::THUMBNAIL_INSET;
+					$imagine->open($pathOriginal)
+						->thumbnail($size, $mode)
+						->save($this->system->dirWebroot . $_SERVER['REQUEST_URI'])
+					;
+				}
 				break;
 			case 'large' :
-				symlink($pathOriginal, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+				if (!file_exists($pathOriginal)) {
+					symlink($pathOriginal, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+				}
 				break;
 			default :
 				throw new Exception('Unknown size preset');
