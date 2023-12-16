@@ -188,6 +188,7 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
   - https://atproto.com
   - https://micropub.rocks
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
+- Clearing EXIF data in processing before display is more important than using it if anything is going to be done with it
 - Make contributions to `landrok/activitypub`
 - Make a `bin/generate-cache.php`
 - Do not let same account try to follow more than once
