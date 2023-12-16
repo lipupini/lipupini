@@ -23,6 +23,7 @@ abstract class MediaProcessorRequest extends Http {
 		}
 
 		header('Content-type: ' . $mimeType);
+		// With the possibility of very large files and potential issues with static file serving, we are not using the `$this->system->responseContent` option here
 		readfile($filePath);
 		exit();
 	}
