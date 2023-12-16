@@ -73,6 +73,8 @@ class ImageRequest extends MediaProcessorRequest {
 		}
 
 		header('Content-type: ' . self::mimeTypes()[$extension]);
-		$this->system->responseContent = file_get_contents($pathOriginal);
+		// With the possibility of very large files and potential issues with static file serving, we are not using the `$this->system->responseContent` option here
+		readfile($pathOriginal);
+		exit();
 	}
 }
