@@ -2,6 +2,9 @@
 
 namespace Module\Lipupini\Collection\MediaProcessor;
 
+ini_set('max_execution_time', 30);
+ini_set('memory_limit', '512M');
+
 use Imagine;
 use Module\Lipupini\Collection;
 
