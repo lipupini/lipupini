@@ -192,7 +192,7 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 - Clearing EXIF data in processing before display is more important than using it if anything is going to be done with it
 - Make contributions to `landrok/activitypub`
 - Make a `bin/generate-cache.php`
-- Do not let same account try to follow more than once
+- Do not let same account try to follow more than once when already logged previous follow
 - When there are no collections, resolve error
 - Output errors in layout
 - Add favicon to `.lipupini` folder
