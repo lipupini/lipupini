@@ -75,7 +75,7 @@ class DocumentRequest extends Http {
 			$this->fileData = [];
 		}
 
-		if ($this->fileData['visibility'] ?? null === 'hidden') {
+		if (($this->fileData['visibility'] ?? null) === 'hidden') {
 			return false;
 		}
 

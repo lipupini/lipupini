@@ -50,7 +50,7 @@ class Utility {
 				if ($collectionRelativePath) {
 					$filename = $collectionRelativePath . '/' . $filename;
 				}
-				if ($fileData['visibility'] ?? null === 'hidden') {
+				if (in_array($fileData['visibility'] ?? null, ['hidden', 'unlisted'], true)) {
 					$skipFiles[] = $filename;
 					if (!$includeHidden) {
 						continue;
