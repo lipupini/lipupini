@@ -22,6 +22,24 @@ For example, the JSON might look like this:
 }
 ```
 
+Individual files can be `hidden` or `unlisted` via a `visibility` option. Files marked as `hidden` do not show on the web. `unlisted` files show in detail view and do not show in grid view. Using the example above to hide and unlist the first two images respectively:
+
+```json
+{
+	"cat-scarf.jpg": {
+		"caption": "Scarf Cat",
+		"visibility": "hidden"
+	},
+	"cat-hat.jpg": {
+		"caption": "Hat Cat",
+		"visibility": "unlisted"
+	},
+	"Memes": {
+		"caption": "Memes Folder"
+	}
+}
+```
+
 The root `.lipupini` folder also contains public and private RSA keys for the collection to make signed requests e.g. for ActivityPub.
 
 ## Vision
