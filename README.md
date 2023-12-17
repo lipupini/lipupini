@@ -43,6 +43,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Allows subscribing to your content collection via RSS2.0.
 - Search Lipupini accounts from other Fediverse platforms via the ActivityPub protocol.
 - Show an avatar PNG when searching from an external ActivityPub or RSS client.
+- Supports both `"hidden"` and `"unlisted"` options in [.files.json](collection/README.md)
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
 - Your media collections are self-contained, served as they are on your filesystem. Metadata is stored in a special `.lipupini` folder, making account collections completely portable.
 - Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `config/system.php` for the option.
