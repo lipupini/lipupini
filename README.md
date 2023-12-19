@@ -43,9 +43,10 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Allows subscribing to your content collection via RSS2.0.
 - Search Lipupini accounts from other Fediverse platforms via the ActivityPub protocol.
 - Show an avatar PNG when searching from an external ActivityPub or RSS client.
+- Supports both `"hidden"` and `"unlisted"` options in [.files.json](collection/README.md)
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
 - Your media collections are self-contained, served as they are on your filesystem. Metadata is stored in a special `.lipupini` folder, making account collections completely portable.
-- Lipupini manages to implement ActivityPub without a database. For example, certain inbox activities are logged to your collection in raw JSON.
+- Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `config/system.php` for the option.
 - Module system paves a way for collaborative development.
 - Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
 - Building a way to keyword search collections using AI image recognition.
@@ -178,8 +179,10 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 ## TODO
 
+- Figure out something else besides exception when file in `.files.json` does not exist in collection
 - Make `bin/generate-files-json.php` recursive
 - Create script to normalize file and directory user/group/permissions
+- Add settings / options, need to put a multi-image left/right image swap thing
 - Look into:
   - https://indieweb.org/Webmention
   - https://indieweb.org/Microsub
@@ -187,6 +190,10 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
   - https://atproto.com
   - https://micropub.rocks
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
+- Clearing EXIF data in processing before display is more important than using it if anything is going to be done with it
 - Make contributions to `landrok/activitypub`
 - Make a `bin/generate-cache.php`
-- Do not let same account try to follow more than once
+- Do not let same account try to follow more than once when already logged previous follow
+- When there are no collections, resolve error
+- Output errors in layout
+- Add favicon to `.lipupini` folder

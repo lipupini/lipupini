@@ -18,9 +18,13 @@ abstract class MediaProcessorRequest extends Http {
 			mkdir($this->system->dirWebroot . pathinfo($_SERVER['REQUEST_URI'], PATHINFO_DIRNAME), 0755, true);
 		}
 
-		symlink($filePath, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+		if (!file_exists($filePath)) {
+			symlink($filePath, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+		}
 
 		header('Content-type: ' . $mimeType);
-		$this->system->responseContent = file_get_contents($filePath);
+		// With the possibility of very large files and potential issues with static file serving, we are not using the `$this->system->responseContent` option here
+		readfile($filePath);
+		exit();
 	}
 }

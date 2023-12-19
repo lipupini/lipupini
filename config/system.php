@@ -31,5 +31,6 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\MediaProcessor\MarkdownRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\AudioRequest::class => null,
 	],
+	activityPubLog: false,
 	debug: false
 );

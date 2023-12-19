@@ -64,7 +64,7 @@ class DocumentRequest extends Http {
 		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
 		$collectionRequestPath = $this->system->requests[Collection\Request::class]->path;
 
-		$this->pageTitle = $collectionRequestPath . '@' . $collectionFolderName . '@' . $this->system->host;
+		$this->pageTitle = urldecode($collectionRequestPath . '@' . $collectionFolderName) . '@' . $this->system->host;
 		$collectionData = (new Collection\Utility($this->system))->getCollectionData($collectionFolderName, $collectionRequestPath, true);
 
 		$this->collectionFileName = preg_replace('#\.html$#', '', $collectionRequestPath);
@@ -75,7 +75,7 @@ class DocumentRequest extends Http {
 			$this->fileData = [];
 		}
 
-		if ($this->fileData['visibility'] ?? null === 'hidden') {
+		if (($this->fileData['visibility'] ?? null) === 'hidden') {
 			return false;
 		}
 

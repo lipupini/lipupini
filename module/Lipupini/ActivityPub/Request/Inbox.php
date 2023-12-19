@@ -63,22 +63,22 @@ class Inbox extends Request {
 		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
 
 		/* BEGIN STORE INBOX ACTIVITY */
+		if ($this->system->activityPubLog) {
+			$inboxFolder = $this->system->dirCollection . '/'
+				. $collectionFolderName
+				. '/.lipupini/inbox/';
 
-		$inboxFolder = $this->system->dirCollection . '/'
-			. $collectionFolderName
-			. '/.lipupini/inbox/';
+			if (!is_dir($inboxFolder)) {
+				mkdir($inboxFolder, 0755, true);
+			}
 
-		if (!is_dir($inboxFolder)) {
-			mkdir($inboxFolder, 0755, true);
+			$activityQueueFilename = $inboxFolder
+				. date('Ymdhis')
+				. '-' . microtime(true)
+				. '-' . preg_replace('#[^\w]#', '', $requestData->type) . '.json';
+
+			file_put_contents($activityQueueFilename, json_encode($requestData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 		}
-
-		$activityQueueFilename = $inboxFolder
-			. date('Ymdhis')
-			. '-' . microtime(true)
-			. '-' . preg_replace('#[^\w]#', '', $requestData->type) . '.json';
-
-		file_put_contents($activityQueueFilename, json_encode($requestData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
-
 		/* END STORE INBOX ACTIVITY */
 
 		switch ($requestData->type) {

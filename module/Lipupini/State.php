@@ -23,6 +23,7 @@ class State {
 		public string $viewLanguage       = 'english',
 		public string $userAgent          = '(Lipupini/69.420; +https://github.com/lipupini/lipupini)',
 		public array  $requests           = [],
+		public bool   $activityPubLog     = true,
 		public bool   $shutdown           = false,
 		public bool   $debug              = false
 	) {

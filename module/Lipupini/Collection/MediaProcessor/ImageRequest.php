@@ -2,6 +2,9 @@
 
 namespace Module\Lipupini\Collection\MediaProcessor;
 
+ini_set('max_execution_time', 30);
+ini_set('memory_limit', '512M');
+
 use Imagine;
 use Module\Lipupini\Collection;
 
@@ -58,21 +61,27 @@ class ImageRequest extends MediaProcessorRequest {
 
 		switch ($sizePreset) {
 			case 'small' :
-				$size = new Imagine\Image\Box(500, 1000);
-				$mode = Imagine\Image\ImageInterface::THUMBNAIL_INSET;
-				$imagine->open($pathOriginal)
-					->thumbnail($size, $mode)
-					->save($this->system->dirWebroot . $_SERVER['REQUEST_URI'])
-				;
+				if (!file_exists($this->system->dirWebroot . $_SERVER['REQUEST_URI'])) {
+					$size = new Imagine\Image\Box(500, 1000);
+					$mode = Imagine\Image\ImageInterface::THUMBNAIL_INSET;
+					$imagine->open($pathOriginal)
+						->thumbnail($size, $mode)
+						->save($this->system->dirWebroot . $_SERVER['REQUEST_URI'])
+					;
+				}
 				break;
 			case 'large' :
-				symlink($pathOriginal, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+				if (!file_exists($pathOriginal)) {
+					symlink($pathOriginal, $this->system->dirWebroot . $_SERVER['REQUEST_URI']);
+				}
 				break;
 			default :
 				throw new Exception('Unknown size preset');
 		}
 
 		header('Content-type: ' . self::mimeTypes()[$extension]);
-		$this->system->responseContent = file_get_contents($pathOriginal);
+		// With the possibility of very large files and potential issues with static file serving, we are not using the `$this->system->responseContent` option here
+		readfile($pathOriginal);
+		exit();
 	}
 }
