@@ -4,7 +4,7 @@ const { div, video, source } = van.tags
 
 const Video = ({collection, baseUri, filename, data, fileType}) => {
 	return div({class: 'video'},
-		video({controls: 'true', preload: 'metadata', loop: 'true', title: data.caption ?? filename, loading: 'lazy'},
+		video({controls: 'true', preload: 'none', loop: 'true', title: data.caption ?? filename, loading: 'lazy'},
 			source({src: `${baseUri}file/${collection}/video/${filename}#t=0.5`, type: fileType}),
 		),
 	)
