@@ -23,17 +23,17 @@ main.media-item {
 	max-height: 85vh;
 }
 
-#media-item .markdown {
+#media-item .text {
 	width: 100%;
 	text-align: center;
 }
 
-#media-item .markdown object {
+#media-item .text object {
 	width: 99%;
 	height: 98%;
 	background-color: #ccc;
 }
 
-.markdown object {
+.text object {
 	color: #fff;
 }

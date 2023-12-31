@@ -1,9 +1,9 @@
-import van from '/lib/van-1.2.1.min.js'
+import van from '/lib/van-1.2.7.min.js'
 
 const { div, a, object } = van.tags
 
-const Markdown = ({collection, baseUri, filename, data, load = false}) => {
-	return div({class: 'markdown'},
+const Text = ({collection, baseUri, filename, data, load = false}) => {
+	return div({class: 'text'},
 		load ?
 			object({type: 'text/html', data: `${baseUri}file/${collection}/markdown/${filename + '.html'}`}) :
 			a({href: `/@${collection}/${filename}.html`},
@@ -12,4 +12,4 @@ const Markdown = ({collection, baseUri, filename, data, load = false}) => {
 	)
 }
 
-export { Markdown }
+export { Text }

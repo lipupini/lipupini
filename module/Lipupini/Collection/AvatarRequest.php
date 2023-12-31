@@ -24,7 +24,7 @@ class AvatarRequest extends MediaProcessor\MediaProcessorRequest {
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 
-		$avatarPath = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/.avatar.png';
+		$avatarPath = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/avatar.png';
 		$this->symlinkAndServe($avatarPath, self::mimeTypes()[$extension]);
 	}
 }

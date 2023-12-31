@@ -107,7 +107,7 @@ class Outbox extends Request {
 					'url' => $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/audio/' . $filePath,
 					'name' => $filePath,
 				];
-			} else if (in_array($extension, array_keys(Collection\MediaProcessor\MarkdownRequest::mimeTypes()))) {
+			} else if (in_array($extension, array_keys(Collection\MediaProcessor\TextRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Note',
 					'mediaType' => 'text/html',

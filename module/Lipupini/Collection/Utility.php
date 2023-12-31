@@ -41,7 +41,7 @@ class Utility {
 
 		$collectionAbsolutePath = $collectionRelativePath ? $collectionRootPath . '/' . $collectionRelativePath : $collectionRootPath;
 		$return = $collectionData = [];
-		$filesJsonPath = $collectionAbsolutePath . '/.lipupini/.files.json';
+		$filesJsonPath = $collectionAbsolutePath . '/.lipupini/files.json';
 		$skipFiles = [];
 		if (file_exists($filesJsonPath)) {
 			$collectionData = json_decode(file_get_contents($filesJsonPath), true);
@@ -57,7 +57,7 @@ class Utility {
 					}
 				}
 				if (!file_exists($collectionRootPath . '/' . $filename)) {
-					throw new Exception('Could not find file for entry in ' . $collectionFolderName . '/.lipupini/.files.json');
+					throw new Exception('Could not find file for entry in ' . $collectionFolderName . '/.lipupini/files.json');
 				}
 				$return[$filename] = $fileData;
 			}

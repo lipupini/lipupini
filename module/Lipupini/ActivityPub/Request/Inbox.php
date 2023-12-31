@@ -105,7 +105,7 @@ class Inbox extends Request {
 
 		Outgoing\Http::sendSigned(
 			keyId: $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile#main-key',
-			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/.rsakey.private'),
+			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/rsakey.private'),
 			inboxUrl: $remoteActor->getInboxUrl(),
 			body: $activityJson,
 			headers: [

@@ -42,7 +42,7 @@ class DocumentRequest extends Http {
 			'Video' => MediaProcessor\VideoRequest::mimeTypes(),
 			'Audio' => MediaProcessor\AudioRequest::mimeTypes(),
 			'Image' => MediaProcessor\ImageRequest::mimeTypes(),
-			'Markdown' => MediaProcessor\MarkdownRequest::mimeTypes(),
+			'Text' => MediaProcessor\TextRequest::mimeTypes(),
 		];
 
 		$this->renderHtml();

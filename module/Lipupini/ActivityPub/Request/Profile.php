@@ -13,7 +13,7 @@ class Profile extends Request {
 
 		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
 
-		$profileFile = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/.profile.json';
+		$profileFile = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/profile.json';
 		$profileData = file_exists($profileFile) ? json_decode(file_get_contents($profileFile), true) : [];
 
 		$jsonData = [
@@ -37,7 +37,7 @@ class Profile extends Request {
 			'publicKey' => [
 				'id' =>$this->system->baseUri . '@' . $collectionFolderName . '?ap=profile#main-key',
 				'owner' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile',
-				'publicKeyPem' => file_get_contents($this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/.rsakey.public')
+				'publicKeyPem' => file_get_contents($this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/rsakey.public')
 			],
 			'icon' => [
 				'type' => 'Image',

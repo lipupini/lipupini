@@ -94,9 +94,9 @@ class Request extends Http {
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/audio/' . $filePath;
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<audio controls><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></audio>';
-			} else if (in_array($extension, array_keys(Collection\MediaProcessor\MarkdownRequest::mimeTypes()))) {
+			} else if (in_array($extension, array_keys(Collection\MediaProcessor\TextRequest::mimeTypes()))) {
 				$metaData['medium'] = 'document';
-				$metaData['mime'] = Collection\MediaProcessor\MarkdownRequest::mimeTypes()[$extension];
+				$metaData['mime'] = Collection\MediaProcessor\TextRequest::mimeTypes()[$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/markdown/' . $filePath . '.html';
 				$metaData['content'] = 	'<p><a href="' . $metaData['cacheUrl'] . '">' . htmlentities($metaData['caption'] ?? $filePath) . '</a></p>';
 			} else {

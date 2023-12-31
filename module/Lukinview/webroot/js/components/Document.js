@@ -1,7 +1,7 @@
 import { Video } from './FileType/Video.js'
 import { Image } from './FileType/Image.js'
 import { Audio } from './FileType/Audio.js'
-import { Markdown } from './FileType/Markdown.js'
+import { Text } from './FileType/Text.js'
 import { CollectionFolder } from './FileType/CollectionFolder.js'
 
 const Document = ({collection, baseUri, filename, data, gridView = false}) => {
@@ -26,8 +26,8 @@ const Document = ({collection, baseUri, filename, data, gridView = false}) => {
 					case 'Image':
 						DocumentComponent = Image({collection, baseUri, filename, data, background: gridView})
 						break
-					case 'Markdown':
-						DocumentComponent = Markdown({collection, baseUri, filename, data, load: !gridView})
+					case 'Text':
+						DocumentComponent = Text({collection, baseUri, filename, data, load: !gridView})
 						break
 					default:
 						throw new Error('Unknown file extension: ' + extension)

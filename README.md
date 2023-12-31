@@ -31,7 +31,7 @@
 For displaying a media portfolio or posts on the Internet, despite currently limited ActivityPub support the [latest release of Lipupini](https://github.com/lipupini/lipupini/releases/latest) is considered to be **production-ready**. The [demo site](https://lipupini-demo.dup.bz/@example) is running the `demo` branch which is usually ahead of the latest release.
 
 1) Install dependencies and clone the repository to the latest release tag or demo branch.
-2) Add and [initialize](#add-your-collection) your collection, customize `.lipupini/.files.json` with captions, and delete the example collection.
+2) Add and [initialize](#add-your-collection) your collection, customize `.lipupini/files.json` with captions, and delete the example collection.
 3) Ensure that your files display. If they don't, convert them to supported formats.
 4) Deploy to a PHP server.
 
@@ -43,7 +43,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Allows subscribing to your content collection via RSS2.0.
 - Search Lipupini accounts from other Fediverse platforms via the ActivityPub protocol.
 - Show an avatar PNG when searching from an external ActivityPub or RSS client.
-- Supports both `"hidden"` and `"unlisted"` options in [.files.json](collection/README.md)
+- Supports both `"hidden"` and `"unlisted"` options in [files.json](collection/README.md)
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
 - Your media collections are self-contained, served as they are on your filesystem. Metadata is stored in a special `.lipupini` folder, making account collections completely portable.
 - Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `config/system.php` for the option.
@@ -107,9 +107,9 @@ bin/generate-keys.php sally
 bin/create-files-json.php sally
 ```
 
-3) Save a file called `.avatar.png` at `/opt/webapp/lipupini/collection/sally/.lipupini/.avatar.png`
+3) Save a file called `avatar.png` at `/opt/webapp/lipupini/collection/sally/.lipupini/avatar.png`
 
-4) Edit the file at `/opt/webapp/lipupini/collection/sally/.lipupini/.files.json` to add captions (this is optional)
+4) Edit the file at `/opt/webapp/lipupini/collection/sally/.lipupini/files.json` to add captions (this is optional)
 
 5) Delete the example collection:
 
@@ -179,7 +179,7 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 ## TODO
 
-- Figure out something else besides exception when file in `.files.json` does not exist in collection
+- Figure out something else besides exception when file in `files.json` does not exist in collection
 - Make `bin/generate-files-json.php` recursive
 - Change "Markdown" to "Text" in context of `MediaProcessor`
 - Create script to normalize file and directory user/group/permissions
