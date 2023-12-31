@@ -20,9 +20,9 @@ $collectionPath = $systemState->dirCollection . '/' . $collectionFolder;
 $lipupiniPath = $collectionPath . '/.lipupini';
 
 if (
-	file_exists($lipupiniPath . '/.files.json')
+	file_exists($lipupiniPath . '/files.json')
 ) {
-	echo 'File already exists: `collection/' . $collectionFolder . '/.lipupini/.files.json`' . "\n";
+	echo 'File already exists: `collection/' . $collectionFolder . '/.lipupini/files.json`' . "\n";
 	exit(0);
 }
 
@@ -32,7 +32,7 @@ if (!is_dir($lipupiniPath)) {
 	mkdir($lipupiniPath, 0755, true);
 }
 
-echo 'Generating `collection/' . $collectionFolder . '/.lipupini/.files.json`...' . "\n";
+echo 'Generating `collection/' . $collectionFolder . '/.lipupini/files.json`...' . "\n";
 
 $dir = new \DirectoryIterator($collectionPath);
 $files = [];
@@ -54,7 +54,7 @@ foreach ($dir as $fileinfo) {
 	];
 }
 
-file_put_contents($lipupiniPath . '/.files.json', json_encode($files, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+file_put_contents($lipupiniPath . '/files.json', json_encode($files, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 
 echo 'Done.' . "\n";
 

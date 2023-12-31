@@ -27,14 +27,14 @@
 	align-items: center;
 	background-color: #474747;
 }
-#media-grid div.markdown a {
+#media-grid div.text a {
 	text-decoration: underline;
 	margin: 1rem;
 	display: block;
 	width: 100%;
 	height: 100%;
 }
-#media-grid div.markdown a:hover {
+#media-grid div.text a:hover {
 	color: #fff;
 }
 #media-grid div.folder {

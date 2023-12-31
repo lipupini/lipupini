@@ -33,8 +33,8 @@ if (strtoupper($confirm) !== 'Y') {
 }
 
 (new Encryption\Key)->generateAndSave(
-	privateKeyPath: $lipupiniPath . '/.rsakey.private',
-	publicKeyPath: $lipupiniPath . '/.rsakey.public',
+	privateKeyPath: $lipupiniPath . '/rsakey.private',
+	publicKeyPath: $lipupiniPath . '/rsakey.public',
 	privateKeyBits: 2048,
 );
 

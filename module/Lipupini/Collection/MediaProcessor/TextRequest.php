@@ -4,7 +4,7 @@ namespace Module\Lipupini\Collection\MediaProcessor;
 
 use Module\Lipupini\Collection;
 
-class MarkdownRequest extends MediaProcessorRequest {
+class TextRequest extends MediaProcessorRequest {
 	public static function mimeTypes(): array {
 		return [
 			'md' => 'text/markdown',
@@ -27,10 +27,10 @@ class MarkdownRequest extends MediaProcessorRequest {
 		if ($extension === 'html') {
 			$htmlWebPath = $_SERVER['REQUEST_URI'];
 			$mdFilePath = urldecode(preg_replace('#\.html$#', '', $filePath));
-			$markdownWebPath = '/c/file/' . $collectionFolderName . '/markdown/' . $mdFilePath;
+			$textWebPath = '/c/file/' . $collectionFolderName . '/markdown/' . $mdFilePath;
 			$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $mdFilePath;
 		} else {
-			$markdownWebPath = $_SERVER['REQUEST_URI'];
+			$textWebPath = $_SERVER['REQUEST_URI'];
 			$htmlFilePath = urldecode($_SERVER['REQUEST_URI'] . '.html');
 			$htmlWebPath = '/c/file/' . $collectionFolderName . '/markdown' . $htmlFilePath;
 			$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . $htmlFilePath;
@@ -44,8 +44,8 @@ class MarkdownRequest extends MediaProcessorRequest {
 			return;
 		}
 
-		if (!is_dir($this->system->dirWebroot . pathinfo($markdownWebPath, PATHINFO_DIRNAME))) {
-			mkdir($this->system->dirWebroot . pathinfo($markdownWebPath, PATHINFO_DIRNAME), 0755, true);
+		if (!is_dir($this->system->dirWebroot . pathinfo($textWebPath, PATHINFO_DIRNAME))) {
+			mkdir($this->system->dirWebroot . pathinfo($textWebPath, PATHINFO_DIRNAME), 0755, true);
 		}
 
 		if (!is_dir($this->system->dirWebroot . pathinfo($htmlWebPath, PATHINFO_DIRNAME))) {
@@ -53,7 +53,7 @@ class MarkdownRequest extends MediaProcessorRequest {
 		}
 
 		if (!file_exists($pathOriginal)) {
-			symlink($pathOriginal, $this->system->dirWebroot . '/' . $markdownWebPath);
+			symlink($pathOriginal, $this->system->dirWebroot . '/' . $textWebPath);
 		}
 
 		try {

@@ -1,4 +1,4 @@
-import van from '/lib/van-1.2.1.min.js'
+import van from '/lib/van-1.2.7.min.js'
 
 const { div, a, img } = van.tags
 

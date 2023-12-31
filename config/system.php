@@ -28,7 +28,7 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\AvatarRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\ImageRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\VideoRequest::class => null,
-		Module\Lipupini\Collection\MediaProcessor\MarkdownRequest::class => null,
+		Module\Lipupini\Collection\MediaProcessor\TextRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\AudioRequest::class => null,
 	],
 	activityPubLog: false,

@@ -4,7 +4,7 @@ Lipupini will attempt to serve any non-hidden files in these directories. If you
 
 Within an identifier folder is a `.lipupini` folder. This folder should have all the necessary data to configure an entire account just by dropping it into the filesystem.
 
-Within the `.lipupini` folder is a JSON file `.files.json` containing information about each file and the order in which they should be displayed. If a filename matches an entry, the data from that entry will be used when loading the file.
+Within the `.lipupini` folder is a JSON file `files.json` containing information about each file and the order in which they should be displayed. If a filename matches an entry, the data from that entry will be used when loading the file.
 
 For example, the JSON might look like this:
 

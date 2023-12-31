@@ -16,7 +16,7 @@ require(__DIR__ . '/../Core/Open.php') ?>
 <div id="media-item"></div>
 <script>let baseUri = '<?php echo htmlentities($this->system->staticMediaBaseUri) ?>';let collection = '<?php echo htmlentities($this->system->requests[Collection\Request::class]->folderName) ?>';let filename = '<?php echo htmlentities(urldecode($this->collectionFileName)) ?>';let fileData = <?php echo json_encode($this->fileData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;let fileTypes=<?php echo json_encode($this->fileTypes, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
 <script type="module">
-import van from '/lib/van-1.2.1.min.js'
+import van from '/lib/van-1.2.7.min.js'
 import { Document } from '/js/components/Document.js'
 van.add(document.getElementById('media-item'), Document({collection, baseUri, filename, data: fileData}))
 </script>
