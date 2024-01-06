@@ -39,10 +39,6 @@ class HomepageRequest extends Http {
 				continue;
 			}
 
-			if (!is_dir($fileinfo->getPathname() . '/.lipupini')) {
-				continue;
-			}
-
 			$localCollections[] = $fileinfo->getFilename();
 		}
 
