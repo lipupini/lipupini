@@ -49,10 +49,10 @@ label {
 .app-bar .next {
 	text-align: left;
 }
-.app-bar .previous, .app-bar .about {
+.app-bar .previous {
 	text-align: right;
 }
-.app-bar a.button {
+a.button {
 	display: inline-block;
 	font-size: 24px;
 	font-weight: bold;
@@ -71,6 +71,9 @@ label {
 }
 .app-bar .pagination a.button:not([disabled]):hover {
 	opacity: 1;
+}
+footer .about {
+	text-align: center;
 }
 .text-center {
 	text-align: center;
