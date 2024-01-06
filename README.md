@@ -180,7 +180,9 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 ## TODO
 
 - Figure out something else besides exception when file in `files.json` does not exist in collection
-- Make `bin/generate-files-json.php` recursive
+- `bin/generate-files-json.php`
+  - Make recursive
+  - Do not overwrite entries, or add option
 - Change "Markdown" to "Text" in context of `MediaProcessor`
 - Create script to normalize file and directory user/group/permissions
 - Add settings / options, need to put a multi-image left/right image swap thing
