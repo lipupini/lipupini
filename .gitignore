@@ -4,6 +4,7 @@
 !/collection/example
 /collection/example/inbox
 /collection/*
+/collection/example/.lipupini/inbox/
 
 # IDE
 .idea
