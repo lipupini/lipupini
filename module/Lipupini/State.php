@@ -15,7 +15,7 @@ class State {
 		public string $dirWebroot         = '/dev/null', // Reasonably safe default, this is set after instantiation
 		public string $dirRoot            = '/dev/null',
 		public string $dirModule          = '/dev/null',
-		public string $dirCache         = '/dev/null',
+		public string $dirCache           = '/dev/null',
 		public string $dirCollection      = '/dev/null',
 		public string $baseUri            = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URI e.g. https://example.org/~basePath/
 		public string $staticMediaBaseUri = 'http://dev.null/c/', // Also has a trailing slash
