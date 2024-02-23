@@ -27,7 +27,7 @@ class ImageRequest extends MediaProcessorRequest {
 
 		$collectionFolderName = $matches[1];
 		$sizePreset = $matches[2];
-		$imagePath = urldecode($matches[3]);
+		$imagePath = rawurldecode($matches[3]);
 		$extension = $matches[4];
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
