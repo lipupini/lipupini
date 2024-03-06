@@ -179,22 +179,21 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 
 ## TODO
 
-- Figure out something else besides exception when file in `files.json` does not exist in collection
+- Add browser-side caching
+- Add favicon to `.lipupini` folder
+- In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
+- Clearing EXIF data in processing before display is more important than using it if anything is going to be done with it
 - Make `bin/generate-files-json.php` recursive
-- Change "Markdown" to "Text" in context of `MediaProcessor`
+- Figure out something else besides exception when file in `files.json` does not exist in collection
 - Create script to normalize file and directory user/group/permissions
-- Add settings / options, need to put a multi-image left/right image swap thing
+- Output errors in layout
 - Look into:
   - https://indieweb.org/Webmention
   - https://indieweb.org/Microsub
   - https://indieweb.org/Micropub
   - https://atproto.com
   - https://micropub.rocks
-- In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
-- Clearing EXIF data in processing before display is more important than using it if anything is going to be done with it
 - Make contributions to `landrok/activitypub`
-- Make a `bin/generate-cache.php`
+- Make a `bin/generate-cache.php` -- Really need to eliminate the issue where in the middle of uploading photos the thumbnail breaks
 - Do not let same account try to follow more than once when already logged previous follow
 - When there are no collections, resolve error
-- Output errors in layout
-- Add favicon to `.lipupini` folder
