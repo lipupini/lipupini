@@ -194,6 +194,9 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
   - https://atproto.com
   - https://micropub.rocks
 - Make contributions to `landrok/activitypub`
-- Make a `bin/generate-cache.php` -- Really need to eliminate the issue where in the middle of uploading photos the thumbnail breaks
+- Eliminate the issue where in the middle of uploading photos the thumbnail breaks
+  - Use `filemtime`
+  - Check the `filemtime` no more than twice with a `sleep` delay (maybe 0.175 seconds?) in between
+  - If the `filemtime` is different, then do not store the thumbnail cache file yet because it is still uploading
 - Do not let same account try to follow more than once when already logged previous follow
 - When there are no collections, resolve error
