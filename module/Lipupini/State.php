@@ -8,14 +8,14 @@ class State {
 	public float $microtimeInit = -1; // Set automatically
 	public float $executionTimeSeconds = -1; // Set automatically
 	public string|null $responseContent = null; // Final output to browser/client
-	public string $baseUriPath = '/'; // Set automatically in `__construct()` by specifying `baseUri`
-	public string $host  = 'null.localhost'; // Set automatically in `__construct()` by specifying `baseUri`
+	public string $baseUriPath = '/'; // Set automatically based on `baseUri` in `config/system.php`
+	public string $host  = 'null.localhost'; // Set automatically based on `baseUri` in `config/system.php`
 
 	public function __construct(
 		public string $dirWebroot         = '/dev/null', // Reasonably safe default, this is set after instantiation
 		public string $dirRoot            = '/dev/null',
 		public string $dirModule          = '/dev/null',
-		public string $dirCache         = '/dev/null',
+		public string $dirCache           = '/dev/null',
 		public string $dirCollection      = '/dev/null',
 		public string $baseUri            = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URI e.g. https://example.org/~basePath/
 		public string $staticMediaBaseUri = 'http://dev.null/c/', // Also has a trailing slash

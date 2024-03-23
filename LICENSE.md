@@ -13,5 +13,3 @@ License is (of course) notwithstanding the licenses of dependencies which are no
 - yurijmikhalevich/rclip: MIT @ https://github.com/yurijmikhalevich/rclip/blob/main/LICENSE
 
 - Arrow icons: GPL @ https://www.svgrepo.com/author/Pictogrammers
-
-- Folder icon: icons8 download @ https://icons8.com/icon/1e4bYxePiOFA/folder

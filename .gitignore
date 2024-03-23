@@ -1,9 +1,10 @@
 # Lipupini
 /cache/*
-!/cache/.gitkeep
+!/cache/README.md
 !/collection/example
 /collection/example/inbox
 /collection/*
+/collection/example/.lipupini/inbox/
 
 # IDE
 .idea

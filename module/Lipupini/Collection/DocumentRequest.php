@@ -64,7 +64,7 @@ class DocumentRequest extends Http {
 		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
 		$collectionRequestPath = $this->system->requests[Collection\Request::class]->path;
 
-		$this->pageTitle = urldecode($collectionRequestPath . '@' . $collectionFolderName) . '@' . $this->system->host;
+		$this->pageTitle = rawurldecode($collectionRequestPath . '@' . $collectionFolderName) . '@' . $this->system->host;
 		$collectionData = (new Collection\Utility($this->system))->getCollectionData($collectionFolderName, $collectionRequestPath, true);
 
 		$this->collectionFileName = preg_replace('#\.html$#', '', $collectionRequestPath);
