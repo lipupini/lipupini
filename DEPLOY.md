@@ -12,34 +12,36 @@ This document outlines deployment processes and other DevOps concerns.
 
 ## Deploying with Docker
 
-Files, configuration, and scripts related to Docker deployment are contained in the `docker` directory.
-
-Start by entering the `docker` directory:
+Build the Docker image from the project directory:
 
 ```shell
 # Start in the project root
 cd path/to/project/root
-# Docker resources directory
-cd docker
+# Build the image
+docker build --tag lipupini .
 ```
 
 If you have [Just](https://github.com/casey/just/) installed:
 
 ```shell
-# Start Docker for development
-just up
-# Or start Docker for production
-just prod up
+# Start in the project root
+cd path/to/project/root
+# Build the image
+just docker-build
 ```
 
-Raw `docker-compose` commands:
+There are multiple ways to run the image once built:
 
 ```shell
-# Start Docker for development
-docker-compose up
-# Or start Docker for production
-docker-compose -f docker-compose.prod.yml up
+# Start in the project root
+cd path/to/project/root
+# Run the image using the `docker` command
+docker run lipupini
+# Or using a `just` command
+just docker-run
 ```
+
+Lipupini should then be available at `localhost:4000`
 
 ## System Dependencies
 
