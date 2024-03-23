@@ -14,6 +14,7 @@ class ImageRequest extends MediaProcessorRequest {
 			'jpg' => 'image/jpeg',
 			'jpeg' => 'image/jpeg',
 			'png' => 'image/png',
+			'gif' => 'image/gif',
 		];
 	}
 
