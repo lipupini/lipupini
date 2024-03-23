@@ -13,8 +13,8 @@ serve port='4000':
 
 # Build the Docker image
 docker-build:
-	docker build --tag lipupini --file ./Dockerfile .
+	docker build --tag lipupini .
 
 # Run a Docker container from the generated Docker image
 docker-run:
-	docker run lipupini
+	docker run --expose=4000 --network=host lipupini

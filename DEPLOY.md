@@ -36,7 +36,7 @@ There are multiple ways to run the image once built:
 # Start in the project root
 cd path/to/project/root
 # Run the image using the `docker` command
-docker run lipupini
+docker run --expose=4000 --network=host lipupini
 # Or using a `just` command
 just docker-run
 ```

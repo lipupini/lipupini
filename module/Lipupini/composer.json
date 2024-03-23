@@ -2,7 +2,6 @@
 	"require": {
 		"php": "^8.0",
 		"ext-curl": "*",
-		"ext-dom": "*",
 		"ext-openssl": "*",
 		"erusev/parsedown": "^1.7",
 		"imagine/imagine": "^1.3"
