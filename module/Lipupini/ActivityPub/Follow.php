@@ -37,7 +37,7 @@ class Follow {
 
 		$remoteActor = RemoteActor::fromHandle(
 			handle: $remote,
-			cacheDir: $this->system->dirCache . '/ap'
+			cacheDir: __DIR__ . '/cache'
 		);
 
 		$sendToInbox = $remoteActor->getInboxUrl();
