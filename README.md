@@ -183,7 +183,9 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 - Add favicon to `.lipupini` folder
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
 - Clearing EXIF data in processing before display is more important than using it if anything is going to be done with it
-- Make `bin/generate-files-json.php` recursive
+- `bin/generate-files-json.php`
+	- Make recursive
+	- Do not overwrite entries, or add option
 - Figure out something else besides exception when file in `files.json` does not exist in collection
 - Create script to normalize file and directory user/group/permissions
 - Output errors in layout
