@@ -43,6 +43,7 @@
 }
 #media-grid div.folder:hover {
 	border: 2px solid rgba(255, 255, 255, 0.9);
+	font-size: 110%;
 }
 #media-grid div.folder a {
 	display: flex;
@@ -55,9 +56,6 @@
 	font-weight: bold;
 	transition-property: font-size;
 	transition-duration: .15s;
-}
-#media-grid div.folder a:hover {
-	font-size: 110%;
 }
 #media-grid.grid {
 	grid-template-columns: repeat(2, minmax(0px, 1fr));
