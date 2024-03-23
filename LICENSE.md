@@ -10,6 +10,4 @@ License is (of course) notwithstanding the licenses of dependencies which are no
 
 - php-imagine/Imagine: https://github.com/php-imagine/Imagine/blob/develop/LICENSE
 
-- yurijmikhalevich/rclip: MIT @ https://github.com/yurijmikhalevich/rclip/blob/main/LICENSE
-
 - Arrow icons: GPL @ https://www.svgrepo.com/author/Pictogrammers
