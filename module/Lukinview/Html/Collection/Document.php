@@ -7,9 +7,7 @@ require(__DIR__ . '/../Core/Open.php') ?>
 
 <main class="media-item">
 <header class="app-bar">
-	<div class="previous pagination"></div>
 	<div class="index pagination"><a href="/<?php echo htmlentities($this->parentPath) ?>" class="button" title="<?php echo $this->parentPath ? htmlentities($this->parentPath) : A::z('Homepage') ?>"><img src="/img/arrow-up-bold.svg" alt="<?php echo $this->parentPath ? htmlentities($this->parentPath) : A::z('Homepage') ?>"></a></div>
-	<div class="next pagination"></div>
 </header>
 <div id="media-item"></div>
 <script>let baseUri = '<?php echo htmlentities($this->system->staticMediaBaseUri) ?>';let collection = '<?php echo htmlentities($this->system->requests[Collection\Request::class]->folderName) ?>';let filename = '<?php echo htmlentities(rawurldecode($this->collectionFileName)) ?>';let fileData = <?php echo json_encode($this->fileData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;let fileTypes=<?php echo json_encode($this->fileTypes, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
