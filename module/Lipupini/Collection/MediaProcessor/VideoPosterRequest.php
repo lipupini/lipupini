@@ -4,18 +4,15 @@ namespace Module\Lipupini\Collection\MediaProcessor;
 
 use Module\Lipupini\Collection;
 
-class AudioRequest extends MediaProcessorRequest {
+class VideoPosterRequest extends MediaProcessorRequest {
 	public static function mimeTypes(): array {
 		return [
-			'mp3' => 'audio/mp3',
-			'm4a' => 'audio/m4a',
-			'ogg' => 'audio/ogg',
-			'flac' => 'audio/flac',
+			'png' => 'image/png',
 		];
 	}
 
 	public function initialize(): void {
-		if (!preg_match('#^/c/file/([^/]+)/audio/(.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/file/([^/]+)/video/poster/(.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -27,7 +24,8 @@ class AudioRequest extends MediaProcessorRequest {
 		$extension = $matches[3];
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
-		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $filePath;
+		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/poster/' . $filePath;
+
 		$this->symlinkAndServe($pathOriginal, self::mimeTypes()[$extension]);
 	}
 }
