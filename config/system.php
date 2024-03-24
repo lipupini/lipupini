@@ -32,6 +32,7 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\MediaProcessor\TextRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\AudioRequest::class => null,
 	],
+	mediaSizes: ['large' => [5000, 5000], 'small' => [600, 600]], // Default [width, height] for each preset
 	activityPubLog: false,
 	debug: false
 );

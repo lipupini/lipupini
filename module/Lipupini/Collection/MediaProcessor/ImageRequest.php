@@ -31,6 +31,7 @@ class ImageRequest extends MediaProcessorRequest {
 		$imagePath = rawurldecode($matches[3]);
 		$extension = $matches[4];
 
+		// We can use the same function that `Module\Lipupini\Collection\Request` uses
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 
 		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $imagePath;
@@ -63,7 +64,7 @@ class ImageRequest extends MediaProcessorRequest {
 		switch ($sizePreset) {
 			case 'small' :
 				if (!file_exists($this->system->dirWebroot . $_SERVER['REQUEST_URI'])) {
-					$size = new Imagine\Image\Box(500, 1000);
+					$size = new Imagine\Image\Box($this->system->mediaSizes[$sizePreset][0], $this->system->mediaSizes[$sizePreset][1]);
 					$mode = Imagine\Image\ImageInterface::THUMBNAIL_INSET;
 					$imagine->open($pathOriginal)
 						->thumbnail($size, $mode)
