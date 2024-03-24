@@ -51,14 +51,7 @@ class FolderRequest extends Http {
 	}
 
 	private function loadViewData(): void {
-		if (empty($_GET['search'])) {
-			$this->collectionData = (new Collection\Utility($this->system))->getCollectionData($this->collectionFolderName, $this->collectionRequestPath);
-		} else {
-			if ($this->collectionRequestPath) {
-				throw new Collection\Exception('Trying to search when not at collection root');
-			}
-			$this->collectionData = (new Collection\Utility($this->system))->getSearchData($_GET['search']);
-		}
+		$this->collectionData = (new Collection\Utility($this->system))->getCollectionData($this->collectionFolderName, $this->collectionRequestPath);
 
 		$this->loadPaginationAttributes();
 
@@ -66,40 +59,25 @@ class FolderRequest extends Http {
 			$this->pageTitle = $this->collectionRequestPath . '@' . $this->collectionFolderName . '@' . $this->system->host;
 			$this->parentPath = '@' . $this->collectionFolderName;
 			$exploded = explode('/', $this->collectionRequestPath);
-			if (count($exploded) > 2) {
+			if (count($exploded) >= 2) {
 				$this->parentPath .= '/' . implode('/', array_slice($exploded, 0, -1));
 			}
 		} else {
 			$this->pageTitle = '@' . $this->collectionFolderName . '@' . $this->system->host;
-			if (!empty($_GET['search'])) {
-				$this->pageTitle = $_GET['search'] . $this->pageTitle;
-				$this->parentPath = '@' . $this->collectionFolderName;
-			} else {
-				$this->parentPath = '';
-			}
+			$this->parentPath = '';
 		}
 
 		$webPath = '/@' . $this->collectionFolderName . ($this->collectionRequestPath ? '/' . $this->collectionRequestPath : '');
 
 		if ($this->page < $this->numPages) {
-			if (!empty($_GET['search'])) {
-				$query['search'] = $_GET['search'];
-			}
 			$query['page'] = $this->page + 1;
 			$this->nextUrl = $webPath . '?' . http_build_query($query);
 		} else {
 			$this->nextUrl = false;
 		}
 		if ($this->page === 2) {
-			if (empty($_GET['search'])) {
-				$this->prevUrl = $webPath;
-			} else {
-				$this->prevUrl = $webPath . '?search=' . $_GET['search'];
-			}
+			$this->prevUrl = $webPath;
 		} else if ($this->page > 2) {
-			if (!empty($_GET['search'])) {
-				$query['search'] = $_GET['search'];
-			}
 			$query['page'] = $this->page - 1;
 			$this->prevUrl = $webPath . '?' . http_build_query($query);
 		} else {
