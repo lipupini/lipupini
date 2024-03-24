@@ -67,6 +67,7 @@ class ImageRequest extends MediaProcessorRequest {
 					$size = new Imagine\Image\Box($this->system->mediaSizes[$sizePreset][0], $this->system->mediaSizes[$sizePreset][1]);
 					$mode = Imagine\Image\ImageInterface::THUMBNAIL_INSET;
 					$imagine->open($pathOriginal)
+						->strip()
 						->thumbnail($size, $mode)
 						->save($this->system->dirWebroot . $_SERVER['REQUEST_URI'])
 					;
