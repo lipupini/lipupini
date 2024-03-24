@@ -3,7 +3,6 @@
 namespace Module\Lipupini\Collection;
 
 use Module\Lipupini\State;
-use Module\Lipupini\Collection;
 
 class Utility {
 	public function __construct(private State $system) { }
@@ -81,13 +80,14 @@ class Utility {
 
 	public function getCollectionDataRecursive(string $collectionFolderName) {
 		$collectionData = $this->getCollectionData($collectionFolderName, '');
+		$dirCollectionFolder = $this->system->dirCollection . '/' . $collectionFolderName;
 
-		foreach (new \RecursiveDirectoryIterator($this->system->dirCollection . '/' . $collectionFolderName) as $item) {
-			if ($item->getFilename()[0] === '.' || !$item->isDir()) {
+		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirCollectionFolder), \RecursiveIteratorIterator::SELF_FIRST) as $filePath => $item) {
+			if ($item->getFilename()[0] === '.' || preg_match('#/\.#', $filePath) || !$item->isDir()) {
 				continue;
 			}
-			$collectionPath = preg_replace('#^' . preg_quote($this->system->dirCollection . '/' . $collectionFolderName . '/', '#') . '#', '', $item->getFilename());
-			$collectionData += $this->getCollectionData($collectionFolderName, $collectionPath);
+			$collectionRequestPath = preg_replace('#^' . preg_quote($dirCollectionFolder) . '/#', '', $filePath);
+			$collectionData += $this->getCollectionData($collectionFolderName, $collectionRequestPath);
 		}
 
 		foreach ($collectionData as $fileName => $metaData) {
@@ -98,25 +98,5 @@ class Utility {
 		}
 
 		return $collectionData;
-	}
-
-	public function getSearchData($query) {
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
-
-		if (!$query) {
-			throw new Exception('No query specified');
-		}
-
-		$collectionRootPath = $this->system->dirCollection . '/' . $collectionFolderName;
-
-		$searchesJsonPath = $collectionRootPath . '/.lipupini/.savedSearches.json';
-		if (!file_exists($searchesJsonPath)) {
-			throw new Exception('Could not find search data');
-		}
-		$searchData = json_decode(file_get_contents($searchesJsonPath), true);
-		if (!array_key_exists($query, $searchData)) {
-			throw new Exception('Could not find specified search');
-		}
-		return $searchData[$query];
 	}
 }
