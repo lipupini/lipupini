@@ -3,7 +3,7 @@ default:
 
 # ---
 
-# An idea for a way to grep an account inbox
+# An idea for a way to grep a collection ActivityPub inbox
 inbox account:
 	ls -l --color=auto --format=single-column collection/{{account}}/.lipupini/inbox
 
@@ -11,9 +11,9 @@ inbox account:
 serve port='4000':
 	cd module/Lukinview/webroot && PHP_CLI_SERVER_WORKERS=2 php -S localhost:{{port}} index.php
 
-# Build the Docker image
+# Build the Docker image, overwriting previous to save space
 docker-build:
-	docker build --tag lipupini .
+	docker build --rm --tag lipupini .
 
 # Run a Docker container from the generated Docker image
 docker-run:

@@ -1,4 +1,4 @@
-FROM php:8.3.4-alpine3.19
+FROM php:8.2.17-alpine3.19
 
 RUN apk add --no-cache composer tini
 # Development libraries required by PHP extensions
