@@ -27,10 +27,10 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\MediaProcessor\Request\TextRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\VideoPosterRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\VideoRequest::class => null,
+		Module\Lipupini\Rss\Request::class => null, // This should be before the document/folder requests and after collection request
+		Module\Lipupini\ActivityPub\Request::class => null, // This should be before the document/folder requests and after collection request
 		Module\Lipupini\Collection\DocumentRequest::class => null,
 		Module\Lipupini\Collection\FolderRequest::class => null,
-		Module\Lipupini\Rss\Request::class => null,
-		Module\Lipupini\ActivityPub\Request::class => null,
 	],
 	mediaSizes: ['large' => [5000, 5000], 'small' => [600, 600]], // Default [width, height] for each preset
 	activityPubLog: false,
