@@ -21,4 +21,87 @@ class Cache {
 	public function path() {
 		return $this->path;
 	}
+
+	public static function fileTypes() {
+		return [
+			'video' => MediaProcessor\Video::mimeTypes(),
+			'audio' => MediaProcessor\Audio::mimeTypes(),
+			'image' => MediaProcessor\Image::mimeTypes(),
+			'text' => MediaProcessor\Text::mimeTypes(),
+		];
+	}
+
+	public function prepareCacheData() {
+		$cacheDataPrepared = [];
+
+		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->path())) as $filePath => $fileInfo) {
+			if ($fileInfo->getFilename()[0] === '.') {
+				continue;
+			}
+
+			if (!preg_match('#^' . preg_quote($this->path()) . '/([^/]+)/#', $filePath, $matches)) {
+				echo 'Unexpected cache file path: ' . $filePath . "\n";
+				continue;
+			}
+
+			$fileType = $matches[1];
+
+			// Only process known folder types
+			if (!in_array($fileType, array_keys(static::fileTypes()))) {
+				continue;
+			}
+
+			$filePathPrepared = preg_replace('#^' . preg_quote($matches[0]) . '#', '', $filePath);
+			$cacheDataPrepared[$fileType][] = $filePathPrepared;
+		}
+
+		if (!empty($cacheDataPrepared['image'])) {
+			$cacheDataPreparedImage = $cacheDataPrepared['image'];
+			unset($cacheDataPrepared['image']);
+
+			foreach ($cacheDataPreparedImage as $image) {
+				if (!preg_match('#^([^/]+)/#', $image, $matches)) {
+					echo 'Unexpected image size value: ' . $image . "\n";
+					continue;
+				}
+
+				$imageSize = $matches[1];
+				$cacheDataPrepared['image'][$imageSize][] = preg_replace('#^' . $imageSize . '/#', '', $image);
+			}
+		}
+
+		return $cacheDataPrepared;
+	}
+
+	// Delete cache data that doesn't exist in collection
+	public function cleanCacheDir(string $collectionPath, bool $echoStatus = false) {
+		foreach ($this->prepareCacheData() as $fileType => $filePaths) {
+			if ($fileType === 'image') {
+				foreach ($filePaths as $imageSize => $imageFilePaths) {
+					foreach ($imageFilePaths as $imageFilePath) {
+						if (!file_exists($collectionPath . '/' . $imageFilePath)) {
+							if ($echoStatus) {
+								echo 'File does not exist in collection, deleting `' . $imageFilePath . '`...' . "\n";
+							}
+							unlink($this->path() . '/' . $fileType . '/' . $imageSize . '/' . $imageFilePath);
+						}
+					}
+				}
+				continue;
+			}
+
+			// Images above are a special case, process everything else here
+			foreach ($filePaths as $filePath) {
+				if ($fileType === 'text') {
+					$filePath = preg_replace('#\.html$#', '', $filePath);
+				}
+				if (!file_exists($collectionPath . '/' . $filePath)) {
+					if ($echoStatus) {
+						echo 'File does not exist in collection, deleting `' . $filePath . '`...' . "\n";
+					}
+					unlink($this->path() . '/' . $fileType . '/' . $filePath);
+				}
+			}
+		}
+	}
 }

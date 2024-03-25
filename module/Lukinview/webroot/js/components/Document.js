@@ -17,16 +17,16 @@ const Document = ({collection, baseUri, filename, data, gridView = false}) => {
 		Object.keys(fileTypes[fileType]).forEach(fileExtension => {
 			if (fileExtension === extension) {
 				switch (fileType) {
-					case 'Audio':
+					case 'audio':
 						DocumentComponent = Audio({collection, baseUri, filename, data, fileType: fileTypes[fileType][fileExtension]})
 						break
-					case 'Video':
+					case 'video':
 						DocumentComponent = Video({collection, baseUri, filename, data, fileType: fileTypes[fileType][fileExtension]})
 						break
-					case 'Image':
+					case 'image':
 						DocumentComponent = Image({collection, baseUri, filename, data, background: gridView})
 						break
-					case 'Text':
+					case 'text':
 						DocumentComponent = Text({collection, baseUri, filename, data, load: !gridView})
 						break
 					default:

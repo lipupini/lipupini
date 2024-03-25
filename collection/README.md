@@ -13,8 +13,8 @@ For example, the JSON might look like this:
 	"cat-scarf.jpg": {
 		"caption": "Scarf Cat"
 	},
-	"cat-hat.jpg": {
-		"caption": "Hat Cat"
+	"dup.mp4": {
+		"poster": "logo3d.png"
 	},
 	"Memes": {
 		"caption": "Memes Folder"
@@ -29,6 +29,10 @@ Individual files can be `hidden` or `unlisted` via a `visibility` option. Files 
 	"cat-scarf.jpg": {
 		"caption": "Scarf Cat",
 		"visibility": "hidden"
+	},
+	"dup.mp4": {
+		"poster": "logo3d.png",
+		"visibility": "unlisted"
 	},
 	"cat-hat.jpg": {
 		"caption": "Hat Cat",

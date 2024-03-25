@@ -56,7 +56,7 @@ class Request extends Http {
 				[
 					'rel' => 'http://webfinger.net/rel/avatar',
 					'type' => 'image/png',
-					'href' => $this->system->baseUri . 'c/avatar/' . $webFingerAccount . '.png',
+					'href' => $this->system->baseUri . 'c/' . $webFingerAccount . '/avatar.png',
 				],
 			]
 		];

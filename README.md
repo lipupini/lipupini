@@ -180,25 +180,25 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 ## TODO
 
 - Add browser-side caching
-- Add favicon to `.lipupini` folder
+- Add option for favicon in collection `.lipupini` folder
+- Process avatar for all media sizes, strip EXIF with same routine as image processor
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
-- Clearing EXIF data in processing before display is more important than using it if anything is going to be done with it
 - `bin/generate-files-json.php`
-	- Make recursive
+- Make recursive
 	- Do not overwrite entries, or add option
 - Figure out something else besides exception when file in `files.json` does not exist in collection
 - Create script to normalize file and directory user/group/permissions
 - Output errors in layout
 - Look into:
-  - https://indieweb.org/Webmention
-  - https://indieweb.org/Microsub
-  - https://indieweb.org/Micropub
-  - https://atproto.com
-  - https://micropub.rocks
+	- https://indieweb.org/Webmention
+	- https://indieweb.org/Microsub
+	- https://indieweb.org/Micropub
+	- https://atproto.com
+	- https://micropub.rocks
 - Make contributions to `landrok/activitypub`
 - Eliminate the issue where in the middle of uploading photos the thumbnail breaks
-  - Use `filemtime`
-  - Check the `filemtime` no more than twice with a `sleep` delay (maybe 0.175 seconds?) in between
-  - If the `filemtime` is different, then do not store the thumbnail cache file yet because it is still uploading
+	- Use `filemtime`
+	- Check the `filemtime` no more than twice with a `sleep` delay (maybe 0.175 seconds?) in between
+	- If the `filemtime` is different, then do not store the thumbnail cache file yet because it is still uploading
 - Do not let same account try to follow more than once when already logged previous follow
 - When there are no collections, resolve error
