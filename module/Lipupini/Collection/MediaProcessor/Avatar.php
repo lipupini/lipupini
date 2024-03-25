@@ -15,8 +15,8 @@ class Avatar {
 		];
 	}
 
-	public static function cacheSymlinkAvatar(State $systemState, string $collectionFolder, string $avatarPath, bool $echoStatus = false): void {
-		$cache = new Cache($systemState, $collectionFolder);
+	public static function cacheSymlinkAvatar(State $systemState, string $collectionFolderName, string $avatarPath, bool $echoStatus = false): void {
+		$cache = new Cache($systemState, $collectionFolderName);
 		$fileCachePath = $cache->path() . '/avatar.png';
 
 		if (file_exists($fileCachePath)) {
@@ -24,8 +24,10 @@ class Avatar {
 		}
 
 		if ($echoStatus) {
-			echo 'Symlinking avatar for `' . $collectionFolder . '`...' . "\n";
+			echo 'Symlinking avatar for `' . $collectionFolderName . '`...' . "\n";
 		}
+
+		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
 
 		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);

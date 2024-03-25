@@ -83,9 +83,9 @@ class Image {
 		return static::$imagine;
 	}
 
-	public static function processAndCache(State $systemState, string $collectionFolder, string $fileTypeFolder, string $sizePreset, string $filePath, bool $echoStatus = false): void {
-		$cache = new Cache($systemState, $collectionFolder);
-		$collectionPath = $systemState->dirCollection . '/' . $collectionFolder;
+	public static function processAndCache(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $sizePreset, string $filePath, bool $echoStatus = false): void {
+		$cache = new Cache($systemState, $collectionFolderName);
+		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
 
 		$fileCachePath = $cache->path() . '/' . $fileTypeFolder . '/' . $sizePreset . '/' . $filePath;
 
@@ -96,6 +96,8 @@ class Image {
 		if ($echoStatus) {
 			echo 'Creating ' . $sizePreset . ' cache file for `' . $filePath . '`...' . "\n";
 		}
+
+		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
 
 		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);

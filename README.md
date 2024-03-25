@@ -197,6 +197,7 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 	- https://atproto.com
 	- https://micropub.rocks
 - Make contributions to `landrok/activitypub`
+- Create a mechanism for writing to a collection's `files.json`
 - Eliminate the issue where in the middle of uploading photos the thumbnail breaks
 	- Use `filemtime`
 	- Check the `filemtime` no more than twice with a `sleep` delay (maybe 0.175 seconds?) in between
