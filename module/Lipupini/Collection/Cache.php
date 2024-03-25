@@ -31,6 +31,16 @@ class Cache {
 		];
 	}
 
+	public static function webrootCacheSymlink(State $systemState, string $collectionFolderName, bool $echoStatus = false) {
+		$webrootCacheDir = $systemState->dirWebroot . '/c/' . $collectionFolderName;
+		if (!is_dir($webrootCacheDir)) {
+			if ($echoStatus) {
+				echo 'Creating `webroot` static cache symlink at `' . $webrootCacheDir . '`...';
+			}
+			symlink((new Cache($systemState, $collectionFolderName))->path(), $webrootCacheDir);
+		}
+	}
+
 	public function prepareCacheData() {
 		$cacheDataPrepared = [];
 
