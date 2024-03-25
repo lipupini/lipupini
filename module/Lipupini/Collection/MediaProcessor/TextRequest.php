@@ -13,7 +13,7 @@ class TextRequest extends MediaProcessorRequest {
 	}
 
 	public function initialize(): void {
-		if (!preg_match('#^/c/file/([^/]+)/markdown/(.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/([^/]+)/text/(.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -27,12 +27,12 @@ class TextRequest extends MediaProcessorRequest {
 		if ($extension === 'html') {
 			$htmlWebPath = $_SERVER['REQUEST_URI'];
 			$mdFilePath = urldecode(preg_replace('#\.html$#', '', $filePath));
-			$textWebPath = '/c/file/' . $collectionFolderName . '/markdown/' . $mdFilePath;
+			$textWebPath = '/c/' . $collectionFolderName . '/markdown/' . $mdFilePath;
 			$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $mdFilePath;
 		} else {
 			$textWebPath = $_SERVER['REQUEST_URI'];
 			$htmlFilePath = urldecode($_SERVER['REQUEST_URI'] . '.html');
-			$htmlWebPath = '/c/file/' . $collectionFolderName . '/markdown' . $htmlFilePath;
+			$htmlWebPath = '/c/' . $collectionFolderName . '/markdown' . $htmlFilePath;
 			$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . $htmlFilePath;
 		}
 

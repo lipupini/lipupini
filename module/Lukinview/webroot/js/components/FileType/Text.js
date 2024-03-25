@@ -5,7 +5,7 @@ const { div, a, object } = van.tags
 const Text = ({collection, baseUri, filename, data, load = false}) => {
 	return div({class: 'text'},
 		load ?
-			object({type: 'text/html', data: `${baseUri}file/${collection}/markdown/${filename + '.html'}`}) :
+			object({type: 'text/html', data: `${baseUri}${collection}/text/${filename + '.html'}`}) :
 			a({href: `/@${collection}/${filename}.html`},
 				div(data.caption ?? filename),
 			)

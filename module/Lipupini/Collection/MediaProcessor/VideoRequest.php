@@ -12,7 +12,7 @@ class VideoRequest extends MediaProcessorRequest {
 	}
 
 	public function initialize(): void {
-		if (!preg_match('#^/c/file/([^/]+)/video/(.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/([^/]+)/video/(.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 

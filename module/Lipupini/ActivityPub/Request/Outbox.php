@@ -90,28 +90,28 @@ class Outbox extends Request {
 				$object['attachment'] = [
 					'type' => 'Image',
 					'mediaType' => Collection\MediaProcessor\ImageRequest::mimeTypes()[$extension],
-					'url' => $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/image/large/' . $filePath,
+					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/image/large/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\VideoRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Video',
 					'mediaType' => Collection\MediaProcessor\VideoRequest::mimeTypes()[$extension],
-					'url' => $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/video/' . $filePath,
+					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/video/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\AudioRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Audio',
 					'mediaType' => Collection\MediaProcessor\AudioRequest::mimeTypes()[$extension],
-					'url' => $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/audio/' . $filePath,
+					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/audio/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\TextRequest::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Note',
 					'mediaType' => 'text/html',
-					'url' => $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/markdown/' . $filePath . '.html',
+					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/markdown/' . $filePath . '.html',
 					'name' => $filePath,
 				];
 			} else {
