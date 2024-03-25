@@ -39,6 +39,12 @@ class Cache {
 				continue;
 			}
 
+			// Skip collection avatar
+			if ($fileInfo->getFilename() === 'avatar.png') {
+				continue;
+			}
+
+			// File paths should start with the cache path followed by filetype (image, audio, video, text, etc)
 			if (!preg_match('#^' . preg_quote($this->path()) . '/([^/]+)/#', $filePath, $matches)) {
 				echo 'Unexpected cache file path: ' . $filePath . "\n";
 				continue;
