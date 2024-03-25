@@ -42,6 +42,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Supports the following formats for media files, more will be added: JPG, PNG, MP4, MP3, Markdown
 - Allows subscribing to your content collection via RSS2.0.
 - Search Lipupini accounts from other Fediverse platforms via the ActivityPub protocol.
+- Automatically fix image orientation and strip private metadata thanks to [Imagine](https://github.com/php-imagine/Imagine) library
 - Show an avatar PNG when searching from an external ActivityPub or RSS client.
 - Supports both `"hidden"` and `"unlisted"` options in [files.json](collection/README.md)
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
