@@ -39,10 +39,10 @@ class DocumentRequest extends Http {
 		}
 
 		$this->fileTypes = [
-			'Video' => MediaProcessor\VideoRequest::mimeTypes(),
-			'Audio' => MediaProcessor\AudioRequest::mimeTypes(),
-			'Image' => MediaProcessor\ImageRequest::mimeTypes(),
-			'Text' => MediaProcessor\TextRequest::mimeTypes(),
+			'video' => MediaProcessor\Video::mimeTypes(),
+			'audio' => MediaProcessor\Audio::mimeTypes(),
+			'image' => MediaProcessor\Image::mimeTypes(),
+			'text' => MediaProcessor\Text::mimeTypes(),
 		];
 
 		$this->renderHtml();

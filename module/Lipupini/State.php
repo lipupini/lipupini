@@ -25,7 +25,7 @@ class State {
 		public array  $mediaSizes         = ['large' => [5000, 5000], 'small' => [600, 600]], // Default [width, height] for each preset
 		public bool   $activityPubLog     = true,
 		public bool   $shutdown           = false,
-		public bool   $debug              = false
+		public bool   $debug              = false,
 	) {
 		session_start();
 

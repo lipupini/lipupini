@@ -70,7 +70,7 @@ return;
 
 ### Detecting a route from a module
 
-If more complex route detection is needed, use `preg_match` instead of checking `$_SERVER['REQUEST_URI']`. See [Lipupini/Collection/AvatarRequest.php](Lipupini/Collection/AvatarRequest.php) for one such example.
+If more complex route detection is needed, use `preg_match` instead of checking `$_SERVER['REQUEST_URI']`. See [Lipupini/Collection/MediaProcessor/Request/AvatarRequest.php](Lipupini/Collection/MediaProcessor/Request/AvatarRequest.php) for one such example.
 
 ```php
 <?php

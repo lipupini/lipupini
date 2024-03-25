@@ -1,21 +1,13 @@
 <?php
 
-namespace Module\Lipupini\Collection\MediaProcessor;
+namespace Module\Lipupini\Collection\MediaProcessor\Request;
 
 use Module\Lipupini\Collection;
+use Module\Lipupini\Collection\MediaProcessor\Audio;
 
 class AudioRequest extends MediaProcessorRequest {
-	public static function mimeTypes(): array {
-		return [
-			'mp3' => 'audio/mp3',
-			'm4a' => 'audio/m4a',
-			'ogg' => 'audio/ogg',
-			'flac' => 'audio/flac',
-		];
-	}
-
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/audio/(.+\.(' . implode('|', array_keys(self::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/([^/]+)/audio/(.+\.(' . implode('|', array_keys(Audio::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -28,6 +20,9 @@ class AudioRequest extends MediaProcessorRequest {
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $filePath;
-		$this->symlinkAndServe($pathOriginal, self::mimeTypes()[$extension]);
+
+		// Once the file is symlinked, the file is considered cached and should be served statically on subsequent page refreshes
+		Audio::cacheSymlink($this->system, $collectionFolderName, 'audio', $filePath);
+		$this->serve($pathOriginal, Audio::mimeTypes()[$extension]);
 	}
 }
