@@ -1,14 +1,15 @@
 #!/usr/bin/env php
 <?php
 
+ini_set('max_execution_time', 30);
+ini_set('memory_limit', '512M');
+
 use Module\Lipupini\Collection;
 use Module\Lipupini\Collection\MediaProcessor;
 use Module\Lipupini\State;
 
 /** @var State $systemState */
 $systemState = require(__DIR__ . '/../config/system.php');
-
-$useFfmpeg = commandExists('ffmpeg');
 
 if (empty($argv[1])) {
 	$confirm = 'Y'; // readline('No collection folder specified. Do you want to process all collections? [Y/n] ');
@@ -71,22 +72,7 @@ foreach ($collectionDataPrepared as $fileTypeFolder => $filePaths) {
 		case 'video' :
 			foreach ($filePaths as $filePath) {
 				MediaProcessor\Video::cacheSymlink($systemState, $collectionFolderName, $fileTypeFolder, $filePath, echoStatus: true);
-
-				$postPath = $lipupiniPath . '/video-poster/' . $filePath . '.png';
-
-				if (file_exists($postPath) || !$useFfmpeg) {
-					continue;
-				}
-
-				if (!is_dir(pathinfo($postPath, PATHINFO_DIRNAME))) {
-					mkdir(pathinfo($postPath, PATHINFO_DIRNAME), 0755, true);
-				}
-
-				echo 'Saving video poster for `' . $filePath . '`... ';
-				exec(__DIR__ . '/ffmpeg-video-poster.php ' . escapeshellarg($collectionPath . '/' . $filePath) . ' ' . escapeshellarg($postPath) . ' > /dev/null 2>&1', $output, $returnCode);
-				echo ($returnCode !== 0 ? 'ERROR' : '') . "\n";
-
-				MediaProcessor\VideoPoster::cacheSymlinkVideoPoster($systemState, $collectionFolderName, $filePath . '.png', true);
+				MediaProcessor\VideoPoster::cacheSymlinkVideoPoster($systemState, $collectionFolderName, $filePath, true);
 			}
 			break;
 		case 'text' :
@@ -97,9 +83,3 @@ foreach ($collectionDataPrepared as $fileTypeFolder => $filePaths) {
 	}
 }
 // END: Process media cache
-
-// https://beamtic.com/if-command-exists-php
-function commandExists($command_name) {
-	$test_method = (false === stripos(PHP_OS, 'win')) ? 'command -v' : 'where';
-	return (null === shell_exec("$test_method $command_name")) ? false : true;
-}

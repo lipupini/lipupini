@@ -20,11 +20,12 @@ class VideoPosterRequest extends MediaProcessorRequest {
 		$collectionFolderName = $matches[1];
 		$posterPath = urldecode($matches[2]);
 		$extension = $matches[3];
+		$videoPath = preg_replace('#\.' . $extension . '$#', '', $posterPath);
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/video-poster/' . $posterPath;
 
-		VideoPoster::cacheSymlinkVideoPoster($this->system, $collectionFolderName, $posterPath);
+		VideoPoster::cacheSymlinkVideoPoster($this->system, $collectionFolderName, $videoPath);
 		$this->serve($pathOriginal, Image::mimeTypes()[$extension]);
 	}
 }
