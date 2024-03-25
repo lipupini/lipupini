@@ -87,6 +87,8 @@ class Image {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
 
+		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
+
 		$fileCachePath = $cache->path() . '/' . $fileTypeFolder . '/' . $sizePreset . '/' . $filePath;
 
 		if (file_exists($fileCachePath)) {
@@ -96,8 +98,6 @@ class Image {
 		if ($echoStatus) {
 			echo 'Creating ' . $sizePreset . ' cache file for `' . $filePath . '`...' . "\n";
 		}
-
-		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
 
 		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);
