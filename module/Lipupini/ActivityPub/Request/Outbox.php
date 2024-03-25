@@ -86,32 +86,32 @@ class Outbox extends Request {
 
 			$extension = pathinfo($filePath, PATHINFO_EXTENSION);
 
-			if (in_array($extension, array_keys(Collection\MediaProcessor\ImageRequest::mimeTypes()))) {
+			if (in_array($extension, array_keys(Collection\MediaProcessor\Image::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Image',
-					'mediaType' => Collection\MediaProcessor\ImageRequest::mimeTypes()[$extension],
+					'mediaType' => Collection\MediaProcessor\Image::mimeTypes()[$extension],
 					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/image/large/' . $filePath,
 					'name' => $filePath,
 				];
-			} else if (in_array($extension, array_keys(Collection\MediaProcessor\VideoRequest::mimeTypes()))) {
+			} else if (in_array($extension, array_keys(Collection\MediaProcessor\Video::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Video',
-					'mediaType' => Collection\MediaProcessor\VideoRequest::mimeTypes()[$extension],
+					'mediaType' => Collection\MediaProcessor\Video::mimeTypes()[$extension],
 					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/video/' . $filePath,
 					'name' => $filePath,
 				];
-			} else if (in_array($extension, array_keys(Collection\MediaProcessor\AudioRequest::mimeTypes()))) {
+			} else if (in_array($extension, array_keys(Collection\MediaProcessor\Audio::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Audio',
-					'mediaType' => Collection\MediaProcessor\AudioRequest::mimeTypes()[$extension],
+					'mediaType' => Collection\MediaProcessor\Audio::mimeTypes()[$extension],
 					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/audio/' . $filePath,
 					'name' => $filePath,
 				];
-			} else if (in_array($extension, array_keys(Collection\MediaProcessor\TextRequest::mimeTypes()))) {
+			} else if (in_array($extension, array_keys(Collection\MediaProcessor\Text::mimeTypes()))) {
 				$object['attachment'] = [
 					'type' => 'Note',
 					'mediaType' => 'text/html',
-					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/markdown/' . $filePath . '.html',
+					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/text/' . $filePath . '.html',
 					'name' => $filePath,
 				];
 			} else {

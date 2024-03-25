@@ -35,8 +35,8 @@ class Request extends Http {
 
 		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
 
-		$channel->appendChild($dom->createElement('title', $collectionFolderName . '@' . $this->system->host));
-		$channel->appendChild($dom->createElement('description', $collectionFolderName . '@' . $this->system->host));
+		$channel->appendChild($dom->createElement('title', htmlentities($collectionFolderName . '@' . $this->system->host)));
+		$channel->appendChild($dom->createElement('description', htmlentities($collectionFolderName . '@' . $this->system->host)));
 
 		$linkSelf = $dom->createElement('atom:link');
 		$linkSelf->setAttribute('rel', 'self');
@@ -44,13 +44,13 @@ class Request extends Http {
 		$linkSelf->setAttribute('type', 'application/rss+xml');
 		$channel->appendChild($linkSelf);
 
-		$link = $dom->createElement('link', $this->system->baseUri . '@' . $collectionFolderName);
+		$link = $dom->createElement('link', htmlentities($this->system->baseUri . '@' . $collectionFolderName));
 		$channel->appendChild($link);
 
 		$image = $dom->createElement('image');
-		$image->appendChild($dom->createElement('url', $this->system->staticMediaBaseUri . $collectionFolderName . '/avatar.png'));
-		$image->appendChild($dom->createElement('title', $collectionFolderName . '@' . $this->system->host));
-		$image->appendChild($dom->createElement('link', $this->system->baseUri . '@' . $collectionFolderName));
+		$image->appendChild($dom->createElement('url', htmlentities($this->system->staticMediaBaseUri . $collectionFolderName . '/avatar.png')));
+		$image->appendChild($dom->createElement('title', htmlentities($collectionFolderName . '@' . $this->system->host)));
+		$image->appendChild($dom->createElement('link', htmlentities($this->system->baseUri . '@' . $collectionFolderName)));
 		$channel->appendChild($image);
 
 		$this->renderRssItems($dom, $channel, $collectionFolderName);
@@ -86,8 +86,9 @@ class Request extends Http {
 				$metaData['medium'] = 'video';
 				$metaData['mime'] = Collection\MediaProcessor\Video::mimeTypes()[$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/video/' . $filePath;
+				$poster = !empty($metaData['poster']) ? ' poster="' . htmlentities($this->system->staticMediaBaseUri . $collectionFolderName . '/video-poster/' . $metaData['poster']) . '"' : '';
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
-					. '<video controls loop><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></video>';
+					. '<video controls loop' . $poster . '><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></video>';
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\Audio::mimeTypes()))) {
 				$metaData['medium'] = 'audio';
 				$metaData['mime'] = Collection\MediaProcessor\Audio::mimeTypes()[$extension];
@@ -97,20 +98,20 @@ class Request extends Http {
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\Text::mimeTypes()))) {
 				$metaData['medium'] = 'document';
 				$metaData['mime'] = Collection\MediaProcessor\Text::mimeTypes()[$extension];
-				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/markdown/' . $filePath . '.html';
+				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/text/' . $filePath . '.html';
 				$metaData['content'] = 	'<p><a href="' . $metaData['cacheUrl'] . '">' . htmlentities($metaData['caption'] ?? $filePath) . '</a></p>';
 			} else {
 				throw new Exception('Unexpected file extension: ' . $extension);
 			}
 
 			$item = $dom->createElement('item');
-			$item->appendChild($dom->createElement('guid', $this->system->baseUri . '@' . $collectionFolderName . '/' . $filePath . '.html'));
-			$item->appendChild($dom->createElement('title', $filePath));
+			$item->appendChild($dom->createElement('guid', htmlentities($this->system->baseUri . '@' . $collectionFolderName . '/' . $filePath . '.html')));
+			$item->appendChild($dom->createElement('title', htmlentities($filePath)));
 
-			$link = $dom->createElement('link', $this->system->baseUri . '@' . $collectionFolderName . '/' . $filePath . '.html');
+			$link = $dom->createElement('link', htmlentities($this->system->baseUri . '@' . $collectionFolderName . '/' . $filePath . '.html'));
 			$item->appendChild($link);
 
-			$item->appendChild($dom->createElement('description', $filePath));
+			$item->appendChild($dom->createElement('description', htmlentities($filePath)));
 
 			$content = $dom->createElement('content:encoded');
 			$content->appendChild($dom->createCDATASection($metaData['content']));
@@ -128,7 +129,7 @@ class Request extends Http {
 			$enclosure->setAttribute('type', $metaData['mime']);
 			$item->appendChild($enclosure);
 
-			$item->appendChild($dom->createElement('pubDate', $metaData['date']));
+			$item->appendChild($dom->createElement('pubDate', htmlentities($metaData['date'])));
 			$items[] = $item;
 		}
 
