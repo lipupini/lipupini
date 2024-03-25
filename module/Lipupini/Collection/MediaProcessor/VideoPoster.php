@@ -12,6 +12,8 @@ class VideoPoster {
 		$posterPathFull = $systemState->dirCollection . '/' . $collectionFolderName . '/.lipupini/video-poster/' . $posterPath;
 		$fileCachePath = $cache->path() . '/video-poster/' . $posterPath;
 
+		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
+
 		// One tradeoff with doing this first is that the file can be deleted from the collection's `video-poster` folder but still show if it stays in `cache`
 		// The benefit is that it won't try to use `ffmpeg` and grab the frame if it hasn't yet, so it's potentially faster to check this way
 		if (file_exists($fileCachePath)) {
@@ -21,8 +23,6 @@ class VideoPoster {
 		if ($echoStatus) {
 			echo 'Symlinking video poster to cache for `' . $posterPath . '`...' . "\n";
 		}
-
-		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
 
 		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);

@@ -19,6 +19,8 @@ class Avatar {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$fileCachePath = $cache->path() . '/avatar.png';
 
+		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
+
 		if (file_exists($fileCachePath)) {
 			return;
 		}
@@ -26,8 +28,6 @@ class Avatar {
 		if ($echoStatus) {
 			echo 'Symlinking avatar for `' . $collectionFolderName . '`...' . "\n";
 		}
-
-		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
 
 		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);

@@ -10,6 +10,8 @@ trait CacheSymlink {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$fileCachePath = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath;
 
+		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
+
 		if (file_exists($fileCachePath)) {
 			return;
 		}
@@ -19,8 +21,6 @@ trait CacheSymlink {
 		} else {
 			error_log('Symlinking cache files for `' . $filePath . '`...');
 		}
-
-		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
 
 		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
 
