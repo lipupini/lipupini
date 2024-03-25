@@ -4,9 +4,9 @@ Media processor requests represent routes that the browser requests for a media 
 
 Example:
 
-`/c/file/example/image/large/cat-hat.png`
+`/c/example/image/large/cat-hat.png`
 
-On a fresh install, this file does not exist in the webroot, nor does the `c` folder, yet.
+On a fresh install, this file does not exist in the `webroot`.
 
 These media processor request classes can take the route and file extension and determine which processor to use.
 

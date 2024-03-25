@@ -79,25 +79,25 @@ class Request extends Http {
 			if (in_array($extension, array_keys(Collection\MediaProcessor\ImageRequest::mimeTypes()))) {
 				$metaData['medium'] = 'image';
 				$metaData['mime'] = Collection\MediaProcessor\ImageRequest::mimeTypes()[$extension];
-				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/image/large/' . $filePath;
+				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/image/large/' . $filePath;
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<img src="' . $metaData['cacheUrl'] . '" alt="' . $filePath . '"/>';
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\VideoRequest::mimeTypes()))) {
 				$metaData['medium'] = 'video';
 				$metaData['mime'] = Collection\MediaProcessor\VideoRequest::mimeTypes()[$extension];
-				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/video/' . $filePath;
+				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/video/' . $filePath;
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<video controls loop><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></video>';
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\AudioRequest::mimeTypes()))) {
 				$metaData['medium'] = 'audio';
 				$metaData['mime'] = Collection\MediaProcessor\AudioRequest::mimeTypes()[$extension];
-				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/audio/' . $filePath;
+				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/audio/' . $filePath;
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<audio controls><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></audio>';
 			} else if (in_array($extension, array_keys(Collection\MediaProcessor\TextRequest::mimeTypes()))) {
 				$metaData['medium'] = 'document';
 				$metaData['mime'] = Collection\MediaProcessor\TextRequest::mimeTypes()[$extension];
-				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . 'file/' . $collectionFolderName . '/markdown/' . $filePath . '.html';
+				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/markdown/' . $filePath . '.html';
 				$metaData['content'] = 	'<p><a href="' . $metaData['cacheUrl'] . '">' . htmlentities($metaData['caption'] ?? $filePath) . '</a></p>';
 			} else {
 				throw new Exception('Unexpected file extension: ' . $extension);

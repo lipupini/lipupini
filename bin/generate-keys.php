@@ -29,7 +29,7 @@ echo 'About to generate new RSA keys in `collection/' . $collectionFolder . '/.l
 
 $confirm = readline('Proceed? [Y/n] ');
 if (strtoupper($confirm) !== 'Y') {
-	return;
+	exit(0);
 }
 
 (new Encryption\Key)->generateAndSave(
