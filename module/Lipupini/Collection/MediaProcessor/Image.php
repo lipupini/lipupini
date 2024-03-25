@@ -10,7 +10,7 @@ use Module\Lipupini\Collection\Cache;
 use Module\Lipupini\State;
 
 class Image {
-	private static ?object $imagine = null;
+	private static ?Imagine\Image\AbstractImagine $imagine = null;
 
 	public static function mimeTypes(): array {
 		return [
@@ -60,7 +60,7 @@ class Image {
 		return $totalCount > 1;
 	}
 
-	private static function imagine() {
+	private static function imagine(): Imagine\Image\AbstractImagine {
 		if (!is_null(static::$imagine)) {
 			return static::$imagine;
 		}
@@ -111,12 +111,15 @@ class Image {
 			}
 		}
 
-		$size = new Imagine\Image\Box($systemState->mediaSizes[$sizePreset][0], $systemState->mediaSizes[$sizePreset][1]);
-		$mode = Imagine\Image\ImageInterface::THUMBNAIL_INSET;
-		static::imagine()
-			->open($collectionPath . '/' . $filePath)
+		// Start with autorotating image based on EXIF data
+		$autoRotate = new Imagine\Filter\Basic\Autorotate();
+		$autoRotate->apply(static::imagine()->open($collectionPath . '/' . $filePath))
+			// Strip all EXIF data
 			->strip()
-			->thumbnail($size, $mode)
+			// Resize
+			->thumbnail(
+				new Imagine\Image\Box($systemState->mediaSizes[$sizePreset][0],
+					$systemState->mediaSizes[$sizePreset][1]), Imagine\Image\ImageInterface::THUMBNAIL_INSET)
 			->save($fileCachePath)
 		;
 	}
