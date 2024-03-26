@@ -1,0 +1,10 @@
+services:
+  lipupini:
+    build:
+      context: ../../
+      dockerfile: ./system/docker/Dockerfile
+    ports:
+      - "127.0.0.1:4000:4000"
+    restart: unless-stopped
+    volumes:
+      - ../../collection:/app/collection:rw

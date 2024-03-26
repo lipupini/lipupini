@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require(__DIR__ . '/../module/Lipupini/vendor/autoload.php');
+require(__DIR__ . '/../../module/Lipupini/vendor/autoload.php');
 
 $httpHost = php_sapi_name() === 'cli' && empty($_SERVER['HTTP_HOST']) ? 'localhost' : $_SERVER['HTTP_HOST'];
 $isHttps = !empty($_SERVER['HTTPS']) || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
@@ -34,7 +34,7 @@ return new Module\Lipupini\State(
 	],
 	mediaSizes: ['large' => [5000, 5000], 'small' => [600, 600]], // Default [width, height] for each preset
 	imageQuality: ['avif_quality' => 69, 'jpeg_quality' => 86, 'png_compression_level' => 9],
-	useFfmpeg: false, // You can try this if you have `ffmpeg` installed for processing videos
+	useFfmpeg: true, // You can try this if you have `ffmpeg` installed for processing videos
 	activityPubLog: false,
 	debug: false
 );

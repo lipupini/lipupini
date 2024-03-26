@@ -11,7 +11,7 @@ use Module\Lipupini\State;
 $sleepFor = 10;
 
 /** @var State $systemState */
-$systemState = require(__DIR__ . '/../config/state.php');
+$systemState = require(__DIR__ . '/../system/config/state.php');
 
 echo 'WARNING: This script will overwrite original collection JPEG files and convert them to AVIF starting in ' . $sleepFor . ' seconds.' . "\n\n";
 echo 'Press CTRL+C now if that is not what you want to do.' . "\n";
