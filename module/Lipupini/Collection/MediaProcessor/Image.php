@@ -18,6 +18,7 @@ class Image {
 			'jpeg' => 'image/jpeg',
 			'png' => 'image/png',
 			'gif' => 'image/gif',
+			'avif' => 'image/avif',
 		];
 	}
 
