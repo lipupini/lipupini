@@ -30,8 +30,6 @@ class TextRequest extends MediaProcessorRequest {
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 
 		if (!file_exists($pathOriginal)) {
-			http_response_code(404);
-			echo 'Not found';
 			return;
 		}
 

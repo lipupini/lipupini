@@ -7,8 +7,6 @@ use Module\Lipupini\Request\Incoming\Http;
 abstract class MediaProcessorRequest extends Http {
 	public function serve(string $filePath, string $mimeType): void {
 		if (!file_exists($filePath)) {
-			http_response_code(404);
-			echo 'Not found';
 			return;
 		}
 
