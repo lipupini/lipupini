@@ -2,9 +2,12 @@ FROM php:8.2.17-alpine3.19
 
 RUN apk add --no-cache composer tini
 # Development libraries required by PHP extensions
-RUN apk add --no-cache zlib-dev libpng-dev libjpeg-turbo-dev curl-dev
-# Now we can install the extensions
+RUN apk add --no-cache zlib-dev libpng-dev libjpeg-turbo-dev libavif-dev curl-dev
+# Now we can configure and install the extensions
+RUN docker-php-ext-configure gd --with-jpeg --with-avif
 RUN docker-php-ext-install gd curl
+# Cleanup
+RUN apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
 
 COPY . /app/
 VOLUME /app/collection
