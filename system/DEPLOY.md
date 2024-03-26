@@ -12,13 +12,15 @@ This document outlines deployment processes and other DevOps concerns.
 
 ## Deploying with Docker
 
-Build the Docker image from the project directory:
+Build and run the Docker image from the project directory using `docker-compose`:
 
 ```shell
 # Start in the project root
 cd path/to/project/root
+# Open the system Docker directory
+cd system/docker
 # Build the image
-docker build --tag lipupini .
+docker-compose up
 ```
 
 If you have [Just](https://github.com/casey/just/) installed:
@@ -26,20 +28,13 @@ If you have [Just](https://github.com/casey/just/) installed:
 ```shell
 # Start in the project root
 cd path/to/project/root
+# Open the system Docker directory
+cd system/docker
 # Build the image
-just docker-build
+just docker-up
 ```
 
-There are multiple ways to run the image once built:
-
-```shell
-# Start in the project root
-cd path/to/project/root
-# Run the image using the `docker` command
-docker run --expose=4000 --network=host lipupini
-# Or using a `just` command
-just docker-run
-```
+A `docker-build` command is also available in the [justfile](../justfile).
 
 Lipupini should then be available at `localhost:4000`
 
