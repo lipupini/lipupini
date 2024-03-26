@@ -10,9 +10,9 @@
 
 [Features](#features)
 
-[Lipupini Docker Setup](DEPLOY.md#deploying-with-docker)
+[Lipupini Docker Setup](system/DEPLOY.md#deploying-with-docker)
 
-[Running Lipupini Locally for Development](#lipupini-development-server)
+[Starting Lipupini with PHP](#starting-the-php-webserver)
 
 [Add Your Collection](#add-your-collection)
 
@@ -54,16 +54,16 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Supports both `"hidden"` and `"unlisted"` options in [files.json](collection/README.md)
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
 - Your media collections are self-contained, served as they are on your filesystem. Metadata is stored in a special `.lipupini` folder, making account collections completely portable.
-- Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `config/state.php` for the option.
+- Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `system/config/state.php` for the option.
 - Module system paves a way for collaborative development.
 - Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
 - Building a way to keyword search collections using AI image recognition.
 - On-demand caching system creates and serves static media files. Support for custom caching URL can facilitate the use of a CDN.
 - A [Public Domain license](LICENSE.md) is the most permissive license there is. You can do whatever you want with this thing. Please feel free to contribute back to upstream, post in discussions, etc. There is no obligation of any kind.
 
-## Lipupini Development Server
+## Starting the PHP Webserver
 
-Make sure all [dependencies are installed first](DEPLOY.md#installing-system-dependencies).
+Make sure all [dependencies are installed first](system/DEPLOY.md#installing-system-dependencies).
 
 1) Clone the app and `cd` into the project root
 

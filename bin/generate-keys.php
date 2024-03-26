@@ -6,7 +6,7 @@ use Module\Lipupini\State;
 use Module\Lipupini\Encryption;
 
 /** @var State $systemState */
-$systemState = require(__DIR__ . '/../config/state.php');
+$systemState = require(__DIR__ . '/../system/config/state.php');
 
 if (empty($argv[1])) {
 	echo 'Must specify collection name' . "\n";

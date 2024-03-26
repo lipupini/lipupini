@@ -6,7 +6,7 @@ This document outlines deployment processes and other DevOps concerns.
 
 [Installing System Dependencies](#installing-system-dependencies)
 
-[Using PHP's Built-in Webserver](README.md#lipupini-development-server)
+[Using PHP's Built-in Webserver](../README.md#starting-the-php-webserver)
 
 ---
 
