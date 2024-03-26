@@ -23,6 +23,7 @@ class State {
 		public string $userAgent          = '(Lipupini/69.420; +https://github.com/lipupini/lipupini)',
 		public array  $requests           = [],
 		public array  $mediaSizes         = ['large' => [5000, 5000], 'small' => [600, 600]], // Default [width, height] for each preset
+		public bool   $cacheJpegToAvif    = true, // The image needs to be processed anyway, so we can consider converting it for cache saving
 		public bool   $activityPubLog     = true,
 		public bool   $shutdown           = false,
 		public bool   $debug              = false,
