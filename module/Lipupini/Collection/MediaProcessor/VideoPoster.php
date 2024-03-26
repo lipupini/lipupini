@@ -60,7 +60,7 @@ class VideoPoster {
 		}
 
 		if ($echoStatus) {
-			echo 'Saving video poster for `' . $videoPath . '`... ';
+			echo 'Saving video poster for `' . $videoPath . '`... ' . "\n";
 		}
 
 		exec($systemState->dirRoot . '/bin/ffmpeg-video-poster.php ' . escapeshellarg($collectionPath . '/' . $videoPath) . ' ' . escapeshellarg($posterPathFull) . ' > /dev/null 2>&1', $output, $returnCode);
