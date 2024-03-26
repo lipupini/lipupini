@@ -51,7 +51,7 @@ foreach (array_keys($collectionData) as $filePath) {
 // END: Prepare collection data
 
 // START: Delete cache data that doesn't exist in collection
-$collectionCache->cleanCacheDir($collectionPath);
+$collectionCache->cleanCacheDir($systemState, $collectionFolderName, true);
 // END: Delete cache data that doesn't exist in collection
 
 // START: Process media cache
