@@ -86,7 +86,7 @@ class Utility {
 			$return[$filePath] = [];
 		}
 
-		$videoExtensions = array_keys(Video::mimeTypes());
+		$videoExtensions = array_keys($this->system->mediaTypes['video']);
 
 		foreach ($return as $mediaFilePath => $mediaFileData) {
 			// Loop through videos to process posters

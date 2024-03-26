@@ -37,13 +37,4 @@ class Request extends Http {
 
 		$this->system->shutdown = true;
 	}
-
-	public function mimeTypes(): array {
-		return [
-			'application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
-			'application/activity+json',
-			'application/ld+json',
-			'*/*',
-		];
-	}
 }

@@ -23,6 +23,28 @@ class State {
 		public string $userAgent          = '(Lipupini/69.420; +https://github.com/lipupini/lipupini)',
 		public array  $requests           = [],
 		public array  $mediaSizes         = ['large' => [5000, 5000], 'small' => [600, 600]], // Default [width, height] for each preset
+		public array  $mediaTypes         = [
+			'audio' => [
+				'flac' => 'audio/flac',
+				'm4a' => 'audio/m4a',
+				'mp3' => 'audio/mp3',
+				'ogg' => 'audio/ogg',
+			],
+			'image' => [
+				'avif' => 'image/avif',
+				'gif' => 'image/gif',
+				'jpg' => 'image/jpeg',
+				'jpeg' => 'image/jpeg',
+				'png' => 'image/png',
+			],
+			'text' => [
+				'html' => 'text/html',
+				'md' => 'text/markdown',
+			],
+			'video' => [
+				'mp4' => 'video/mp4',
+			],
+		],
 		public array  $imageQuality       = ['avif_quality' => 60, 'jpeg_quality' => 89, 'png_compression_level' => 9],
 		public bool   $useFfmpeg          = true, // You can try this if you have `ffmpeg` installed for processing videos
 		public bool   $activityPubLog     = true,

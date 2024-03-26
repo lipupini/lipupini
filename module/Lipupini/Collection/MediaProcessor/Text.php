@@ -6,13 +6,6 @@ use Module\Lipupini\Collection\Cache;
 use Module\Lipupini\State;
 
 class Text {
-	public static function mimeTypes(): array {
-		return [
-			'md' => 'text/markdown',
-			'html' => 'text/html',
-		];
-	}
-
 	public static function processAndCache(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): bool {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$fileCachePathMd = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath;

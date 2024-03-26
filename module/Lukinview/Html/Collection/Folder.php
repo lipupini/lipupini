@@ -13,7 +13,7 @@ require(__DIR__ . '/../Core/Open.php') ?>
 	<div></div>
 </header>
 <div id="media-grid" class="grid square"></div>
-<script>let baseUri='<?php echo htmlentities($this->system->staticMediaBaseUri) ?>';let collection='<?php echo htmlentities($this->collectionFolderName) ?>';let collectionData=<?php echo json_encode($this->collectionData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;let fileTypes=<?php echo json_encode($this->fileTypes, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?></script>
+<script>let baseUri='<?php echo htmlentities($this->system->staticMediaBaseUri) ?>';let collection='<?php echo htmlentities($this->collectionFolderName) ?>';let collectionData=<?php echo json_encode($this->collectionData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;let fileTypes=<?php echo json_encode($this->system->mediaTypes, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?></script>
 <script type="module">
 import { Folder } from '/js/components/Folder.js'
 Folder({collection, collectionData, baseUri})

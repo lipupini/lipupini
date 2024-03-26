@@ -11,7 +11,7 @@ use Module\Lipupini\Collection\MediaProcessor\Image;
 
 class ImageRequest extends MediaProcessorRequest {
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/image/(' . implode('|', array_keys($this->system->mediaSizes)) . ')/(.+\.(' . implode('|', array_keys(Image::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/([^/]+)/image/(' . implode('|', array_keys($this->system->mediaSizes)) . ')/(.+\.(' . implode('|', array_keys($this->system->mediaTypes['image'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -30,6 +30,6 @@ class ImageRequest extends MediaProcessorRequest {
 		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $imagePath;
 
 		Image::processAndCache($this->system, $collectionFolderName, 'image', $sizePreset, $imagePath);
-		$this->serve($pathOriginal, Image::mimeTypes()[$extension]);
+		$this->serve($pathOriginal, $this->system->mediaTypes['image'][$extension]);
 	}
 }

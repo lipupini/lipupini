@@ -10,7 +10,7 @@ class VideoPosterRequest extends MediaProcessorRequest {
 	use Collection\MediaProcessor\Trait\CacheSymlink;
 
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/video-poster/(.+\.(' . implode('|', array_keys(Image::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/([^/]+)/video-poster/(.+\.(' . implode('|', array_keys($this->system->mediaTypes['image'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -26,6 +26,6 @@ class VideoPosterRequest extends MediaProcessorRequest {
 		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/video-poster/' . $posterPath;
 
 		VideoPoster::cacheSymlinkVideoPoster($this->system, $collectionFolderName, $videoPath);
-		$this->serve($pathOriginal, Image::mimeTypes()[$extension]);
+		$this->serve($pathOriginal, $this->system->mediaTypes['image'][$extension]);
 	}
 }

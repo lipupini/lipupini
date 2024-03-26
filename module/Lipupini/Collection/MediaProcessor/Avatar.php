@@ -6,15 +6,6 @@ use Module\Lipupini\Collection\Cache;
 use Module\Lipupini\State;
 
 class Avatar {
-	public static function mimeTypes(): array {
-		return [
-			'mp3' => 'audio/mp3',
-			'm4a' => 'audio/m4a',
-			'ogg' => 'audio/ogg',
-			'flac' => 'audio/flac',
-		];
-	}
-
 	public static function cacheSymlinkAvatar(State $systemState, string $collectionFolderName, string $avatarPath, bool $echoStatus = false): void {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$fileCachePath = $cache->path() . '/avatar.png';
