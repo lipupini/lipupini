@@ -9,6 +9,7 @@ class VideoPoster {
 	public static function cacheSymlinkVideoPoster(State $systemState, string $collectionFolderName, string $videoPath, bool $echoStatus = false): void {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$posterPath = $videoPath . '.png';
+
 		$posterPathFull = $systemState->dirCollection . '/' . $collectionFolderName . '/.lipupini/video-poster/' . $posterPath;
 		$fileCachePath = $cache->path() . '/video-poster/' . $posterPath;
 
@@ -18,10 +19,6 @@ class VideoPoster {
 		// The benefit is that it won't try to use `ffmpeg` and grab the frame if it hasn't yet, so it's potentially faster to check this way
 		if (file_exists($fileCachePath)) {
 			return;
-		}
-
-		if ($echoStatus) {
-			echo 'Symlinking video poster to cache for `' . $posterPath . '`...' . "\n";
 		}
 
 		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
@@ -36,6 +33,10 @@ class VideoPoster {
 			return;
 		}
 
+		if ($echoStatus) {
+			echo 'Symlinking video poster to cache for `' . $posterPath . '`...' . "\n";
+		}
+
 		// Link the poster path to the collection's cache
 		$cache::createSymlink(
 			$posterPathFull,
@@ -44,7 +45,7 @@ class VideoPoster {
 	}
 
 	public static function saveMiddleFramePng(State $systemState, string $collectionFolderName, string $videoPath, string $posterPath, bool $echoStatus = false) {
-		if (!static::hasFfmpeg()) {
+		if (!static::useFfmpeg($systemState)) {
 			return false;
 		}
 
@@ -60,14 +61,14 @@ class VideoPoster {
 		}
 
 		if ($echoStatus) {
-			echo 'Saving video poster for `' . $videoPath . '`... ' . "\n";
+			echo 'Saving video poster for `' . $videoPath . '`...' . "\n";
 		}
 
-		exec($systemState->dirRoot . '/bin/ffmpeg-video-poster.php ' . escapeshellarg($collectionPath . '/' . $videoPath) . ' ' . escapeshellarg($posterPathFull) . ' > /dev/null 2>&1', $output, $returnCode);
+		exec($systemState->dirRoot . '/bin/ffmpeg-video-poster.php ' . escapeshellarg($collectionPath . '/' . $videoPath) . ' ' . escapeshellarg($posterPathFull), $output, $returnCode);
 
 		if ($returnCode !== 0) {
 			if ($echoStatus) {
-				echo 'ERROR';
+				echo 'ERROR: Received non-zero exit status from `ffmpeg` for ' . $videoPath . "\n";
 			}
 			return false;
 		}
@@ -76,7 +77,11 @@ class VideoPoster {
 	}
 
 	// https://beamtic.com/if-command-exists-php
-	public static function hasFfmpeg() {
+	public static function useFfmpeg(State $systemState) {
+		if (!$systemState->useFfmpeg) {
+			return false;
+		}
+
 		$commandName = 'ffmpeg';
 		$testMethod = (false === stripos(PHP_OS, 'win')) ? 'command -v' : 'where';
 		return null !== shell_exec($testMethod . ' ' . $commandName);

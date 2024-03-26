@@ -33,6 +33,7 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\FolderRequest::class => null,
 	],
 	mediaSizes: ['large' => [5000, 5000], 'small' => [600, 600]], // Default [width, height] for each preset
+	useFfmpeg: false, // You can try this if you have `ffmpeg` installed for processing videos
 	// @TODO: Implement this in ImageRequest
 	cacheJpegToAvif: false, // The image needs to be processed anyway, so we can consider converting it for cache saving
 	activityPubLog: false,

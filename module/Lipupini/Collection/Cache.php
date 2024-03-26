@@ -32,13 +32,10 @@ class Cache {
 	}
 
 	public static function webrootCacheSymlink(State $systemState, string $collectionFolderName, bool $echoStatus = false) {
-		$webrootCacheDir = $systemState->dirWebroot . '/c/' . $collectionFolderName;
-
-		if ($echoStatus) {
-			echo 'Creating `webroot` static cache symlink at `' . $webrootCacheDir . '`...' . "\n";
-		}
-
-		static::createSymlink((new Cache($systemState, $collectionFolderName))->path(), $webrootCacheDir);
+		static::createSymlink(
+			(new Cache($systemState, $collectionFolderName))->path(),
+			$systemState->dirWebroot . '/c/' . $collectionFolderName
+		);
 	}
 
 	// This handles a few extra useful steps with managing symlink creation
