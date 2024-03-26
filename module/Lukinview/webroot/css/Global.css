@@ -1,10 +1,15 @@
+html {
+	font-size: 16px;
+}
+body {
+	background: radial-gradient(circle, #424242 0%, #2d2d2d 100%);
+}
 html, body, main {
 	height: 100%;
 }
 body, select, a.button, input {
-	background-color: #2d2d2d;
 	color: #bfbfbf;
-	font-size: 16px;
+	font-size: 1rem;
 }
 a {
 	color: #bfbfbf;
