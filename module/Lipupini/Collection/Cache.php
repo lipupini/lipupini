@@ -108,14 +108,16 @@ class Cache {
 	}
 
 	// Delete cache data that doesn't exist in collection
-	public function cleanCacheDir(string $collectionPath, bool $echoStatus = false) {
+	public function cleanCacheDir(State $systemState, string $collectionFolderName, bool $echoStatus = false) {
+		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
+
 		foreach ($this->prepareCacheData() as $fileType => $filePaths) {
 			if ($fileType === 'image') {
 				foreach ($filePaths as $imageSize => $imageFilePaths) {
 					foreach ($imageFilePaths as $imageFilePath) {
 						if (!file_exists($collectionPath . '/' . $imageFilePath)) {
 							if ($echoStatus) {
-								echo 'File does not exist in collection, deleting `' . $imageFilePath . '`...' . "\n";
+								echo 'File does not exist in collection, deleting `' . $imageSize . '/' . $imageFilePath . '`...' . "\n";
 							}
 							unlink($this->path() . '/' . $fileType . '/' . $imageSize . '/' . $imageFilePath);
 						}
