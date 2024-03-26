@@ -6,7 +6,7 @@ use Module\Lipupini\Request\Incoming\Http;
 
 abstract class MediaProcessorRequest extends Http {
 	public function serve(string $filePath, string $mimeType): void {
-		if (!file_exists($filePath)) {
+		if (!$filePath || !file_exists($filePath)) {
 			return;
 		}
 

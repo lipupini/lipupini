@@ -1,6 +1,6 @@
 # The following lines help ensure that only the `example` collection is included in the respository
 !/example
-!/example/.lipupini/video-poster
+!/example/.lipupini/thumbnail
 /*
 /example/.lipupini/cache
 /example/.lipupini/inbox

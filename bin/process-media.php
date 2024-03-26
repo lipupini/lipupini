@@ -74,7 +74,7 @@ foreach ($collectionDataPrepared as $fileTypeFolder => $filePaths) {
 		case 'video' :
 			foreach ($filePaths as $filePath) {
 				MediaProcessor\Video::cacheSymlink($systemState, $collectionFolderName, $fileTypeFolder, $filePath, echoStatus: true);
-				MediaProcessor\VideoPoster::cacheSymlinkVideoPoster($systemState, $collectionFolderName, $filePath, true);
+				MediaProcessor\VideoThumbnail::cacheSymlinkVideoThumbnail($systemState, $collectionFolderName, $filePath, true);
 			}
 			break;
 		case 'text' :

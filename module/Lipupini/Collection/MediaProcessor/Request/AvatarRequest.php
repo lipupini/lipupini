@@ -29,7 +29,9 @@ class AvatarRequest extends MediaProcessorRequest {
 			$avatarPath = $this->system->dirWebroot . '/img/avatar-default.png';
 		}
 
-		Avatar::cacheSymlinkAvatar($this->system, $collectionFolderName, $avatarPath);
-		$this->serve($avatarPath, $avatarMimeTypes[$extension]);
+		$this->serve(
+			Avatar::cacheSymlinkAvatar($this->system, $collectionFolderName, $avatarPath),
+			$avatarMimeTypes[$extension]
+		);
 	}
 }

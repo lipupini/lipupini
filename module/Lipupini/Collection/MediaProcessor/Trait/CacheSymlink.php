@@ -6,14 +6,14 @@ use Module\Lipupini\Collection\Cache;
 use Module\Lipupini\State;
 
 trait CacheSymlink {
-	public static function cacheSymlink(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): void {
+	public static function cacheSymlink(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): string {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$fileCachePath = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath;
 
 		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
 
 		if (file_exists($fileCachePath)) {
-			return;
+			return $fileCachePath;
 		}
 
 		if ($echoStatus) {
@@ -29,5 +29,7 @@ trait CacheSymlink {
 		}
 
 		$cache::createSymlink($collectionPath . '/' . $filePath, $fileCachePath);
+
+		return $fileCachePath;
 	}
 }

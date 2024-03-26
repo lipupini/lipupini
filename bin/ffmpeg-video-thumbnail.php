@@ -5,7 +5,7 @@ ini_set('max_execution_time', 0);
 ini_set('memory_limit', '512M');
 
 if (empty($argv[1]) || empty($argv[2])) {
-	echo 'Expected usage: `./ffmpeg-video-poster.php <inputVideoFilepath> <outputPngFilepath>`' . "\n";
+	echo 'Expected usage: `./ffmpeg-video-thumbnail.php <inputVideoFilepath> <outputPngFilepath>`' . "\n";
 	exit(1);
 }
 
