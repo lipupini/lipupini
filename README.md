@@ -28,7 +28,8 @@
 
 ---
 
-![image](https://github.com/lipupini/lipupini/assets/108841276/843f8a31-0d6c-42d2-a366-c355b03986a6)
+![Example UI Screenshot](https://github.com/lipupini/lipupini/assets/108841276/e6dd6f61-5e7d-4621-bff4-3ce33501acf8)
+
 
 ---
 
