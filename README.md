@@ -47,7 +47,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Supports both `"hidden"` and `"unlisted"` options in [files.json](collection/README.md)
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
 - Your media collections are self-contained, served as they are on your filesystem. Metadata is stored in a special `.lipupini` folder, making account collections completely portable.
-- Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `config/system.php` for the option.
+- Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `config/state.php` for the option.
 - Module system paves a way for collaborative development.
 - Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
 - Building a way to keyword search collections using AI image recognition.
