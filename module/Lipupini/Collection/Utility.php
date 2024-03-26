@@ -62,7 +62,7 @@ class Utility {
 					}
 				}
 				if (!file_exists($collectionRootPath . '/' . $filename)) {
-					throw new Exception('Could not find file for entry in ' . $collectionFolderName . '/.lipupini/files.json');
+					throw new Exception('Could not find file for entry in `' . $collectionFolderName . '/.lipupini/files.json`: ' . $filename);
 				}
 				// Add the file's data to the return array
 				$return[$filename] = $fileData;

@@ -2,7 +2,7 @@
 
 namespace Module\Lipupini\Collection\MediaProcessor;
 
-ini_set('max_execution_time', 30);
+ini_set('max_execution_time', 0);
 ini_set('memory_limit', '512M');
 
 use Imagine;
@@ -61,7 +61,7 @@ class Image {
 		return $totalCount > 1;
 	}
 
-	private static function imagine(): Imagine\Image\AbstractImagine {
+	public static function imagine(): Imagine\Image\AbstractImagine {
 		if (!is_null(static::$imagine)) {
 			return static::$imagine;
 		}
