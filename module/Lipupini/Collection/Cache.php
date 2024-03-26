@@ -35,7 +35,7 @@ class Cache {
 		$webrootCacheDir = $systemState->dirWebroot . '/c/' . $collectionFolderName;
 
 		if ($echoStatus) {
-			echo 'Creating `webroot` static cache symlink at `' . $webrootCacheDir . '`...';
+			echo 'Creating `webroot` static cache symlink at `' . $webrootCacheDir . '`...' . "\n";
 		}
 
 		static::createSymlink((new Cache($systemState, $collectionFolderName))->path(), $webrootCacheDir);
