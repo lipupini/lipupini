@@ -89,19 +89,19 @@ class Utility {
 		$videoExtensions = array_keys($this->system->mediaTypes['video']);
 
 		foreach ($return as $mediaFilePath => $mediaFileData) {
-			// Loop through videos to process posters
+			// Loop through videos to process thumbnails
 			if (in_array(pathinfo($mediaFilePath, PATHINFO_EXTENSION), $videoExtensions)) {
-				// If the video has a poster specified in `files.json` already then skip it
-				if (!empty($mediaFileData['poster'])) {
+				// If the video has a thumbnail specified in `files.json` already then skip it
+				if (!empty($mediaFileData['thumbnail'])) {
 					continue;
 				}
-				// Check if a poster is saved by the same name
-				$posterFile = $collectionAbsolutePath . '/.lipupini/video-poster/' . $mediaFilePath . '.png';
-				if (!file_exists($posterFile)) {
+				// Check if a thumbnail is saved by the same name
+				$thumbnailFile = $collectionAbsolutePath . '/.lipupini/thumbnail/' . $mediaFilePath . '.png';
+				if (!file_exists($thumbnailFile)) {
 					continue;
 				}
-				// We found a poster file so add it to `$return`
-				$return[$mediaFilePath]['poster'] = $mediaFilePath . '.png';
+				// We found a thumbnail file so add it to `$return`
+				$return[$mediaFilePath]['thumbnail'] = $mediaFilePath . '.png';
 			}
 		}
 

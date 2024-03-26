@@ -4,8 +4,8 @@ const { div, video, source } = van.tags
 
 const Video = ({collection, baseUri, filename, data, fileType}) => {
 	let attributes = {controls: 'true', preload: 'none', loop: 'true', title: data.caption ?? filename, loading: 'lazy'}
-	if (typeof data.poster !== 'undefined') {
-		attributes.poster = `${baseUri}${collection}/video-poster/${data.poster}`
+	if (typeof data.thumbnail !== 'undefined') {
+		attributes.poster = `${baseUri}${collection}/thumbnail/${data.thumbnail}`
 	}
 
 	return div({class: 'video'},

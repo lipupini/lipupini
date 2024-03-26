@@ -25,7 +25,7 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\MediaProcessor\Request\AvatarRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\ImageRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\TextRequest::class => null,
-		Module\Lipupini\Collection\MediaProcessor\Request\VideoPosterRequest::class => null,
+		Module\Lipupini\Collection\MediaProcessor\Request\VideoThumbnailRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\VideoRequest::class => null,
 		Module\Lipupini\Rss\Request::class => null, // This should be before the document/folder requests and after collection request
 		Module\Lipupini\ActivityPub\Request::class => null, // This should be before the document/folder requests and after collection request
@@ -56,7 +56,7 @@ return new Module\Lipupini\State(
 		],
 	],
 	imageQuality: ['avif_quality' => 69, 'jpeg_quality' => 86, 'png_compression_level' => 9],
-	useFfmpeg: false, // You can try this if you have `ffmpeg` installed for processing videos
+	useFfmpeg: true, // You can try this if you have `ffmpeg` installed for processing videos
 	activityPubLog: false,
 	debug: false
 );

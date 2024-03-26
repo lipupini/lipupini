@@ -27,9 +27,9 @@ class ImageRequest extends MediaProcessorRequest {
 		// Doing it again here because this one comes from a different part of a URL from the regex
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 
-		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $imagePath;
-
-		Image::processAndCache($this->system, $collectionFolderName, 'image', $sizePreset, $imagePath);
-		$this->serve($pathOriginal, $this->system->mediaTypes['image'][$extension]);
+		$this->serve(
+			Image::processAndCache($this->system, $collectionFolderName, 'image', $sizePreset, $imagePath),
+			$this->system->mediaTypes['image'][$extension]
+		);
 	}
 }

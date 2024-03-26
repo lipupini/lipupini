@@ -86,9 +86,9 @@ class Request extends Http {
 				$metaData['medium'] = 'video';
 				$metaData['mime'] = $this->system->mediaTypes['video'][$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/video/' . $filePath;
-				$poster = !empty($metaData['poster']) ? ' poster="' . htmlentities($this->system->staticMediaBaseUri . $collectionFolderName . '/video-poster/' . $metaData['poster']) . '"' : '';
+				$thumbnail = !empty($metaData['thumbnail']) ? ' thumbnail="' . htmlentities($this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $metaData['thumbnail']) . '"' : '';
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
-					. '<video controls loop' . $poster . '><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></video>';
+					. '<video controls loop' . $thumbnail . '><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></video>';
 			} else if (in_array($extension, array_keys($this->system->mediaTypes['audio']))) {
 				$metaData['medium'] = 'audio';
 				$metaData['mime'] = $this->system->mediaTypes['audio'][$extension];

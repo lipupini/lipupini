@@ -74,7 +74,7 @@ class Image {
 		return static::$imagine;
 	}
 
-	public static function processAndCache(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $sizePreset, string $filePath, bool $echoStatus = false): void {
+	public static function processAndCache(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $sizePreset, string $filePath, bool $echoStatus = false): string {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
 
@@ -83,7 +83,7 @@ class Image {
 		$fileCachePath = $cache->path() . '/' . $fileTypeFolder . '/' . $sizePreset . '/' . $filePath;
 
 		if (file_exists($fileCachePath)) {
-			return;
+			return $fileCachePath;
 		}
 
 		if ($echoStatus) {
@@ -94,13 +94,25 @@ class Image {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);
 		}
 
+		// In the collection's `.lipupini` folder if there is a subfolder with the same name as the `$sizePreset`
+		// and an image exists in there with the same name, symlink that instead of processing the size automatically.
+		// This makes sure that work on custom thumbnails is not lost.
+		$customImage = $collectionPath . '/.lipupini/' . $sizePreset . '/' . $filePath;
+		if (file_exists($customImage)) {
+			if ($echoStatus) {
+				echo 'Found a custom image for size preset `' . $sizePreset . '`: `' . $filePath . '`....' . "\n";
+			}
+			$cache::createSymlink($customImage, $fileCachePath);
+			return $fileCachePath;
+		}
+
 		if (pathinfo($filePath, PATHINFO_EXTENSION) === 'gif') {
 			if (static::isAnimatedGif($collectionPath . '/' . $filePath)) {
 				if ($echoStatus) {
 					echo 'Animated .gif detected, creating symlink to original for ' . $filePath . '...' . "\n";
 				}
 				$cache::createSymlink($collectionPath . '/' . $filePath, $fileCachePath);
-				return;
+				return $fileCachePath;
 			}
 		}
 
@@ -115,5 +127,7 @@ class Image {
 					$systemState->mediaSizes[$sizePreset][1]), Imagine\Image\ImageInterface::THUMBNAIL_INSET)
 			->save($fileCachePath, $systemState->imageQuality)
 		;
+
+		return $fileCachePath;
 	}
 }

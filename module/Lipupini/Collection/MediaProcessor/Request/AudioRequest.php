@@ -19,10 +19,11 @@ class AudioRequest extends MediaProcessorRequest {
 		$extension = $matches[3];
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
-		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $filePath;
 
 		// Once the file is symlinked, the file is considered cached and should be served statically on subsequent page refreshes
-		Audio::cacheSymlink($this->system, $collectionFolderName, 'audio', $filePath);
-		$this->serve($pathOriginal, $this->system->mediaTypes['audio'][$extension]);
+		$this->serve(
+			Audio::cacheSymlink($this->system, $collectionFolderName, 'audio', $filePath),
+			$this->system->mediaTypes['audio'][$extension]
+		);
 	}
 }
