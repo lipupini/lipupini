@@ -18,8 +18,8 @@ serve port='4000':
 
 # Build a Lipupini Docker image from `system/docker`
 docker-build:
-	docker build --rm --tag lipupini --file system/docker/Dockerfile .
+	docker-compose --file system/docker/docker-compose.yml build
 
 # Run Docker container from a Lipupini Docker image
-docker-run:
-	cd system/docker && docker run --expose=4000 --network=host lipupini
+docker-up:
+	docker-compose --file system/docker/docker-compose.yml up
