@@ -193,21 +193,22 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 - In `bin/generate-files-json.php`, read EXIF data if available for setting a default `date`
 - `bin/generate-files-json.php`
 - Make recursive
-	- Do not overwrite entries, or add option
+    - Do not overwrite entries, or add option
 - Figure out something else besides exception when file in `files.json` does not exist in collection
 - Create script to normalize file and directory user/group/permissions
 - Output errors in layout
 - Look into:
-	- https://indieweb.org/Webmention
-	- https://indieweb.org/Microsub
-	- https://indieweb.org/Micropub
-	- https://atproto.com
-	- https://micropub.rocks
+    - https://indieweb.org/Webmention
+    - https://indieweb.org/Microsub
+    - https://indieweb.org/Micropub
+    - https://atproto.com
+    - https://micropub.rocks
 - Make contributions to `landrok/activitypub`
+- Detect `readline` support in a custom `confirm` routine. If `readline` is not available a 10-second timer will be indicated that can be cancelled with CTRL+C.
 - Create a mechanism for writing to a collection's `files.json`
 - Eliminate the issue where in the middle of uploading photos the thumbnail breaks
-	- Use `filemtime`
-	- Check the `filemtime` no more than twice with a `sleep` delay (maybe 0.175 seconds?) in between
-	- If the `filemtime` is different, then do not store the thumbnail cache file yet because it is still uploading
+    - Use `filemtime`
+    - Check the `filemtime` no more than twice with a `sleep` delay (maybe 0.175 seconds?) in between
+    - If the `filemtime` is different, then do not store the thumbnail cache file yet because it is still uploading
 - Do not let same account try to follow more than once when already logged previous follow
 - When there are no collections, resolve error

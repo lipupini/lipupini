@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-ini_set('max_execution_time', 30);
+ini_set('max_execution_time', 0);
 ini_set('memory_limit', '512M');
 
 if (empty($argv[1]) || empty($argv[2])) {
