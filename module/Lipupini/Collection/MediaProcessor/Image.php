@@ -12,16 +12,6 @@ use Module\Lipupini\State;
 class Image {
 	private static ?Imagine\Image\AbstractImagine $imagine = null;
 
-	public static function mimeTypes(): array {
-		return [
-			'jpg' => 'image/jpeg',
-			'jpeg' => 'image/jpeg',
-			'png' => 'image/png',
-			'gif' => 'image/gif',
-			'avif' => 'image/avif',
-		];
-	}
-
 	// https://www.php.net/manual/en/function.imagecreatefromgif.php#119564
 	public static function isAnimatedGif(string $filename) {
 		$fh = fopen($filename, 'rb');

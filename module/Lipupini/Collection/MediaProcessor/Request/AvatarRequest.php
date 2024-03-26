@@ -6,14 +6,12 @@ use Module\Lipupini\Collection;
 use Module\Lipupini\Collection\MediaProcessor\Avatar;
 
 class AvatarRequest extends MediaProcessorRequest {
-	public static function mimeTypes(): array {
-		return [
+	public function initialize(): void {
+		$avatarMimeTypes = [
 			'png' => 'image/png',
 		];
-	}
 
-	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/avatar\.(' . implode('|', array_keys(static::mimeTypes())) . ')$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/([^/]+)/avatar\.(' . implode('|', array_keys($avatarMimeTypes)) . ')$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -32,6 +30,6 @@ class AvatarRequest extends MediaProcessorRequest {
 		}
 
 		Avatar::cacheSymlinkAvatar($this->system, $collectionFolderName, $avatarPath);
-		$this->serve($avatarPath, static::mimeTypes()[$extension]);
+		$this->serve($avatarPath, $avatarMimeTypes[$extension]);
 	}
 }

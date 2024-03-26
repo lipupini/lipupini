@@ -33,8 +33,30 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\FolderRequest::class => null,
 	],
 	mediaSizes: ['large' => [5000, 5000], 'small' => [600, 600]], // Default [width, height] for each preset
+	mediaTypes: [
+		'audio' => [
+			'flac' => 'audio/flac',
+			'm4a' => 'audio/m4a',
+			'mp3' => 'audio/mp3',
+			'ogg' => 'audio/ogg',
+		],
+		'image' => [
+			'avif' => 'image/avif',
+			'gif' => 'image/gif',
+			'jpg' => 'image/jpeg',
+			'jpeg' => 'image/jpeg',
+			'png' => 'image/png',
+		],
+		'text' => [
+			'html' => 'text/html',
+			'md' => 'text/markdown',
+		],
+		'video' => [
+			'mp4' => 'video/mp4',
+		],
+	],
 	imageQuality: ['avif_quality' => 69, 'jpeg_quality' => 86, 'png_compression_level' => 9],
-	useFfmpeg: true, // You can try this if you have `ffmpeg` installed for processing videos
+	useFfmpeg: false, // You can try this if you have `ffmpeg` installed for processing videos
 	activityPubLog: false,
 	debug: false
 );

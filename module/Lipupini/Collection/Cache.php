@@ -22,15 +22,6 @@ class Cache {
 		return $this->path;
 	}
 
-	public static function fileTypes() {
-		return [
-			'video' => MediaProcessor\Video::mimeTypes(),
-			'audio' => MediaProcessor\Audio::mimeTypes(),
-			'image' => MediaProcessor\Image::mimeTypes(),
-			'text' => MediaProcessor\Text::mimeTypes(),
-		];
-	}
-
 	public static function webrootCacheSymlink(State $systemState, string $collectionFolderName, bool $echoStatus = false) {
 		static::createSymlink(
 			(new Cache($systemState, $collectionFolderName))->path(),
@@ -81,7 +72,7 @@ class Cache {
 			$fileType = $matches[1];
 
 			// Only process known folder types
-			if (!in_array($fileType, array_keys(static::fileTypes()))) {
+			if (!in_array($fileType, array_keys($this->system->mediaTypes))) {
 				continue;
 			}
 

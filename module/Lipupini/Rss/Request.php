@@ -76,28 +76,28 @@ class Request extends Http {
 		foreach ($collectionData as $filePath => $metaData) {
 			$extension = pathinfo($filePath, PATHINFO_EXTENSION);
 
-			if (in_array($extension, array_keys(Collection\MediaProcessor\Image::mimeTypes()))) {
+			if (in_array($extension, array_keys($this->system->mediaTypes['image']))) {
 				$metaData['medium'] = 'image';
-				$metaData['mime'] = Collection\MediaProcessor\Image::mimeTypes()[$extension];
+				$metaData['mime'] = $this->system->mediaTypes['image'][$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/image/large/' . $filePath;
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<img src="' . $metaData['cacheUrl'] . '" alt="' . $filePath . '"/>';
-			} else if (in_array($extension, array_keys(Collection\MediaProcessor\Video::mimeTypes()))) {
+			} else if (in_array($extension, array_keys($this->system->mediaTypes['video']))) {
 				$metaData['medium'] = 'video';
-				$metaData['mime'] = Collection\MediaProcessor\Video::mimeTypes()[$extension];
+				$metaData['mime'] = $this->system->mediaTypes['video'][$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/video/' . $filePath;
 				$poster = !empty($metaData['poster']) ? ' poster="' . htmlentities($this->system->staticMediaBaseUri . $collectionFolderName . '/video-poster/' . $metaData['poster']) . '"' : '';
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<video controls loop' . $poster . '><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></video>';
-			} else if (in_array($extension, array_keys(Collection\MediaProcessor\Audio::mimeTypes()))) {
+			} else if (in_array($extension, array_keys($this->system->mediaTypes['audio']))) {
 				$metaData['medium'] = 'audio';
-				$metaData['mime'] = Collection\MediaProcessor\Audio::mimeTypes()[$extension];
+				$metaData['mime'] = $this->system->mediaTypes['audio'][$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/audio/' . $filePath;
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<audio controls><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></audio>';
-			} else if (in_array($extension, array_keys(Collection\MediaProcessor\Text::mimeTypes()))) {
+			} else if (in_array($extension, array_keys($this->system->mediaTypes['text']))) {
 				$metaData['medium'] = 'document';
-				$metaData['mime'] = Collection\MediaProcessor\Text::mimeTypes()[$extension];
+				$metaData['mime'] = $this->system->mediaTypes['text'][$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/text/' . $filePath . '.html';
 				$metaData['content'] = 	'<p><a href="' . $metaData['cacheUrl'] . '">' . htmlentities($metaData['caption'] ?? $filePath) . '</a></p>';
 			} else {
@@ -136,12 +136,5 @@ class Request extends Http {
 		foreach ($items as $item) {
 			$channel->append($item);
 		}
-	}
-
-	public function mimeTypes(): array {
-		return [
-			'application/rss+xml',
-			'application/xml',
-		];
 	}
 }

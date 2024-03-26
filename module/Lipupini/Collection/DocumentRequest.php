@@ -11,7 +11,6 @@ class DocumentRequest extends Http {
 	private array|null $fileData = null;
 	private string|null $parentPath = null;
 	public string|null $collectionFileName = null;
-	public array $fileTypes = [];
 
 	public function initialize(): void {
 		if (empty($this->system->requests[Collection\Request::class]->folderName)) {
@@ -37,13 +36,6 @@ class DocumentRequest extends Http {
 		])) {
 			return;
 		}
-
-		$this->fileTypes = [
-			'video' => MediaProcessor\Video::mimeTypes(),
-			'audio' => MediaProcessor\Audio::mimeTypes(),
-			'image' => MediaProcessor\Image::mimeTypes(),
-			'text' => MediaProcessor\Text::mimeTypes(),
-		];
 
 		$this->renderHtml();
 		$this->system->shutdown = true;

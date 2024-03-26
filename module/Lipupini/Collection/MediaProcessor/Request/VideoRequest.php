@@ -7,7 +7,7 @@ use Module\Lipupini\Collection\MediaProcessor\Video;
 
 class VideoRequest extends MediaProcessorRequest {
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/video/(.+\.(' . implode('|', array_keys(Video::mimeTypes())) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/([^/]+)/video/(.+\.(' . implode('|', array_keys($this->system->mediaTypes['video'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -23,6 +23,6 @@ class VideoRequest extends MediaProcessorRequest {
 
 		// Once the file is symlinked, the file is considered cached and should be served statically on subsequent page refreshes
 		Video::cacheSymlink($this->system, $collectionFolderName, 'video', $filePath);
-		$this->serve($pathOriginal, Video::mimeTypes()[$extension]);
+		$this->serve($pathOriginal, $this->system->mediaTypes['video'][$extension]);
 	}
 }
