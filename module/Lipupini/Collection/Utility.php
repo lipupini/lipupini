@@ -89,12 +89,6 @@ class Utility {
 		$videoExtensions = array_keys(Video::mimeTypes());
 
 		foreach ($return as $mediaFilePath => $mediaFileData) {
-			// Exclude directories
-			if (!pathinfo($mediaFilePath, PATHINFO_EXTENSION)) {
-				unset($return[$mediaFilePath]);
-				continue;
-			}
-
 			// Loop through videos to process posters
 			if (in_array(pathinfo($mediaFilePath, PATHINFO_EXTENSION), $videoExtensions)) {
 				// If the video has a poster specified in `files.json` already then skip it
@@ -124,6 +118,15 @@ class Utility {
 			}
 			$collectionRequestPath = preg_replace('#^' . preg_quote($dirCollectionFolder) . '/#', '', $filePath);
 			$collectionData += $this->getCollectionData($collectionFolderName, $collectionRequestPath);
+		}
+
+		// `getCollectionData` must return directories, but `getCollectionDataRecursive` cannot
+		// Perhaps this could be revisited and handled differently
+		foreach ($collectionData as $fileName => $metaData) {
+			// Excluding directories
+			if (!pathinfo($fileName, PATHINFO_EXTENSION)) {
+				unset($collectionData[$fileName]);
+			}
 		}
 
 		return $collectionData;
