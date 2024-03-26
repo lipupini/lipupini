@@ -1,6 +1,9 @@
 FROM php:8.2.17-alpine3.19
 
-RUN apk add --no-cache composer tini
+# composer: PHP dependency library
+# ffmpeg: Video processing (optional)
+# tini: Tiny Docker init library
+RUN apk add --no-cache composer ffmpeg tini
 # Development libraries required by PHP extensions
 RUN apk add --no-cache zlib-dev libpng-dev libjpeg-turbo-dev libavif-dev curl-dev
 # Now we can configure and install the extensions
