@@ -7,14 +7,14 @@
 	background-size: cover;
 }
 #media-grid.square img {
-	aspect-ratio: 1/1;
+	aspect-ratio: 1;
 }
 #media-grid img {
 	width: 100%;
 }
 #media-grid div.video {
 	overflow: hidden;
-	aspect-ratio: 1/1;
+	aspect-ratio: 1;
 	display: flex;
 	justify-content: center;
 }
@@ -40,6 +40,7 @@
 #media-grid div.folder {
 	border: 1px solid rgba(255, 255, 255, 0.75);
 	padding: 0.5rem;
+	aspect-ratio: 1;
 }
 #media-grid div.folder:hover {
 	border: 2px solid rgba(255, 255, 255, 0.9);
