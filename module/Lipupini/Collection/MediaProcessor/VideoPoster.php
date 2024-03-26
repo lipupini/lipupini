@@ -64,8 +64,9 @@ class VideoPoster {
 			echo 'Saving video poster for `' . $videoPath . '`...' . "\n";
 		}
 
+		$command = $systemState->dirRoot . '/bin/ffmpeg-video-poster.php ' . escapeshellarg($collectionPath . '/' . $videoPath) . ' ' . escapeshellarg($posterPathFull) . ' > /dev/null 2>&1';
 		// `ffmpeg` output is purged from display with `> /dev/null 2>&1`. Remove it to see `ffmpeg` output
-		exec($systemState->dirRoot . '/bin/ffmpeg-video-poster.php ' . escapeshellarg($collectionPath . '/' . $videoPath) . ' ' . escapeshellarg($posterPathFull) . ' > /dev/null 2>&1', $output, $returnCode);
+		exec($command, $output, $returnCode);
 
 		if ($returnCode !== 0) {
 			if ($echoStatus) {
