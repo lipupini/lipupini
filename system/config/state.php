@@ -32,7 +32,7 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\DocumentRequest::class => null,
 		Module\Lipupini\Collection\FolderRequest::class => null,
 	],
-	mediaSizes: ['large' => [5000, 5000], 'small' => [600, 600]], // Default [width, height] for each preset
+	mediaSizes: ['large' => [5000, 5000], 'thumbnail' => [600, 600]], // Default [width, height] for each preset
 	mediaTypes: [
 		'audio' => [
 			'flac' => 'audio/flac',

@@ -8,7 +8,7 @@ const Image = ({collection, baseUri, filename, data, background = true}) => {
 
 	return div({class: 'image'},
 		a(anchorAttrs,
-			background ? div({style: 'background-image:url("' + `${baseUri}${collection}/image/small/${filename}` + '")'},
+			background ? div({style: 'background-image:url("' + `${baseUri}${collection}/image/thumbnail/${filename}` + '")'},
 				image,
 			) : image,
 		),
