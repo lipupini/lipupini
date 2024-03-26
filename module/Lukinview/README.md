@@ -13,7 +13,7 @@ mkdir c || chmod 755 c
 
 To make a new frontend module, copy this `Lukinview` folder and use your new module folder's `webroot` for your webserver document root instead.
 
-You will need to update `config/system.php` to reflect your new frontend module, for example if the name is `Mokuview`:
+You will need to update `config/state.php` to reflect your new frontend module, for example if the name is `Mokuview`:
 
 ```php
 return new Module\Lipupini\State(

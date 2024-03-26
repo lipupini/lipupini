@@ -43,7 +43,7 @@ class Request extends WebFinger\Request {
 }
 ```
 
-Then in `config/system.php`, queue the `Module\OtherNameSpace\WebFinger\Request` module instead of the `Module\Lipupini\WebFinger\Request` module.
+Then in `config/state.php`, queue the `Module\OtherNameSpace\WebFinger\Request` module instead of the `Module\Lipupini\WebFinger\Request` module.
 
 ## Basic development guide
 
@@ -100,7 +100,7 @@ class HasARouteRequest extends Http {
 }
 ```
 
-Then in `config/system.php` add `Module\MyNamespace\MyModule\HasARouteRequest`:
+Then in `config/state.php` add `Module\MyNamespace\MyModule\HasARouteRequest`:
 
 ```php
 return new Module\Lipupini\State(
@@ -117,7 +117,7 @@ return new Module\Lipupini\State(
 );
 ```
 
-Request modules are initialized in the order they are specified in `config/system.php`. Since your module comes after `Collection\Request`, it will have available to it the currently requested collection folder and collection path, if present, because those are initialized **and** validated in the `Collection\Request` module.
+Request modules are initialized in the order they are specified in `config/state.php`. Since your module comes after `Collection\Request`, it will have available to it the currently requested collection folder and collection path, if present, because those are initialized **and** validated in the `Collection\Request` module.
 
 See [Module\Lipupini\Rss\Request](Lipupini/Rss/Request.php) for an example of using the extracted collection information from `Collection\Request`.
 

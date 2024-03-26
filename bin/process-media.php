@@ -9,7 +9,7 @@ use Module\Lipupini\Collection\MediaProcessor;
 use Module\Lipupini\State;
 
 /** @var State $systemState */
-$systemState = require(__DIR__ . '/../config/system.php');
+$systemState = require(__DIR__ . '/../config/state.php');
 
 if (empty($argv[1])) {
 	$confirm = 'Y'; // readline('No collection folder specified. Do you want to process all collections? [Y/n] ');
