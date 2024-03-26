@@ -33,12 +33,33 @@ class Cache {
 
 	public static function webrootCacheSymlink(State $systemState, string $collectionFolderName, bool $echoStatus = false) {
 		$webrootCacheDir = $systemState->dirWebroot . '/c/' . $collectionFolderName;
-		if (!is_dir($webrootCacheDir)) {
-			if ($echoStatus) {
-				echo 'Creating `webroot` static cache symlink at `' . $webrootCacheDir . '`...';
-			}
-			symlink((new Cache($systemState, $collectionFolderName))->path(), $webrootCacheDir);
+
+		if ($echoStatus) {
+			echo 'Creating `webroot` static cache symlink at `' . $webrootCacheDir . '`...';
 		}
+
+		static::createSymlink((new Cache($systemState, $collectionFolderName))->path(), $webrootCacheDir);
+	}
+
+	// This handles a few extra useful steps with managing symlink creation
+	public static function createSymlink(string $linkSource, string $linkTarget, bool $echoStatus = false) {
+		if (file_exists($linkTarget)) {
+			return;
+		}
+
+		// If it's a symlink but not `file_exists`, the symlink is broken so delete it first
+		if (is_link($linkTarget)) {
+			if ($echoStatus) {
+				echo 'Deleting broken symlink at `' . $linkSource . '`...';
+			}
+			unlink($linkTarget);
+		}
+
+		if ($echoStatus) {
+			echo 'Creating symlink from `' . $linkSource . ' to `' . $linkTarget . '`';
+		}
+
+		symlink($linkSource, $linkTarget);
 	}
 
 	public function prepareCacheData() {

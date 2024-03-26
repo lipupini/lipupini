@@ -33,6 +33,6 @@ class Avatar {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);
 		}
 
-		symlink($avatarPath, $fileCachePath);
+		$cache::createSymlink($avatarPath, $fileCachePath);
 	}
 }

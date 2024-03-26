@@ -27,7 +27,7 @@ class Text {
 				if ($echoStatus) {
 					echo 'Symlinking Markdown cache files for `' . $filePath . '`...' . "\n";
 				}
-				symlink($collectionPath . '/' . $filePath, $fileCachePathMd);
+				$cache::createSymlink($collectionPath . '/' . $filePath, $fileCachePathMd);
 			}
 		}
 

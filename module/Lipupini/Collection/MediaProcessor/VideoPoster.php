@@ -31,13 +31,14 @@ class VideoPoster {
 		static::saveMiddleFramePng($systemState, $collectionFolderName, $videoPath, $posterPath, $echoStatus);
 
 		// After grabbing the middle frame, `$posterPathFull` should exist
-		if (!file_exists($posterPathFull)) {
+		// And if `$fileCachePath` is already there then we don't need to create it so return
+		if (!file_exists($posterPathFull) || file_exists($fileCachePath)) {
 			return;
 		}
 
 		// Link the poster path to the collection's cache
-		symlink(
-			$systemState->dirCollection . '/' . $collectionFolderName . '/.lipupini/video-poster/' . $posterPath,
+		$cache::createSymlink(
+			$posterPathFull,
 			$fileCachePath
 		);
 	}
