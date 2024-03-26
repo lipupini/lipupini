@@ -95,6 +95,11 @@ footer .about {
 .border {
 	border: 2px solid #7f7f7f;
 }
+.full-page-center-text {
+	text-align: center;
+	margin-top: 48vh;
+	text-transform: lowercase;
+}
 #settings-form .input-grid > *:last-child:nth-child(2n-1) {
 	grid-column-end: -2;
 	transform: translateX(calc(-50% - 0.375rem));
