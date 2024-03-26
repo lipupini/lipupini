@@ -8,8 +8,8 @@ class State {
 	public float $microtimeInit = -1; // Set automatically
 	public float $executionTimeSeconds = -1; // Set automatically
 	public string|null $responseContent = null; // Final output to browser/client
-	public string $baseUriPath = '/'; // Set automatically based on `baseUri` in `config/system.php`
-	public string $host  = 'null.localhost'; // Set automatically based on `baseUri` in `config/system.php`
+	public string $baseUriPath = '/'; // Set automatically based on `baseUri` in `config/state.php`
+	public string $host  = 'null.localhost'; // Set automatically based on `baseUri` in `config/state.php`
 
 	public function __construct(
 		public string $dirWebroot         = '/dev/null', // Reasonably safe default, this is set after instantiation
