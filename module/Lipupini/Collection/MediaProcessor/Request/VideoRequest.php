@@ -22,7 +22,7 @@ class VideoRequest extends MediaProcessorRequest {
 		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $filePath;
 
 		// Once the file is symlinked, the file is considered cached and should be served statically on subsequent page refreshes
-		Video::cacheSymlink($this->system, $collectionFolderName, 'audio', $filePath);
+		Video::cacheSymlink($this->system, $collectionFolderName, 'video', $filePath);
 		$this->serve($pathOriginal, Video::mimeTypes()[$extension]);
 	}
 }
