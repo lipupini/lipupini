@@ -24,6 +24,7 @@ class ImageRequest extends MediaProcessorRequest {
 		$extension = $matches[4];
 
 		// We can use the same function that `Module\Lipupini\Collection\Request` uses
+		// Doing it again here because this one comes from a different part of a URL from the regex
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 
 		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $imagePath;
