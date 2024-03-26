@@ -28,6 +28,6 @@ trait CacheSymlink {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);
 		}
 
-		symlink($collectionPath . '/' . $filePath, $fileCachePath);
+		$cache::createSymlink($collectionPath . '/' . $filePath, $fileCachePath);
 	}
 }

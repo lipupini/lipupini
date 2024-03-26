@@ -108,7 +108,7 @@ class Image {
 				if ($echoStatus) {
 					echo 'Animated .gif detected, creating symlink to original for ' . $filePath . '...' . "\n";
 				}
-				symlink($collectionPath . '/' . $filePath, $fileCachePath);
+				$cache::createSymlink($collectionPath . '/' . $filePath, $fileCachePath);
 				return;
 			}
 		}
