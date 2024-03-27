@@ -32,9 +32,9 @@ cd path/to/project/root
 just docker-up
 ```
 
-A `docker-build` command is also available in the [justfile](../justfile).
-
 Lipupini should then be accessible at `http://localhost:4000`
+
+A `docker-build` command is also available in the [justfile](../justfile).
 
 ## System Dependencies
 
@@ -44,7 +44,7 @@ Note: Some distros may already include varying extensions bundled with PHP.
 
 - [PHP8](https://www.php.net/manual/en/install.php)
 - [Composer](https://getcomposer.org/)
-- One of: [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php), or [PHP GD Extension](https://www.php.net/manual/en/book.image.php)
+- One of: [Gmagick Extension](https://www.php.net/manual/en/book.gmagick.php), [ImageMagick Extension](https://www.php.net/manual/en/book.imagick.php), or [PHP GD Extension](https://www.php.net/manual/en/book.image.php)
 - [PHP cURL Extension](https://www.php.net/manual/en/book.curl.php)
 - [PHP DOM Extension](https://www.php.net/manual/en/book.dom.php)
 
