@@ -1,6 +1,6 @@
 In the `collection` root folder are subfolders that become the names of collections.
 
-Lipupini will attempt to serve any non-hidden files in these directories. If you drop a new video file into a collection folder, Lipupini will show it in the collection if it knows how to read the filetype. (See [MediaProcessors](../module/Lipupini/Collection/MediaProcessor/))
+Lipupini will attempt to serve any supported non-hidden files in these directories. If you drop a new video file into a collection folder, Lipupini will show it in the collection if it knows how to read the filetype. (See [MediaProcessors](../module/Lipupini/Collection/MediaProcessor/))
 
 Within an identifier folder is a `.lipupini` folder. This folder should have all the necessary data to configure an entire account just by dropping it into the filesystem.
 
@@ -16,13 +16,16 @@ For example, the JSON might look like this:
 	"dup.mp4": {
 		"thumbnail": "logo3d.png"
 	},
+	"cat-hat.jpg": {
+		"caption": "Hat Cat"
+	},
 	"Memes": {
 		"caption": "Memes Folder"
 	}
 }
 ```
 
-Individual files can be `hidden` or `unlisted` via a `visibility` option. Files marked as `hidden` do not show on the web. `unlisted` files show in detail view and do not show in grid view. Using the example above to hide and unlist the first two images respectively:
+Individual files can be `hidden` or `unlisted` via a `visibility` option. Files marked as `hidden` do not show on the web. `unlisted` files show in detail view and do not show in grid view. Using the example above to hide and unlist the first two files respectively:
 
 ```json
 {
@@ -35,8 +38,7 @@ Individual files can be `hidden` or `unlisted` via a `visibility` option. Files 
 		"visibility": "unlisted"
 	},
 	"cat-hat.jpg": {
-		"caption": "Hat Cat",
-		"visibility": "unlisted"
+		"caption": "Hat Cat"
 	},
 	"Memes": {
 		"caption": "Memes Folder"
