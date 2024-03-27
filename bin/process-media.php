@@ -44,7 +44,7 @@ $collectionCache = new Collection\Cache($systemState, $collectionFolderName);
 $collectionDataPrepared = [];
 foreach (array_keys($collectionData) as $filePath) {
 	$extension = pathinfo($filePath, PATHINFO_EXTENSION);
-	foreach ($systemState->mediaTypes as $type => $mime) {
+	foreach ($systemState->mediaType as $type => $mime) {
 		if (array_key_exists($extension, $mime)) {
 			$collectionDataPrepared[$type][] = $filePath;
 		}
@@ -61,7 +61,7 @@ foreach ($collectionDataPrepared as $fileTypeFolder => $filePaths) {
 	switch ($fileTypeFolder) {
 		case 'image' :
 			foreach ($filePaths as $filePath) {
-				foreach ($systemState->mediaSizes as $imageSize => $dimensions) {
+				foreach ($systemState->mediaSize as $imageSize => $dimensions) {
 					MediaProcessor\Image::processAndCache($systemState, $collectionFolderName, $fileTypeFolder, $imageSize, $filePath, echoStatus: true);
 				}
 			}

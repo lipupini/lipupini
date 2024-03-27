@@ -22,8 +22,8 @@ class State {
 		public string $viewLanguage       = 'english',
 		public string $userAgent          = '(Lipupini/69.420; +https://github.com/lipupini/lipupini)',
 		public array  $requests           = [],
-		public array  $mediaSizes         = ['large' => [5000, 5000], 'thumbnail' => [600, 600]], // Default [width, height] for each preset
-		public array  $mediaTypes         = [
+		public array  $mediaSize          = ['large' => [5000, 5000], 'thumbnail' => [600, 600]], // Default [width, height] for each preset
+		public array  $mediaType          = [
 			'audio' => [
 				'flac' => 'audio/flac',
 				'm4a' => 'audio/m4a',

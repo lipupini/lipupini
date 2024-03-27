@@ -88,8 +88,8 @@ class VideoThumbnail {
 			// Resize
 			->thumbnail(
 				new Imagine\Image\Box(
-					$systemState->mediaSizes['thumbnail'][0],
-					$systemState->mediaSizes['thumbnail'][1]
+					$systemState->mediaSize['thumbnail'][0],
+					$systemState->mediaSize['thumbnail'][1]
 				), Imagine\Image\ImageInterface::THUMBNAIL_INSET)
 			->save($thumbnailPathFull, $systemState->imageQuality);
 

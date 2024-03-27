@@ -76,28 +76,28 @@ class Request extends Http {
 		foreach ($collectionData as $filePath => $metaData) {
 			$extension = pathinfo($filePath, PATHINFO_EXTENSION);
 
-			if (in_array($extension, array_keys($this->system->mediaTypes['image']))) {
+			if (in_array($extension, array_keys($this->system->mediaType['image']))) {
 				$metaData['medium'] = 'image';
-				$metaData['mime'] = $this->system->mediaTypes['image'][$extension];
+				$metaData['mime'] = $this->system->mediaType['image'][$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/image/large/' . $filePath;
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<img src="' . $metaData['cacheUrl'] . '" alt="' . $filePath . '"/>';
-			} else if (in_array($extension, array_keys($this->system->mediaTypes['video']))) {
+			} else if (in_array($extension, array_keys($this->system->mediaType['video']))) {
 				$metaData['medium'] = 'video';
-				$metaData['mime'] = $this->system->mediaTypes['video'][$extension];
+				$metaData['mime'] = $this->system->mediaType['video'][$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/video/' . $filePath;
 				$thumbnail = !empty($metaData['thumbnail']) ? ' thumbnail="' . htmlentities($this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $metaData['thumbnail']) . '"' : '';
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<video controls loop' . $thumbnail . '><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></video>';
-			} else if (in_array($extension, array_keys($this->system->mediaTypes['audio']))) {
+			} else if (in_array($extension, array_keys($this->system->mediaType['audio']))) {
 				$metaData['medium'] = 'audio';
-				$metaData['mime'] = $this->system->mediaTypes['audio'][$extension];
+				$metaData['mime'] = $this->system->mediaType['audio'][$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/audio/' . $filePath;
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<audio controls><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></audio>';
-			} else if (in_array($extension, array_keys($this->system->mediaTypes['text']))) {
+			} else if (in_array($extension, array_keys($this->system->mediaType['text']))) {
 				$metaData['medium'] = 'document';
-				$metaData['mime'] = $this->system->mediaTypes['text'][$extension];
+				$metaData['mime'] = $this->system->mediaType['text'][$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/text/' . $filePath . '.html';
 				$metaData['content'] = 	'<p><a href="' . $metaData['cacheUrl'] . '">' . htmlentities($metaData['caption'] ?? $filePath) . '</a></p>';
 			} else {

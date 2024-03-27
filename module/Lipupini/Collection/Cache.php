@@ -72,7 +72,7 @@ class Cache {
 			$fileType = $matches[1];
 
 			// Only process known folder types
-			if (!in_array($fileType, array_keys($this->system->mediaTypes))) {
+			if (!in_array($fileType, array_keys($this->system->mediaType))) {
 				continue;
 			}
 
