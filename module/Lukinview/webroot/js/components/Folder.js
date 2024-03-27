@@ -1,4 +1,4 @@
-import van from '/lib/van-1.2.7.min.js'
+import van from '/lib/van-1.5.0.min.js'
 import { Document } from './Document.js';
 
 const Folder = ({collection, collectionData, baseUri}) => {
