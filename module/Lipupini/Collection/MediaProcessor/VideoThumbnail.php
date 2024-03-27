@@ -2,6 +2,7 @@
 
 namespace Module\Lipupini\Collection\MediaProcessor;
 
+use Imagine;
 use Module\Lipupini\Collection\Cache;
 use Module\Lipupini\State;
 
@@ -80,6 +81,17 @@ class VideoThumbnail {
 			}
 			return false;
 		}
+
+		Image::imagine()->open($thumbnailPathFull)
+			// Strip all EXIF data
+			->strip()
+			// Resize
+			->thumbnail(
+				new Imagine\Image\Box(
+					$systemState->mediaSizes['thumbnail'][0],
+					$systemState->mediaSizes['thumbnail'][1]
+				), Imagine\Image\ImageInterface::THUMBNAIL_INSET)
+			->save($thumbnailPathFull, $systemState->imageQuality);
 
 		return true;
 	}

@@ -44,7 +44,7 @@ $collectionCache = new Collection\Cache($systemState, $collectionFolderName);
 $collectionDataPrepared = [];
 foreach (array_keys($collectionData) as $filePath) {
 	$extension = pathinfo($filePath, PATHINFO_EXTENSION);
-	foreach (Collection\Cache::fileTypes() as $type => $mime) {
+	foreach ($systemState->mediaTypes as $type => $mime) {
 		if (array_key_exists($extension, $mime)) {
 			$collectionDataPrepared[$type][] = $filePath;
 		}
