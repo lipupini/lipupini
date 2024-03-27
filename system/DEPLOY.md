@@ -28,15 +28,13 @@ If you have [Just](https://github.com/casey/just/) installed:
 ```shell
 # Start in the project root
 cd path/to/project/root
-# Open the system Docker directory
-cd system/docker
 # Build the image
 just docker-up
 ```
 
 A `docker-build` command is also available in the [justfile](../justfile).
 
-Lipupini should then be available at `localhost:4000`
+Lipupini should then be accessible at `http://localhost:4000`
 
 ## System Dependencies
 
