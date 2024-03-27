@@ -1,3 +1,6 @@
+# If you choose to symlink `webroot` from the project root, don't track it in the repository
+/webroot
+
 # IDE
 .idea
 nbproject
