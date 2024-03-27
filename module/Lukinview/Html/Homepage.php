@@ -1,8 +1,9 @@
 <?php
 
+use Module\Lipupini\Collection;
 use Module\Lipupini\L18n\A;
 
-$localCollections = $this->getLocalCollections();
+$localCollections = (new Collection\Utility($this->system))->allCollectionFolders();
 
 require(__DIR__ . '/Core/Open.php');
 

@@ -18,12 +18,9 @@ if (empty($argv[1])) {
 	if (strtoupper($confirm) !== 'Y') {
 		exit(0);
 	}
-	foreach (new \DirectoryIterator($systemState->dirCollection) as $item) {
-		if ($item->getFilename()[0] === '.' || !$item->isDir()) {
-			continue;
-		}
-		echo "\n" . 'Processing collection folder `' . $item->getFilename() . '`...' . "\n";
-		passthru(__FILE__ . ' ' . $item->getFilename());
+	foreach ((new Collection\Utility($systemState))->allCollectionFolders() as $collectionFolder) {
+		echo "\n" . 'Processing collection folder `' . $collectionFolder . '`...' . "\n";
+		passthru(__FILE__ . ' ' . $collectionFolder);
 	}
 	echo "\n" . 'Done' . "\n";
 	exit(0);
