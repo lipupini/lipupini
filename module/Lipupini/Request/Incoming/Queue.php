@@ -31,7 +31,7 @@ class Queue {
 			return;
 		}
 
-		foreach ($this->system->requests as $requestClassName => $initialState) {
+		foreach ($this->system->request as $requestClassName => $initialState) {
 			$this->loadRequestModule($requestClassName);
 			if ($this->system->shutdown) {
 				return;
@@ -41,8 +41,8 @@ class Queue {
 
 	public function loadRequestModule(string $requestClassName): void {
 		if (
-			array_key_exists($requestClassName, $this->system->requests) &&
-			!is_null($this->system->requests[$requestClassName])
+			array_key_exists($requestClassName, $this->system->request) &&
+			!is_null($this->system->request[$requestClassName])
 		) {
 			throw New Exception('Already loaded request: ' . $requestClassName);
 		}
@@ -53,7 +53,7 @@ class Queue {
 
 		$request = new $requestClassName($this->system);
 
-		$this->system->requests[$requestClassName] = $request;
+		$this->system->request[$requestClassName] = $request;
 	}
 
 	public function render(): bool {

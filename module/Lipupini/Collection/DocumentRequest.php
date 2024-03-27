@@ -13,11 +13,11 @@ class DocumentRequest extends Http {
 	public string|null $collectionFileName = null;
 
 	public function initialize(): void {
-		if (empty($this->system->requests[Collection\Request::class]->folderName)) {
+		if (empty($this->system->request[Collection\Request::class]->folderName)) {
 			return;
 		}
 
-		if (empty($this->system->requests[Collection\Request::class]->path)) {
+		if (empty($this->system->request[Collection\Request::class]->path)) {
 			return;
 		}
 
@@ -53,8 +53,8 @@ class DocumentRequest extends Http {
 	}
 
 	private function loadViewData(): bool {
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
-		$collectionRequestPath = $this->system->requests[Collection\Request::class]->path;
+		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
+		$collectionRequestPath = $this->system->request[Collection\Request::class]->path;
 
 		$this->pageTitle = rawurldecode($collectionRequestPath . '@' . $collectionFolderName) . '@' . $this->system->host;
 		$collectionData = (new Collection\Utility($this->system))->getCollectionData($collectionFolderName, $collectionRequestPath, true);

@@ -22,12 +22,12 @@ class FolderRequest extends Http {
 	public string|null $collectionRequestPath = null;
 
 	public function initialize(): void {
-		if (empty($this->system->requests[Collection\Request::class]->folderName)) {
+		if (empty($this->system->request[Collection\Request::class]->folderName)) {
 			return;
 		}
 
-		$this->collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
-		$this->collectionRequestPath = $this->system->requests[Collection\Request::class]->path;
+		$this->collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
+		$this->collectionRequestPath = $this->system->request[Collection\Request::class]->path;
 
 		// Only applies to, e.g. http://locahost/@example
 		// Does not apply to http://locahost/@example/memes/cat-computer.jpg.html

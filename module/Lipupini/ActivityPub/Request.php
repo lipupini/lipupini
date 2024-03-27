@@ -9,7 +9,7 @@ class Request extends Http {
 	public static string $mimeType = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
 
 	public function initialize(): void {
-		if (empty($this->system->requests[Collection\Request::class]->folderName)) {
+		if (empty($this->system->request[Collection\Request::class]->folderName)) {
 			return;
 		}
 

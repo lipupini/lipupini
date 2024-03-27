@@ -14,9 +14,9 @@ return new Module\Lipupini\State(
 	staticMediaBaseUri: $baseUri . 'c/', // If you'd like to use another URL for static files (e.g. CDN), put that here
 	frontendModule: 'Lukinview',
 	viewLanguage: 'english',
-	requests: [
+	request: [
 		// Once instantiated by Module\Lipupini\Request\Incoming\Queue `render()`,
-		// each `requests` key here will instead hold the module instance itself
+		// each `request` key here will instead hold the module instance itself
 		Module\Lukinview\HomepageRequest::class => null,
 		Module\Lipupini\WebFinger\Request::class => null,
 		Module\Lipupini\ActivityPub\NodeInfoRequest::class => null,

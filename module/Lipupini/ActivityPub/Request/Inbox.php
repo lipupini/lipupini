@@ -60,7 +60,7 @@ class Inbox extends Request {
 			throw new Exception('HTTP Signature did not validate', 403);
 		}
 
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
+		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
 
 		/* BEGIN STORE INBOX ACTIVITY */
 		if ($this->system->activityPubLog) {

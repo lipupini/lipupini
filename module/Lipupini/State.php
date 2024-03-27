@@ -12,16 +12,17 @@ class State {
 	public string $host  = 'null.localhost'; // Set automatically based on `baseUri` in `system/config/state.php`
 
 	public function __construct(
-		public string $dirWebroot         = '/dev/null', // Reasonably safe default, this is set after instantiation
-		public string $dirRoot            = '/dev/null',
-		public string $dirModule          = '/dev/null',
-		public string $dirCollection      = '/dev/null',
+		// Using `/dev/null` for a default value seems safer than using an empty string
+		public string $dirWebroot         = '/dev/null', // Location of `index.php`, set in `__construct`
+		public string $dirRoot            = '/dev/null', // Root directory of the application, set in `__construct`
+		public string $dirModule          = '/dev/null', // Module directory, set in `__construct`
+		public string $dirCollection      = '/dev/null', // Collection directory, set in `__construct`
 		public string $baseUri            = 'http://dev.null/', // Be sure this has a trailing slash. Should be full URI e.g. https://example.org/~basePath/
 		public string $staticMediaBaseUri = 'http://dev.null/c/', // Also has a trailing slash
 		public string $frontendModule     = 'Lukinview',
 		public string $viewLanguage       = 'english',
 		public string $userAgent          = '(Lipupini/69.420; +https://github.com/lipupini/lipupini)',
-		public array  $requests           = [],
+		public array  $request           = [], // Request queue for `Module\Lipupini\Request\Incoming\Queue`
 		public array  $mediaSize          = ['large' => [5000, 5000], 'thumbnail' => [600, 600]], // Default [width, height] for each preset
 		public array  $mediaType          = [
 			'audio' => [

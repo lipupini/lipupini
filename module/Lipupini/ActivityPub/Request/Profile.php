@@ -11,7 +11,7 @@ class Profile extends Request {
 			error_log('DEBUG: ' . get_called_class());
 		}
 
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
+		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
 
 		$profileFile = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/profile.json';
 		$profileData = file_exists($profileFile) ? json_decode(file_get_contents($profileFile), true) : [];
