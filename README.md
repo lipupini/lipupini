@@ -188,7 +188,6 @@ Landrok's ActivityPub library: https://github.com/landrok/activitypub
 ## TODO
 
 - Add browser-side caching
-- Need to consider adding a response MIME type to the system state in addition to `responseContent`, rather than letting the modules add headers to output before response. This would involve an update to the `render()` method of `Module\Lipupini\Request\Incoming\Queue`
 - Add option for favicon in collection `.lipupini` folder
 - `bin/generate-files-json.php`
   - Make recursive

@@ -36,8 +36,8 @@ class Request extends WebFinger\Request {
 			return false;
 		}
 
-		header('Content-type: application/json');
-		$this->system->responseContent = json_encode([], JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
+		$this->system->responseType = 'application/json';
+		$this->system->responseContent = json_encode(['response', 'data', 'here'], JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 		$this->system->shutdown = true;
 	}
 }
@@ -92,9 +92,8 @@ class HasARouteRequest extends Http {
 			return;
 		}
 
-		header('Content-type: text/html');
-		echo 'This is the route at "/myroute"';
-
+		$this->system->responseType = 'text/html';
+		$this->system->responseContent = 'This is the route at "/myroute"';
 		$this->system->shutdown = true;
 	}
 }

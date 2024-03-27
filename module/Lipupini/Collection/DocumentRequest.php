@@ -46,10 +46,10 @@ class DocumentRequest extends Http {
 			return;
 		}
 
-		header('Content-type: text/html');
 		ob_start();
 		require($this->system->dirModule . '/' . $this->system->frontendModule . '/Html/Collection/Document.php');
 		$this->system->responseContent = ob_get_clean();
+		$this->system->responseType = 'text/html';
 	}
 
 	private function loadViewData(): bool {

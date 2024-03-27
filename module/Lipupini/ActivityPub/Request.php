@@ -28,13 +28,13 @@ class Request extends Http {
 			error_log('DEBUG: Performing ActivityPub request "' . $activityPubRequest . '"');
 		}
 
-		header('Content-type: ' . static::$mimeType);
+		$this->system->responseType = static::$mimeType;
 		try {
+			// `responseContent` should be set in the `$activityPubRequestClass`
 			new $activityPubRequestClass($this->system);
 		} catch (Exception $e) {
 			$this->system->responseContent = $e;
 		}
-
 		$this->system->shutdown = true;
 	}
 }

@@ -43,10 +43,10 @@ class FolderRequest extends Http {
 
 	public function renderHtml(): void {
 		$this->loadViewData();
-		header('Content-type: text/html');
 		ob_start();
 		require($this->system->dirModule . '/' . $this->system->frontendModule . '/Html/Collection/Folder.php');
 		$this->system->responseContent = ob_get_clean();
+		$this->system->responseType = 'text/html';
 	}
 
 	private function loadViewData(): void {
