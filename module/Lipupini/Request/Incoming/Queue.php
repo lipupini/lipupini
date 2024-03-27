@@ -75,7 +75,9 @@ class Queue {
 		if (is_null($this->system->responseContent)) {
 			http_response_code(404);
 			echo '<pre>404 Not found' . "\n\n";
-			echo $this->system->executionTimeSeconds;
+			if ($this->system->debug) {
+				echo '<!-- ' . $this->system->executionTimeSeconds . ' -->';
+			}
 		} else {
 			echo $this->system->responseContent;
 		}
