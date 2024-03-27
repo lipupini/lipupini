@@ -22,10 +22,3 @@ return new Module\Lipupini\State(
 	[...]
 );
 ```
-
-Changing the document root will also rebuild any media file cache, if there is any. Delete or move the cache in the previous `webroot` to save space:
-
-```shell
-cd path/to/project/root
-rm -rf module/Lukinview/webroot/c/*
-```
