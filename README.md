@@ -175,15 +175,9 @@ Markdown parser: https://parsedown.org
 
 Image processor: https://github.com/php-imagine/Imagine
 
-Folder icon: https://icons8.com/icon/1e4bYxePiOFA/folder
-
 Arrow icons: https://www.svgrepo.com/author/Pictogrammers
 
-AI-powered image keyword search: https://github.com/yurijmikhalevich/rclip
-
-ActivityPub inspiration: [@dansup@pixelfed.social](https://pixelfed.social/dansup)
-
-Landrok's ActivityPub library: https://github.com/landrok/activitypub
+ActivityPub inspiration: [@dansup@pixelfed.social](https://pixelfed.social/dansup) & [Landrok's ActivityPub library](https://github.com/landrok/activitypub)
 
 ## TODO
 
