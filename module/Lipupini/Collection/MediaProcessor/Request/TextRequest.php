@@ -3,7 +3,6 @@
 namespace Module\Lipupini\Collection\MediaProcessor\Request;
 
 use Module\Lipupini\Collection;
-use Module\Lipupini\Collection\MediaProcessor\Exception;
 use Module\Lipupini\Collection\MediaProcessor\Text;
 
 class TextRequest extends MediaProcessorRequest {
@@ -33,7 +32,7 @@ class TextRequest extends MediaProcessorRequest {
 			return;
 		}
 
-		header('Content-type: ' . $this->system->mediaType['text'][$extension]);
+		$this->system->responseType = $this->system->mediaType['text'][$extension];
 		$this->system->responseContent = file_get_contents(
 			Text::processAndCache($this->system, $collectionFolderName, 'text', $mdFilePath)
 		);

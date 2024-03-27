@@ -31,7 +31,7 @@ class NodeInfoRequest extends Http {
 			],
 		];
 
-		header('Content-type: application/json');
+		$this->system->responseType = 'application/json';
 		$this->system->responseContent = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 	}
 
@@ -69,7 +69,7 @@ class NodeInfoRequest extends Http {
 			]
 		];
 
-		header('Content-type: application/json');
+		$this->system->responseType = 'application/json';
 		$this->system->responseContent = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 	}
 }

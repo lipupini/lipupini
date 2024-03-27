@@ -18,9 +18,8 @@ class HomepageRequest extends Http {
 
 		$this->pageTitle = 'Homepage@' . $this->system->host;
 
-		header('Content-type: text/html');
 		$this->renderHtml();
-
+		$this->system->responseType = 'text/html';
 		$this->system->shutdown = true;
 	}
 

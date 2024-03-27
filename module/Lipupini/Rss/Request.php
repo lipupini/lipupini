@@ -55,7 +55,7 @@ class Request extends Http {
 
 		$this->renderRssItems($dom, $channel, $collectionFolderName);
 
-		header('Content-type: application/rss+xml');
+		$this->system->responseType = 'application/rss+xml';
 		$this->system->responseContent = $dom->saveXML();
 	}
 

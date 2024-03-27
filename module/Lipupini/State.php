@@ -8,6 +8,7 @@ class State {
 	public float $microtimeInit = -1; // Set automatically
 	public float $executionTimeSeconds = -1; // Set automatically
 	public string|null $responseContent = null; // Final output to browser/client
+	public string|null $responseType = null; // MIME type to send to browser/client
 	public string $baseUriPath = '/'; // Set automatically based on `baseUri` in `system/config/state.php`
 	public string $host  = 'null.localhost'; // Set automatically based on `baseUri` in `system/config/state.php`
 
