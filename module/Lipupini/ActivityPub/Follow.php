@@ -46,7 +46,7 @@ class Follow {
 			throw new Exception('Could not determine inbox URL', 400);
 		}
 
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
+		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
 
 		// Create the JSON payload for the Follow activity (adjust as needed)
 		$followActivity = [

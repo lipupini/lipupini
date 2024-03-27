@@ -105,7 +105,7 @@ Then in `system/config/state.php` add `Module\MyNamespace\MyModule\HasARouteRequ
 ```php
 return new Module\Lipupini\State(
 	[...]
-	requests: [
+	request: [
 		[...]
 		Module\Lukinview\HomepageRequest::class => null,
 		Module\MyNamespace\MyModule\HasARouteRequest::class => null, // Here is your new module
@@ -122,11 +122,11 @@ Request modules are initialized in the order they are specified in `system/confi
 See [Module\Lipupini\Rss\Request](Lipupini/Rss/Request.php) for an example of using the extracted collection information from `Collection\Request`.
 
 ```php
-if (empty($this->system->requests[Collection\Request::class]->folderName)) {
+if (empty($this->system->request[Collection\Request::class]->folderName)) {
 	return;
 }
 
-$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
+$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
 ```
 
 It should be best to use them in the same way, since they are sanitized and verified before they become available to subsequent modules in the request queue.

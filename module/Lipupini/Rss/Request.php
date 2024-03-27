@@ -7,7 +7,7 @@ use Module\Lipupini\Request\Incoming\Http;
 
 class Request extends Http {
 	public function initialize(): void {
-		if (empty($this->system->requests[Collection\Request::class]->folderName)) {
+		if (empty($this->system->request[Collection\Request::class]->folderName)) {
 			return;
 		}
 
@@ -33,7 +33,7 @@ class Request extends Http {
 		$rss->appendChild($channel);
 		$dom->appendChild($rss);
 
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
+		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
 
 		$channel->appendChild($dom->createElement('title', htmlentities($collectionFolderName . '@' . $this->system->host)));
 		$channel->appendChild($dom->createElement('description', htmlentities($collectionFolderName . '@' . $this->system->host)));

@@ -17,7 +17,7 @@ class Outbox extends Request {
 			error_log('DEBUG: ' . get_called_class());
 		}
 
-		$collectionFolderName = $this->system->requests[Collection\Request::class]->folderName;
+		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
 
 		$this->collectionData = (new Collection\Utility($this->system))->getCollectionDataRecursive($collectionFolderName);
 
