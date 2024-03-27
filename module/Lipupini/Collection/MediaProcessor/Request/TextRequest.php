@@ -33,9 +33,9 @@ class TextRequest extends MediaProcessorRequest {
 			return;
 		}
 
-		Text::processAndCache($this->system, $collectionFolderName, 'text', $mdFilePath);
-
 		header('Content-type: ' . $this->system->mediaType['text'][$extension]);
-		$this->system->responseContent = file_get_contents((new Collection\Cache($this->system, $collectionFolderName))->path() . '/text/' . $filePath);
+		$this->system->responseContent = file_get_contents(
+			Text::processAndCache($this->system, $collectionFolderName, 'text', $mdFilePath)
+		);
 	}
 }

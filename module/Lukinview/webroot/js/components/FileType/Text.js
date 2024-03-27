@@ -7,7 +7,7 @@ const Text = ({collection, baseUri, filename, data, load = false}) => {
 		load ?
 			object({type: 'text/html', data: `${baseUri}${collection}/text/${filename + '.html'}`}) :
 			a({href: `/@${collection}/${filename}.html`},
-				div(data.caption ?? filename),
+				div(data.caption ?? filename.split(/[\\\/]/).pop()),
 			)
 	)
 }
