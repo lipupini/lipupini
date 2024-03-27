@@ -6,7 +6,7 @@ use Module\Lipupini\Collection\Cache;
 use Module\Lipupini\State;
 
 class Text {
-	public static function processAndCache(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): bool {
+	public static function processAndCache(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): string {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$fileCachePathMd = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath;
 		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
@@ -27,7 +27,7 @@ class Text {
 		$fileCachePathHtml = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath . '.html';
 
 		if (file_exists($fileCachePathHtml)) {
-			return true;
+			return $fileCachePathHtml;
 		}
 
 		if ($echoStatus) {
@@ -44,6 +44,8 @@ class Text {
 			. $rendered . "\n"
 			. '</body></html>' . "\n";
 
-		return !!file_put_contents($fileCachePathHtml, $rendered);
+		file_put_contents($fileCachePathHtml, $rendered);
+
+		return $fileCachePathHtml;
 	}
 }
