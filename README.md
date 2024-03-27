@@ -1,6 +1,6 @@
 # Lipupini
 
-## Media File Management Interface System
+## Media File Orgaization System
 
 ### Version 4.x
 
