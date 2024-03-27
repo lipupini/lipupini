@@ -82,3 +82,24 @@ foreach ($collectionDataPrepared as $fileTypeFolder => $filePaths) {
 	}
 }
 // END: Process media cache
+
+$defaultAvatarPath = $systemState->dirWebroot . MediaProcessor\Avatar::DEFAULT_IMAGE_PATH;
+$defaultAvatarSha1 = sha1_file($defaultAvatarPath);
+
+// BEGIN: Process avatar cache
+$collectionFolderPath = $systemState->dirCollection . '/' . $collectionFolderName;
+$collectionAvatarPath = $collectionFolderPath . '/.lipupini/avatar.png';
+$collectionCacheAvatarPath = $collectionFolderPath . '/.lipupini/cache/avatar.png';
+$collectionCacheAvatarSha1 = file_exists($collectionCacheAvatarPath) ? sha1_file($collectionCacheAvatarPath) : null;
+
+// If the default avatar is currently cached in a collection, but the avatar image has since been updated
+if (
+	$collectionCacheAvatarSha1 && file_exists($collectionAvatarPath) &&
+	$defaultAvatarSha1 === $collectionCacheAvatarSha1
+) {
+	echo 'Collection avatar for `' . $collectionFolderName . '` has been updated from the default image...' . "\n";
+	unlink($collectionCacheAvatarPath);
+}
+
+MediaProcessor\Avatar::cacheSymlinkAvatar($systemState, $collectionFolderName, $collectionAvatarPath, true);
+// BEGIN: Process avatar cache
