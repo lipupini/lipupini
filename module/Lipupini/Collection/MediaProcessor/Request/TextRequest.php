@@ -8,7 +8,7 @@ use Module\Lipupini\Collection\MediaProcessor\Text;
 
 class TextRequest extends MediaProcessorRequest {
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/text/(.+\.(' . implode('|', array_keys($this->system->mediaTypes['text'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/([^/]+)/text/(.+\.(' . implode('|', array_keys($this->system->mediaType['text'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -35,7 +35,7 @@ class TextRequest extends MediaProcessorRequest {
 
 		Text::processAndCache($this->system, $collectionFolderName, 'text', $mdFilePath);
 
-		header('Content-type: ' . $this->system->mediaTypes['text'][$extension]);
+		header('Content-type: ' . $this->system->mediaType['text'][$extension]);
 		$this->system->responseContent = file_get_contents((new Collection\Cache($this->system, $collectionFolderName))->path() . '/text/' . $filePath);
 	}
 }

@@ -86,28 +86,28 @@ class Outbox extends Request {
 
 			$extension = pathinfo($filePath, PATHINFO_EXTENSION);
 
-			if (in_array($extension, array_keys($this->system->mediaTypes['image']))) {
+			if (in_array($extension, array_keys($this->system->mediaType['image']))) {
 				$object['attachment'] = [
 					'type' => 'Image',
-					'mediaType' => $this->system->mediaTypes['image'][$extension],
+					'mediaType' => $this->system->mediaType['image'][$extension],
 					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/image/large/' . $filePath,
 					'name' => $filePath,
 				];
-			} else if (in_array($extension, array_keys($this->system->mediaTypes['video']))) {
+			} else if (in_array($extension, array_keys($this->system->mediaType['video']))) {
 				$object['attachment'] = [
 					'type' => 'Video',
-					'mediaType' => $this->system->mediaTypes['video'][$extension],
+					'mediaType' => $this->system->mediaType['video'][$extension],
 					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/video/' . $filePath,
 					'name' => $filePath,
 				];
-			} else if (in_array($extension, array_keys($this->system->mediaTypes['audio']))) {
+			} else if (in_array($extension, array_keys($this->system->mediaType['audio']))) {
 				$object['attachment'] = [
 					'type' => 'Audio',
-					'mediaType' => $this->system->mediaTypes['audio'][$extension],
+					'mediaType' => $this->system->mediaType['audio'][$extension],
 					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/audio/' . $filePath,
 					'name' => $filePath,
 				];
-			} else if (in_array($extension, array_keys($this->system->mediaTypes['text']))) {
+			} else if (in_array($extension, array_keys($this->system->mediaType['text']))) {
 				$object['attachment'] = [
 					'type' => 'Note',
 					'mediaType' => 'text/html',

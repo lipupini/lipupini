@@ -124,8 +124,8 @@ class Image {
 			// Resize
 			->thumbnail(
 				new Imagine\Image\Box(
-					$systemState->mediaSizes[$sizePreset][0],
-					$systemState->mediaSizes[$sizePreset][1]
+					$systemState->mediaSize[$sizePreset][0],
+					$systemState->mediaSize[$sizePreset][1]
 				), Imagine\Image\ImageInterface::THUMBNAIL_INSET)
 			->save($fileCachePath, $systemState->imageQuality)
 		;

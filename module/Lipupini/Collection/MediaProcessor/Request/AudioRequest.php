@@ -7,7 +7,7 @@ use Module\Lipupini\Collection\MediaProcessor\Audio;
 
 class AudioRequest extends MediaProcessorRequest {
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/audio/(.+\.(' . implode('|', array_keys($this->system->mediaTypes['audio'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/([^/]+)/audio/(.+\.(' . implode('|', array_keys($this->system->mediaType['audio'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -23,7 +23,7 @@ class AudioRequest extends MediaProcessorRequest {
 		// Once the file is symlinked, the file is considered cached and should be served statically on subsequent page refreshes
 		$this->serve(
 			Audio::cacheSymlink($this->system, $collectionFolderName, 'audio', $filePath),
-			$this->system->mediaTypes['audio'][$extension]
+			$this->system->mediaType['audio'][$extension]
 		);
 	}
 }

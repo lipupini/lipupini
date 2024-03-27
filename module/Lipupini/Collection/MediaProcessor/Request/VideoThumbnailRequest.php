@@ -8,7 +8,7 @@ class VideoThumbnailRequest extends MediaProcessorRequest {
 	use Collection\MediaProcessor\Trait\CacheSymlink;
 
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/thumbnail/(.+\.(' . implode('|', array_keys($this->system->mediaTypes['image'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/([^/]+)/thumbnail/(.+\.(' . implode('|', array_keys($this->system->mediaType['image'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -24,7 +24,7 @@ class VideoThumbnailRequest extends MediaProcessorRequest {
 
 		$this->serve(
 			Collection\MediaProcessor\VideoThumbnail::cacheSymlinkVideoThumbnail($this->system, $collectionFolderName, $videoPath),
-			$this->system->mediaTypes['image'][$extension]
+			$this->system->mediaType['image'][$extension]
 		);
 	}
 }
