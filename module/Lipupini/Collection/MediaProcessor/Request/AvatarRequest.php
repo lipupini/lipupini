@@ -25,10 +25,6 @@ class AvatarRequest extends MediaProcessorRequest {
 
 		$avatarPath = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/avatar.png';
 
-		if (!file_exists($avatarPath)) {
-			$avatarPath = $this->system->dirWebroot . '/img/avatar-default.png';
-		}
-
 		$this->serve(
 			Avatar::cacheSymlinkAvatar($this->system, $collectionFolderName, $avatarPath),
 			$avatarMimeTypes[$extension]
