@@ -30,18 +30,4 @@ class HomepageRequest extends Http {
 		require(__DIR__ . '/Html/Homepage.php');
 		$this->system->responseContent = ob_get_clean();
 	}
-
-	public function getLocalCollections() {
-		$dir = new \DirectoryIterator($this->system->dirCollection);
-		$localCollections = [];
-		foreach ($dir as $fileinfo) {
-			if (!$fileinfo->isDir() || $fileinfo->isDot() || $fileinfo->getFilename()[0] === '.') {
-				continue;
-			}
-
-			$localCollections[] = $fileinfo->getFilename();
-		}
-
-		return $localCollections;
-	}
 }

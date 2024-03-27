@@ -131,4 +131,17 @@ class Utility {
 
 		return $collectionData;
 	}
+
+	public function allCollectionFolders(): array {
+		$dir = new \DirectoryIterator($this->system->dirCollection);
+		$collectionFolders = [];
+		foreach ($dir as $fileinfo) {
+			if (!$fileinfo->isDir() || $fileinfo->getFilename()[0] === '.') {
+				continue;
+			}
+
+			$collectionFolders[] = $fileinfo->getFilename();
+		}
+		return $collectionFolders;
+	}
 }
