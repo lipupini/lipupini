@@ -24,11 +24,11 @@
 }
 #media-grid div.audio {
 	display: flex;
-	align-items: center;
+	align-items: end;
 	background-color: #474747;
 	/* For waveform image */
-	background-size: 100% 50%;
-	height: 100%;
+	background-size: 100% 100%;
+	aspect-ratio: 1;
 }
 #media-grid div.text a {
 	text-decoration: underline;
