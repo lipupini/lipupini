@@ -7,17 +7,15 @@ main.media-item {
 	justify-content: center;
 	flex-grow: 1;
 }
-#media-item * {
-	max-width: 100%;
-}
 #media-item .audio,
 #media-item .audio audio {
 	width: 100%;
+	max-width: 1200px;
 }
 #media-item .audio {
-	background-size: 100% 50%;
+	background-size: 100% 100%;
 	display: flex;
-	align-items: center;
+	align-items: end;
 	justify-content: center;
 }
 #media-item .image img {
