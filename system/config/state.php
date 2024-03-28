@@ -57,7 +57,7 @@ return new Module\Lipupini\State(
 		],
 	],
 	imageQuality: ['avif_quality' => 69, 'jpeg_quality' => 86, 'png_compression_level' => 9],
-	useFfmpeg: false, // You can try this if you have `ffmpeg` installed for processing videos
+	useFfmpeg: false, // You can try enabling this if you have `ffmpeg` installed for processing videos
 	activityPubLog: false,
 	debug: false
 );

@@ -51,11 +51,13 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Search Lipupini accounts from other Fediverse platforms via the ActivityPub protocol.
 - Automatically fix image orientation and strip private metadata thanks to [Imagine](https://github.com/php-imagine/Imagine) library
 - Show an avatar PNG when searching from an external ActivityPub or RSS client.
+- With [ffmpeg](https://ffmpeg.org) available and `useFfmpeg` [enabled](system/config/state.php), video thumbnails and audio waveforms can be generated automatically.
 - Supports both `"hidden"` and `"unlisted"` options in [files.json](collection/README.md)
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
 - Your media collections are self-contained, served as they are on your filesystem. Metadata is stored in a special `.lipupini` folder, making account collections completely portable.
 - Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `system/config/state.php` for the option.
 - Module system paves a way for collaborative development.
+- Docker support. See [deployment instructions](system/DEPLOY.md#deploying-with-docker).
 - Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
 - Building a way to keyword search collections using AI image recognition.
 - On-demand caching system creates and serves static media files. Support for custom caching URL can facilitate the use of a CDN.
