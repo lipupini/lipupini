@@ -86,18 +86,19 @@ class Utility {
 			$return[$filePath] = [];
 		}
 
-		$videoExtensions = array_keys($this->system->mediaType['video']);
+		$processExtensions = array_merge(array_keys($this->system->mediaType['audio']), array_keys($this->system->mediaType['video']));
 
 		foreach ($return as $mediaFilePath => $mediaFileData) {
-			// Loop through videos to process thumbnails
-			if (in_array(pathinfo($mediaFilePath, PATHINFO_EXTENSION), $videoExtensions)) {
-				// If the video has a thumbnail specified in `files.json` already then skip it
+			// Loop through audio and videos to process thumbnails
+			if (in_array(pathinfo($mediaFilePath, PATHINFO_EXTENSION), $processExtensions)) {
+				// If the media file has a thumbnail specified in `files.json` already then skip it
 				if (!empty($mediaFileData['thumbnail'])) {
 					continue;
 				}
-				// Check if a thumbnail is saved by the same name
+				// Check if a corresponding thumbnail file is saved by the same name
 				$thumbnailFile = $collectionAbsolutePath . '/.lipupini/thumbnail/' . $mediaFilePath . '.png';
-				if (!file_exists($thumbnailFile)) {
+				// If `useFfmepg` is enabled, we're going to try and generate the thumbnail if there isn't one already
+				if (!$this->system->useFfmpeg && !file_exists($thumbnailFile)) {
 					continue;
 				}
 				// We found a thumbnail file so add it to `$return`
@@ -143,5 +144,16 @@ class Utility {
 			$collectionFolders[] = $fileinfo->getFilename();
 		}
 		return $collectionFolders;
+	}
+
+	// https://beamtic.com/if-command-exists-php
+	public static function hasFfmpeg(State $systemState) {
+		if (!$systemState->useFfmpeg) {
+			return false;
+		}
+
+		$commandName = 'ffmpeg';
+		$testMethod = (false === stripos(PHP_OS, 'win')) ? 'command -v' : 'where';
+		return null !== shell_exec($testMethod . ' ' . $commandName);
 	}
 }

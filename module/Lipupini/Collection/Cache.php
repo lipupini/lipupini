@@ -30,24 +30,24 @@ class Cache {
 	}
 
 	// This handles a few extra useful steps with managing symlink creation
-	public static function createSymlink(string $linkSource, string $linkTarget, bool $echoStatus = false) {
-		if (file_exists($linkTarget)) {
+	public static function createSymlink(string $linkTarget, string $linkName, bool $echoStatus = false) {
+		if (file_exists($linkName)) {
 			return;
 		}
 
 		// If it's a symlink but not `file_exists`, the symlink is broken so delete it first
-		if (is_link($linkTarget)) {
+		if (is_link($linkName)) {
 			if ($echoStatus) {
-				echo 'Deleting broken symlink at `' . $linkSource . '`...';
+				echo 'Deleting broken symlink at `' . $linkName . '`...';
 			}
-			unlink($linkTarget);
+			unlink($linkName);
 		}
 
 		if ($echoStatus) {
-			echo 'Creating symlink from `' . $linkSource . ' to `' . $linkTarget . '`';
+			echo 'Creating symlink from `' . $linkTarget . ' to `' . $linkName . '`';
 		}
 
-		symlink($linkSource, $linkTarget);
+		symlink($linkTarget, $linkName);
 	}
 
 	public function prepareCacheData() {
@@ -107,10 +107,11 @@ class Cache {
 				foreach ($filePaths as $imageSize => $imageFilePaths) {
 					foreach ($imageFilePaths as $imageFilePath) {
 						if (!file_exists($collectionPath . '/' . $imageFilePath)) {
+							$cacheFilePath = $this->path() . '/' . $fileType . '/' . $imageSize . '/' . $imageFilePath;
 							if ($echoStatus) {
-								echo 'File does not exist in collection, deleting `' . $imageSize . '/' . $imageFilePath . '`...' . "\n";
+								echo 'Image file does not exist in collection, deleting cache file `' . $cacheFilePath . '`...' . "\n";
 							}
-							unlink($this->path() . '/' . $fileType . '/' . $imageSize . '/' . $imageFilePath);
+							unlink($cacheFilePath);
 						}
 					}
 				}
@@ -124,7 +125,7 @@ class Cache {
 				}
 				if (!file_exists($collectionPath . '/' . $filePath)) {
 					if ($echoStatus) {
-						echo 'File does not exist in collection, deleting `' . $filePath . '`...' . "\n";
+						echo 'Media file does not exist in collection, deleting cache file `' . $collectionPath . '/' . $filePath . '`...' . "\n";
 					}
 					unlink($this->path() . '/' . $fileType . '/' . $filePath);
 				}

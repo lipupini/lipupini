@@ -4,11 +4,11 @@ namespace Module\Lipupini\Collection\MediaProcessor\Request;
 
 use Module\Lipupini\Collection;
 
-class VideoThumbnailRequest extends MediaProcessorRequest {
+class AudioThumbnailRequest extends MediaProcessorRequest {
 	use Collection\MediaProcessor\Trait\CacheSymlink;
 
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/thumbnail/(.+\.(' . implode('|', array_keys($this->system->mediaType['video'])) . ')\.(' . implode('|', array_keys($this->system->mediaType['image'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^/c/([^/]+)/thumbnail/(.+\.(' . implode('|', array_keys($this->system->mediaType['audio'])) . ')\.(' . implode('|', array_keys($this->system->mediaType['image'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -18,12 +18,12 @@ class VideoThumbnailRequest extends MediaProcessorRequest {
 		$collectionFolderName = $matches[1];
 		$thumbnailPath = urldecode($matches[2]);
 		$thumbnailExtension = $matches[4];
-		$videoPath = preg_replace('#\.' . $thumbnailExtension . '$#', '', $thumbnailPath);
+		$audioPath = preg_replace('#\.' . $thumbnailExtension . '$#', '', $thumbnailPath);
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 
 		$this->serve(
-			Collection\MediaProcessor\VideoThumbnail::cacheSymlinkVideoThumbnail($this->system, $collectionFolderName, $videoPath),
+			Collection\MediaProcessor\AudioThumbnail::cacheSymlinkAudioThumbnail($this->system, $collectionFolderName, $audioPath),
 			$this->system->mediaType['image'][$thumbnailExtension]
 		);
 	}

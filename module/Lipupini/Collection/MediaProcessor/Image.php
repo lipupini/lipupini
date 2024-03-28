@@ -74,7 +74,7 @@ class Image {
 		return static::$imagine;
 	}
 
-	public static function processAndCache(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $sizePreset, string $filePath, bool $echoStatus = false): string {
+	public static function processAndCache(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $sizePreset, string $filePath, bool $echoStatus = false): false|string {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
 
@@ -92,6 +92,11 @@ class Image {
 
 		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);
+		}
+
+		// Make sure the files exists in the collection before proceeding
+		if (!file_exists($collectionPath . '/' . $filePath)) {
+			return false;
 		}
 
 		// In the collection's `.lipupini` folder if there is a subfolder with the same name as the `$sizePreset`

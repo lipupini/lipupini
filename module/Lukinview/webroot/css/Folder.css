@@ -26,6 +26,9 @@
 	display: flex;
 	align-items: center;
 	background-color: #474747;
+	/* For waveform image */
+	background-size: 100% 50%;
+	height: 100%;
 }
 #media-grid div.text a {
 	text-decoration: underline;

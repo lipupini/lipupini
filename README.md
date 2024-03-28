@@ -190,6 +190,7 @@ ActivityPub inspiration: [@dansup@pixelfed.social](https://pixelfed.social/dansu
 - Figure out something else besides exception when file in `files.json` does not exist in collection
 - Create script to normalize file and directory user/group/permissions
 - Output errors in layout
+- Update CLI commands for `ffmpeg` to take a collection folder name and collection path, determine output path automatically
 - Look into:
   - https://indieweb.org/Webmention
   - https://indieweb.org/Microsub

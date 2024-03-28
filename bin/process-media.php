@@ -66,12 +66,13 @@ foreach ($collectionDataPrepared as $fileTypeFolder => $filePaths) {
 		case 'audio' :
 			foreach ($filePaths as $filePath) {
 				MediaProcessor\Audio::cacheSymlink($systemState, $collectionFolderName, $fileTypeFolder, $filePath, echoStatus: true);
+				MediaProcessor\AudioThumbnail::cacheSymlinkAudioThumbnail($systemState, $collectionFolderName, $filePath, echoStatus: true);
 			}
 			break;
 		case 'video' :
 			foreach ($filePaths as $filePath) {
 				MediaProcessor\Video::cacheSymlink($systemState, $collectionFolderName, $fileTypeFolder, $filePath, echoStatus: true);
-				MediaProcessor\VideoThumbnail::cacheSymlinkVideoThumbnail($systemState, $collectionFolderName, $filePath, true);
+				MediaProcessor\VideoThumbnail::cacheSymlinkVideoThumbnail($systemState, $collectionFolderName, $filePath, echoStatus: true);
 			}
 			break;
 		case 'text' :
