@@ -60,7 +60,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `system/config/state.php` for the option.
 - Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
 - On-demand caching system creates and serves static media files. Support for custom caching URL can facilitate the use of a CDN.
-- A [Public Domain license](LICENSE.md) is the most permissive license there is. You can do whatever you want with this thing. Please feel free to contribute back to upstream, post in discussions, etc. There is no obligation of any kind.
+- [Public domain](LICENSE.md) source code is the most permissive license there is. You can do whatever you want with this thing. Please feel free to contribute back to upstream, post in discussions, etc. There is no obligation of any kind.
 
 ## Starting the PHP Webserver
 
