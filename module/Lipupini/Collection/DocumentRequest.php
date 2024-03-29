@@ -6,8 +6,9 @@ use Module\Lipupini\Collection;
 use Module\Lipupini\Request\Incoming\Http;
 
 class DocumentRequest extends Http {
-	public string|null $pageTitle = null;
+	public string $pageTitle = '';
 	public string|null $htmlHead = null;
+	public string|null $pageImagePreviewUri = null;
 	private array|null $fileData = null;
 	private string|null $parentPath = null;
 	public string|null $collectionFileName = null;
@@ -70,6 +71,8 @@ class DocumentRequest extends Http {
 		if (($this->fileData['visibility'] ?? null) === 'hidden') {
 			return false;
 		}
+
+		$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $collectionFolderName . '/image/thumbnail/' . $this->collectionFileName;
 
 		$parentFolder = dirname($collectionRequestPath);
 		$this->parentPath = '@' . $collectionFolderName . ($parentFolder !== '.' ? '/' . $parentFolder : '');

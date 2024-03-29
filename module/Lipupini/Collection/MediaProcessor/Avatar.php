@@ -34,4 +34,8 @@ class Avatar {
 		$cache::createSymlink($avatarPath, $fileCachePath);
 		return $fileCachePath;
 	}
+
+	public static function avatarUrlPath(State $systemState, string $collectionFolderName) {
+		return $systemState->staticMediaBaseUri . $collectionFolderName . '/avatar.png';
+	}
 }

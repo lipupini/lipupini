@@ -16,6 +16,7 @@ class FolderRequest extends Http {
 	use Collection\Trait\HasPaginatedCollectionData;
 
 	public string $pageTitle = '';
+	public string|null $pageImagePreviewUri = null;
 	public string|null $htmlHead = null;
 
 	public string|null $collectionFolderName = null;
@@ -82,6 +83,10 @@ class FolderRequest extends Http {
 		} else {
 			$this->prevUrl = false;
 		}
+
+		$avatarUrlPath = Collection\MediaProcessor\Avatar::avatarUrlPath($this->system, $this->collectionFolderName);
+		$this->pageImagePreviewUri = $avatarUrlPath ?? null;
+
 
 		$this->htmlHead = '<link rel="stylesheet" href="/css/Folder.css">' . "\n"
 			. '<link rel="alternate" type="application/rss+xml" title="'
