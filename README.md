@@ -191,6 +191,7 @@ ActivityPub inspiration: [@dansup@pixelfed.social](https://pixelfed.social/dansu
 - Figure out something else besides exception when file in `files.json` does not exist in collection
 - Create script to normalize file and directory user/group/permissions
 - Output errors in layout
+- Check on cross-platform compatibility, MacOS and Windows with and without Docker. While only tested on Linux, I believe it will work on all three OSes including `ffmpeg` interfaces as long as symlinking is supported.
 - Update CLI commands for `ffmpeg` to take a collection folder name and collection path, determine output path automatically
 - Look into:
   - https://indieweb.org/Webmention
@@ -201,8 +202,11 @@ ActivityPub inspiration: [@dansup@pixelfed.social](https://pixelfed.social/dansu
 - Make contributions to `landrok/activitypub`
 - Detect `readline` support in a custom `confirm` routine. If `readline` is not available a 10-second timer will be indicated that can be cancelled with CTRL+C.
 - Create a mechanism for writing to a collection's `files.json`
-- Eliminate the issue where in the middle of uploading photos the thumbnail breaks
-  - Use `filemtime`
-  - Check the `filemtime` no more than twice with a `sleep` delay (maybe 0.175 seconds?) in between
-  - If the `filemtime` is different, then do not store the thumbnail cache file yet because it is still uploading
+  - Could start with a CLI tool, e.g. `bin/caption.php <collection> <filename> <caption>`
+  - Would like to try creating a desktop tool
 - Do not let same account try to follow more than once when already logged previous follow
+- If a photo is taking a while to upload and a browser pageload is triggered with media processor requests in the request queue, the thumbnail version will likely only show a partial image.
+  - Removing all media processors from the HTTP request queue and only using `bin/process-media.php` after uploading is a solution.
+  - File transfer clients that use temporary files during transfer are a solution.
+  - Adding a file watcher daemon or transfer queue could help with an alternative solution.
+  - I would like to know if there is a way using pure PHP to detect if a file is still uploading via SFTP.
