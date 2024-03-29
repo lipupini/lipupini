@@ -1,15 +1,15 @@
 import van from '/lib/van-1.5.0.min.js'
 
-const { div, audio, source } = van.tags
+const { audio, div, source } = van.tags
 
 const Audio = ({collection, baseUri, filename, data, fileType}) => {
+	let title = data.caption ?? filename.split(/[\\\/]/).pop();
 	return div(
-		{
-			class: 'audio',
-			style: typeof data.thumbnail !== 'undefined' ?
-				'background-image:url("' + `${baseUri}${collection}/thumbnail/${data.thumbnail}` + '")' : ''
-		},
-		audio({controls: 'true', preload: 'metadata', title: data.caption ?? filename.split(/[\\\/]/).pop(), loading: 'lazy'},
+		{class: 'audio'},
+		div({class: 'thumbnail', style: typeof data.thumbnail !== 'undefined' ?
+			'background-image:url("' + `${baseUri}${collection}/thumbnail/${data.thumbnail}` + '")' : ''}),
+		div({class: 'caption'}, title),
+		audio({controls: 'true', preload: 'metadata', title: title, loading: 'lazy'},
 			source({src: `${baseUri}${collection}/audio/${filename}`, type: fileType}),
 		),
 	)
