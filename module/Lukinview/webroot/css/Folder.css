@@ -18,6 +18,9 @@
 	display: flex;
 	justify-content: center;
 }
+#media-grid video {
+	background-color: rgba(0, 0, 0, .5);
+}
 #media-grid video,
 #media-grid audio {
 	width: 100%;
