@@ -7,7 +7,7 @@ use Module\Lipupini\Collection\MediaProcessor\Text;
 
 class TextRequest extends MediaProcessorRequest {
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/text/(.+\.(' . implode('|', array_keys($this->system->mediaType['text'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^' . preg_quote(static::relativeStaticCachePath($this->system)) . '([^/]+)/text/(.+\.(' . implode('|', array_keys($this->system->mediaType['text'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 

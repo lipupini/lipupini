@@ -3,7 +3,7 @@
 namespace Module\Lipupini\Collection;
 
 use Module\Lipupini\State;
-use Module\Lipupini\Collection;
+use Module\Lipupini\Collection\MediaProcessor\Request\MediaProcessorRequest;
 
 class Cache {
 	private string $path;
@@ -22,10 +22,10 @@ class Cache {
 		return $this->path;
 	}
 
-	public static function webrootCacheSymlink(State $systemState, string $collectionFolderName, bool $echoStatus = false) {
+	public static function staticCacheSymlink(State $systemState, string $collectionFolderName) {
 		static::createSymlink(
 			(new Cache($systemState, $collectionFolderName))->path(),
-			$systemState->dirWebroot . '/c/' . $collectionFolderName
+			$systemState->dirWebroot . MediaProcessorRequest::relativeStaticCachePath($systemState) . $collectionFolderName
 		);
 	}
 

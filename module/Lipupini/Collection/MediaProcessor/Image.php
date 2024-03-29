@@ -78,7 +78,7 @@ class Image {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
 
-		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
+		$cache::staticCacheSymlink($systemState, $collectionFolderName, $echoStatus);
 
 		$fileCachePath = $cache->path() . '/' . $fileTypeFolder . '/' . $sizePreset . '/' . $filePath;
 

@@ -42,7 +42,7 @@ class Profile extends Request {
 			'icon' => [
 				'type' => 'Image',
 				'mediaType' => 'image/png',
-				'url' => $this->system->baseUri . 'c/' . $collectionFolderName . '/avatar.png',
+				'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/avatar.png',
 			],
 			'endpoints' => [
 				'sharedInbox' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=sharedInbox',

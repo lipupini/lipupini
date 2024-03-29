@@ -7,7 +7,7 @@ use Module\Lipupini\Collection\MediaProcessor\Audio;
 
 class AudioRequest extends MediaProcessorRequest {
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/audio/(.+\.(' . implode('|', array_keys($this->system->mediaType['audio'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^' . preg_quote(static::relativeStaticCachePath($this->system)) . '([^/]+)/audio/(.+\.(' . implode('|', array_keys($this->system->mediaType['audio'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 

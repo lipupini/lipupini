@@ -11,7 +11,7 @@ $baseUri = 'http' . ($isHttps ? 's' : '') . '://' . $httpHost . '/';
 
 return new Module\Lipupini\State(
 	baseUri: $baseUri, // Include trailing slash
-	staticMediaBaseUri: $baseUri . 'c/', // If you'd like to use another URL for static files (e.g. CDN), put that here
+	staticMediaBaseUri: $baseUri . 'c/', // You can put a CDN URL here. Include trailing slash.
 	frontendModule: 'Lukinview',
 	viewLanguage: 'english',
 	request: [

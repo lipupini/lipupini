@@ -11,7 +11,7 @@ use Module\Lipupini\Collection\MediaProcessor\Image;
 
 class ImageRequest extends MediaProcessorRequest {
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/image/(' . implode('|', array_keys($this->system->mediaSize)) . ')/(.+\.(' . implode('|', array_keys($this->system->mediaType['image'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^' . preg_quote(static::relativeStaticCachePath($this->system)) . '([^/]+)/image/(' . implode('|', array_keys($this->system->mediaSize)) . ')/(.+\.(' . implode('|', array_keys($this->system->mediaType['image'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 

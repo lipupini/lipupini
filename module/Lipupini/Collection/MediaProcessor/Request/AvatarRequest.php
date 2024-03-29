@@ -11,7 +11,7 @@ class AvatarRequest extends MediaProcessorRequest {
 			'png' => 'image/png',
 		];
 
-		if (!preg_match('#^/c/([^/]+)/avatar\.(' . implode('|', array_keys($avatarMimeTypes)) . ')$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^' . preg_quote(static::relativeStaticCachePath($this->system)) . '([^/]+)/avatar\.(' . implode('|', array_keys($avatarMimeTypes)) . ')$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 

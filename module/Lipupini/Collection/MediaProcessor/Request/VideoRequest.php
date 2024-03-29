@@ -7,7 +7,7 @@ use Module\Lipupini\Collection\MediaProcessor\Video;
 
 class VideoRequest extends MediaProcessorRequest {
 	public function initialize(): void {
-		if (!preg_match('#^/c/([^/]+)/video/(.+\.(' . implode('|', array_keys($this->system->mediaType['video'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^' . preg_quote(static::relativeStaticCachePath($this->system)) . '([^/]+)/video/(.+\.(' . implode('|', array_keys($this->system->mediaType['video'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 

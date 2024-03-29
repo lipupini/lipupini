@@ -11,7 +11,7 @@ class Text {
 		$fileCachePathMd = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath;
 		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
 
-		$cache::webrootCacheSymlink($systemState, $collectionFolderName, $echoStatus);
+		$cache::staticCacheSymlink($systemState, $collectionFolderName, $echoStatus);
 
 		if (!is_dir(pathinfo($fileCachePathMd, PATHINFO_DIRNAME))) {
 			mkdir(pathinfo($fileCachePathMd, PATHINFO_DIRNAME), 0755, true);
