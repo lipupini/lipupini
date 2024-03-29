@@ -12,10 +12,6 @@ class HomepageRequest extends Http {
 			return;
 		}
 
-		if (!static::validateRequestMimeTypes('HTTP_ACCEPT', ['text/html'])) {
-			return;
-		}
-
 		$this->pageTitle = 'Homepage@' . $this->system->host;
 
 		$this->renderHtml();

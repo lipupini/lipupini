@@ -85,13 +85,6 @@ class HasARouteRequest extends Http {
 			return;
 		}
 
-		// Every computer requesting HTML will need to explicitly accept "text/html"?
-		if (!static::validateRequestMimeTypes('HTTP_ACCEPT', [
-			'text/html',
-		])) {
-			return;
-		}
-
 		$this->system->responseType = 'text/html';
 		$this->system->responseContent = 'This is the route at "/myroute"';
 		$this->system->shutdown = true;
