@@ -20,6 +20,7 @@ main.media-item {
 }
 #media-item .image img {
 	max-height: 85vh;
+	max-width: 100%;
 }
 #media-item .text {
 	width: 100%;
