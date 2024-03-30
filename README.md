@@ -190,7 +190,6 @@ ActivityPub inspiration: [@dansup@pixelfed.social](https://pixelfed.social/dansu
   - Read EXIF data if available for setting a default `date`
 - Figure out something else besides exception when file in `files.json` does not exist in collection
 - Create script to normalize file and directory user/group/permissions
-- When serving image and text files from cache on-request, go ahead and check `filemtime` with the source file to see if the cache file needs to be invalidated. Video and audio are already solved because they use symlinks.
 - Output errors in layout
 - Check on cross-platform compatibility, MacOS and Windows with and without Docker. While only tested on Linux, I believe it will work on all three OSes including `ffmpeg` interfaces as long as symlinking is supported.
 - Update CLI commands for `ffmpeg` to take a collection folder name and collection path, determine output path automatically
