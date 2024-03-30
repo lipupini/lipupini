@@ -13,7 +13,7 @@ $inputFile = $argv[1];
 $outputPngPath = $argv[2];
 
 if (!file_exists($inputFile)) {
-	echo 'Could not find input video file: ' . $videoFile . "\n";
+	echo 'Could not find input video file: ' . $inputFile . "\n";
 	exit(1);
 }
 

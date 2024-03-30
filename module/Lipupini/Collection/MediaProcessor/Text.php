@@ -11,23 +11,29 @@ class Text {
 		$fileCachePathMd = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath;
 		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
 
-		$cache::staticCacheSymlink($systemState, $collectionFolderName, $echoStatus);
+		$cache::staticCacheSymlink($systemState, $collectionFolderName);
 
 		if (!is_dir(pathinfo($fileCachePathMd, PATHINFO_DIRNAME))) {
 			mkdir(pathinfo($fileCachePathMd, PATHINFO_DIRNAME), 0755, true);
+		}
 
-			if (!file_exists($fileCachePathMd)) {
-				if ($echoStatus) {
-					echo 'Symlinking Markdown cache files for `' . $filePath . '`...' . "\n";
-				}
-				$cache::createSymlink($collectionPath . '/' . $filePath, $fileCachePathMd);
+		if (!file_exists($fileCachePathMd)) {
+			if ($echoStatus) {
+				echo 'Symlinking Markdown cache files for `' . $filePath . '`...' . "\n";
 			}
+			$cache::createSymlink($collectionPath . '/' . $filePath, $fileCachePathMd);
 		}
 
 		$fileCachePathHtml = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath . '.html';
 
 		if (file_exists($fileCachePathHtml)) {
-			return $fileCachePathHtml;
+			if (filemtime($collectionPath . '/' . $filePath) < filemtime($fileCachePathHtml)) {
+				return $fileCachePathHtml;
+			}
+			if ($echoStatus) {
+				echo 'Deleting outdated cache file for `' . $filePath . '`...' . "\n";
+			}
+			unlink($fileCachePathHtml);
 		}
 
 		if ($echoStatus) {
@@ -35,7 +41,7 @@ class Text {
 		}
 
 		try {
-			$rendered = Parsedown::instance()->text(file_get_contents($systemState->dirCollection . '/' . $collectionFolderName . '/' . $filePath));
+			$rendered = Parsedown::instance()->text(file_get_contents($collectionPath . '/' . $filePath));
 		} catch (\Exception $e) {
 			throw new Exception('Could not render markdown file');
 		}

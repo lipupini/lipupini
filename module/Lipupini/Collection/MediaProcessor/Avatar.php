@@ -12,7 +12,7 @@ class Avatar {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$fileCachePath = $cache->path() . '/avatar.png';
 
-		$cache::staticCacheSymlink($systemState, $collectionFolderName, $echoStatus);
+		$cache::staticCacheSymlink($systemState, $collectionFolderName);
 
 		if (file_exists($fileCachePath)) {
 			return $fileCachePath;

@@ -78,12 +78,31 @@ class Image {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
 
-		$cache::staticCacheSymlink($systemState, $collectionFolderName, $echoStatus);
+		$cache::staticCacheSymlink($systemState, $collectionFolderName);
 
 		$fileCachePath = $cache->path() . '/' . $fileTypeFolder . '/' . $sizePreset . '/' . $filePath;
 
+		// Make sure the files exists in the collection before proceeding
+		if (!file_exists($collectionPath . '/' . $filePath)) {
+			return false;
+		}
+
 		if (file_exists($fileCachePath)) {
-			return $fileCachePath;
+			if (
+				// If the cache path is a symlink, then we don't care about it because any changes to the linked file will work automatically
+				!is_link($fileCachePath) &&
+				// If the original file has been modified since the cache file was created
+				filemtime($collectionPath . '/' . $filePath) > filemtime($fileCachePath))
+			{
+				if ($echoStatus) {
+					echo 'Image preset ' . $sizePreset . ' for `' . $filePath . '` is outdated, deleting cache file...' . "\n";
+				}
+				// Delete the cache file
+				unlink($fileCachePath);
+			} else {
+				// Otherwise, the cache file is current and we can serve it
+				return $fileCachePath;
+			}
 		}
 
 		if ($echoStatus) {
@@ -94,25 +113,25 @@ class Image {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);
 		}
 
-		// Make sure the files exists in the collection before proceeding
-		if (!file_exists($collectionPath . '/' . $filePath)) {
-			return false;
-		}
-
 		// In the collection's `.lipupini` folder if there is a subfolder with the same name as the `$sizePreset`
 		// and an image exists in there with the same name, symlink that instead of processing the size automatically.
 		// This makes sure that work on custom thumbnails is not lost.
-		$customImage = $collectionPath . '/.lipupini/' . $sizePreset . '/' . $filePath;
-		if (file_exists($customImage)) {
+		$customImagePath = $collectionPath . '/.lipupini/' . $sizePreset . '/' . $filePath;
+		// If the custom image exists, a cache file for the custom image should be a symlink so check that it is correct
+		if (file_exists($customImagePath) && (!is_link($fileCachePath) || readlink($fileCachePath) !== $customImagePath)) {
 			if ($echoStatus) {
 				echo 'Found a custom image for size preset `' . $sizePreset . '`: `' . $filePath . '`....' . "\n";
 			}
-			$cache::createSymlink($customImage, $fileCachePath);
+			$cache::createSymlink($customImagePath, $fileCachePath);
 			return $fileCachePath;
 		}
 
 		if (pathinfo($filePath, PATHINFO_EXTENSION) === 'gif') {
 			if (static::isAnimatedGif($collectionPath . '/' . $filePath)) {
+				// Check whether the animated .gif symlink is already there, if so return it
+				if (is_link($fileCachePath)) {
+					return $fileCachePath;
+				}
 				if ($echoStatus) {
 					echo 'Animated .gif detected, creating symlink to original for ' . $filePath . '...' . "\n";
 				}
@@ -121,6 +140,13 @@ class Image {
 			}
 		}
 
+		// We're not using a custom image at this point, so that cache path should be a file not a link
+		// Here we are checking if the cache file is already there. If it was invalid it should have been deleted above.
+		if (file_exists($fileCachePath) && !is_link($fileCachePath)) {
+			return $fileCachePath;
+		}
+
+		// At this point we can perform the image processing
 		// Start with autorotating image based on EXIF data
 		$autoRotate = new Imagine\Filter\Basic\Autorotate();
 		$autoRotate->apply(static::imagine()->open($collectionPath . '/' . $filePath))
