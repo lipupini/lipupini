@@ -31,6 +31,13 @@ class DocumentRequest extends Http {
 			return;
 		}
 
+		$this->collectionFileName = preg_replace('#\.html$#', '', $this->system->request[Collection\Request::class]->path);
+
+		// Make sure file in collection exists before proceeding
+		if (!file_exists($this->system->dirCollection . '/' . $this->system->request[Collection\Request::class]->folderName . '/' . urldecode($this->collectionFileName))) {
+			return;
+		}
+
 		$this->renderHtml();
 		$this->system->shutdown = true;
 	}
@@ -52,8 +59,6 @@ class DocumentRequest extends Http {
 
 		$this->pageTitle = rawurldecode($collectionRequestPath . '@' . $collectionFolderName) . '@' . $this->system->host;
 		$collectionData = (new Collection\Utility($this->system))->getCollectionData($collectionFolderName, $collectionRequestPath, true);
-
-		$this->collectionFileName = preg_replace('#\.html$#', '', $collectionRequestPath);
 
 		if (array_key_exists($this->collectionFileName, $collectionData)) {
 			$this->fileData = $collectionData[$this->collectionFileName];
