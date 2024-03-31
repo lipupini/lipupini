@@ -14,7 +14,7 @@ return new Module\Lipupini\State(
 	staticMediaBaseUri: $baseUri . 'c/', // You can put a CDN URL here. Include trailing slash.
 	frontendModule: 'Lukinview',
 	viewLanguage: 'english',
-	itemsPerPage: 3,
+	itemsPerPage: 36,
 	mediaSize: ['large' => [5000, 5000], 'thumbnail' => [600, 600]], // Default [width, height] for each preset. You can add more, and renaming the defaults is not recommended
 	mediaType: [
 		'audio' => [
