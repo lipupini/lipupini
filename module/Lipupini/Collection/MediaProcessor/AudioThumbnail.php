@@ -80,7 +80,7 @@ class AudioThumbnail {
 			echo 'Saving audio waveform thumbnail for `' . $audioPath . '`...' . "\n";
 		}
 
-		$command = $systemState->dirRoot . '/bin/ffmpeg-audio-waveform.php ' . escapeshellarg(escapeshellcmd($collectionPath . '/' . $audioPath)) . ' ' . escapeshellarg(escapeshellcmd($thumbnailPathFull));
+		$command = $systemState->dirRoot . '/bin/ffmpeg-audio-waveform.php ' . escapeshellarg($collectionPath . '/' . $audioPath) . ' ' . escapeshellarg($thumbnailPathFull);
 		// `ffmpeg` output is purged from display with `> /dev/null 2>&1`. Remove it to see `ffmpeg` output
 		$command .=  ' > /dev/null 2>&1';
 		exec($command, $output, $returnCode);

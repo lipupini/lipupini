@@ -27,7 +27,21 @@ function saveHalfwayFrame($videoFile, $outputPngPath) {
 }
 
 function saveVideoFrame($videoFile, $outputPngPath, $time) {
-	runShellCommand('ffmpeg -ss ' . escapeshellarg($time) . ' -i ' . escapeshellarg($videoFile) . ' -frames:v 1 ' . escapeshellarg($outputPngPath));
+	/*
+	`ffmpeg` takes a few extra steps for filename-safe operations, and Lipupini aims to offer as much as the filesystem can give regarding filenames
+	So the process becomes:
+	1) Use a SHA1 sum of the file, since `ffmpeg` will definitely input and output that format
+	2) Symlink the input file to the system's temp dir
+	4) Run `ffmpeg` on that symlink, and output the result to the system temp dir
+	5) Delete the symlink from (2) and move the output file to its intended destination
+	*/
+	$fileSha1 = sha1_file($videoFile);
+	$tmpInputFilepath = sys_get_temp_dir() . '/' . $fileSha1 . '_input.' . pathinfo($videoFile, PATHINFO_EXTENSION);
+	$tmpOutputFilepath = sys_get_temp_dir() . '/' . $fileSha1 . '_output.png';
+	symlink($videoFile, $tmpInputFilepath);
+	runShellCommand('ffmpeg -ss ' . escapeshellarg($time) . ' -i ' . escapeshellarg($tmpInputFilepath) . ' -frames:v 1 ' . escapeshellarg($tmpOutputFilepath));
+	unlink($tmpInputFilepath);
+	rename($tmpOutputFilepath, $outputPngPath);
 }
 
 function getVideoTotalDuration($videoFile) {
