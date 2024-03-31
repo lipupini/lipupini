@@ -9,49 +9,52 @@ class Utility {
 	public function __construct(private State $system) { }
 
 	public function validateCollectionFolderName(string $collectionFolderName): void {
+		if (!$collectionFolderName || strlen($collectionFolderName) > 200) {
+			throw new Exception('Suspicious collection identifier (E1)');
+		}
+
+		if (substr_count($collectionFolderName, '@')) {
+			throw new Exception('Suspicious collection identifier (E2)');
+		}
+
 		if (!is_dir($this->system->dirCollection . '/' . $collectionFolderName)) {
-			throw new Exception('Could not find collection from identifier');
+			throw new Exception('Collection not found: ' . htmlentities($collectionFolderName));
 		}
 	}
 
 	public function getCollectionData(string $collectionFolderName, string $collectionRequestPath, bool $includeHidden = false) {
 		if (parse_url($collectionRequestPath, PHP_URL_QUERY)) {
-			throw new Exception('Suspicious collection path');
+			throw new Exception('Suspicious collection path (E4)');
 		}
 
 		$collectionRootPath = $this->system->dirCollection . '/' . $collectionFolderName;
+		$collectionRequestPath = rtrim($collectionRequestPath, '/');
+
+		if (pathinfo($collectionRequestPath, PATHINFO_EXTENSION)) {
+			throw new Exception('`$collectionRequestPath` should be a directory, not a file');
+		}
 
 		if (str_contains($collectionRootPath, '..')) {
-			throw new Exception('Suspicious collection path');
+			throw new Exception('Suspicious collection path (E5)');
 		}
 
-		// `$system->collectionRequestPath` could be `memes/cats`, which would be relative to `$collectionRootPath`
-		if ($collectionRequestPath) {
-			if (pathinfo($collectionRequestPath, PATHINFO_EXTENSION)) {
-				// `$system->collectionRequestPath` could be a file: `memes/cats/cat123.jpg`
-				$collectionRelativePath = dirname($collectionRequestPath) === '.' ? '' : dirname($collectionRequestPath);
-			} else {
-				// `$system->collectionRequestPath` could be a directory: `memes/cats`
-				$collectionRelativePath = $collectionRequestPath;
-			}
-		} else {
-			// This would be the root of the collection
-			$collectionRelativePath = '';
-		}
-
-		$collectionAbsolutePath = $collectionRelativePath ? $collectionRootPath . '/' . $collectionRelativePath : $collectionRootPath;
-		$return = $collectionData = [];
-		$filesJsonPath = $collectionAbsolutePath . '/.lipupini/files.json';
+		$return = [];
+		$filesJsonPath = $collectionRootPath . '/.lipupini/files.json';
 		$skipFiles = [];
 		// Process the media file data specified in `files.json` if exists
 		if (file_exists($filesJsonPath)) {
 			// Grab the media file data from `files.json` into an array
-			$collectionData = json_decode(file_get_contents($filesJsonPath), true);
+			$collectionFilesJsonData = json_decode(file_get_contents($filesJsonPath), true);
 			// Process collection data first, since it can determine the display order
-			foreach ($collectionData as $filename => $fileData) {
-				// Construct the relative path of the current media file
-				if ($collectionRelativePath) {
-					$filename = $collectionRelativePath . '/' . $filename;
+			foreach ($collectionFilesJsonData as $filename => $fileData) {
+				// If we are getting data from a collection subfolder, filter out other directories
+				if ($collectionRequestPath) {
+					if (!str_starts_with($filename, $collectionRequestPath) || $filename === $collectionRequestPath) {
+						continue;
+					}
+				// If we are getting data from a collection root folder, filter out any subdirectories
+				} else if (pathinfo($filename, PATHINFO_DIRNAME) !== '.') {
+					continue;
 				}
 				// If the file is set to be hidden or unlisted, add it to the `$skipFiles` array
 				if (in_array($fileData['visibility'] ?? null, ['hidden', 'unlisted'], true)) {
@@ -68,14 +71,17 @@ class Utility {
 				$return[$filename] = $fileData;
 			}
 		}
+
+		$collectionPathFull = $collectionRequestPath ? $collectionRootPath . '/' . $collectionRequestPath : $collectionRootPath;
+
 		// Here we pick up any files that are not explicitly added to `files.json`
-		foreach (new \DirectoryIterator($collectionAbsolutePath) as $fileData) {
+		foreach (new \DirectoryIterator($collectionPathFull) as $fileData) {
 			// Skip dot files and any hidden files by checking if the first character is a dot
 			if ($fileData->getFilename()[0] === '.') {
 				continue;
 			}
 			// May be in a subdirectory relative to the collection root
-			$filePath = $collectionRelativePath ? $collectionRelativePath . '/' . $fileData->getFilename() : $fileData->getFilename();
+			$filePath = $collectionRequestPath ? rtrim($collectionRequestPath, '/') . '/' . $fileData->getFilename() : $fileData->getFilename();
 			if (!$includeHidden && in_array($filePath, $skipFiles, true)) {
 				continue;
 			}
@@ -86,22 +92,26 @@ class Utility {
 			$return[$filePath] = [];
 		}
 
-		$processExtensions = array_merge(array_keys($this->system->mediaType['audio']), array_keys($this->system->mediaType['video']));
+		$processThumbnailTypes = array_merge(array_keys($this->system->mediaType['audio']), array_keys($this->system->mediaType['video']));
 
 		foreach ($return as $mediaFilePath => $mediaFileData) {
-			// Loop through audio and videos to process thumbnails
-			if (in_array(pathinfo($mediaFilePath, PATHINFO_EXTENSION), $processExtensions)) {
+			// If it doesn't already have a caption, use the filename without the extension
+			if (empty($mediaFileData['caption'])) {
+				$return[$mediaFilePath]['caption'] = pathinfo($mediaFilePath, PATHINFO_FILENAME);
+			}
+			// Process thumbnails for audio and video
+			if (in_array(pathinfo($mediaFilePath, PATHINFO_EXTENSION), $processThumbnailTypes)) {
 				// If the media file has a thumbnail specified in `files.json` already then skip it
 				if (!empty($mediaFileData['thumbnail'])) {
 					continue;
 				}
 				// Check if a corresponding thumbnail file is saved by the same name
-				$thumbnailFile = $collectionAbsolutePath . '/.lipupini/thumbnail/' . $mediaFilePath . '.png';
-				// If `useFfmepg` is enabled, we're going to try and generate the thumbnail if there isn't one already
+				$thumbnailFile = $collectionRootPath . '/.lipupini/thumbnail/' . $mediaFilePath . '.png';
+				// If `useFfmpeg` is not enabled and the thumbnail does not already exist, then skip it because we won't try to create it in this case
 				if (!$this->system->useFfmpeg && !file_exists($thumbnailFile)) {
 					continue;
 				}
-				// We found a thumbnail file so add it to `$return`
+				// We found a thumbnail file (or plan to try and generate one) so add it to `$return`
 				$return[$mediaFilePath]['thumbnail'] = $mediaFilePath . '.png';
 			}
 		}
@@ -155,5 +165,15 @@ class Utility {
 		$commandName = 'ffmpeg';
 		$testMethod = (false === stripos(PHP_OS, 'win')) ? 'command -v' : 'where';
 		return null !== shell_exec($testMethod . ' ' . $commandName);
+	}
+
+	public function mediaTypesByExtension() {
+		$mediaTypesByExtension = [];
+		foreach ($this->system->mediaType as $mediaType => $value) {
+			foreach ($value as $extension => $mimeType) {
+				$mediaTypesByExtension[$extension] = ['mediaType' => $mediaType, 'mimeType' => $mimeType];
+			}
+		}
+		return $mediaTypesByExtension;
 	}
 }

@@ -23,7 +23,7 @@ class State {
 		public string $frontendModule     = 'Lukinview',
 		public string $viewLanguage       = 'english',
 		public string $userAgent          = '(Lipupini/69.420; +https://github.com/lipupini/lipupini)',
-		public array  $request           = [], // Request queue for `Module\Lipupini\Request\Incoming\Queue`
+		public int    $itemsPerPage       = 36,
 		public array  $mediaSize          = ['large' => [5000, 5000], 'thumbnail' => [600, 600]], // Default [width, height] for each preset
 		public array  $mediaType          = [
 			'audio' => [
@@ -49,6 +49,7 @@ class State {
 		],
 		public array  $imageQuality       = ['avif_quality' => 60, 'jpeg_quality' => 89, 'png_compression_level' => 9],
 		public bool   $useFfmpeg          = true, // You can try this if you have `ffmpeg` installed for processing videos
+		public array  $request            = [], // Request queue for `Module\Lipupini\Request\Incoming\Queue`
 		public bool   $activityPubLog     = true,
 		public bool   $shutdown           = false,
 		public bool   $debug              = false,

@@ -9,7 +9,7 @@ class DocumentRequest extends Http {
 	public string $pageTitle = '';
 	public string|null $htmlHead = null;
 	public string|null $pageImagePreviewUri = null;
-	private array|null $fileData = null;
+	private array $fileData = [];
 	private string|null $parentPath = null;
 	public string|null $collectionFileName = null;
 
@@ -38,15 +38,15 @@ class DocumentRequest extends Http {
 			return;
 		}
 
+		if (!$this->loadViewData()) {
+			return;
+		}
+
 		$this->renderHtml();
 		$this->system->shutdown = true;
 	}
 
 	public function renderHtml(): void {
-		if (!$this->loadViewData()) {
-			return;
-		}
-
 		ob_start();
 		require($this->system->dirModule . '/' . $this->system->frontendModule . '/Html/Collection/Document.php');
 		$this->system->responseContent = ob_get_clean();
@@ -58,7 +58,8 @@ class DocumentRequest extends Http {
 		$collectionRequestPath = $this->system->request[Collection\Request::class]->path;
 
 		$this->pageTitle = rawurldecode($collectionRequestPath . '@' . $collectionFolderName) . '@' . $this->system->host;
-		$collectionData = (new Collection\Utility($this->system))->getCollectionData($collectionFolderName, $collectionRequestPath, true);
+		$collectionUtility = new Collection\Utility($this->system);
+		$collectionData = $collectionUtility->getCollectionData($collectionFolderName, pathinfo($collectionRequestPath, PATHINFO_DIRNAME)	, true);
 
 		if (array_key_exists($this->collectionFileName, $collectionData)) {
 			$this->fileData = $collectionData[$this->collectionFileName];
@@ -70,7 +71,13 @@ class DocumentRequest extends Http {
 			return false;
 		}
 
-		$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $collectionFolderName . '/image/thumbnail/' . $this->collectionFileName;
+		$isImageFile = $collectionUtility->mediaTypesByExtension()[pathinfo($this->collectionFileName, PATHINFO_EXTENSION)]['mediaType'] === 'image';
+
+		if ($isImageFile) {
+			$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $collectionFolderName . '/image/thumbnail/' . $this->collectionFileName;
+		} else {
+			$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $this->collectionFileName . '.png';
+		}
 
 		$parentFolder = dirname($collectionRequestPath);
 		$this->parentPath = '@' . $collectionFolderName . ($parentFolder !== '.' ? '/' . $parentFolder : '');

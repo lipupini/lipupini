@@ -1,6 +1,6 @@
 import van from '/lib/van-1.5.0.min.js'
 
-const { div, a, object } = van.tags
+const { a, div, object } = van.tags
 
 const Text = ({collection, baseUri, filename, data, load = false}) => {
 	return div({class: 'text'},

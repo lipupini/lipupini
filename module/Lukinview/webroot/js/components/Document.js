@@ -18,10 +18,10 @@ const Document = ({collection, baseUri, filename, data, gridView = false}) => {
 			if (fileExtension === extension) {
 				switch (fileType) {
 					case 'audio':
-						DocumentComponent = Audio({collection, baseUri, filename, data, fileType: fileTypes[fileType][fileExtension]})
+						DocumentComponent = Audio({collection, baseUri, filename, data, mimeType: fileTypes[fileType][fileExtension]})
 						break
 					case 'video':
-						DocumentComponent = Video({collection, baseUri, filename, data, fileType: fileTypes[fileType][fileExtension]})
+						DocumentComponent = Video({collection, baseUri, filename, data, mimeType: fileTypes[fileType][fileExtension]})
 						break
 					case 'image':
 						DocumentComponent = Image({collection, baseUri, filename, data, background: gridView})

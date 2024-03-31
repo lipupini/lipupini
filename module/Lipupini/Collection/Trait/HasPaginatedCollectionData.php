@@ -20,7 +20,7 @@ trait HasPaginatedCollectionData {
 		}
 
 		$this->total = count($this->collectionData);
-		$this->numPages = ceil($this->total / $this->perPage);
+		$this->numPages = ceil($this->total / $this->system->itemsPerPage);
 
 		if ($this->page > $this->numPages) {
 			if ($this->page !== 1) {
@@ -31,6 +31,6 @@ trait HasPaginatedCollectionData {
 			}
 		}
 
-		$this->collectionData = array_slice($this->collectionData, ($this->page - 1) * $this->perPage, $this->perPage);
+		$this->collectionData = array_slice($this->collectionData, ($this->page - 1) * $this->system->itemsPerPage, $this->system->itemsPerPage);
 	}
 }

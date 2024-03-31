@@ -2,7 +2,7 @@ import van from '/lib/van-1.5.0.min.js'
 
 const { audio, div, source } = van.tags
 
-const Audio = ({collection, baseUri, filename, data, fileType}) => {
+const Audio = ({collection, baseUri, filename, data, mimeType}) => {
 	let title = data.caption ?? filename.split(/[\\\/]/).pop();
 	return div(
 		{class: 'audio'},
@@ -10,7 +10,7 @@ const Audio = ({collection, baseUri, filename, data, fileType}) => {
 			'background-image:url("' + `${baseUri}${collection}/thumbnail/${data.thumbnail}` + '")' : ''}),
 		div({class: 'caption'}, title),
 		audio({controls: 'true', preload: 'metadata', title: title, loading: 'lazy'},
-			source({src: `${baseUri}${collection}/audio/${filename}`, type: fileType}),
+			source({src: `${baseUri}${collection}/audio/${filename}`, type: mimeType}),
 		),
 	)
 }

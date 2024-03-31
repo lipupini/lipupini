@@ -39,19 +39,12 @@ class Request extends Http {
 			return false;
 		}
 
+		// This should never happen, though not sure if it's only the browser that will prevent it
 		if (str_contains($_SERVER['REQUEST_URI'], '..')) {
 			throw new Exception('Suspicious collection URL');
 		}
 
 		$collectionFolderName = $matches[1];
-
-		if (!$collectionFolderName || strlen($collectionFolderName) > 200) {
-			throw new Exception('Suspicious collection identifier (E1)');
-		}
-
-		if (substr_count($collectionFolderName, '@')) {
-			throw new Exception('Suspicious collection identifier (E2)');
-		}
 
 		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
 

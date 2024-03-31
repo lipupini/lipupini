@@ -8,8 +8,6 @@ use Module\Lipupini\Request\Incoming\Http;
 class FolderRequest extends Http {
 	public array $collectionData = [];
 
-	public int $perPage = 36;
-
 	protected string|null $nextUrl = null;
 	protected string|null $prevUrl = null;
 
@@ -75,6 +73,7 @@ class FolderRequest extends Http {
 		} else {
 			$this->nextUrl = false;
 		}
+
 		if ($this->page === 2) {
 			$this->prevUrl = $webPath;
 		} else if ($this->page > 2) {
