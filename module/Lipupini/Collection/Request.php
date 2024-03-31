@@ -21,10 +21,10 @@ class Request extends Http {
 	}
 
 	protected function getCollectionRequestPath() {
-		return parse_url(
+		return rawurldecode(parse_url(
 			preg_replace('#^/@' . $this->folderName . '/?#', '', $_SERVER['REQUEST_URI']),
 			PHP_URL_PATH
-		) ?? '';
+		) ?? '');
 	}
 
 	protected function getCollectionFolderNameFromRequest() {

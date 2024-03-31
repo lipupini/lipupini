@@ -16,7 +16,7 @@ class VideoThumbnailRequest extends MediaProcessorRequest {
 		$this->system->shutdown = true;
 
 		$collectionFolderName = $matches[1];
-		$thumbnailPath = urldecode($matches[2]);
+		$thumbnailPath = rawurldecode($matches[2]);
 		$thumbnailExtension = $matches[4];
 		$videoPath = preg_replace('#\.' . $thumbnailExtension . '$#', '', $thumbnailPath);
 

@@ -84,7 +84,7 @@ class Request extends Http {
 
 		// WebFinger request could be URL encoded, but it should contain "@"
 		if (!str_contains($webFingerAccount, '@')) {
-			$webFingerAccount = urldecode($webFingerAccount);
+			$webFingerAccount = rawurldecode($webFingerAccount);
 		}
 
 		if ($webFingerAccount[0] === '@') {

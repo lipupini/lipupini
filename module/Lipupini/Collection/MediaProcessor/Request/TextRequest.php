@@ -15,13 +15,13 @@ class TextRequest extends MediaProcessorRequest {
 		$this->system->shutdown = true;
 
 		$collectionFolderName = $matches[1];
-		$filePath = $matches[2];
+		$filePath = rawurldecode($matches[2]);
 		$extension = $matches[3];
 
 		if ($extension === 'html') {
-			$mdFilePath = urldecode(preg_replace('#\.html$#', '', $filePath));
+			$mdFilePath = rawurldecode(preg_replace('#\.html$#', '', $filePath));
 		} else {
-			$mdFilePath = urldecode($_SERVER['REQUEST_URI'] . '.html');
+			$mdFilePath = rawurldecode($_SERVER['REQUEST_URI'] . '.html');
 		}
 
 		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $mdFilePath;

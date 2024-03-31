@@ -34,7 +34,7 @@ class DocumentRequest extends Http {
 		$this->collectionFileName = preg_replace('#\.html$#', '', $this->system->request[Collection\Request::class]->path);
 
 		// Make sure file in collection exists before proceeding
-		if (!file_exists($this->system->dirCollection . '/' . $this->system->request[Collection\Request::class]->folderName . '/' . urldecode($this->collectionFileName))) {
+		if (!file_exists($this->system->dirCollection . '/' . $this->system->request[Collection\Request::class]->folderName . '/' . $this->collectionFileName)) {
 			return;
 		}
 
@@ -57,7 +57,7 @@ class DocumentRequest extends Http {
 		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
 		$collectionRequestPath = $this->system->request[Collection\Request::class]->path;
 
-		$this->pageTitle = rawurldecode($collectionRequestPath . '@' . $collectionFolderName) . '@' . $this->system->host;
+		$this->pageTitle = $collectionRequestPath . '@' . $collectionFolderName . '@' . $this->system->host;
 		$collectionUtility = new Collection\Utility($this->system);
 
 		// `$collectionRequestPath` has a filename, we want to know what directory it's in
