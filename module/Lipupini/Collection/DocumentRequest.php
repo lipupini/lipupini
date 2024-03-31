@@ -59,8 +59,11 @@ class DocumentRequest extends Http {
 
 		$this->pageTitle = rawurldecode($collectionRequestPath . '@' . $collectionFolderName) . '@' . $this->system->host;
 		$collectionUtility = new Collection\Utility($this->system);
-		$collectionData = $collectionUtility->getCollectionData($collectionFolderName, pathinfo($collectionRequestPath, PATHINFO_DIRNAME)	, true);
 
+		// `$collectionRequestPath` has a filename, we want to know what directory it's in
+		$collectionRequestPathFolder = pathinfo($collectionRequestPath, PATHINFO_DIRNAME);
+		$collectionRequestPathFolder = $collectionRequestPathFolder === '.' ? '' : $collectionRequestPathFolder;
+		$collectionData = $collectionUtility->getCollectionData($collectionFolderName, $collectionRequestPathFolder, true);
 		if (array_key_exists($this->collectionFileName, $collectionData)) {
 			$this->fileData = $collectionData[$this->collectionFileName];
 		} else {
