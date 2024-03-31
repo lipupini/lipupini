@@ -103,9 +103,12 @@ class ApiRequest extends Http {
 
 		$collectionUtility = new Collection\Utility($this->system);
 
-		$this->collectionData = $collectionUtility->getCollectionData($collectionFolderName, $collectionDirectory);
+		$this->collectionData = $collectionUtility->getCollectionData($collectionFolderName, $collectionDirectory, true);
 
-		if (!array_key_exists($collectionFilePath, $this->collectionData)) {
+		if (
+			!array_key_exists($collectionFilePath, $this->collectionData) ||
+			$this->collectionData[$collectionFilePath]['visibility'] === 'hidden'
+		) {
 			http_response_code(404);
 			return json_encode(['error' => ['code' => 404, 'message' => 'File not found (in collection data)']]);
 		}
