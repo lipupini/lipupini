@@ -8,7 +8,7 @@ const Document = ({collection, baseUri, filename, data, gridView = false}) => {
 	let extension = filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2)
 
 	if (extension === '') {
-		return CollectionFolder({collection, baseUri, filename, data})
+		return CollectionFolder({collection, filename, data})
 	}
 
 	let DocumentComponent;
@@ -18,16 +18,16 @@ const Document = ({collection, baseUri, filename, data, gridView = false}) => {
 			if (fileExtension === extension) {
 				switch (fileType) {
 					case 'audio':
-						DocumentComponent = Audio({collection, baseUri, filename, data, mimeType: fileTypes[fileType][fileExtension]})
+						DocumentComponent = Audio({collection, baseUri, filename, data, mimeType: fileTypes[fileType][fileExtension], gridView})
 						break
 					case 'video':
 						DocumentComponent = Video({collection, baseUri, filename, data, mimeType: fileTypes[fileType][fileExtension]})
 						break
 					case 'image':
-						DocumentComponent = Image({collection, baseUri, filename, data, background: gridView})
+						DocumentComponent = Image({collection, baseUri, filename, data, gridView})
 						break
 					case 'text':
-						DocumentComponent = Text({collection, baseUri, filename, data, load: !gridView})
+						DocumentComponent = Text({collection, baseUri, filename, data, gridView})
 						break
 					default:
 						throw new Error('Unknown file extension: ' + extension)
