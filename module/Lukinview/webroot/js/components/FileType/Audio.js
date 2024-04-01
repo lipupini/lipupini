@@ -4,7 +4,7 @@ const { a, audio, div, source } = van.tags
 
 const Audio = ({collection, baseUri, filename, data, mimeType, gridView}) => {
 	collection = encodeURIComponent(collection)
-	let filenameEncoded = encodeURIComponent(filename)
+	let filenameEncoded = filename.split('/').map((uriComponent) => encodeURIComponent(uriComponent)).join('/')
 	let title = data.caption ?? filename.split(/[\\\/]/).pop();
 	return div(
 		{class: 'audio'},

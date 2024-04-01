@@ -4,7 +4,7 @@ const { div, a, img } = van.tags
 
 const Image = ({collection, baseUri, filename, data, gridView}) => {
 	collection = encodeURIComponent(collection)
-	let filenameEncoded = encodeURIComponent(filename)
+	let filenameEncoded = filename.split('/').map((uriComponent) => encodeURIComponent(uriComponent)).join('/')
 	let image = img({src: gridView ? '/img/1x1.png' : `${baseUri}${collection}/image/large/${filenameEncoded}`, title: data.caption ?? filename.split(/[\\\/]/).pop(), loading: 'lazy'})
 	let anchorAttrs = gridView ? {href: `/@${collection}/${filenameEncoded}.html`} : {href: `${baseUri}${collection}/image/large/${filenameEncoded}`, target: '_blank'}
 

@@ -4,7 +4,7 @@ const { div, video, source } = van.tags
 
 const Video = ({collection, baseUri, filename, data, mimeType}) => {
 	collection = encodeURIComponent(collection)
-	let filenameEncoded = encodeURIComponent(filename)
+	let filenameEncoded = filename.split('/').map((uriComponent) => encodeURIComponent(uriComponent)).join('/')
 	let attributes = {controls: 'true', preload: 'none', loop: 'true', title: data.caption ?? filename.split(/[\\\/]/).pop(), loading: 'lazy'}
 	if (typeof data.thumbnail !== 'undefined') {
 		attributes.poster = `${baseUri}${collection}/thumbnail/${encodeURIComponent(data.thumbnail)}`
