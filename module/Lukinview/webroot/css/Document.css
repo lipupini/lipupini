@@ -2,15 +2,11 @@ main.media-item {
 	display: flex;
 	flex-direction: column;
 }
-#media-item {
-	display: flex;
-	justify-content: center;
-	flex-grow: 1;
-}
 #media-item .audio .caption {
 	background-color: rgba(0, 0, 0, .6);
 	padding: .25rem .5rem;
 	color: #ddd;
+	text-align: left;
 }
 #media-item .audio {
 	display: flex;
@@ -47,4 +43,14 @@ audio::-webkit-media-controls-enclosure {
 }
 footer {
 	padding-top: 5rem;
+}
+#media-item {
+	text-align: center;
+}
+@media (min-width: 600px) {
+	#media-item {
+		display: flex;
+		justify-content: center;
+		flex-grow: 1;
+	}
 }
