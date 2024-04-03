@@ -23,7 +23,7 @@ function saveAudioWaveform($inputFile, $outputPngPath, $color) {
 	if (!preg_match('#^[0-9A-F]{6}$#', $color)) {
 		throw new Exception('Invalid HEX color value: ' . $color);
 	}
-	$dimensions = '1200x75';
+	$dimensions = '700x200';
 	/*
 	`ffmpeg` takes a few extra steps for filename-safe operations, and Lipupini aims to offer as much as the filesystem can give regarding filenames
 	So the process becomes:
