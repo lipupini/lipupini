@@ -14,7 +14,7 @@ const Audio = ({collection, baseUri, filename, data, mimeType, gridView}) => {
 		source({src: `${baseUri}${collection}/audio/${filenameEncoded}`, type: mimeType}),
 	);
 	return gridView ? a({class: 'audio', href: `/@${collection}/${filenameEncoded}.html`, style}, captionDiv, audioElement) :
-			div({class: 'audio', style, onclick: (e) => e.target.closest('.audio').querySelector('audio').play()}, captionDiv, audioElement);
+		div({class: 'audio', style, onclick: (e) => e.target.closest('.audio').querySelector('audio').play()}, captionDiv, audioElement);
 }
 
 export { Audio }
