@@ -7,24 +7,22 @@ main.media-item {
 	justify-content: center;
 	flex-grow: 1;
 }
-#media-item .audio,
-#media-item .audio audio {
-	width: 100%;
-	max-width: 1200px;
-}
-#media-item .audio {
-	background-size: 100% 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
 #media-item .audio .caption {
-	background-color: rgba(0, 0, 0, .5);
+	background-color: rgba(0, 0, 0, .6);
 	padding: .25rem .5rem;
+	color: #ddd;
 }
 #media-item .audio .thumbnail {
 	background-size: 100% 100%;
-	flex-grow: 1;
+	aspect-ratio: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	height: 75vh;
+	max-width: 100%;
+}
+#media-item .audio audio {
+	width: 100%;
 }
 #media-item .image img,
 #media-item .video video {
