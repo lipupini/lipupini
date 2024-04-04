@@ -107,7 +107,7 @@ class ApiRequest extends Http {
 
 		if (
 			!array_key_exists($collectionFilePath, $this->collectionData) ||
-			$this->collectionData[$collectionFilePath]['visibility'] === 'hidden'
+			($this->collectionData[$collectionFilePath]['visibility'] ?? null === 'hidden')
 		) {
 			http_response_code(404);
 			return json_encode(['error' => ['code' => 404, 'message' => 'File not found (in collection data)']]);
