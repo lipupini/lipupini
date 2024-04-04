@@ -61,6 +61,7 @@ class ApiRequest extends Http {
 			}
 
 			$this->collectionData[$filePath] += $this->getMediaInfo($mediaFileTypesByExtension, $collectionFolderName, $filePath);
+			$this->collectionData[$filePath]['item'] = $this->system->baseUri . 'api/' . $collectionFolderName . '/' . $filePath . '.json';
 		}
 
 		return json_encode([
