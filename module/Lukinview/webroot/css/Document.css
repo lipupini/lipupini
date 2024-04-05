@@ -24,6 +24,9 @@ main.media-item {
 audio::-webkit-media-controls-enclosure {
 	border-radius: 0;
 }
+#media-item .image a {
+	display: inline-block;
+}
 #media-item .image img,
 #media-item .video video {
 	max-height: 85vh;
