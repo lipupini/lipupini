@@ -50,10 +50,16 @@ footer {
 #media-item {
 	text-align: center;
 }
+#media-item .text object {
+	min-height: 75vh;
+}
 @media (min-width: 600px) {
 	#media-item {
 		display: flex;
 		justify-content: center;
 		flex-grow: 1;
+	}
+	#media-item .text object {
+		min-height: auto;
 	}
 }
