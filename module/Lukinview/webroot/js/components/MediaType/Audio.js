@@ -13,8 +13,14 @@ const Audio = ({collection, baseUri, filename, data, mimeType, gridView}) => {
 		{controls: 'true', preload: 'metadata', loading: 'lazy'},
 		source({src: `${baseUri}${collection}/audio/${filenameEncoded}`, type: mimeType}),
 	)
-	return gridView ? a({class: 'audio-container', href: `/@${collection}/${filenameEncoded}.html`, style}, captionDiv, audioElement) :
-		div({class: 'audio-container', style, onclick: (e) => e.target.closest('.audio-container').querySelector('audio').play()}, captionDiv, audioElement)
+	return gridView ?
+		a({class: 'audio-container', href: `/@${collection}/${filenameEncoded}.html`, style}, captionDiv, audioElement) :
+		div({class: 'audio-container', style,
+			onclick: (e) => {
+				let audio = e.target.closest('.audio-container').querySelector('audio')
+				audio.paused ? audio.play() : audio.pause()
+			}
+		}, captionDiv, audioElement)
 }
 
 export { Audio }

@@ -1,8 +1,8 @@
-import { Video } from './FileType/Video.js'
-import { Image } from './FileType/Image.js'
-import { Audio } from './FileType/Audio.js'
-import { Text } from './FileType/Text.js'
-import { CollectionFolder } from './FileType/CollectionFolder.js'
+import { Video } from './MediaType/Video.js'
+import { Image } from './MediaType/Image.js'
+import { Audio } from './MediaType/Audio.js'
+import { Text } from './MediaType/Text.js'
+import { CollectionFolder } from './MediaType/CollectionFolder.js'
 
 const Document = ({collection, baseUri, filename, data, gridView = false}) => {
 	let extension = filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2)
