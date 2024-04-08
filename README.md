@@ -49,10 +49,12 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Support for the following media file formats: AVIF, FLAC, GIF, JPG, PNG, M4A, MP3, MP4, Markdown, OGG Vorbis
 - Allows subscribing to your content collection via RSS2.0.
 - Search Lipupini accounts from other Fediverse platforms via the ActivityPub protocol.
+- Supports translations/internationalization: See [module/Lukinview/L18n](module/Lukinview/L18n)
 - Automatically fix image orientation and strip private metadata thanks to [Imagine](https://github.com/php-imagine/Imagine) library
 - With [ffmpeg](https://ffmpeg.org) available and `useFfmpeg` [enabled](system/config/state.php), video thumbnails and audio waveforms can be generated automatically.
 - Supports both `"hidden"` and `"unlisted"` options in [files.json](collection/README.md)
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
+- API for retrieving collection data. See [module/Lipupini/Collection/ApiRequest.php](module/Lipupini/Collection/ApiRequest.php)
 - Media collections are self-contained, served as they are on your filesystem. Lipupini-specific collection files are stored in a special `.lipupini` folder, making account collections completely portable.
 - Module system paves a way for collaborative development.
 - Docker support. See [deployment instructions](system/DEPLOY.md#deploying-with-docker).
