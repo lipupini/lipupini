@@ -85,6 +85,9 @@ class DocumentRequest extends Http {
 
 		$parentFolder = dirname($collectionRequestPath);
 		$this->parentPath = '@' . $collectionFolderName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
+		if (!empty($_SERVER['HTTP_REFERER']) && preg_match('#' . preg_quote($this->parentPath) . '\?page=([0-9]+)$#', $_SERVER['HTTP_REFERER'], $matches)) {
+			$this->parentPath .= '?page=' . $matches[1];
+		}
 		$this->htmlHead =
 			'<link rel="stylesheet" href="/css/Document.css">' . "\n" .
 			'<link rel="stylesheet" href="/css/MediaType/' . htmlentities(ucfirst($this->mediaType)) . '.css">' . "\n";
