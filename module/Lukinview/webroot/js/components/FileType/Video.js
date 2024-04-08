@@ -5,12 +5,12 @@ const { div, video, source } = van.tags
 const Video = ({collection, baseUri, filename, data, mimeType}) => {
 	collection = encodeURIComponent(collection)
 	let filenameEncoded = filename.split('/').map((uriComponent) => encodeURIComponent(uriComponent)).join('/')
-	let attributes = {controls: 'true', preload: 'none', loop: 'true', title: data.caption ?? filename.split(/[\\\/]/).pop(), loading: 'lazy'}
+	let attributes = {controls: 'true', preload: 'metadata', loop: 'true', title: data.caption ?? filename.split(/[\\\/]/).pop(), loading: 'lazy'}
 	if (typeof data.thumbnail !== 'undefined') {
 		attributes.poster = `${baseUri}${collection}/thumbnail/${encodeURIComponent(data.thumbnail)}`
 	}
-	return div({class: 'video'},
-			video(attributes, source({src: `${baseUri}${collection}/video/${filenameEncoded}#t=0.5`, type: mimeType}),
+	return div({class: 'video-container'},
+			video(attributes, source({src: `${baseUri}${collection}/video/${filenameEncoded}#t=0.5`, type: mimeType})
 		),
 	)
 }

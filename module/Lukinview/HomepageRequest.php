@@ -6,6 +6,7 @@ use Module\Lipupini\Request\Incoming\Http;
 
 class HomepageRequest extends Http {
 	public string $pageTitle = '';
+	public string $htmlHead = '';
 
 	public function initialize(): void  {
 		if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) !== $this->system->baseUriPath) {
@@ -13,6 +14,7 @@ class HomepageRequest extends Http {
 		}
 
 		$this->pageTitle = 'Homepage@' . $this->system->host;
+		$this->htmlHead = '<link rel="stylesheet" href="/css/Homepage.css">' . "\n";
 
 		$this->renderHtml();
 		$this->system->responseType = 'text/html';

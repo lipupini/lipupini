@@ -92,7 +92,7 @@ class Utility {
 			$return[$filePath] = [];
 		}
 
-		$processThumbnailTypes = array_merge(array_keys($this->system->mediaType['audio']), array_keys($this->system->mediaType['video']));
+		$processThumbnailTypes = array_merge(array_keys($this->system->mediaType['audio'] ?? []), array_keys($this->system->mediaType['video'] ?? []));
 
 		foreach ($return as $mediaFilePath => $mediaFileData) {
 			// If it doesn't already have a caption, use the filename without the extension

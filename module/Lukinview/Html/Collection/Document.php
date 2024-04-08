@@ -5,7 +5,7 @@ use Module\Lipupini\L18n\A;
 
 require(__DIR__ . '/../Core/Open.php') ?>
 
-<main class="media-item">
+<main id="document" class="<?php echo htmlentities($this->mediaType) ?>-document">
 <header class="app-bar">
 	<div class="index pagination"><a href="/<?php echo htmlentities($this->parentPath) ?>" class="button" title="<?php echo $this->parentPath ? htmlentities($this->parentPath) : A::z('Homepage') ?>"><img src="/img/arrow-up-bold.svg" alt="<?php echo $this->parentPath ? htmlentities($this->parentPath) : A::z('Homepage') ?>"></a></div>
 </header>

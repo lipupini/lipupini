@@ -1,0 +1,32 @@
+.audio-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	background-color: #474747;
+	background-size: 100% 100%;
+}
+.audio-container .caption {
+	background-color: rgba(0, 0, 0, .6);
+	padding: .25rem .5rem;
+	font-size: .9rem;
+	color: #ddd;
+}
+.audio-container audio {
+	opacity: .85;
+	width: 100%;
+}
+/* Prevent rounded corners in Chrome */
+.audio-container audio::-webkit-media-controls-enclosure {
+	border-radius: 0;
+}
+#folder .audio-container {
+	aspect-ratio: 1;
+}
+#document #media-item {
+	width: 600px;
+	margin: 0 auto;
+	max-width: 100%;
+}
+#document .audio-container {
+	aspect-ratio: 1;
+}

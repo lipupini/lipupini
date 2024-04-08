@@ -18,7 +18,7 @@ if (!empty($localCollections)) : ?>
 </ul>
 <?php else : ?>
 
-<div class="full-page-center-text">
+<div class="add-collection">
 	<a href="https://github.com/lipupini/lipupini/#add-your-collection" target="_blank" rel="noopener noreferrer"><?php echo A::z('Add your collection') ?></kbd></a>
 </div>
 <?php endif ?>

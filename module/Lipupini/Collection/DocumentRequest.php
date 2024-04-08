@@ -7,11 +7,12 @@ use Module\Lipupini\Request\Incoming\Http;
 
 class DocumentRequest extends Http {
 	public string $pageTitle = '';
-	public string|null $htmlHead = null;
+	public string $htmlHead = '';
 	public string|null $pageImagePreviewUri = null;
 	private array $fileData = [];
 	private string|null $parentPath = null;
 	public string|null $collectionFileName = null;
+	public string|null $mediaType = null;
 
 	public function initialize(): void {
 		if (empty($this->system->request[Collection\Request::class]->folderName)) {
@@ -74,9 +75,9 @@ class DocumentRequest extends Http {
 			return false;
 		}
 
-		$isImageFile = $collectionUtility->mediaTypesByExtension()[pathinfo($this->collectionFileName, PATHINFO_EXTENSION)]['mediaType'] === 'image';
+		$this->mediaType = $collectionUtility->mediaTypesByExtension()[pathinfo($this->collectionFileName, PATHINFO_EXTENSION)]['mediaType'];
 
-		if ($isImageFile) {
+		if ($this->mediaType === 'image') {
 			$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $collectionFolderName . '/image/thumbnail/' . $this->collectionFileName;
 		} else {
 			$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $this->collectionFileName . '.png';
@@ -84,7 +85,9 @@ class DocumentRequest extends Http {
 
 		$parentFolder = dirname($collectionRequestPath);
 		$this->parentPath = '@' . $collectionFolderName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
-		$this->htmlHead = '<link rel="stylesheet" href="/css/Document.css">' . "\n";
+		$this->htmlHead =
+			'<link rel="stylesheet" href="/css/Document.css">' . "\n" .
+			'<link rel="stylesheet" href="/css/MediaType/' . htmlentities(ucfirst($this->mediaType)) . '.css">' . "\n";
 
 		return true;
 	}

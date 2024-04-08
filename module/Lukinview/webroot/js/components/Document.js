@@ -6,13 +6,10 @@ import { CollectionFolder } from './FileType/CollectionFolder.js'
 
 const Document = ({collection, baseUri, filename, data, gridView = false}) => {
 	let extension = filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2)
-
 	if (extension === '') {
 		return CollectionFolder({collection, filename, data})
 	}
-
-	let DocumentComponent;
-
+	let DocumentComponent
 	Object.keys(fileTypes).forEach(fileType => {
 		Object.keys(fileTypes[fileType]).forEach(fileExtension => {
 			if (fileExtension === extension) {
@@ -35,7 +32,6 @@ const Document = ({collection, baseUri, filename, data, gridView = false}) => {
 			}
 		})
 	})
-
 	return DocumentComponent
 }
 

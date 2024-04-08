@@ -1,0 +1,21 @@
+#folder .image-container {
+	aspect-ratio: 1;
+}
+#folder .image-container img {
+	/* 1x1 pixel background image */
+	width: 100%;
+}
+#folder .image-container > div {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	height: 100%;
+}
+#document {
+	text-align: center;
+}
+#document #media-item,
+#document .image-container img {
+	max-height: 85vh;
+	max-width: 100%;
+}

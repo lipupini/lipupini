@@ -7,45 +7,42 @@ body {
 }
 html, body {
 	margin: 0;
-}
-html, body, main {
 	height: 100%;
 }
-body, select, a.button, input {
+body, a {
 	color: #bfbfbf;
-	font-size: 1rem;
 }
 a {
-	color: #bfbfbf;
 	text-decoration: none;
 }
-img {
-	display: block;
-}
-ul {
-	list-style: none;
-	padding: 1.5rem 3rem;
-}
-li {
-	margin-bottom: 0.75rem;
-}
-select, input {
-	padding: 0.75rem;
-}
-label {
-	font-size: 110%;
+a.button {
+	display: inline-flex;
+	flex-direction: column;
+	justify-content: center;
+	font-size: 1.25rem;
 	font-weight: bold;
-	display: block;
+	padding: 1.5rem;
+	border: none;
+	cursor: pointer;
+	opacity: .75;
+}
+a.button:not([disabled]):hover {
+	opacity: 1;
+}
+footer {
+	text-align: center;
+	padding-bottom: 1.5rem;
 }
 .app-bar {
 	display: flex;
 	align-items: center;
-	padding: 1.5rem;
+	padding: 1rem;
 }
 .app-bar > div {
 	width: 100%;
 }
 .app-bar .index {
+	flex: 1;
 	text-align: center;
 }
 .app-bar .next {
@@ -54,32 +51,15 @@ label {
 .app-bar .previous {
 	text-align: right;
 }
-a.button {
-	display: inline-block;
-	font-size: 24px;
-	font-weight: bold;
-	padding: 1.5rem;
-	border: none;
-	cursor: pointer;
-	opacity: .75;
+.app-bar .next,
+.app-bar .previous {
+	flex: 2;
 }
 .app-bar .pagination a.button img {
-	width: 30px;
-	height: 30px;
+	width: 1.8rem;
+	height: 1.8rem;
 }
 .app-bar a.button[disabled] {
 	opacity: 0.125;
 	cursor: unset;
 }
-.app-bar .pagination a.button:not([disabled]):hover {
-	opacity: 1;
-}
-footer .about {
-	text-align: center;
-}
-.full-page-center-text {
-	text-align: center;
-	margin-top: 48vh;
-	text-transform: lowercase;
-}
-

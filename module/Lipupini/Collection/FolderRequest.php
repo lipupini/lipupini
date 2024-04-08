@@ -15,7 +15,7 @@ class FolderRequest extends Http {
 
 	public string $pageTitle = '';
 	public string|null $pageImagePreviewUri = null;
-	public string|null $htmlHead = null;
+	public string $htmlHead = '';
 
 	public string|null $collectionFolderName = null;
 	public string|null $collectionRequestPath = null;
@@ -86,8 +86,11 @@ class FolderRequest extends Http {
 		$avatarUrlPath = Collection\MediaProcessor\Avatar::avatarUrlPath($this->system, $this->collectionFolderName);
 		$this->pageImagePreviewUri = $avatarUrlPath ?? null;
 
-		$this->htmlHead = '<link rel="stylesheet" href="/css/Folder.css">' . "\n"
-			. '<link rel="alternate" type="application/rss+xml" title="'
+		$this->htmlHead .= '<link rel="stylesheet" href="/css/Folder.css">' . "\n";
+		foreach (array_keys($this->system->mediaType) as $mediaType) {
+			$this->htmlHead .= '<link rel="stylesheet" href="/css/MediaType/' . htmlentities(ucfirst($mediaType)) . '.css">' . "\n";
+		}
+		$this->htmlHead .= '<link rel="alternate" type="application/rss+xml" title="'
 				. htmlentities($this->collectionFolderName .  '@' . $this->system->host) . '" href="'
 				. htmlentities($this->system->baseUri . '@' . $this->collectionFolderName . '?feed=rss')
 			. '">' . "\n";

@@ -1,0 +1,18 @@
+.video-container,
+.video-container video {
+	width: auto;
+	height: 100%;
+	max-width: 100%;
+	max-height: 85vh;
+	text-align: center;
+	overflow: hidden;
+}
+.video-container video {
+	background-color: rgba(0, 0, 0, .5);
+}
+#folder .video-container {
+	aspect-ratio: 1;
+}
+#folder video {
+	width: 100%;
+}

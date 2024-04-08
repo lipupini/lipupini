@@ -1,0 +1,37 @@
+#folder .text-container {
+	aspect-ratio: 1;
+	text-align: center;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+#folder .text-container a {
+	text-decoration: underline;
+}
+#folder .text-container a:hover {
+	color: #fff;
+}
+#folder .text-container a > div {
+	padding: 1rem .5rem;
+}
+#document {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+#document #media-item {
+	flex: 1;
+}
+#document .text-container,
+#document .text-container object {
+	width: 100%;
+	height: 100%;
+}
+#document .text-container object {
+	background-color: #ccc;
+}
+#document footer {
+	margin-top: 0;
+	padding-bottom: 0;
+}
