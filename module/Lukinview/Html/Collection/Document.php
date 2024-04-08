@@ -13,7 +13,7 @@ require(__DIR__ . '/../Core/Open.php') ?>
 <script>let baseUri = '<?php echo addslashes($this->system->staticMediaBaseUri) ?>';let collection = '<?php echo addslashes($this->system->request[Collection\Request::class]->folderName) ?>';let filename = '<?php echo addslashes($this->collectionFileName) ?>';let fileData = <?php echo json_encode($this->fileData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;let fileTypes=<?php echo json_encode($this->system->mediaType, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
 <script type="module">
 import van from '/lib/van-1.5.0.min.js'
-import { Document } from '/js/components/Document.js'
+import { Document } from '/js/component/Document.js'
 van.add(document.getElementById('media-item'), Document({collection, baseUri, filename, data: fileData}))
 </script>
 <footer>

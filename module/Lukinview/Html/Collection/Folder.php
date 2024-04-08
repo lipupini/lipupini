@@ -13,7 +13,7 @@ require(__DIR__ . '/../Core/Open.php') ?>
 <div id="media-grid"></div>
 <script>let baseUri='<?php echo addslashes($this->system->staticMediaBaseUri) ?>';let collection='<?php echo addslashes($this->collectionFolderName) ?>';let collectionData=<?php echo json_encode($this->collectionData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;let fileTypes=<?php echo json_encode($this->system->mediaType, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?></script>
 <script type="module">
-import { Folder } from '/js/components/Folder.js'
+import { Folder } from '/js/component/Folder.js'
 Folder({collection, collectionData, baseUri})
 </script>
 <footer>
