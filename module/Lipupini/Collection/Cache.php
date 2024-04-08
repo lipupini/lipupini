@@ -124,10 +124,14 @@ class Cache {
 					$filePath = preg_replace('#\.html$#', '', $filePath);
 				}
 				if (!file_exists($collectionPath . '/' . $filePath)) {
+					$cacheFilePath = $this->path() . '/' . $fileType . '/' . $filePath;
 					if ($echoStatus) {
-						echo 'Media file does not exist in collection, deleting cache file `' . $collectionPath . '/' . $filePath . '`...' . "\n";
+						echo 'Media file does not exist in collection, deleting cache file `' . $cacheFilePath . '`...' . "\n";
 					}
-					unlink($this->path() . '/' . $fileType . '/' . $filePath);
+					unlink($cacheFilePath);
+					if ($fileType === 'text') {
+						unlink($cacheFilePath . '.html');
+					}
 				}
 			}
 		}
