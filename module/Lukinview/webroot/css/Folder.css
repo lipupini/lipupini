@@ -6,11 +6,13 @@
 #folder .folder-container {
 	aspect-ratio: 1;
 	box-sizing: border-box;
+	background: radial-gradient(circle, #424242 0%, #2d2d2d 100%);
 	border: 1px solid rgba(255, 255, 255, 0.75);
 	padding: 0.5rem;
 }
 #folder .folder-container:hover {
-	border: 2px solid rgba(255, 255, 255, 0.9);
+	background: radial-gradient(circle, #484848 0%, #2d2d2d 100%);
+	border-width: 2px;
 	font-size: 110%;
 }
 #folder .folder-container a {
