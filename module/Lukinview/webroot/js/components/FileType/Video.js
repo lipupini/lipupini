@@ -10,7 +10,7 @@ const Video = ({collection, baseUri, filename, data, mimeType}) => {
 		attributes.poster = `${baseUri}${collection}/thumbnail/${encodeURIComponent(data.thumbnail)}`
 	}
 	return div({class: 'video-container'},
-			video(attributes, source({src: `${baseUri}${collection}/video/${filenameEncoded}#t=0.5`, type: mimeType})
+			video(attributes, source({src: `${baseUri}${collection}/video/${filenameEncoded}`, type: mimeType})
 		),
 	)
 }
