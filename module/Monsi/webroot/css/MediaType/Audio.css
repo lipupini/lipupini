@@ -1,0 +1,40 @@
+.audio-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	background-color: #474747;
+	background-size: 100% 100%;
+	position: relative;
+}
+#media-grid .audio-container {
+	aspect-ratio: 1;
+}
+.audio-container .caption {
+	background-color: rgba(0, 0, 0, .6);
+	padding: .25rem .5rem;
+	font-size: .9rem;
+	color: #ddd;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	box-sizing: border-box;
+	z-index: 5;
+}
+/*.audio-container wave {
+	opacity: 0;
+	transition-property: opacity;
+	transition-duration: 0.5s;
+}
+.audio-container:hover wave {
+	opacity: 1;
+}*/
+#media-item {
+	width: 600px;
+	margin: 0 auto;
+	max-width: 100%;
+}
+#media-grid .audio-container .video-js,
+#media-item .audio-container .video-js {
+	height: 100%;
+}
