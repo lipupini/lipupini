@@ -86,7 +86,7 @@ class Request extends Http {
 				$metaData['medium'] = 'video';
 				$metaData['mime'] = $this->system->mediaType['video'][$extension];
 				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/video/' . $filePath;
-				$thumbnail = !empty($metaData['thumbnail']) ? ' thumbnail="' . htmlentities($this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $metaData['thumbnail']) . '"' : '';
+				$thumbnail = !empty($metaData['thumbnail']) ? ' thumbnail="' . htmlentities($metaData['thumbnail']) . '"' : '';
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<video controls loop' . $thumbnail . '><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></video>';
 			} else if (in_array($extension, array_keys($this->system->mediaType['audio']))) {

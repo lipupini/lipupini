@@ -8,7 +8,7 @@ const Audio = ({collection, baseUri, filename, data, mimeType, gridView}) => {
 	let title = data.caption ?? filename.split(/[\\\/]/).pop()
 	let captionDiv = div({class: 'caption'}, title)
 	let style = typeof data.thumbnail !== 'undefined' ?
-		'background-image:url("' + `${baseUri}${collection}/thumbnail/${encodeURIComponent(data.thumbnail)}` + '")' : ''
+		'background-image:url("' + encodeURI(data.thumbnail) + '")' : ''
 	let audioElement = audio(
 		{controls: 'true', preload: 'metadata', loading: 'lazy'},
 		source({src: `${baseUri}${collection}/audio/${filenameEncoded}`, type: mimeType}),

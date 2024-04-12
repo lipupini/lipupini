@@ -103,6 +103,9 @@ class Utility {
 			if (in_array(pathinfo($mediaFilePath, PATHINFO_EXTENSION), $processThumbnailTypes)) {
 				// If the media file has a thumbnail specified in `files.json` already then skip it
 				if (!empty($mediaFileData['thumbnail'])) {
+					if (!parse_url($mediaFileData['thumbnail'], PHP_URL_HOST)) {
+						$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $mediaFileData['thumbnail'];
+					}
 					continue;
 				}
 				// Check if a corresponding thumbnail file is saved by the same name
@@ -112,7 +115,7 @@ class Utility {
 					continue;
 				}
 				// We found a thumbnail file (or plan to try and generate one) so add it to `$return`
-				$return[$mediaFilePath]['thumbnail'] = $mediaFilePath . '.png';
+				$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $mediaFilePath . '.png';
 			}
 		}
 

@@ -148,13 +148,13 @@ Using Ngrok, with an upgraded plan you can setup a fairly restrictive port firew
 
 ## The Name
 
-"Lipupini" is a "word formed by combining other words" (portmanteau), and "lipu pini" in this context translates to "past document" in [Toki Pona core](https://zrajm.github.io/toki-pona-syllabics/dictionary/). Lipupini is for organizing computer files like images, videos, sounds and writings that you might want to display under your domain on the Internet.
+"Lipupini" is a word formed by combining other words (portmanteau), and "lipu pini" in this context translates to "past document" in [Toki Pona core](https://zrajm.github.io/toki-pona-syllabics/dictionary/). Lipupini is for organizing computer files like images, videos, sounds and writings that you might want to display under your domain on the Internet.
 
 ## Demo
 
 Here is what it can look like so far: https://lipupini-demo.dup.bz/@example
 
-Though ActivityPub implementation is currently limited, the demo is searchable in the Fediverse `@example@lipupini-demo.dup.bz`
+Though ActivityPub implementation is currently limited, the demo is searchable in properly-configured Fediverse clients `@example@lipupini-demo.dup.bz`
 
 **NOTE:** Please use [activitypub.academy](https://activitypub.academy) Mastondon server for testing, as this is a test server.
 

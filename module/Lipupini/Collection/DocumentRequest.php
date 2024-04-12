@@ -12,6 +12,7 @@ class DocumentRequest extends Http {
 	private array $fileData = [];
 	private string|null $parentPath = null;
 	public string|null $collectionFileName = null;
+	public string|null $collectionFolderName = null;
 	public string|null $mediaType = null;
 
 	public function initialize(): void {
@@ -55,16 +56,16 @@ class DocumentRequest extends Http {
 	}
 
 	private function loadViewData(): bool {
-		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
+		$this->collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
 		$collectionRequestPath = $this->system->request[Collection\Request::class]->path;
 
-		$this->pageTitle = $collectionRequestPath . '@' . $collectionFolderName . '@' . $this->system->host;
+		$this->pageTitle = $collectionRequestPath . '@' . $this->collectionFolderName . '@' . $this->system->host;
 		$collectionUtility = new Collection\Utility($this->system);
 
 		// `$collectionRequestPath` has a filename, we want to know what directory it's in
 		$collectionRequestPathFolder = pathinfo($collectionRequestPath, PATHINFO_DIRNAME);
 		$collectionRequestPathFolder = $collectionRequestPathFolder === '.' ? '' : $collectionRequestPathFolder;
-		$collectionData = $collectionUtility->getCollectionData($collectionFolderName, $collectionRequestPathFolder, true);
+		$collectionData = $collectionUtility->getCollectionData($this->collectionFolderName, $collectionRequestPathFolder, true);
 		if (array_key_exists($this->collectionFileName, $collectionData)) {
 			$this->fileData = $collectionData[$this->collectionFileName];
 		} else {
@@ -78,13 +79,13 @@ class DocumentRequest extends Http {
 		$this->mediaType = $collectionUtility->mediaTypesByExtension()[pathinfo($this->collectionFileName, PATHINFO_EXTENSION)]['mediaType'];
 
 		if ($this->mediaType === 'image') {
-			$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $collectionFolderName . '/image/thumbnail/' . $this->collectionFileName;
+			$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $this->collectionFolderName . '/image/thumbnail/' . $this->collectionFileName;
 		} else {
-			$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $this->collectionFileName . '.png';
+			$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $this->collectionFolderName . '/thumbnail/' . $this->collectionFileName . '.png';
 		}
 
 		$parentFolder = dirname($collectionRequestPath);
-		$this->parentPath = '@' . $collectionFolderName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
+		$this->parentPath = '@' . $this->collectionFolderName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
 		if (!empty($_SERVER['HTTP_REFERER']) && preg_match('#' . preg_quote($this->parentPath) . '\?page=([0-9]+)$#', $_SERVER['HTTP_REFERER'], $matches)) {
 			$this->parentPath .= '?page=' . $matches[1];
 		}
