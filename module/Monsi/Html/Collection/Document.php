@@ -20,13 +20,19 @@ $extension = pathinfo($this->collectionFileName, PATHINFO_EXTENSION);
 switch ($mediaTypesByExtension[$extension]['mediaType']) :
 case 'audio' : ?>
 
-<div class="audio-container">
-	<audio id="audio-<?php echo sha1($this->collectionFileName) ?>" class="video-js vjs-default-skin"></audio>
-	<script>
-		let audio<?php echo sha1($this->collectionFileName) ?> = videojs('audio-<?php echo sha1($this->collectionFileName) ?>', wavesurferOptions, function() {
-			audio<?php echo sha1($this->collectionFileName) ?>.src({src: '<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/audio/' . $this->collectionFileName) ?>', type: '<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>'});
-		});
-	</script>
+<div class="audio-container audio-waveform-seek">
+	<div class="caption"><span><?php echo htmlentities($this->fileData['caption']) ?></span></div>
+	<audio controls="controls" preload="metadata">
+		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/audio/' . $this->collectionFileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+	</audio>
+	<div class="waveform" style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionFolderName . '/thumbnail/' . $this->collectionFileName . '.waveform.png') ?>')">
+		<div class="elapsed"></div>
+	</div>
+	<?php if (!empty($this->fileData['thumbnail'])) : ?>
+
+	<img src="<?php echo htmlentities($this->fileData['thumbnail']) ?>">
+	<?php endif ?>
+
 </div>
 <?php break;
 case 'image' : ?>

@@ -17,26 +17,30 @@ require(__DIR__ . '/../Core/Open.php') ?>
 	</nav>
 </header>
 <main id="media-grid">
-<?php foreach ($this->collectionData as $fileName => $item) :
+<?php
+foreach ($this->collectionData as $fileName => $item) :
 $extension = pathinfo($fileName, PATHINFO_EXTENSION);
 if ($extension) :
 switch ($mediaTypesByExtension[$extension]['mediaType']) :
-case 'audio' : ?>
+case 'audio' :
 
-<div class="audio-container">
-	<div class="caption"><?php echo htmlentities($item['caption']) ?></div>
-	<audio id="audio-<?php echo sha1($fileName) ?>" class="video-js vjs-default-skin"></audio>
-	<script>
-		let audio<?php echo sha1($fileName) ?> = videojs('audio-<?php echo sha1($fileName) ?>', wavesurferOptions, function() {
-			audio<?php echo sha1($fileName) ?>.src({src: '<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/audio/' . $fileName) ?>', type: '<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>'});
-		});
-	</script>
+$style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  addslashes($this->system->staticMediaBaseUri . $this->collectionFolderName . '/thumbnail/' . $fileName . '.png')  . '\')"' : '';
+?>
+
+<div class="audio-container audio-waveform-seek"<?php echo $style ?>>
+	<div class="caption"><a href="/@<?php echo htmlentities($this->collectionFolderName . '/' . $fileName) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
+	<div class="waveform" style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionFolderName . '/thumbnail/' . $fileName . '.waveform.png') ?>')">
+		<div class="elapsed"></div>
+	</div>
+	<audio controls="controls" preload="metadata">
+		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/audio/' . $fileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+	</audio>
 </div>
 <?php break;
 case 'image' : ?>
 
 <a href="/@<?php echo htmlentities($this->collectionFolderName . '/' . $fileName) ?>.html" class="image-container">
-	<div style="background-image: url('<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/image/thumbnail/' . $fileName) ?>');">
+	<div style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionFolderName . '/image/thumbnail/' . $fileName) ?>')">
 		<img src="/img/1x1.png" title="<?php echo htmlentities($item['caption']) ?>" loading="lazy">
 	</div>
 </a>
