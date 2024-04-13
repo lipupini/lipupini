@@ -21,7 +21,7 @@ class Request extends Http {
 	}
 
 	protected function getCollectionRequestPath() {
-		return urldecode(parse_url(
+		return rawurldecode(parse_url(
 			preg_replace('#^/@' . $this->folderName . '/?#', '', $_SERVER['REQUEST_URI']),
 			PHP_URL_PATH
 		) ?? '');
