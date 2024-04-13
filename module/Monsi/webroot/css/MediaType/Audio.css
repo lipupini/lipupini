@@ -43,6 +43,9 @@
 	transition-property: width;
 	transition-duration: .15s;
 }
+.audio-container .elapsed.hidden {
+	opacity: 0;
+}
 #media-grid .audio-container {
 	position: relative;
 	aspect-ratio: 1;
