@@ -31,6 +31,8 @@
 }
 #media-grid .audio-container .waveform {
 	flex: 1;
+	display: flex;
+	flex-direction: column;
 }
 #media-item .audio-container .waveform {
 	height: 75px;
@@ -69,10 +71,11 @@
 	transition-duration: .25s;
 	transition-property: opacity;
 }
-#media-grid .audio-container:hover .caption {
-	opacity: .2;
+#media-grid .audio-container[style]:hover .caption {
+	opacity: 0;
 }
-#media-grid .audio-container .caption:hover {
+#media-grid .audio-container .caption:hover,
+#media-grid .audio-container[style] .caption:hover {
 	opacity: 1;
 }
 /* Prevent rounded corners in Chrome */
@@ -82,6 +85,9 @@
 #media-item {
 	width: 600px;
 	margin: 0 auto;
+}
+#media-item,
+#media-item img {
 	max-width: 100%;
 }
 #media-grid .audio-container .video-js,

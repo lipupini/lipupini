@@ -31,10 +31,10 @@ $style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  addsl
 	<div class="caption"><a href="/@<?php echo htmlentities($this->collectionFolderName . '/' . $fileName) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
 	<div class="waveform" style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionFolderName . '/thumbnail/' . $fileName . '.waveform.png') ?>')">
 		<div class="elapsed hidden"></div>
+		<audio controls="controls" preload="metadata">
+			<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/audio/' . $fileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+		</audio>
 	</div>
-	<audio controls="controls" preload="metadata">
-		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/audio/' . $fileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
-	</audio>
 </div>
 <?php break;
 case 'image' : ?>
