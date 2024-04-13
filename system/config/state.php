@@ -50,6 +50,7 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\Request::class => null, // This is where the collection folder name is determined for subsequent modules
 		Module\Lipupini\Collection\MediaProcessor\Request\AudioRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\AudioThumbnailRequest::class => null,
+		Module\Lipupini\Collection\MediaProcessor\Request\AudioWaveformRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\AvatarRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\ImageRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\TextRequest::class => null,

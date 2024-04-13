@@ -92,7 +92,7 @@ class Utility {
 			$return[$filePath] = [];
 		}
 
-		$processThumbnailTypes = array_merge(array_keys($this->system->mediaType['audio'] ?? []), array_keys($this->system->mediaType['video'] ?? []));
+		$processThumbnailTypes = array_merge($this->system->mediaType['audio'] ?? [], $this->system->mediaType['video'] ?? []);
 
 		foreach ($return as $mediaFilePath => $mediaFileData) {
 			// If it doesn't already have a caption, use the filename without the extension
@@ -100,7 +100,8 @@ class Utility {
 				$return[$mediaFilePath]['caption'] = pathinfo($mediaFilePath, PATHINFO_FILENAME);
 			}
 			// Process thumbnails for audio and video
-			if (in_array(pathinfo($mediaFilePath, PATHINFO_EXTENSION), $processThumbnailTypes)) {
+			$extension = pathinfo($mediaFilePath, PATHINFO_EXTENSION);
+			if (in_array(pathinfo($mediaFilePath, PATHINFO_EXTENSION), array_keys($processThumbnailTypes))) {
 				// If the media file has a thumbnail specified in `files.json` already then skip it
 				if (!empty($mediaFileData['thumbnail'])) {
 					if (!parse_url($mediaFileData['thumbnail'], PHP_URL_HOST)) {
@@ -108,14 +109,27 @@ class Utility {
 					}
 					continue;
 				}
+				$isAudio = str_starts_with($processThumbnailTypes[$extension], 'audio');
 				// Check if a corresponding thumbnail file is saved by the same name
 				$thumbnailFile = $collectionRootPath . '/.lipupini/thumbnail/' . $mediaFilePath . '.png';
+				$waveformFile = $collectionRootPath . '/.lipupini/thumbnail/' . $mediaFilePath . '.waveform.png';
 				// If `useFfmpeg` is not enabled and the thumbnail does not already exist, then skip it because we won't try to create it in this case
-				if (!$this->system->useFfmpeg && !file_exists($thumbnailFile)) {
+				if (
+					!$this->system->useFfmpeg &&
+					(
+						(!$isAudio && !file_exists($thumbnailFile)) ||
+						($isAudio && !file_exists($waveformFile))
+					)
+				) {
 					continue;
 				}
 				// We found a thumbnail file (or plan to try and generate one) so add it to `$return`
-				$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $mediaFilePath . '.png';
+				if ($isAudio) {
+					$return[$mediaFilePath]['waveform'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $mediaFilePath . '.waveform.png';
+				}
+				if (!$isAudio || file_exists($thumbnailFile)) {
+					$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $mediaFilePath . '.png';
+				}
 			}
 		}
 

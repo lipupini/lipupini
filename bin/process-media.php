@@ -67,6 +67,7 @@ foreach ($collectionDataPrepared as $fileTypeFolder => $filePaths) {
 			foreach ($filePaths as $filePath) {
 				MediaProcessor\Audio::cacheSymlink($systemState, $collectionFolderName, $fileTypeFolder, $filePath, echoStatus: true);
 				MediaProcessor\AudioThumbnail::cacheSymlinkAudioThumbnail($systemState, $collectionFolderName, $filePath, echoStatus: true);
+				MediaProcessor\AudioWaveform::cacheSymlinkAudioWaveform($systemState, $collectionFolderName, $filePath, echoStatus: true);
 			}
 			break;
 		case 'video' :

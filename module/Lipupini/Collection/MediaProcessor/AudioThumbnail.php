@@ -11,8 +11,12 @@ class AudioThumbnail {
 	public static function cacheSymlinkAudioThumbnail(State $systemState, string $collectionFolderName, string $audioPath, bool $echoStatus = false): false|string {
 		$cache = new Cache($systemState, $collectionFolderName);
 		$thumbnailPath = $audioPath . '.png';
-
 		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionFolderName . '/.lipupini/thumbnail/' . $thumbnailPath;
+
+		if (!file_exists($thumbnailPathFull)) {
+			return false;
+		}
+
 		$fileCachePath = $cache->path() . '/thumbnail/' . $thumbnailPath;
 
 		$cache::staticCacheSymlink($systemState, $collectionFolderName);
@@ -23,7 +27,7 @@ class AudioThumbnail {
 			return $fileCachePath;
 		}
 
-		// Make sure the files exists in the collection before proceeding
+		// Make sure the file exists in the collection before proceeding
 		if (!file_exists($systemState->dirCollection . '/' . $collectionFolderName . '/' . $audioPath)) {
 			return false;
 		}
@@ -32,23 +36,13 @@ class AudioThumbnail {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);
 		}
 
-		// If the waveform already exists then don't try to create it
-		if (!file_exists($thumbnailPathFull)) {
-			static::saveAudioWaveform($systemState, $collectionFolderName, $audioPath, $thumbnailPath, $echoStatus);
-
-			// After generating the waveform, `$thumbnailPathFull` should exist
-			if (!file_exists($thumbnailPathFull)) {
-				return false;
-			}
-		}
-
-		// If `$fileCachePath` is already there we don't need to do a cache symlink it so return
+		// If `$fileCachePath` is already there we don't need to do a cache symlink, and we can use what's there
 		if (file_exists($fileCachePath)) {
 			return $fileCachePath;
 		}
 
 		if ($echoStatus) {
-			echo 'Symlinking audio waveform thumbnail to cache for `' . $thumbnailPath . '`...' . "\n";
+			echo 'Symlinking audio thumbnail to cache for `' . $thumbnailPath . '`...' . "\n";
 		}
 
 		// Link the thumbnail path to the collection's cache
@@ -58,40 +52,5 @@ class AudioThumbnail {
 		);
 
 		return $fileCachePath;
-	}
-
-	public static function saveAudioWaveform(State $systemState, string $collectionFolderName, string $audioPath, string $thumbnailPath, bool $echoStatus = false) {
-		if (!Utility::hasFfmpeg($systemState)) {
-			return false;
-		}
-
-		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
-		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionFolderName . '/.lipupini/thumbnail/' . $thumbnailPath;
-
-		if (file_exists($thumbnailPathFull)) {
-			return true;
-		}
-
-		if (!is_dir(pathinfo($thumbnailPathFull, PATHINFO_DIRNAME))) {
-			mkdir(pathinfo($thumbnailPathFull, PATHINFO_DIRNAME), 0755, true);
-		}
-
-		if ($echoStatus) {
-			echo 'Saving audio waveform thumbnail for `' . $audioPath . '`...' . "\n";
-		}
-
-		$command = $systemState->dirRoot . '/bin/ffmpeg-audio-waveform.php ' . escapeshellarg($collectionPath . '/' . $audioPath) . ' ' . escapeshellarg($thumbnailPathFull);
-		// `ffmpeg` output is purged from display with `> /dev/null 2>&1`. Remove it to see `ffmpeg` output
-		$command .=  ' > /dev/null 2>&1';
-		exec($command, $output, $returnCode);
-
-		if ($returnCode !== 0) {
-			if ($echoStatus) {
-				echo 'ERROR: Received non-zero exit status from `ffmpeg` for ' . $audioPath . "\n";
-			}
-			return false;
-		}
-
-		return true;
 	}
 }
