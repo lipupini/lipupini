@@ -1,7 +1,6 @@
 document.querySelectorAll('.audio-waveform-seek').forEach(container => {
 	const isTouchDevice = 'ontouchstart' in document.documentElement
 	const audio = container.querySelector('audio')
-	const audioHasThumbnail = !!container.style.backgroundImage
 	const waveform = container.querySelector('.waveform')
 	const elapsed = waveform.querySelector('.elapsed')
 	const transitionDuration = elapsed.style.transitionDuration
@@ -11,7 +10,7 @@ document.querySelectorAll('.audio-waveform-seek').forEach(container => {
 	audio.addEventListener('timeupdate', () => {
 		elapsed.style.width = ((audio.currentTime / audio.duration) * 100) + '%'
 	})
-	let trackingMouseMove, touchedOnce = false
+	let trackingMouseMove = false
 	const moveElapsed = (e) => {
 		if (elapsed.style.transitionDuration !== 'unset') {
 			elapsed.style.transitionDuration = 'unset'
@@ -19,7 +18,7 @@ document.querySelectorAll('.audio-waveform-seek').forEach(container => {
 		elapsed.style.width = ((e.layerX / waveform.scrollWidth) * 100) + '%'
 	}
 	const applyElapsedChange = () => {
-		if (!trackingMouseMove || (isTouchDevice && audioHasThumbnail && !touchedOnce)) return
+		if (!trackingMouseMove) return
 		if (isTouchDevice) {
 			waveform.removeEventListener('touchmove', moveElapsed)
 		} else {
@@ -30,8 +29,8 @@ document.querySelectorAll('.audio-waveform-seek').forEach(container => {
 		trackingMouseMove = false
 	}
 	waveform.addEventListener('mousedown', (e) => {
-		if (isTouchDevice && audioHasThumbnail && touchedOnce === false) {
-			touchedOnce = true
+		/* See CSS hover state for waveform, on mobile it takes effect on touch */
+		if (isTouchDevice && window.getComputedStyle(waveform).opacity === '0') {
 			return
 		}
 		elapsed.classList.remove('hidden')
