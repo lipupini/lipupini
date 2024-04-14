@@ -45,9 +45,14 @@ return new Module\Lipupini\State(
 		// each `request` key here will instead hold the module instance itself
 		Module\Lukinview\HomepageRequest::class => null,
 		Module\Lipupini\WebFinger\Request::class => null,
+		Module\Lipupini\Collection\Request::class => null, // This is where the collection name and folder is determined for subsequent modules
+		Module\Lipupini\Html\Collection\MediaItemRequest::class => null, // Must be before Html\Collection\FolderRequest
+		Module\Lipupini\Html\Collection\FolderRequest::class => null,
+		Module\Lipupini\Html\Collection\ListRequest::class => null,
+		Module\Lipupini\Api\Request::class => null,
+		Module\Lipupini\Rss\Request::class => null,
+		Module\Lipupini\ActivityPub\Request::class => null,
 		Module\Lipupini\ActivityPub\NodeInfoRequest::class => null,
-		Module\Lipupini\Collection\ApiRequest::class => null, // The API request determines collection name in its own way, so it can come before `Collection\Request`
-		Module\Lipupini\Collection\Request::class => null, // This is where the collection folder name is determined for subsequent modules
 		Module\Lipupini\Collection\MediaProcessor\Request\AudioRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\AudioThumbnailRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\AudioWaveformRequest::class => null,
@@ -56,10 +61,6 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\MediaProcessor\Request\TextRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\VideoRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\VideoThumbnailRequest::class => null,
-		Module\Lipupini\Rss\Request::class => null, // This should be before the document/folder requests and after collection request
-		Module\Lipupini\ActivityPub\Request::class => null, // This should be before the document/folder requests and after collection request
-		Module\Lipupini\Collection\DocumentRequest::class => null,
-		Module\Lipupini\Collection\FolderRequest::class => null,
 	],
 	activityPubLog: false,
 	debug: false

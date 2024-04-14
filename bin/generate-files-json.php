@@ -12,17 +12,17 @@ if (empty($argv[1])) {
 	exit(1);
 }
 
-$collectionFolderName = $argv[1];
+$collectionName = $argv[1];
 
-(new Collection\Utility($systemState))->validateCollectionFolderName($collectionFolderName);
+(new Collection\Utility($systemState))->validateCollectionName($collectionName);
 
-$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
+$collectionPath = $systemState->dirCollection . '/' . $collectionName;
 $lipupiniPath = $collectionPath . '/.lipupini';
 
 if (
 	file_exists($lipupiniPath . '/files.json')
 ) {
-	echo 'File already exists: `collection/' . $collectionFolderName . '/.lipupini/files.json`' . "\n";
+	echo 'File already exists: `collection/' . $collectionName . '/.lipupini/files.json`' . "\n";
 	exit(0);
 }
 
@@ -32,7 +32,7 @@ if (!is_dir($lipupiniPath)) {
 	mkdir($lipupiniPath, 0755, true);
 }
 
-echo 'Generating `collection/' . $collectionFolderName . '/.lipupini/files.json`...' . "\n";
+echo 'Generating `collection/' . $collectionName . '/.lipupini/files.json`...' . "\n";
 
 $dir = new \DirectoryIterator($collectionPath);
 $files = [];

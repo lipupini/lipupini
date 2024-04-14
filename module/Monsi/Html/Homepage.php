@@ -12,7 +12,7 @@ if (!empty($localCollections)) : ?>
 <ul>
 	<?php foreach ($localCollections as $localCollection) : ?>
 
-	<li><a href="/@<?php echo htmlentities($localCollection) ?>"><?php echo htmlentities($localCollection) ?></a></li>
+	<li><a href="/@/<?php echo htmlentities($localCollection) ?>"><?php echo htmlentities($localCollection) ?></a></li>
 	<?php endforeach ?>
 
 </ul>

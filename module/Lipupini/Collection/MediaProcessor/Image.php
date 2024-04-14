@@ -74,11 +74,11 @@ class Image {
 		return static::$imagine;
 	}
 
-	public static function processAndCache(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $sizePreset, string $filePath, bool $echoStatus = false): false|string {
-		$cache = new Cache($systemState, $collectionFolderName);
-		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
+	public static function processAndCache(State $systemState, string $collectionName, string $fileTypeFolder, string $sizePreset, string $filePath, bool $echoStatus = false): false|string {
+		$cache = new Cache($systemState, $collectionName);
+		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
 
-		$cache::staticCacheSymlink($systemState, $collectionFolderName);
+		$cache::staticCacheSymlink($systemState, $collectionName);
 
 		$fileCachePath = $cache->path() . '/' . $fileTypeFolder . '/' . $sizePreset . '/' . $filePath;
 

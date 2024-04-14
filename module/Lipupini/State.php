@@ -22,7 +22,7 @@ class State {
 		public string $staticMediaBaseUri = 'http://dev.null/c/', // Also has a trailing slash
 		public string $frontendModule     = 'Lukinview',
 		public string $viewLanguage       = 'english',
-		public string $userAgent          = '(Lipupini/69.420; +https://github.com/lipupini/lipupini)',
+		public string $userAgent          = '(Lipupini/5.x; +https://github.com/lipupini/lipupini)',
 		public int    $itemsPerPage       = 36,
 		public array  $mediaSize          = ['large' => [5000, 5000], 'thumbnail' => [600, 600]], // Default [width, height] for each preset
 		public array  $mediaType          = [

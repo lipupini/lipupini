@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Lipupini\Collection;
+namespace Module\Lipupini\Html\Collection;
 
 use Module\Lipupini\Collection;
 use Module\Lipupini\Request\Incoming\Http;
@@ -17,22 +17,32 @@ class FolderRequest extends Http {
 	public string|null $pageImagePreviewUri = null;
 	public string $htmlHead = '';
 
-	public string|null $collectionFolderName = null;
-	public string|null $collectionRequestPath = null;
+	public string $collectionName = '';
+	public string $collectionFolder = '';
 
 	public function initialize(): void {
-		if (empty($this->system->request[Collection\Request::class]->folderName)) {
+		// URLs start with `/@/`
+		if (!preg_match('#^/@/?#', $_SERVER['REQUEST_URI'])) {
 			return;
 		}
 
-		$this->collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
-		$this->collectionRequestPath = $this->system->request[Collection\Request::class]->path;
-
-		// Only applies to, e.g. http://locahost/@example
-		// Does not apply to http://locahost/@example/memes/cat-computer.jpg.html
-		if (pathinfo($this->collectionRequestPath, PATHINFO_EXTENSION)) {
+		// Must have a collection name populated to proceed
+		if (empty($this->system->request[Collection\Request::class]->name)) {
 			return;
-		} else if (!is_dir($this->system->dirCollection . '/' . $this->collectionFolderName . '/' . $this->collectionRequestPath)) {
+		}
+
+		$this->collectionName = $this->system->request[Collection\Request::class]->name;
+		$folder = $this->system->request[Collection\Request::class]->folder;
+
+		(new Collection\Utility($this->system))->validateCollectionFolder($this->collectionName, $folder);
+
+		$this->collectionFolder = $folder;
+
+		// Only applies to, e.g. http://locahost/@/example
+		// Does not apply to http://locahost/@/example/memes/cat-computer.jpg.html
+		if (pathinfo($this->collectionFolder, PATHINFO_EXTENSION)) {
+			return;
+		} else if (!is_dir($this->system->dirCollection . '/' . $this->collectionName . '/' . $this->collectionFolder)) {
 			return;
 		}
 
@@ -49,23 +59,23 @@ class FolderRequest extends Http {
 	}
 
 	private function loadViewData(): void {
-		$this->collectionData = (new Collection\Utility($this->system))->getCollectionData($this->collectionFolderName, $this->collectionRequestPath);
+		$this->collectionData = (new Collection\Utility($this->system))->getCollectionData($this->collectionName, $this->collectionFolder);
 
 		$this->loadPaginationAttributes();
 
-		if ($this->collectionRequestPath) {
-			$this->pageTitle = $this->collectionRequestPath . '@' . $this->collectionFolderName . '@' . $this->system->host;
-			$this->parentPath = '@' . $this->collectionFolderName;
-			$exploded = explode('/', $this->collectionRequestPath);
+		if ($this->collectionFolder) {
+			$this->pageTitle = $this->collectionFolder . '@' . $this->collectionName . '@' . $this->system->host;
+			$this->parentPath = '@/' . $this->collectionName;
+			$exploded = explode('/', $this->collectionFolder);
 			if (count($exploded) >= 2) {
 				$this->parentPath .= '/' . implode('/', array_slice($exploded, 0, -1));
 			}
 		} else {
-			$this->pageTitle = '@' . $this->collectionFolderName . '@' . $this->system->host;
-			$this->parentPath = '';
+			$this->pageTitle = '@' . $this->collectionName . '@' . $this->system->host;
+			$this->parentPath = '@';
 		}
 
-		$webPath = '/@' . $this->collectionFolderName . ($this->collectionRequestPath ? '/' . $this->collectionRequestPath : '');
+		$webPath = '/@/' . $this->collectionName . ($this->collectionFolder ? '/' . $this->collectionFolder : '');
 
 		if ($this->page < $this->numPages) {
 			$query['page'] = $this->page + 1;
@@ -83,7 +93,7 @@ class FolderRequest extends Http {
 			$this->prevUrl = false;
 		}
 
-		$avatarUrlPath = Collection\MediaProcessor\Avatar::avatarUrlPath($this->system, $this->collectionFolderName);
+		$avatarUrlPath = Collection\MediaProcessor\Avatar::avatarUrlPath($this->system, $this->collectionName);
 		$this->pageImagePreviewUri = $avatarUrlPath ?? null;
 
 		$this->htmlHead .= '<link rel="stylesheet" href="/css/Folder.css">' . "\n";
@@ -91,8 +101,8 @@ class FolderRequest extends Http {
 			$this->htmlHead .= '<link rel="stylesheet" href="/css/MediaType/' . htmlentities(ucfirst($mediaType)) . '.css">' . "\n";
 		}
 		$this->htmlHead .= '<link rel="alternate" type="application/rss+xml" title="'
-				. htmlentities($this->collectionFolderName .  '@' . $this->system->host) . '" href="'
-				. htmlentities($this->system->baseUri . '@' . $this->collectionFolderName . '?feed=rss')
+				. htmlentities($this->collectionName .  '@' . $this->system->host) . '" href="'
+				. htmlentities($this->system->baseUri . 'rss/' . $this->collectionName . '/' . $this->collectionName . '-feed.rss')
 			. '">' . "\n";
 	}
 }

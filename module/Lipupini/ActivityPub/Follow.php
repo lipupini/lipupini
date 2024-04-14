@@ -46,22 +46,22 @@ class Follow {
 			throw new Exception('Could not determine inbox URL', 400);
 		}
 
-		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
+		$collectionName = $this->system->request[Collection\Request::class]->name;
 
 		// Create the JSON payload for the Follow activity (adjust as needed)
 		$followActivity = [
 			'@context' => 'https://www.w3.org/ns/activitystreams',
-			'id' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile#follow/' . md5(rand(0, 1000000) . microtime(true)),
+			'id' => $this->system->baseUri . 'ap/' . $collectionName . '/profile#follow/' . md5(rand(0, 1000000) . microtime(true)),
 			'type' => 'Follow',
-			'actor' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile',
+			'actor' => $this->system->baseUri . 'ap/' . $collectionName . '/profile',
 			'object' => $remoteActor->getId(),
 		];
 
 		$activityJson = json_encode($followActivity, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
 		Outgoing\Http::sendSigned(
-			keyId: $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile#main-key',
-			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/rsakey.private'),
+			keyId: $this->system->baseUri . 'ap/' . $collectionName . '/profile#main-key',
+			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $collectionName . '/.lipupini/rsakey.private'),
 			inboxUrl: $remoteActor->getInboxUrl(),
 			body: $activityJson,
 			headers: [

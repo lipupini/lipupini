@@ -8,14 +8,14 @@ use Module\Lipupini\Collection\Utility;
 use Module\Lipupini\State;
 
 class VideoThumbnail {
-	public static function cacheSymlinkVideoThumbnail(State $systemState, string $collectionFolderName, string $videoPath, bool $echoStatus = false): false|string {
-		$cache = new Cache($systemState, $collectionFolderName);
+	public static function cacheSymlinkVideoThumbnail(State $systemState, string $collectionName, string $videoPath, bool $echoStatus = false): false|string {
+		$cache = new Cache($systemState, $collectionName);
 		$thumbnailPath = $videoPath . '.png';
 
-		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionFolderName . '/.lipupini/thumbnail/' . $thumbnailPath;
+		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/thumbnail/' . $thumbnailPath;
 		$fileCachePath = $cache->path() . '/thumbnail/' . $thumbnailPath;
 
-		$cache::staticCacheSymlink($systemState, $collectionFolderName);
+		$cache::staticCacheSymlink($systemState, $collectionName);
 
 		// One tradeoff with doing this first is that the file can be deleted from the collection's `thumbnail` folder but still show if it stays in `cache`
 		// The benefit is that it won't try to use `ffmpeg` and grab the frame if it hasn't yet, so it's potentially faster to check this way
@@ -29,7 +29,7 @@ class VideoThumbnail {
 
 		// If the screenshot already exists then don't try to create it
 		if (!file_exists($thumbnailPathFull)) {
-			static::saveMiddleFramePng($systemState, $collectionFolderName, $videoPath, $thumbnailPath, $echoStatus);
+			static::saveMiddleFramePng($systemState, $collectionName, $videoPath, $thumbnailPath, $echoStatus);
 
 			// After grabbing the middle frame, `$thumbnailPathFull` should exist
 			if (!file_exists($thumbnailPathFull)) {
@@ -55,13 +55,13 @@ class VideoThumbnail {
 		return $fileCachePath;
 	}
 
-	public static function saveMiddleFramePng(State $systemState, string $collectionFolderName, string $videoPath, string $thumbnailPath, bool $echoStatus = false) {
+	public static function saveMiddleFramePng(State $systemState, string $collectionName, string $videoPath, string $thumbnailPath, bool $echoStatus = false) {
 		if (!Utility::hasFfmpeg($systemState)) {
 			return false;
 		}
 
-		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
-		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionFolderName . '/.lipupini/thumbnail/' . $thumbnailPath;
+		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
+		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/thumbnail/' . $thumbnailPath;
 
 		if (file_exists($thumbnailPathFull)) {
 			return true;

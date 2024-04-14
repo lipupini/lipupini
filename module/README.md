@@ -114,11 +114,11 @@ Request modules are initialized in the order they are specified in `system/confi
 See [Module\Lipupini\Rss\Request](Lipupini/Rss/Request.php) for an example of using the extracted collection information from `Collection\Request`.
 
 ```php
-if (empty($this->system->request[Collection\Request::class]->folderName)) {
+if (empty($this->system->request[Collection\Request::class]->name)) {
 	return;
 }
 
-$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
+$collectionName = $this->system->request[Collection\Request::class]->name;
 ```
 
 It should be best to use them in the same way, since they are sanitized and verified before they become available to subsequent modules in the request queue.

@@ -10,7 +10,7 @@ require(__DIR__ . '/../Core/Open.php') ?>
 	<div class="index pagination"><a href="/<?php echo htmlentities($this->parentPath) ?>" class="button" title="<?php echo $this->parentPath ? htmlentities($this->parentPath) : A::z('Homepage') ?>"><img src="/img/arrow-up-bold.svg" alt="<?php echo $this->parentPath ? htmlentities($this->parentPath) : A::z('Homepage') ?>"></a></div>
 </header>
 <div id="media-item"></div>
-<script>let baseUri = '<?php echo addslashes($this->system->staticMediaBaseUri) ?>';let collection = '<?php echo addslashes($this->system->request[Collection\Request::class]->folderName) ?>';let filename = '<?php echo addslashes($this->collectionFileName) ?>';let fileData = <?php echo json_encode($this->fileData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;let fileTypes=<?php echo json_encode($this->system->mediaType, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
+<script>let baseUri = '<?php echo addslashes($this->system->staticMediaBaseUri) ?>';let collection = '<?php echo addslashes($this->system->request[Collection\Request::class]->name) ?>';let filename = '<?php echo addslashes($this->collectionFileName) ?>';let fileData = <?php echo json_encode($this->fileData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;let fileTypes=<?php echo json_encode($this->system->mediaType, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES) ?>;</script>
 <script type="module">
 import van from '/lib/van-1.5.0.min.js'
 import { Document } from '/js/component/Document.js'

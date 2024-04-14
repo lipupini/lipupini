@@ -17,16 +17,16 @@ class Outbox extends Request {
 			error_log('DEBUG: ' . get_called_class());
 		}
 
-		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
+		$collectionName = $this->system->request[Collection\Request::class]->name;
 
-		$this->collectionData = (new Collection\Utility($this->system))->getCollectionDataRecursive($collectionFolderName);
+		$this->collectionData = (new Collection\Utility($this->system))->getCollectionDataRecursive($collectionName);
 
 		if (empty($_GET['page'])) {
 			$jsonData = [
 				'@context' => 'https://www.w3.org/ns/activitystreams',
-				'id' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox',
+				'id' => $this->system->baseUri . 'ap/' . $collectionName . '/outbox',
 				'type' => 'OrderedCollection',
-				'first' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox&page=1',
+				'first' => $this->system->baseUri . 'ap/' . $collectionName . '/outbox?page=1',
 				'totalItems' => count($this->collectionData),
 			];
 			$this->system->responseContent = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
@@ -38,10 +38,10 @@ class Outbox extends Request {
 		$items = [];
 		foreach ($this->collectionData as $filePath => $metaData) {
 
-			$htmlUrl = $this->system->baseUri . '@' . $collectionFolderName . '/' . $filePath . '.html';
+			$htmlUrl = $this->system->baseUri . '@/' . $collectionName . '/' . $filePath . '.html';
 			if (empty($metaData['date'])) {
 				$metaData['date'] = (new \DateTime)
-					->setTimestamp(filemtime($this->system->dirCollection . '/' . $collectionFolderName . '/' . $filePath))
+					->setTimestamp(filemtime($this->system->dirCollection . '/' . $collectionName . '/' . $filePath))
 					->format(\DateTime::ISO8601);
 			} else {
 				$metaData['date'] = (new \DateTime($metaData['date']))
@@ -56,14 +56,14 @@ class Outbox extends Request {
 					],
 				],
 				'id' => $htmlUrl . '#activity',
-				'actor' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile',
+				'actor' => $this->system->baseUri . 'ap/' . $collectionName . '/profile',
 				'published' => $metaData['date'],
 				'type' => 'Create',
 				'to' => [
 					'https://www.w3.org/ns/activitystreams#Public'
 				],
 				'cc' => [
-					$this->system->baseUri . '@' . $collectionFolderName .'?ap=followers'
+					$this->system->baseUri . 'ap/' . $collectionName .'/followers'
 				]
 			];
 
@@ -76,7 +76,7 @@ class Outbox extends Request {
 				'summary' => $filePath,
 				'type' => 'Page',
 				'name' => $filePath,
-				'attributedTo' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile',
+				'attributedTo' => $this->system->baseUri . 'ap/' . $collectionName . '/profile',
 				'sensitive' => $metaData['sensitive'] ?? false,
 				'content' => $metaData['caption'] ?? $filePath,
 				'contentMap' => [
@@ -90,28 +90,28 @@ class Outbox extends Request {
 				$object['attachment'] = [
 					'type' => 'Image',
 					'mediaType' => $this->system->mediaType['image'][$extension],
-					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/image/large/' . $filePath,
+					'url' => $this->system->staticMediaBaseUri . $collectionName . '/image/large/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys($this->system->mediaType['video']))) {
 				$object['attachment'] = [
 					'type' => 'Video',
 					'mediaType' => $this->system->mediaType['video'][$extension],
-					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/video/' . $filePath,
+					'url' => $this->system->staticMediaBaseUri . $collectionName . '/video/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys($this->system->mediaType['audio']))) {
 				$object['attachment'] = [
 					'type' => 'Audio',
 					'mediaType' => $this->system->mediaType['audio'][$extension],
-					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/audio/' . $filePath,
+					'url' => $this->system->staticMediaBaseUri . $collectionName . '/audio/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys($this->system->mediaType['text']))) {
 				$object['attachment'] = [
 					'type' => 'Note',
 					'mediaType' => 'text/html',
-					'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/text/' . $filePath . '.html',
+					'url' => $this->system->staticMediaBaseUri . $collectionName . '/text/' . $filePath . '.html',
 					'name' => $filePath,
 				];
 			} else {
@@ -128,19 +128,19 @@ class Outbox extends Request {
 					'sensitive' => 'as:sensitive',
 				],
 			],
-			'id' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox&page=' . (int)$_GET['page'],
+			'id' => $this->system->baseUri . 'ap/' . $collectionName . '/outbox?page=' . (int)$_GET['page'],
 			'type' => 'OrderedCollectionPage',
-			'partOf' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox',
+			'partOf' => $this->system->baseUri . 'ap/' . $collectionName . '/outbox',
 			'totalItems' => count($this->collectionData),
 			'orderedItems' => $items
 		];
 
 		if ($this->page > 1) {
-			$outboxJsonArray['prev'] = $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox&page=' . ($this->page - 1);
+			$outboxJsonArray['prev'] = $this->system->baseUri . 'ap/' . $collectionName . '/outbox?page=' . ($this->page - 1);
 		}
 
 		if ($this->page < $this->numPages) {
-			$outboxJsonArray['next'] = $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox&page=' . ($this->page + 1);
+			$outboxJsonArray['next'] = $this->system->baseUri . 'ap/' . $collectionName . '/outbox?page=' . ($this->page + 1);
 		}
 
 		$this->system->responseContent = json_encode($outboxJsonArray, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);

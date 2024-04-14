@@ -18,17 +18,17 @@ class ImageRequest extends MediaProcessorRequest {
 		// If the URL has matched, we're going to shutdown after this module returns no matter what
 		$this->system->shutdown = true;
 
-		$collectionFolderName = $matches[1];
+		$collectionName = $matches[1];
 		$sizePreset = $matches[2];
 		$imagePath = rawurldecode($matches[3]);
 		$extension = $matches[4];
 
 		// We can use the same function that `Module\Lipupini\Collection\Request` uses
 		// Doing it again here because this one comes from a different part of a URL from the regex
-		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
+		(new Collection\Utility($this->system))->validateCollectionName($collectionName);
 
 		$this->serve(
-			Image::processAndCache($this->system, $collectionFolderName, 'image', $sizePreset, $imagePath),
+			Image::processAndCache($this->system, $collectionName, 'image', $sizePreset, $imagePath),
 			$this->system->mediaType['image'][$extension]
 		);
 	}

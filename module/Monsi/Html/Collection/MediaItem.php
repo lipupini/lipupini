@@ -23,9 +23,9 @@ case 'audio' : ?>
 <div class="audio-container audio-waveform-seek">
 	<div class="caption"><span><?php echo htmlentities($this->fileData['caption']) ?></span></div>
 	<audio controls="controls" preload="metadata">
-		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/audio/' . $this->collectionFileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $this->collectionFileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</audio>
-	<div class="waveform" style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionFolderName . '/thumbnail/' . $this->collectionFileName . '.waveform.png') ?>')">
+	<div class="waveform" style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/thumbnail/' . $this->collectionFileName . '.waveform.png') ?>')">
 		<div class="elapsed hidden"></div>
 	</div>
 	<?php if (!empty($this->fileData['thumbnail'])) : ?>
@@ -37,21 +37,21 @@ case 'audio' : ?>
 <?php break;
 case 'image' : ?>
 
-<a href="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/image/large/' . $this->collectionFileName) ?>" target="_blank" class="image-container">
-	<img src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/image/large/' . $this->collectionFileName) ?>" title="<?php echo htmlentities($this->fileData['caption']) ?>">
+<a href="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/image/large/' . $this->collectionFileName) ?>" target="_blank" class="image-container">
+	<img src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/image/large/' . $this->collectionFileName) ?>" title="<?php echo htmlentities($this->fileData['caption']) ?>">
 </a>
 <?php break;
 case 'text' : ?>
 
 <div class="text-container">
-	<object type="text/html" data="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/text/' . $this->collectionFileName) ?>.html"></object>
+	<object type="text/html" data="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/text/' . $this->collectionFileName) ?>.html"></object>
 </div>
 <?php break;
 case 'video' : ?>
 
 <div class="video-container">
 	<video class="video-js" controls="" preload="metadata" loop="" title="<?php echo htmlentities($this->fileData['caption']) ?>" poster="<?php echo htmlentities($this->fileData['thumbnail']) ?>" data-setup="{}">
-		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/video/' . $this->collectionFileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $this->collectionFileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</video>
 </div>
 <?php break;

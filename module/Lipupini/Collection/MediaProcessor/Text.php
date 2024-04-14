@@ -6,12 +6,12 @@ use Module\Lipupini\Collection\Cache;
 use Module\Lipupini\State;
 
 class Text {
-	public static function processAndCache(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): string {
-		$cache = new Cache($systemState, $collectionFolderName);
+	public static function processAndCache(State $systemState, string $collectionName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): string {
+		$cache = new Cache($systemState, $collectionName);
 		$fileCachePathMd = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath;
-		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
+		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
 
-		$cache::staticCacheSymlink($systemState, $collectionFolderName);
+		$cache::staticCacheSymlink($systemState, $collectionName);
 
 		if (!is_dir(pathinfo($fileCachePathMd, PATHINFO_DIRNAME))) {
 			mkdir(pathinfo($fileCachePathMd, PATHINFO_DIRNAME), 0755, true);

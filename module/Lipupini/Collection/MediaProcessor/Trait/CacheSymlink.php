@@ -6,11 +6,11 @@ use Module\Lipupini\Collection\Cache;
 use Module\Lipupini\State;
 
 trait CacheSymlink {
-	public static function cacheSymlink(State $systemState, string $collectionFolderName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): string {
-		$cache = new Cache($systemState, $collectionFolderName);
+	public static function cacheSymlink(State $systemState, string $collectionName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): string {
+		$cache = new Cache($systemState, $collectionName);
 		$fileCachePath = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath;
 
-		$cache::staticCacheSymlink($systemState, $collectionFolderName);
+		$cache::staticCacheSymlink($systemState, $collectionName);
 
 		if (file_exists($fileCachePath)) {
 			return $fileCachePath;
@@ -22,7 +22,7 @@ trait CacheSymlink {
 			error_log('Symlinking cache files for `' . $filePath . '`...');
 		}
 
-		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
+		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
 
 		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);

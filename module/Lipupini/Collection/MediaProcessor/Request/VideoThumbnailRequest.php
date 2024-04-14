@@ -15,15 +15,15 @@ class VideoThumbnailRequest extends MediaProcessorRequest {
 		// If the URL has matched, we're going to shutdown after this module returns no matter what
 		$this->system->shutdown = true;
 
-		$collectionFolderName = $matches[1];
+		$collectionName = $matches[1];
 		$thumbnailPath = rawurldecode($matches[2]);
 		$thumbnailExtension = $matches[4];
 		$videoPath = preg_replace('#\.' . $thumbnailExtension . '$#', '', $thumbnailPath);
 
-		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
+		(new Collection\Utility($this->system))->validateCollectionName($collectionName);
 
 		$this->serve(
-			Collection\MediaProcessor\VideoThumbnail::cacheSymlinkVideoThumbnail($this->system, $collectionFolderName, $videoPath),
+			Collection\MediaProcessor\VideoThumbnail::cacheSymlinkVideoThumbnail($this->system, $collectionName, $videoPath),
 			$this->system->mediaType['image'][$thumbnailExtension]
 		);
 	}

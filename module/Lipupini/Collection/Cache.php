@@ -8,8 +8,8 @@ use Module\Lipupini\Collection\MediaProcessor\Request\MediaProcessorRequest;
 class Cache {
 	private string $path;
 
-	public function __construct(private State $system, protected string $collectionFolderName) {
-		$path = $this->system->dirCollection . '/' . $this->collectionFolderName . '/.lipupini/cache';
+	public function __construct(private State $system, protected string $collectionName) {
+		$path = $this->system->dirCollection . '/' . $this->collectionName . '/.lipupini/cache';
 
 		if (!is_dir($path)) {
 			mkdir($path, 0755, true);
@@ -22,10 +22,10 @@ class Cache {
 		return $this->path;
 	}
 
-	public static function staticCacheSymlink(State $systemState, string $collectionFolderName) {
+	public static function staticCacheSymlink(State $systemState, string $collectionName) {
 		static::createSymlink(
-			(new Cache($systemState, $collectionFolderName))->path(),
-			$systemState->dirWebroot . MediaProcessorRequest::relativeStaticCachePath($systemState) . $collectionFolderName
+			(new Cache($systemState, $collectionName))->path(),
+			$systemState->dirWebroot . MediaProcessorRequest::relativeStaticCachePath($systemState) . $collectionName
 		);
 	}
 
@@ -99,8 +99,8 @@ class Cache {
 	}
 
 	// Delete cache data that doesn't exist in collection
-	public function cleanCacheDir(State $systemState, string $collectionFolderName, bool $echoStatus = false) {
-		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
+	public function cleanCacheDir(State $systemState, string $collectionName, bool $echoStatus = false) {
+		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
 
 		foreach ($this->prepareCacheData() as $fileType => $filePaths) {
 			if ($fileType === 'image') {

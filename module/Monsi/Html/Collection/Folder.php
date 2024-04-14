@@ -24,23 +24,23 @@ if ($extension) :
 switch ($mediaTypesByExtension[$extension]['mediaType']) :
 case 'audio' :
 
-$style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  addslashes($this->system->staticMediaBaseUri . $this->collectionFolderName . '/thumbnail/' . $fileName . '.png')  . '\')"' : '';
+$style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/thumbnail/' . $fileName . '.png')  . '\')"' : '';
 ?>
 
 <div class="audio-container audio-waveform-seek"<?php echo $style ?>>
-	<div class="caption"><a href="/@<?php echo htmlentities($this->collectionFolderName . '/' . $fileName) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
-	<div class="waveform" style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionFolderName . '/thumbnail/' . $fileName . '.waveform.png') ?>')">
+	<div class="caption"><a href="/@/<?php echo htmlentities($this->collectionName . '/' . $fileName) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
+	<div class="waveform" style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/thumbnail/' . $fileName . '.waveform.png') ?>')">
 		<div class="elapsed hidden"></div>
 		<audio controls="controls" preload="metadata">
-			<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/audio/' . $fileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+			<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $fileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 		</audio>
 	</div>
 </div>
 <?php break;
 case 'image' : ?>
 
-<a href="/@<?php echo htmlentities($this->collectionFolderName . '/' . $fileName) ?>.html" class="image-container">
-	<div style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionFolderName . '/image/thumbnail/' . $fileName) ?>')">
+<a href="/@/<?php echo htmlentities($this->collectionName . '/' . $fileName) ?>.html" class="image-container">
+	<div style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/image/thumbnail/' . $fileName) ?>')">
 		<img src="/img/1x1.png" title="<?php echo htmlentities($item['caption']) ?>" loading="lazy">
 	</div>
 </a>
@@ -48,7 +48,7 @@ case 'image' : ?>
 case 'text' : ?>
 
 <div class="text-container">
-	<a href="/@<?php echo htmlentities($this->collectionFolderName . '/' . $fileName) ?>.html">
+	<a href="/@/<?php echo htmlentities($this->collectionName . '/' . $fileName) ?>.html">
 		<div><?php echo htmlentities($item['caption']) ?></div>
 	</a>
 </div>
@@ -57,7 +57,7 @@ case 'video' : ?>
 
 <div class="video-container">
 	<video class="video-js" controls="" preload="metadata" loop="" title="<?php echo htmlentities($item['caption']) ?>" poster="<?php echo htmlentities($item['thumbnail']) ?>" data-setup="{}">
-		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionFolderName . '/video/' . $fileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $fileName) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</video>
 </div>
 <?php break;
@@ -65,7 +65,7 @@ endswitch;
 else : ?>
 
 <div class="folder-container">
-	<a href="/@<?php echo htmlentities($this->collectionFolderName . '/' . $fileName) ?>" title="<?php echo htmlentities($item['caption']) ?>">
+	<a href="/@/<?php echo htmlentities($this->collectionName . '/' . $fileName) ?>" title="<?php echo htmlentities($item['caption']) ?>">
 		<span><?php echo htmlentities($item['caption']) ?></span>
 	</a>
 </div>

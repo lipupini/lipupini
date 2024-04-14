@@ -14,7 +14,7 @@ class TextRequest extends MediaProcessorRequest {
 		// If the URL has matched, we're going to shutdown after this module returns no matter what
 		$this->system->shutdown = true;
 
-		$collectionFolderName = $matches[1];
+		$collectionName = $matches[1];
 		$filePath = rawurldecode($matches[2]);
 		$extension = $matches[3];
 
@@ -24,9 +24,9 @@ class TextRequest extends MediaProcessorRequest {
 			$mdFilePath = rawurldecode($_SERVER['REQUEST_URI'] . '.html');
 		}
 
-		$pathOriginal = $this->system->dirCollection . '/' . $collectionFolderName . '/' . $mdFilePath;
+		$pathOriginal = $this->system->dirCollection . '/' . $collectionName . '/' . $mdFilePath;
 
-		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
+		(new Collection\Utility($this->system))->validateCollectionName($collectionName);
 
 		if (!file_exists($pathOriginal)) {
 			return;
@@ -34,7 +34,7 @@ class TextRequest extends MediaProcessorRequest {
 
 		$this->system->responseType = $this->system->mediaType['text'][$extension];
 		$this->system->responseContent = file_get_contents(
-			Text::processAndCache($this->system, $collectionFolderName, 'text', $mdFilePath)
+			Text::processAndCache($this->system, $collectionName, 'text', $mdFilePath)
 		);
 	}
 }

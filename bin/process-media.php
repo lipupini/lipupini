@@ -26,16 +26,16 @@ if (empty($argv[1])) {
 	exit(0);
 }
 
-$collectionFolderName = $argv[1];
+$collectionName = $argv[1];
 
 $collectionUtility = new Collection\Utility($systemState);
-$collectionUtility->validateCollectionFolderName($collectionFolderName);
+$collectionUtility->validateCollectionName($collectionName);
 
-$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
+$collectionPath = $systemState->dirCollection . '/' . $collectionName;
 $lipupiniPath = $collectionPath . '/.lipupini';
 
-$collectionData = $collectionUtility->getCollectionDataRecursive($collectionFolderName);
-$collectionCache = new Collection\Cache($systemState, $collectionFolderName);
+$collectionData = $collectionUtility->getCollectionDataRecursive($collectionName);
+$collectionCache = new Collection\Cache($systemState, $collectionName);
 
 // START: Prepare collection data
 $collectionDataPrepared = [];
@@ -50,7 +50,7 @@ foreach (array_keys($collectionData) as $filePath) {
 // END: Prepare collection data
 
 // START: Delete cache data that doesn't exist in collection
-$collectionCache->cleanCacheDir($systemState, $collectionFolderName, true);
+$collectionCache->cleanCacheDir($systemState, $collectionName, true);
 // END: Delete cache data that doesn't exist in collection
 
 // START: Process media cache
@@ -59,26 +59,26 @@ foreach ($collectionDataPrepared as $fileTypeFolder => $filePaths) {
 		case 'image' :
 			foreach ($filePaths as $filePath) {
 				foreach ($systemState->mediaSize as $imageSize => $dimensions) {
-					MediaProcessor\Image::processAndCache($systemState, $collectionFolderName, $fileTypeFolder, $imageSize, $filePath, echoStatus: true);
+					MediaProcessor\Image::processAndCache($systemState, $collectionName, $fileTypeFolder, $imageSize, $filePath, echoStatus: true);
 				}
 			}
 			break;
 		case 'audio' :
 			foreach ($filePaths as $filePath) {
-				MediaProcessor\Audio::cacheSymlink($systemState, $collectionFolderName, $fileTypeFolder, $filePath, echoStatus: true);
-				MediaProcessor\AudioThumbnail::cacheSymlinkAudioThumbnail($systemState, $collectionFolderName, $filePath, echoStatus: true);
-				MediaProcessor\AudioWaveform::cacheSymlinkAudioWaveform($systemState, $collectionFolderName, $filePath, echoStatus: true);
+				MediaProcessor\Audio::cacheSymlink($systemState, $collectionName, $fileTypeFolder, $filePath, echoStatus: true);
+				MediaProcessor\AudioThumbnail::cacheSymlinkAudioThumbnail($systemState, $collectionName, $filePath, echoStatus: true);
+				MediaProcessor\AudioWaveform::cacheSymlinkAudioWaveform($systemState, $collectionName, $filePath, echoStatus: true);
 			}
 			break;
 		case 'video' :
 			foreach ($filePaths as $filePath) {
-				MediaProcessor\Video::cacheSymlink($systemState, $collectionFolderName, $fileTypeFolder, $filePath, echoStatus: true);
-				MediaProcessor\VideoThumbnail::cacheSymlinkVideoThumbnail($systemState, $collectionFolderName, $filePath, echoStatus: true);
+				MediaProcessor\Video::cacheSymlink($systemState, $collectionName, $fileTypeFolder, $filePath, echoStatus: true);
+				MediaProcessor\VideoThumbnail::cacheSymlinkVideoThumbnail($systemState, $collectionName, $filePath, echoStatus: true);
 			}
 			break;
 		case 'text' :
 			foreach ($filePaths as $filePath) {
-				MediaProcessor\Text::processAndCache($systemState, $collectionFolderName, $fileTypeFolder, $filePath, echoStatus: true);
+				MediaProcessor\Text::processAndCache($systemState, $collectionName, $fileTypeFolder, $filePath, echoStatus: true);
 			}
 			break;
 	}
@@ -89,7 +89,7 @@ $defaultAvatarPath = $systemState->dirWebroot . MediaProcessor\Avatar::DEFAULT_I
 $defaultAvatarSha1 = sha1_file($defaultAvatarPath);
 
 // BEGIN: Process avatar cache
-$collectionFolderPath = $systemState->dirCollection . '/' . $collectionFolderName;
+$collectionFolderPath = $systemState->dirCollection . '/' . $collectionName;
 $collectionAvatarPath = $collectionFolderPath . '/.lipupini/avatar.png';
 $collectionCacheAvatarPath = $collectionFolderPath . '/.lipupini/cache/avatar.png';
 $collectionCacheAvatarSha1 = file_exists($collectionCacheAvatarPath) ? sha1_file($collectionCacheAvatarPath) : null;
@@ -99,9 +99,9 @@ if (
 	$collectionCacheAvatarSha1 && file_exists($collectionAvatarPath) &&
 	$defaultAvatarSha1 === $collectionCacheAvatarSha1
 ) {
-	echo 'Collection avatar for `' . $collectionFolderName . '` has been updated from the default image...' . "\n";
+	echo 'Collection avatar for `' . $collectionName . '` has been updated from the default image...' . "\n";
 	unlink($collectionCacheAvatarPath);
 }
 
-MediaProcessor\Avatar::cacheSymlinkAvatar($systemState, $collectionFolderName, $collectionAvatarPath, true);
+MediaProcessor\Avatar::cacheSymlinkAvatar($systemState, $collectionName, $collectionAvatarPath, true);
 // BEGIN: Process avatar cache

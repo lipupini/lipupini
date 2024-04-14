@@ -8,10 +8,10 @@ use Module\Lipupini\Collection\Utility;
 use Module\Lipupini\State;
 
 class AudioThumbnail {
-	public static function cacheSymlinkAudioThumbnail(State $systemState, string $collectionFolderName, string $audioPath, bool $echoStatus = false): false|string {
-		$cache = new Cache($systemState, $collectionFolderName);
+	public static function cacheSymlinkAudioThumbnail(State $systemState, string $collectionName, string $audioPath, bool $echoStatus = false): false|string {
+		$cache = new Cache($systemState, $collectionName);
 		$thumbnailPath = $audioPath . '.png';
-		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionFolderName . '/.lipupini/thumbnail/' . $thumbnailPath;
+		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/thumbnail/' . $thumbnailPath;
 
 		if (!file_exists($thumbnailPathFull)) {
 			return false;
@@ -19,7 +19,7 @@ class AudioThumbnail {
 
 		$fileCachePath = $cache->path() . '/thumbnail/' . $thumbnailPath;
 
-		$cache::staticCacheSymlink($systemState, $collectionFolderName);
+		$cache::staticCacheSymlink($systemState, $collectionName);
 
 		// One tradeoff with doing this first is that the file can be deleted from the collection's `thumbnail` folder but still show if it stays in `cache`
 		// The benefit is that it won't try to use `ffmpeg` and grab the frame if it hasn't yet, so it's potentially faster to check this way
@@ -28,7 +28,7 @@ class AudioThumbnail {
 		}
 
 		// Make sure the file exists in the collection before proceeding
-		if (!file_exists($systemState->dirCollection . '/' . $collectionFolderName . '/' . $audioPath)) {
+		if (!file_exists($systemState->dirCollection . '/' . $collectionName . '/' . $audioPath)) {
 			return false;
 		}
 

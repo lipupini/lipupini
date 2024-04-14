@@ -13,11 +13,11 @@ if (empty($argv[1])) {
 	exit(1);
 }
 
-$collectionFolderName = $argv[1];
+$collectionName = $argv[1];
 
-(new Collection\Utility($systemState))->validateCollectionFolderName($collectionFolderName);
+(new Collection\Utility($systemState))->validateCollectionName($collectionName);
 
-$lipupiniPath = $systemState->dirCollection . '/' . $collectionFolderName . '/.lipupini';
+$lipupiniPath = $systemState->dirCollection . '/' . $collectionName . '/.lipupini';
 
 // Create the `.lipupini` subfolder if needed
 if (!is_dir($lipupiniPath)) {
@@ -25,7 +25,7 @@ if (!is_dir($lipupiniPath)) {
 	mkdir($lipupiniPath, 0755, true);
 }
 
-echo 'About to generate new RSA keys in `collection/' . $collectionFolderName . '/.lipupini/`...' . "\n\n";
+echo 'About to generate new RSA keys in `collection/' . $collectionName . '/.lipupini/`...' . "\n\n";
 
 $confirm = readline('Proceed? [Y/n] ');
 if (strtoupper($confirm) !== 'Y') {

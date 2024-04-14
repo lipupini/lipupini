@@ -8,30 +8,36 @@ use Module\Lipupini\State;
 class Utility {
 	public function __construct(private State $system) { }
 
-	public function validateCollectionFolderName(string $collectionFolderName): void {
-		if (!$collectionFolderName || strlen($collectionFolderName) > 200) {
+	public function validateCollectionName(string $collectionName): void {
+		if (!$collectionName || strlen($collectionName) > 200) {
 			throw new Exception('Suspicious collection identifier (E1)');
 		}
 
-		if (substr_count($collectionFolderName, '@')) {
+		if (substr_count($collectionName, '@')) {
 			throw new Exception('Suspicious collection identifier (E2)');
 		}
 
-		if (!is_dir($this->system->dirCollection . '/' . $collectionFolderName)) {
-			throw new Exception('Collection not found: ' . htmlentities($collectionFolderName));
+		if (!is_dir($this->system->dirCollection . '/' . $collectionName)) {
+			throw new Exception('Collection not found: ' . htmlentities($collectionName));
 		}
 	}
 
-	public function getCollectionData(string $collectionFolderName, string $collectionRequestPath, bool $includeHidden = false) {
-		if (parse_url($collectionRequestPath, PHP_URL_QUERY)) {
+	public function validateCollectionFolder(string $collectionName, string $collectionFolder): void {
+		if (!is_dir($this->system->dirCollection . '/' . $collectionName . '/' . $collectionFolder)) {
+			throw new Exception('Collection find collection folder: ' . htmlentities($collectionFolder));
+		}
+	}
+
+	public function getCollectionData(string $collectionName, string $collectionFolder, bool $includeHidden = false) {
+		if (parse_url($collectionFolder, PHP_URL_QUERY)) {
 			throw new Exception('Suspicious collection path (E4)');
 		}
 
-		$collectionRootPath = $this->system->dirCollection . '/' . $collectionFolderName;
-		$collectionRequestPath = rtrim($collectionRequestPath, '/');
+		$collectionRootPath = $this->system->dirCollection . '/' . $collectionName;
+		$collectionFolder = rtrim($collectionFolder, '/');
 
-		if (pathinfo($collectionRequestPath, PATHINFO_EXTENSION)) {
-			throw new Exception('`$collectionRequestPath` should be a directory, not a file');
+		if (pathinfo($collectionFolder, PATHINFO_EXTENSION)) {
+			throw new Exception('`$collectionFolder` should be a directory, not a file');
 		}
 
 		if (str_contains($collectionRootPath, '..')) {
@@ -48,8 +54,8 @@ class Utility {
 			// Process collection data first, since it can determine the display order
 			foreach ($collectionFilesJsonData as $filename => $fileData) {
 				// If we are getting data from a collection subfolder, filter out other directories
-				if ($collectionRequestPath) {
-					if (!str_starts_with($filename, $collectionRequestPath) || $filename === $collectionRequestPath) {
+				if ($collectionFolder) {
+					if (!str_starts_with($filename, $collectionFolder) || $filename === $collectionFolder) {
 						continue;
 					}
 				// If we are getting data from a collection root folder, filter out any subdirectories
@@ -65,14 +71,14 @@ class Utility {
 					}
 				}
 				if (!file_exists($collectionRootPath . '/' . $filename)) {
-					throw new Exception('Could not find file for entry in `' . $collectionFolderName . '/.lipupini/files.json`: ' . $filename);
+					throw new Exception('Could not find file for entry in `' . $collectionName . '/.lipupini/files.json`: ' . $filename);
 				}
 				// Add the file's data to the return array
 				$return[$filename] = $fileData;
 			}
 		}
 
-		$collectionPathFull = $collectionRequestPath ? $collectionRootPath . '/' . $collectionRequestPath : $collectionRootPath;
+		$collectionPathFull = $collectionFolder ? $collectionRootPath . '/' . $collectionFolder : $collectionRootPath;
 
 		// Here we pick up any files that are not explicitly added to `files.json`
 		foreach (new \DirectoryIterator($collectionPathFull) as $fileData) {
@@ -81,7 +87,7 @@ class Utility {
 				continue;
 			}
 			// May be in a subdirectory relative to the collection root
-			$filePath = $collectionRequestPath ? rtrim($collectionRequestPath, '/') . '/' . $fileData->getFilename() : $fileData->getFilename();
+			$filePath = $collectionFolder ? rtrim($collectionFolder, '/') . '/' . $fileData->getFilename() : $fileData->getFilename();
 			if (!$includeHidden && in_array($filePath, $skipFiles, true)) {
 				continue;
 			}
@@ -105,7 +111,7 @@ class Utility {
 				// If the media file has a thumbnail specified in `files.json` already then skip it
 				if (!empty($mediaFileData['thumbnail'])) {
 					if (!parse_url($mediaFileData['thumbnail'], PHP_URL_HOST)) {
-						$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $mediaFileData['thumbnail'];
+						$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/thumbnail/' . $mediaFileData['thumbnail'];
 					}
 					continue;
 				}
@@ -125,10 +131,10 @@ class Utility {
 				}
 				// We found a thumbnail file (or plan to try and generate one) so add it to `$return`
 				if ($isAudio) {
-					$return[$mediaFilePath]['waveform'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $mediaFilePath . '.waveform.png';
+					$return[$mediaFilePath]['waveform'] = $this->system->staticMediaBaseUri . $collectionName . '/thumbnail/' . $mediaFilePath . '.waveform.png';
 				}
 				if (!$isAudio || file_exists($thumbnailFile)) {
-					$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionFolderName . '/thumbnail/' . $mediaFilePath . '.png';
+					$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/thumbnail/' . $mediaFilePath . '.png';
 				}
 			}
 		}
@@ -136,16 +142,16 @@ class Utility {
 		return $return;
 	}
 
-	public function getCollectionDataRecursive(string $collectionFolderName) {
-		$collectionData = $this->getCollectionData($collectionFolderName, '');
-		$dirCollectionFolder = $this->system->dirCollection . '/' . $collectionFolderName;
+	public function getCollectionDataRecursive(string $collectionName) {
+		$collectionData = $this->getCollectionData($collectionName, '');
+		$dirCollectionFolder = $this->system->dirCollection . '/' . $collectionName;
 
 		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirCollectionFolder), \RecursiveIteratorIterator::SELF_FIRST) as $filePath => $item) {
 			if ($item->getFilename()[0] === '.' || preg_match('#/\.#', $filePath) || !$item->isDir()) {
 				continue;
 			}
-			$collectionRequestPath = preg_replace('#^' . preg_quote($dirCollectionFolder) . '/#', '', $filePath);
-			$collectionData += $this->getCollectionData($collectionFolderName, $collectionRequestPath);
+			$collectionFolder = preg_replace('#^' . preg_quote($dirCollectionFolder) . '/#', '', $filePath);
+			$collectionData += $this->getCollectionData($collectionName, $collectionFolder);
 		}
 
 		// `getCollectionData` must return directories, but `getCollectionDataRecursive` cannot

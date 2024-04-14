@@ -60,12 +60,12 @@ class Inbox extends Request {
 			throw new Exception('HTTP Signature did not validate', 403);
 		}
 
-		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
+		$collectionName = $this->system->request[Collection\Request::class]->name;
 
 		/* BEGIN STORE INBOX ACTIVITY */
 		if ($this->system->activityPubLog) {
 			$inboxFolder = $this->system->dirCollection . '/'
-				. $collectionFolderName
+				. $collectionName
 				. '/.lipupini/inbox/';
 
 			if (!is_dir($inboxFolder)) {
@@ -86,9 +86,9 @@ class Inbox extends Request {
 				http_response_code(202);
 				$jsonData = [
 					'@context' => 'https://www.w3.org/ns/activitystreams',
-					'id' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile#accept/' . md5(rand(0, 1000000) . microtime(true)),
+					'id' => $this->system->baseUri . 'ap/' . $collectionName . '/profile#accept/' . md5(rand(0, 1000000) . microtime(true)),
 					'type' => 'Accept',
-					'actor' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile',
+					'actor' => $this->system->baseUri . 'ap/' . $collectionName . '/profile',
 					'object' => $requestData,
 				];
 				$this->system->responseContent = '"accepted"';
@@ -104,8 +104,8 @@ class Inbox extends Request {
 		$activityJson = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
 		Outgoing\Http::sendSigned(
-			keyId: $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile#main-key',
-			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/rsakey.private'),
+			keyId: $this->system->baseUri . 'ap/' . $collectionName . '/profile#main-key',
+			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $collectionName . '/.lipupini/rsakey.private'),
 			inboxUrl: $remoteActor->getInboxUrl(),
 			body: $activityJson,
 			headers: [

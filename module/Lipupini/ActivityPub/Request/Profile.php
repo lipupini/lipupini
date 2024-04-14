@@ -11,9 +11,9 @@ class Profile extends Request {
 			error_log('DEBUG: ' . get_called_class());
 		}
 
-		$collectionFolderName = $this->system->request[Collection\Request::class]->folderName;
+		$collectionName = $this->system->request[Collection\Request::class]->name;
 
-		$profileFile = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/profile.json';
+		$profileFile = $this->system->dirCollection . '/' . $collectionName . '/.lipupini/profile.json';
 		$profileData = file_exists($profileFile) ? json_decode(file_get_contents($profileFile), true) : [];
 
 		$jsonData = [
@@ -23,29 +23,29 @@ class Profile extends Request {
 					'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
 				],
 			],
-			'id' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile',
+			'id' => $this->system->baseUri . 'ap/' . $collectionName . '/profile',
 			'type' => 'Person',
-			'following' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=following',
-			'followers' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=followers',
-			'inbox' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=inbox',
-			'outbox' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=outbox',
-			'preferredUsername' => $collectionFolderName,
-			'name' => $collectionFolderName,
+			'following' => $this->system->baseUri . 'ap/' . $collectionName . '/following',
+			'followers' => $this->system->baseUri . 'ap/' . $collectionName . '/followers',
+			'inbox' => $this->system->baseUri . 'ap/' . $collectionName . '/inbox',
+			'outbox' => $this->system->baseUri . 'ap/' . $collectionName . '/outbox',
+			'preferredUsername' => $collectionName,
+			'name' => $collectionName,
 			'summary' => $profileData['summary'] ?? '',
-			'url' => $this->system->baseUri . '@' . $collectionFolderName,
+			'url' => $this->system->baseUri . '@/' . $collectionName,
 			'manuallyApprovesFollowers' => false,
 			'publicKey' => [
-				'id' =>$this->system->baseUri . '@' . $collectionFolderName . '?ap=profile#main-key',
-				'owner' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=profile',
-				'publicKeyPem' => file_get_contents($this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/rsakey.public')
+				'id' =>$this->system->baseUri . 'ap/' . $collectionName . '/profile#main-key',
+				'owner' => $this->system->baseUri . 'ap/' . $collectionName . '/profile',
+				'publicKeyPem' => file_get_contents($this->system->dirCollection . '/' . $collectionName . '/.lipupini/rsakey.public')
 			],
 			'icon' => [
 				'type' => 'Image',
 				'mediaType' => 'image/png',
-				'url' => $this->system->staticMediaBaseUri . $collectionFolderName . '/avatar.png',
+				'url' => $this->system->staticMediaBaseUri . $collectionName . '/avatar.png',
 			],
 			'endpoints' => [
-				'sharedInbox' => $this->system->baseUri . '@' . $collectionFolderName . '?ap=sharedInbox',
+				'sharedInbox' => $this->system->baseUri . 'ap/' . $collectionName . '/sharedInbox',
 			],
 		];
 

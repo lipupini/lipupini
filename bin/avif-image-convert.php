@@ -19,16 +19,16 @@ echo 'Press CTRL+C now if that is not what you want to do.' . "\n";
 sleep($sleepFor);
 
 if (empty($argv[1])) {
-	echo "\n" . 'Critical error. Expected usage is `./avif-image-convert.php <collectionFolderName>`' . "\n";
+	echo "\n" . 'Critical error. Expected usage is `./avif-image-convert.php <collectionName>`' . "\n";
 	exit(1);
 }
 
-$collectionFolderName = $argv[1];
+$collectionName = $argv[1];
 $collectionUtility = new Collection\Utility($systemState);
-$collectionUtility->validateCollectionFolderName($collectionFolderName);
-$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
+$collectionUtility->validateCollectionName($collectionName);
+$collectionPath = $systemState->dirCollection . '/' . $collectionName;
 
-$collectionData = $collectionUtility->getCollectionDataRecursive($collectionFolderName);
+$collectionData = $collectionUtility->getCollectionDataRecursive($collectionName);
 
 foreach ($collectionData as $filepath => $metadata) {
 	if (!in_array(pathinfo($filepath, PATHINFO_EXTENSION), ['jpg', 'jpeg'], true)) {
@@ -61,5 +61,5 @@ echo 'Press CTRL+C now if that is not what you want to do.' . "\n";
 
 sleep($sleepFor);
 
-$command = $systemState->dirRoot . '/bin/process-media.php ' . escapeshellarg($collectionFolderName);
+$command = $systemState->dirRoot . '/bin/process-media.php ' . escapeshellarg($collectionName);
 passthru($command);

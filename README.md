@@ -35,7 +35,7 @@
 
 ## Status
 
-For displaying a media portfolio or posts on the Internet, 	despite currently limited ActivityPub support the [latest release of Lipupini](https://github.com/lipupini/lipupini/releases/latest) is considered to be **production-ready**. The [demo site](https://lipupini-demo.dup.bz/@example) is running the `demo` branch which is usually ahead of the latest release.
+For displaying a media portfolio or posts on the Internet, 	despite currently limited ActivityPub support the [latest release of Lipupini](https://github.com/lipupini/lipupini/releases/latest) is considered to be **production-ready**. The [demo site](https://lipupini-demo.dup.bz/@/example) is running the `demo` branch which is usually ahead of the latest release.
 
 1) Install dependencies and clone the repository to the [latest release tag](https://github.com/lipupini/lipupini/releases/latest). While demo site has maintained since version `1.x`, avoid using the `demo` branch in production unless you are interested in keeping up with development and have a mechanism for emergency rollbacks.
 2) Add and [initialize](#add-your-collection) your collection, customize `.lipupini/files.json` with captions, and delete the example collection.
@@ -54,7 +54,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - With [ffmpeg](https://ffmpeg.org) available and `useFfmpeg` [enabled](system/config/state.php), video thumbnails and audio waveforms can be generated automatically.
 - Supports both `"hidden"` and `"unlisted"` options in [files.json](collection/README.md)
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
-- API for retrieving collection data. See [module/Lipupini/Collection/ApiRequest.php](module/Lipupini/Collection/ApiRequest.php)
+- API for retrieving collection data. See [module/Lipupini/Collection/ApiRequest.php](module/Lipupini/Api/ApiRequest.php)
 - Media collections are self-contained, served as they are on your filesystem. Lipupini-specific collection files are stored in a special `.lipupini` folder, making account collections completely portable.
 - Module system paves a way for collaborative development.
 - Docker support. See [deployment instructions](system/DEPLOY.md#deploying-with-docker).
@@ -90,7 +90,7 @@ cd module/Lukinview/webroot
 PHP_CLI_SERVER_WORKERS=2 php -S localhost:4000 index.php
 ```
 
-4. Visit http://localhost:4000/@example
+4. Visit http://localhost:4000/@/example
 
 ## Add Your Collection
 
@@ -128,7 +128,7 @@ bin/create-files-json.php sally
 rm -r collection/example
 ```
 
-6) Your collection should now be viewable at http://localhost:4000/@sally
+6) Your collection should now be viewable at http://localhost:4000/@/sally
 
 In addition to copying or symlinking, see [collection/README.md#vision](collection/README.md#vision) for ideas on other ways to keep these directories in sync.
 
@@ -152,7 +152,7 @@ Using Ngrok, with an upgraded plan you can setup a fairly restrictive port firew
 
 ## Demo
 
-Here is what it can look like so far: https://lipupini-demo.dup.bz/@example
+Here is what it can look like so far: https://lipupini-demo.dup.bz/@/example
 
 Though ActivityPub implementation is currently limited, the demo is searchable in properly-configured Fediverse clients `@example@lipupini-demo.dup.bz`
 

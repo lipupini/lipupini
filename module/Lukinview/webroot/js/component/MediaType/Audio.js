@@ -13,7 +13,7 @@ const Audio = ({collection, baseUri, filename, data, mimeType, gridView}) => {
 		source({src: `${baseUri}${collection}/audio/${filenameEncoded}`, type: mimeType}),
 	)
 	return gridView ?
-		a({class: 'audio-container', href: `/@${collection}/${filenameEncoded}.html`, style}, captionDiv, audioElement) :
+		a({class: 'audio-container', href: `/@/${collection}/${filenameEncoded}.html`, style}, captionDiv, audioElement) :
 		div({class: 'audio-container', style,
 			onclick: (e) => {
 				let audio = e.target.closest('.audio-container').querySelector('audio')

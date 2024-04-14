@@ -8,18 +8,18 @@ use Module\Lipupini\State;
 class Avatar {
 	public const DEFAULT_IMAGE_PATH = '/img/avatar-default.png';
 
-	public static function cacheSymlinkAvatar(State $systemState, string $collectionFolderName, string $avatarPath, bool $echoStatus = false): string {
-		$cache = new Cache($systemState, $collectionFolderName);
+	public static function cacheSymlinkAvatar(State $systemState, string $collectionName, string $avatarPath, bool $echoStatus = false): string {
+		$cache = new Cache($systemState, $collectionName);
 		$fileCachePath = $cache->path() . '/avatar.png';
 
-		$cache::staticCacheSymlink($systemState, $collectionFolderName);
+		$cache::staticCacheSymlink($systemState, $collectionName);
 
 		if (file_exists($fileCachePath)) {
 			return $fileCachePath;
 		}
 
 		if ($echoStatus) {
-			echo 'Symlinking avatar for `' . $collectionFolderName . '`...' . "\n";
+			echo 'Symlinking avatar for `' . $collectionName . '`...' . "\n";
 		}
 
 		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
@@ -35,7 +35,7 @@ class Avatar {
 		return $fileCachePath;
 	}
 
-	public static function avatarUrlPath(State $systemState, string $collectionFolderName) {
-		return $systemState->staticMediaBaseUri . $collectionFolderName . '/avatar.png';
+	public static function avatarUrlPath(State $systemState, string $collectionName) {
+		return $systemState->staticMediaBaseUri . $collectionName . '/avatar.png';
 	}
 }

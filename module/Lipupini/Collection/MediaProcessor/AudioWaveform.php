@@ -8,14 +8,14 @@ use Module\Lipupini\Collection\Utility;
 use Module\Lipupini\State;
 
 class AudioWaveform {
-	public static function cacheSymlinkAudioWaveform(State $systemState, string $collectionFolderName, string $audioPath, bool $echoStatus = false): false|string {
-		$cache = new Cache($systemState, $collectionFolderName);
+	public static function cacheSymlinkAudioWaveform(State $systemState, string $collectionName, string $audioPath, bool $echoStatus = false): false|string {
+		$cache = new Cache($systemState, $collectionName);
 		$waveformPath = $audioPath . '.waveform.png';
 
-		$waveformPathFull = $systemState->dirCollection . '/' . $collectionFolderName . '/.lipupini/thumbnail/' . $waveformPath;
+		$waveformPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/thumbnail/' . $waveformPath;
 		$fileCachePath = $cache->path() . '/thumbnail/' . $waveformPath;
 
-		$cache::staticCacheSymlink($systemState, $collectionFolderName);
+		$cache::staticCacheSymlink($systemState, $collectionName);
 
 		// One tradeoff with doing this first is that the file can be deleted from the collection's `thumbnail` folder but still show if it stays in `cache`
 		// The benefit is that it won't try to use `ffmpeg` and grab the frame if it hasn't yet, so it's potentially faster to check this way
@@ -24,7 +24,7 @@ class AudioWaveform {
 		}
 
 		// Make sure the file exists in the collection before proceeding
-		if (!file_exists($systemState->dirCollection . '/' . $collectionFolderName . '/' . $audioPath)) {
+		if (!file_exists($systemState->dirCollection . '/' . $collectionName . '/' . $audioPath)) {
 			return false;
 		}
 
@@ -34,7 +34,7 @@ class AudioWaveform {
 
 		// If the waveform already exists then don't try to create it
 		if (!file_exists($waveformPathFull)) {
-			static::saveAudioWaveform($systemState, $collectionFolderName, $audioPath, $waveformPath, $echoStatus);
+			static::saveAudioWaveform($systemState, $collectionName, $audioPath, $waveformPath, $echoStatus);
 
 			// After generating the waveform, `$waveformPathFull` should exist
 			if (!file_exists($waveformPathFull)) {
@@ -60,13 +60,13 @@ class AudioWaveform {
 		return $fileCachePath;
 	}
 
-	public static function saveAudioWaveform(State $systemState, string $collectionFolderName, string $audioPath, string $waveformPath, bool $echoStatus = false) {
+	public static function saveAudioWaveform(State $systemState, string $collectionName, string $audioPath, string $waveformPath, bool $echoStatus = false) {
 		if (!Utility::hasFfmpeg($systemState)) {
 			return false;
 		}
 
-		$collectionPath = $systemState->dirCollection . '/' . $collectionFolderName;
-		$waveformPathFull = $systemState->dirCollection . '/' . $collectionFolderName . '/.lipupini/thumbnail/' . $waveformPath;
+		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
+		$waveformPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/thumbnail/' . $waveformPath;
 
 		if (file_exists($waveformPathFull)) {
 			return true;

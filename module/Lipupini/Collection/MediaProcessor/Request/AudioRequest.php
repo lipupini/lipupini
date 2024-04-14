@@ -14,15 +14,15 @@ class AudioRequest extends MediaProcessorRequest {
 		// If the URL has matched, we're going to shutdown after this module returns no matter what
 		$this->system->shutdown = true;
 
-		$collectionFolderName = $matches[1];
+		$collectionName = $matches[1];
 		$filePath = rawurldecode($matches[2]);
 		$extension = $matches[3];
 
-		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
+		(new Collection\Utility($this->system))->validateCollectionName($collectionName);
 
 		// Once the file is symlinked, the file is considered cached and should be served statically on subsequent page refreshes
 		$this->serve(
-			Audio::cacheSymlink($this->system, $collectionFolderName, 'audio', $filePath),
+			Audio::cacheSymlink($this->system, $collectionName, 'audio', $filePath),
 			$this->system->mediaType['audio'][$extension]
 		);
 	}

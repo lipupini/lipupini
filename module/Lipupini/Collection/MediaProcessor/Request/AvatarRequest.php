@@ -18,15 +18,15 @@ class AvatarRequest extends MediaProcessorRequest {
 		// If the URL has matched, we're going to shutdown after this module returns no matter what
 		$this->system->shutdown = true;
 
-		$collectionFolderName = $matches[1];
+		$collectionName = $matches[1];
 		$extension = $matches[2];
 
-		(new Collection\Utility($this->system))->validateCollectionFolderName($collectionFolderName);
+		(new Collection\Utility($this->system))->validateCollectionName($collectionName);
 
-		$avatarPath = $this->system->dirCollection . '/' . $collectionFolderName . '/.lipupini/avatar.png';
+		$avatarPath = $this->system->dirCollection . '/' . $collectionName . '/.lipupini/avatar.png';
 
 		$this->serve(
-			Avatar::cacheSymlinkAvatar($this->system, $collectionFolderName, $avatarPath),
+			Avatar::cacheSymlinkAvatar($this->system, $collectionName, $avatarPath),
 			$avatarMimeTypes[$extension]
 		);
 	}
