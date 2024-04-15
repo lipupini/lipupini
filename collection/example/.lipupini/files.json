@@ -5,17 +5,17 @@
 	"Memes": {
 		"caption": "Memes"
 	},
+	"Poetry": {
+		"caption": "Poetry"
+	},
 	"cat-hat.png": {
 		"caption": "Hat Cat"
-	},
-	"winamp-intro.mp3": {
-		"caption": "It really whips the llama's ass"
 	},
 	"dup.mp4": {
 		"caption": "dup",
 		"thumbnail": "dup.mp4.png"
 	},
-	"Poetry": {
-		"caption": "Poetry"
+	"Fitzhugh Ralph Mason III - Focus (Demo).ogg": {
+		"caption": "FRM3 - Focus (Demo)"
 	}
 }
