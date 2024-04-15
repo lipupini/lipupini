@@ -11,7 +11,12 @@ class Request extends Http {
 	public string $file = '';
 
 	public function initialize(): void {
-		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '[^/]+/([^/?]+)#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (
+			// E.g. `/@example`
+			!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@([^/]+)/?#', $_SERVER['REQUEST_URI'], $matches) &&
+			// E.g. `/api/example` or `/rss/example`
+			!preg_match('#^' . preg_quote($this->system->baseUriPath) . '[^/]+/([^/?]+)#', $_SERVER['REQUEST_URI'], $matches)
+		) {
 			return;
 		}
 

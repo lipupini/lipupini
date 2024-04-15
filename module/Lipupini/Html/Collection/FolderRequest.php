@@ -21,8 +21,8 @@ class FolderRequest extends Http {
 	public string $collectionFolder = '';
 
 	public function initialize(): void {
-		// URLs start with `/@/`
-		if (!preg_match('#^/@/?#', $_SERVER['REQUEST_URI'])) {
+		// URLs start with `/@`
+		if (!str_starts_with($_SERVER['REQUEST_URI'], '/@')) {
 			return;
 		}
 
@@ -33,8 +33,8 @@ class FolderRequest extends Http {
 
 		$this->collectionName = $this->system->request[Collection\Request::class]->name;
 
-		// Only applies to, e.g. http://locahost/@/example
-		// Does not apply to http://locahost/@/example/memes/cat-computer.jpg.html
+		// Only applies to, e.g. http://locahost/@example
+		// Does not apply to http://locahost/@example/memes/cat-computer.jpg.html
 		if (pathinfo($this->collectionFolder, PATHINFO_EXTENSION)) {
 			return;
 		} else if (!is_dir($this->system->dirCollection . '/' . $this->collectionName . '/' . $this->collectionFolder)) {
@@ -64,7 +64,7 @@ class FolderRequest extends Http {
 
 		if ($this->collectionFolder) {
 			$this->pageTitle = $this->collectionFolder . '@' . $this->collectionName . '@' . $this->system->host;
-			$this->parentPath = '@/' . $this->collectionName;
+			$this->parentPath = '@' . $this->collectionName;
 			$exploded = explode('/', $this->collectionFolder);
 			if (count($exploded) >= 2) {
 				$this->parentPath .= '/' . implode('/', array_slice($exploded, 0, -1));
@@ -74,7 +74,7 @@ class FolderRequest extends Http {
 			$this->parentPath = '@';
 		}
 
-		$webPath = '/@/' . $this->collectionName . ($this->collectionFolder ? '/' . $this->collectionFolder : '');
+		$webPath = '/@' . $this->collectionName . ($this->collectionFolder ? '/' . $this->collectionFolder : '');
 
 		if ($this->page < $this->numPages) {
 			$query['page'] = $this->page + 1;

@@ -26,8 +26,8 @@ class MediaItemRequest extends Http {
 
 		$collectionHtmlFile = $this->system->request[Collection\Request::class]->file;
 
-		// Only applies to, e.g. http://locahost/@/example/memes/cat-computer.jpg.html
-		// Does not apply to http://locahost/@/example/memes/
+		// Only applies to, e.g. http://locahost/@example/memes/cat-computer.jpg.html
+		// Does not apply to http://locahost/@example/memes/
 		if (
 			!pathinfo($collectionHtmlFile, PATHINFO_EXTENSION) ||
 			!preg_match('#\.[^\.]+\.html$#', $collectionHtmlFile)
@@ -86,7 +86,7 @@ class MediaItemRequest extends Http {
 		}
 
 		$parentFolder = dirname($this->collectionFileName);
-		$this->parentPath = '@/' . $this->collectionName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
+		$this->parentPath = '@' . $this->collectionName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
 		if (!empty($_SERVER['HTTP_REFERER']) && preg_match('#' . preg_quote($this->parentPath) . '\?page=([0-9]+)$#', $_SERVER['HTTP_REFERER'], $matches)) {
 			$this->parentPath .= '?page=' . $matches[1];
 		}

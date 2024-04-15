@@ -8,7 +8,7 @@ const CollectionFolder = ({collection, filename, data}) => {
 	let title = data.caption ?? filename.split(/[\\\/]/).pop()
 	return div(
 		{class: 'folder-container'},
-		a({href: `/@/${collection}/${filenameEncoded}`, 'title': title}, span(title)),
+		a({href: `/@${collection}/${filenameEncoded}`, 'title': title}, span(title)),
 	)
 }
 

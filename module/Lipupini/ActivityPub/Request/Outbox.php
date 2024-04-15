@@ -37,8 +37,7 @@ class Outbox extends Request {
 
 		$items = [];
 		foreach ($this->collectionData as $filePath => $metaData) {
-
-			$htmlUrl = $this->system->baseUri . '@/' . $collectionName . '/' . $filePath . '.html';
+			$htmlUrl = $this->system->baseUri . '@' . $collectionName . '/' . $filePath . '.html';
 			if (empty($metaData['date'])) {
 				$metaData['date'] = (new \DateTime)
 					->setTimestamp(filemtime($this->system->dirCollection . '/' . $collectionName . '/' . $filePath))

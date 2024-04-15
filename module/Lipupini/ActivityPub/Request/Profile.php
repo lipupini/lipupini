@@ -32,7 +32,7 @@ class Profile extends Request {
 			'preferredUsername' => $collectionName,
 			'name' => $collectionName,
 			'summary' => $profileData['summary'] ?? '',
-			'url' => $this->system->baseUri . '@/' . $collectionName,
+			'url' => $this->system->baseUri . '@' . $collectionName,
 			'manuallyApprovesFollowers' => false,
 			'publicKey' => [
 				'id' =>$this->system->baseUri . 'ap/' . $collectionName . '/profile#main-key',

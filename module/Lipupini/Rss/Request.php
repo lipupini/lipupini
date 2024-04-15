@@ -48,13 +48,13 @@ class Request extends Http {
 		$linkSelf->setAttribute('type', 'application/rss+xml');
 		$channel->appendChild($linkSelf);
 
-		$link = $dom->createElement('link', htmlentities($this->system->baseUri . '@/' . $collectionName));
+		$link = $dom->createElement('link', htmlentities($this->system->baseUri . '@' . $collectionName));
 		$channel->appendChild($link);
 
 		$image = $dom->createElement('image');
 		$image->appendChild($dom->createElement('url', htmlentities($this->system->staticMediaBaseUri . $collectionName . '/avatar.png')));
 		$image->appendChild($dom->createElement('title', htmlentities($collectionName . '@' . $this->system->host)));
-		$image->appendChild($dom->createElement('link', htmlentities($this->system->baseUri . '@/' . $collectionName)));
+		$image->appendChild($dom->createElement('link', htmlentities($this->system->baseUri . '@' . $collectionName)));
 		$channel->appendChild($image);
 
 		$this->renderRssItems($dom, $channel, $collectionName);
@@ -109,10 +109,10 @@ class Request extends Http {
 			}
 
 			$item = $dom->createElement('item');
-			$item->appendChild($dom->createElement('guid', htmlentities($this->system->baseUri . '@/' . $collectionName . '/' . $filePath . '.html')));
+			$item->appendChild($dom->createElement('guid', htmlentities($this->system->baseUri . '@' . $collectionName . '/' . $filePath . '.html')));
 			$item->appendChild($dom->createElement('title', htmlentities($filePath)));
 
-			$link = $dom->createElement('link', htmlentities($this->system->baseUri . '@/' . $collectionName . '/' . $filePath . '.html'));
+			$link = $dom->createElement('link', htmlentities($this->system->baseUri . '@' . $collectionName . '/' . $filePath . '.html'));
 			$item->appendChild($link);
 
 			$item->appendChild($dom->createElement('description', htmlentities($filePath)));

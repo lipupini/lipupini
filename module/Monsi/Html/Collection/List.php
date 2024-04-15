@@ -9,7 +9,7 @@ if (!empty($this->collectionNames)) : ?>
 <ul>
 	<?php foreach ($this->collectionNames as $collectionName) : ?>
 
-	<li><a href="/@/<?php echo htmlentities($collectionName) ?>"><?php echo htmlentities($collectionName) ?></a></li>
+	<li><a href="/@<?php echo htmlentities($collectionName) ?>"><?php echo htmlentities($collectionName) ?></a></li>
 	<?php endforeach ?>
 
 </ul>

@@ -35,13 +35,13 @@ class Request extends Http {
 		$jsonData = [
 			'subject' => 'acct:' . $webFingerAccount,
 			'aliases' => [
-				$this->system->baseUri . '@/' . $user,
+				$this->system->baseUri . '@' . $user,
 			],
 			'links' => [
 				[
 					'rel' => 'http://webfinger.net/rel/profile-page',
 					'type' => 'text/html',
-					'href' => $this->system->baseUri . '@/' . $user,
+					'href' => $this->system->baseUri . '@' . $user,
 				],
 				[
 					'rel' => 'http://schemas.google.com/g/2010#updates-from',

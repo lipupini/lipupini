@@ -1,4 +1,1 @@
-# Backwards compatibility with v4 URLs
-RewriteRule ^@([a-z])(.+)$ /@/$1$2 [L,QSA,R=301]
-
 FallbackResource /index.php

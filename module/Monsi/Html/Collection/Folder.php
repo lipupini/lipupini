@@ -33,7 +33,7 @@ $style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  addsl
 ?>
 
 <div class="audio-container audio-waveform-seek"<?php echo $style ?>>
-	<div class="caption"><a href="/@/<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
+	<div class="caption"><a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
 	<div class="waveform" style="background-image:url('<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/waveform/' . $urlEncodedFilename . '.png') ?>')">
 		<div class="elapsed hidden"></div>
 		<audio controls="controls" preload="metadata">
@@ -44,7 +44,7 @@ $style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  addsl
 <?php break;
 case 'image' : ?>
 
-<a href="/@/<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html" class="image-container">
+<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html" class="image-container">
 	<div style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/image/thumbnail/' . $urlEncodedFilename) ?>')">
 		<img src="/img/1x1.png" title="<?php echo htmlentities($item['caption']) ?>" loading="lazy">
 	</div>
@@ -53,7 +53,7 @@ case 'image' : ?>
 case 'text' : ?>
 
 <div class="text-container">
-	<a href="/@/<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html">
+	<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html">
 		<div><?php echo htmlentities($item['caption']) ?></div>
 	</a>
 </div>
@@ -70,7 +70,7 @@ endswitch;
 else : ?>
 
 <div class="folder-container">
-	<a href="/@/<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>" title="<?php echo htmlentities($item['caption']) ?>">
+	<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>" title="<?php echo htmlentities($item['caption']) ?>">
 		<span><?php echo htmlentities($item['caption']) ?></span>
 	</a>
 </div>
