@@ -21,11 +21,6 @@ class Request extends Http {
 			return;
 		}
 
-		// This should never happen, though not sure if it's only the browser that will prevent it
-		if (str_contains($_SERVER['REQUEST_URI'], '..')) {
-			throw new Exception('Suspicious collection URL');
-		}
-
 		$collectionPath = $matches[1] ?? '';
 		$collectionPathExtension = pathinfo($collectionPath, PATHINFO_EXTENSION);
 

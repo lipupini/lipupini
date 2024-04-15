@@ -13,7 +13,5 @@ A::$path = realpath(__DIR__ . '/../../');
 <title><?php echo htmlentities($this->pageTitle) ?></title>
 <link rel="stylesheet" href="/css/Global.css">
 <?php echo $this->htmlHead ?? '' ?>
-<link rel="stylesheet" href="/lib/videojs/video-js.min.css">
-<script src="/lib/videojs/video.min.js"></script>
 </head>
 <body>

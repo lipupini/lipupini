@@ -14,7 +14,6 @@ class HomepageRequest extends Http {
 		}
 
 		$this->pageTitle = 'Homepage@' . $this->system->host;
-		$this->htmlHead = '<link rel="stylesheet" href="/css/Homepage.css">' . "\n";
 
 		$this->renderHtml();
 		$this->system->responseType = 'text/html';

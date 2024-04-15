@@ -24,7 +24,7 @@ class Utility {
 
 	public function validateCollectionFolder(string $collectionName, string $collectionFolder): void {
 		if (!is_dir($this->system->dirCollection . '/' . $collectionName . '/' . $collectionFolder)) {
-			throw new Exception('Collection find collection folder: ' . htmlentities($collectionFolder));
+			throw new Exception('Could not find collection folder: ' . htmlentities($collectionFolder));
 		}
 	}
 

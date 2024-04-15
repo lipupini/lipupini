@@ -24,16 +24,18 @@ class MediaItemRequest extends Http {
 			return;
 		}
 
+		$collectionHtmlFile = $this->system->request[Collection\Request::class]->file;
+
 		// Only applies to, e.g. http://locahost/@/example/memes/cat-computer.jpg.html
 		// Does not apply to http://locahost/@/example/memes/
 		if (
-			!pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION) ||
-			!preg_match('#\.(?:[^.]+)\.html$#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))
+			!pathinfo($collectionHtmlFile, PATHINFO_EXTENSION) ||
+			!preg_match('#\.[^\.]+\.html$#', $collectionHtmlFile)
 		) {
 			return;
 		}
 
-		$this->collectionFileName = preg_replace('#\.html$#', '', $this->system->request[Collection\Request::class]->file);
+		$this->collectionFileName = preg_replace('#\.html$#', '', $collectionHtmlFile);
 
 		// Make sure file in collection exists before proceeding
 		if (!file_exists($this->system->dirCollection . '/' . $this->system->request[Collection\Request::class]->name . '/' . $this->collectionFileName)) {
@@ -57,13 +59,12 @@ class MediaItemRequest extends Http {
 
 	private function loadViewData(): bool {
 		$this->collectionName = $this->system->request[Collection\Request::class]->name;
-		$collectionFile = $this->system->request[Collection\Request::class]->file;
 
-		$this->pageTitle = $collectionFile . '@' . $this->collectionName . '@' . $this->system->host;
+		$this->pageTitle = $this->collectionFileName . '@' . $this->collectionName . '@' . $this->system->host;
 		$collectionUtility = new Collection\Utility($this->system);
 
-		// `$collectionFile` has a filename, we want to know what directory it's in
-		$collectionFileDirname = pathinfo($collectionFile, PATHINFO_DIRNAME);
+		// `$this->collectionFileName` has a filename, we want to know what directory it's in
+		$collectionFileDirname = pathinfo($this->collectionFileName, PATHINFO_DIRNAME);
 		$collectionFileDirname = $collectionFileDirname === '.' ? '' : $collectionFileDirname;
 		$collectionData = $collectionUtility->getCollectionData($this->collectionName, $collectionFileDirname, true);
 		if (array_key_exists($this->collectionFileName, $collectionData)) {
@@ -84,7 +85,7 @@ class MediaItemRequest extends Http {
 			$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $this->collectionName . '/thumbnail/' . $this->collectionFileName . '.png';
 		}
 
-		$parentFolder = dirname($collectionFile);
+		$parentFolder = dirname($this->collectionFileName);
 		$this->parentPath = '@/' . $this->collectionName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
 		if (!empty($_SERVER['HTTP_REFERER']) && preg_match('#' . preg_quote($this->parentPath) . '\?page=([0-9]+)$#', $_SERVER['HTTP_REFERER'], $matches)) {
 			$this->parentPath .= '?page=' . $matches[1];

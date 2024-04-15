@@ -32,11 +32,6 @@ class FolderRequest extends Http {
 		}
 
 		$this->collectionName = $this->system->request[Collection\Request::class]->name;
-		$folder = $this->system->request[Collection\Request::class]->folder;
-
-		(new Collection\Utility($this->system))->validateCollectionFolder($this->collectionName, $folder);
-
-		$this->collectionFolder = $folder;
 
 		// Only applies to, e.g. http://locahost/@/example
 		// Does not apply to http://locahost/@/example/memes/cat-computer.jpg.html
@@ -45,6 +40,10 @@ class FolderRequest extends Http {
 		} else if (!is_dir($this->system->dirCollection . '/' . $this->collectionName . '/' . $this->collectionFolder)) {
 			return;
 		}
+
+		$folder = $this->system->request[Collection\Request::class]->folder;
+		(new Collection\Utility($this->system))->validateCollectionFolder($this->collectionName, $folder);
+		$this->collectionFolder = $folder;
 
 		$this->renderHtml();
 		$this->system->shutdown = true;
