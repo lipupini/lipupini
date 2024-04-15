@@ -19,14 +19,14 @@
 .audio-container audio::-webkit-media-controls-enclosure {
 	border-radius: 0;
 }
-#folder .audio-container {
+#folder .grid .audio-container {
 	aspect-ratio: 1;
 }
-#document #media-item {
+#media-item main {
 	width: 600px;
 	margin: 0 auto;
 	max-width: 100%;
 }
-#document .audio-container {
+#media-item .audio-container {
 	aspect-ratio: 1;
 }

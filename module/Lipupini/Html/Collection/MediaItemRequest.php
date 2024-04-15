@@ -91,7 +91,7 @@ class MediaItemRequest extends Http {
 			$this->parentPath .= '?page=' . $matches[1];
 		}
 		$this->htmlHead =
-			'<link rel="stylesheet" href="/css/Document.css">' . "\n" .
+			'<link rel="stylesheet" href="/css/MediaItem.css">' . "\n" .
 			'<link rel="stylesheet" href="/css/MediaType/' . htmlentities(ucfirst($this->mediaType)) . '.css">' . "\n";
 
 		return true;

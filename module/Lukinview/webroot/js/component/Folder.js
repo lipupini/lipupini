@@ -4,7 +4,7 @@ import { Document } from './Document.js'
 const Folder = ({collection, collectionData, baseUri}) => {
 	Object.keys(collectionData).forEach(filename => {
 		van.add(
-			document.getElementById('media-grid'),
+			document.querySelector('#folder main.grid'),
 			Document({collection, baseUri, filename, data: collectionData[filename], gridView: true})
 		)
 	})

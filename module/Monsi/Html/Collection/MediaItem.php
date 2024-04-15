@@ -17,13 +17,13 @@ $parentPathLastSegment = explode('/', $this->parentPath)[substr_count($this->par
 
 require(__DIR__ . '/../Core/Open.php') ?>
 
-<main id="document" class="<?php echo htmlentities($this->mediaType) ?>-document">
+<div id="media-item" class="<?php echo htmlentities($this->mediaType) ?>-item">
 <header>
 	<nav>
 		<div class="index pagination"><a href="/<?php echo htmlentities($this->parentPath) ?>" class="button" title="<?php echo $this->parentPath ? htmlentities($parentPathLastSegment) : A::z('Homepage') ?>"><img src="/img/arrow-up-bold.svg" alt="<?php echo $this->parentPath ? htmlentities($parentPathLastSegment) : A::z('Homepage') ?>"></a></div>
 	</nav>
 </header>
-<div id="media-item">
+<main>
 <?php
 switch ($mediaTypesByExtension[$extension]['mediaType']) :
 case 'audio' : ?>
@@ -66,7 +66,6 @@ case 'video' : ?>
 endswitch;
 ?>
 
-</div>
 <script src="/js/audio-waveform-seek.js"></script>
 </main>
 <footer>
@@ -74,5 +73,6 @@ endswitch;
 		<a href="https://github.com/lipupini/lipupini" target="_blank" rel="noopener noreferrer" class="button" title="<?php echo A::z('More information about this software') ?>">?</a>
 	</div>
 </footer>
+</div>
 
 <?php require(__DIR__ . '/../Core/Close.php') ?>

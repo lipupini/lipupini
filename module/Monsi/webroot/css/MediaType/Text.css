@@ -1,4 +1,4 @@
-#media-grid .text-container {
+#folder .grid .text-container {
 	aspect-ratio: 1;
 	text-align: center;
 	height: 100%;
@@ -6,32 +6,32 @@
 	flex-direction: column;
 	justify-content: center;
 }
-#media-grid .text-container a {
+#folder .grid .text-container a {
 	text-decoration: underline;
 }
-#media-grid .text-container a:hover {
+#folder .grid .text-container a:hover {
 	color: #fff;
 }
-#media-grid .text-container a > div {
+#folder .grid .text-container a > div {
 	padding: 1rem .5rem;
 }
-#document {
+#media-item {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
 }
-#document #media-item {
+#media-item main {
 	flex: 1;
 }
-#document .text-container,
-#document .text-container object {
+#media-item .text-container,
+#media-item .text-container object {
 	width: 100%;
 	height: 100%;
 }
-#document .text-container object {
+#media-item .text-container object {
 	background-color: #ccc;
 }
-#document footer {
+#media-item footer {
 	margin-top: 0;
 	padding-bottom: 0;
 }
