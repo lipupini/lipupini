@@ -13,7 +13,7 @@ class Request extends Http {
 	public function initialize(): void {
 		if (
 			// E.g. `/@example`
-			!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@([^/]+)/?#', $_SERVER['REQUEST_URI'], $matches) &&
+			!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@([^.][^/]*)/?#', $_SERVER['REQUEST_URI'], $matches) &&
 			// E.g. `/api/example` or `/rss/example`
 			!preg_match('#^' . preg_quote($this->system->baseUriPath) . '[^/]+/([^/?]+)#', $_SERVER['REQUEST_URI'], $matches)
 		) {
