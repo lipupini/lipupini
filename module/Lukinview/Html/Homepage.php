@@ -6,9 +6,12 @@ $localCollections = (new Collection\Utility($this->system))->allCollectionFolder
 
 require(__DIR__ . '/Core/Open.php') ?>
 
-<h1>
-	<?php echo $this->system->frontendModule . ' Frontend Module' ?>
-</h1>
+<div class="centered-content">
+	<div>
+		<h1><?php echo $this->system->frontendModule . ' Frontend Module' ?></h1>
+		<p><a href="<?php echo $this->system->baseUri ?>@">Collections</a></p>
+	</div>
+</div>
 
 <?php
 

@@ -15,8 +15,8 @@ if (!empty($this->collectionNames)) : ?>
 </ul>
 <?php else : ?>
 
-<div class="add-collection">
-	<a href="https://github.com/lipupini/lipupini/#add-your-collection" target="_blank" rel="noopener noreferrer"><?php echo A::z('Add your collection') ?></kbd></a>
+<div class="add-collection centered-content">
+	<div><a href="https://github.com/lipupini/lipupini/#add-your-collection" target="_blank" rel="noopener noreferrer"><?php echo A::z('Add your collection') ?></kbd></a></div>
 </div>
 <?php endif ?>
 

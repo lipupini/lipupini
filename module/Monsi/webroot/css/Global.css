@@ -70,15 +70,10 @@ nav a.button[disabled] {
 footer nav .parent {
 	visibility: hidden;
 }
-.collection-list ul {
-	list-style: none;
-	padding: 1.5rem 3rem;
-}
-.collection-list li {
-	margin-bottom: 0.75rem;
-}
-.collection-list .add-collection {
+.centered-content {
+	display: flex;
+	height: 100%;
 	text-align: center;
-	margin-top: 48vh;
-	text-transform: lowercase;
+	align-items: center;
+	justify-content: center;
 }
