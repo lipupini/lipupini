@@ -32,7 +32,6 @@ Lipupini is a public domain platform for organizing and displaying digital art: 
 
 ![Example UI Screenshot](https://github.com/lipupini/lipupini/assets/108841276/e6dd6f61-5e7d-4621-bff4-3ce33501acf8)
 
-
 ---
 
 ## Status
