@@ -25,7 +25,7 @@ class Request extends Http {
 		$collectionUtility->validateCollectionName($matches[1]);
 		$this->name = $matches[1];
 
-		$collectionFolder = rawurldecode(preg_replace('#^' . preg_quote($matches[0]) . '/?#', '', $_SERVER['REQUEST_URI']));
+		$collectionFolder = rawurldecode(preg_replace('#^' . preg_quote($matches[0]) . '/?#', '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));
 
 		// If a filename is being requested, store the filename in addition to the folder
 		if (pathinfo($collectionFolder, PATHINFO_EXTENSION)) {
