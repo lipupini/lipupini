@@ -12,8 +12,8 @@ class VideoThumbnail {
 		$cache = new Cache($systemState, $collectionName);
 		$thumbnailPath = $videoPath . '.png';
 
-		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/thumbnail/' . $thumbnailPath;
-		$fileCachePath = $cache->path() . '/thumbnail/' . $thumbnailPath;
+		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/video/thumbnail/' . $thumbnailPath;
+		$fileCachePath = $cache->path() . '/video/thumbnail/' . $thumbnailPath;
 
 		$cache::staticCacheSymlink($systemState, $collectionName);
 
@@ -61,7 +61,7 @@ class VideoThumbnail {
 		}
 
 		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
-		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/thumbnail/' . $thumbnailPath;
+		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/video/thumbnail/' . $thumbnailPath;
 
 		if (file_exists($thumbnailPathFull)) {
 			return true;

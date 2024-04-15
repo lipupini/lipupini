@@ -10,14 +10,13 @@ use Module\Lipupini\State;
 class AudioWaveform {
 	public static function cacheSymlinkAudioWaveform(State $systemState, string $collectionName, string $audioPath, bool $echoStatus = false): false|string {
 		$cache = new Cache($systemState, $collectionName);
-		$waveformPath = $audioPath . '.waveform.png';
-
-		$waveformPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/thumbnail/' . $waveformPath;
-		$fileCachePath = $cache->path() . '/thumbnail/' . $waveformPath;
+		$waveformPath = $audioPath . '.png';
+		$waveformPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/audio/waveform/' . $waveformPath;
+		$fileCachePath = $cache->path() . '/audio/waveform/' . $waveformPath;
 
 		$cache::staticCacheSymlink($systemState, $collectionName);
 
-		// One tradeoff with doing this first is that the file can be deleted from the collection's `thumbnail` folder but still show if it stays in `cache`
+		// One tradeoff with doing this first is that the file can be deleted from the collection's `waveform` folder but still show if it stays in `cache`
 		// The benefit is that it won't try to use `ffmpeg` and grab the frame if it hasn't yet, so it's potentially faster to check this way
 		if (file_exists($fileCachePath)) {
 			return $fileCachePath;
@@ -51,7 +50,7 @@ class AudioWaveform {
 			echo 'Symlinking audio waveform to cache for `' . $waveformPath . '`...' . "\n";
 		}
 
-		// Link the thumbnail path to the collection's cache
+		// Link the waveform path to the collection's cache
 		$cache::createSymlink(
 			$waveformPathFull,
 			$fileCachePath
@@ -66,7 +65,7 @@ class AudioWaveform {
 		}
 
 		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
-		$waveformPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/thumbnail/' . $waveformPath;
+		$waveformPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/audio/waveform/' . $waveformPath;
 
 		if (file_exists($waveformPathFull)) {
 			return true;

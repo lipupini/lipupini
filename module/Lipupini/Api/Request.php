@@ -80,14 +80,27 @@ class Request extends Http {
 
 		$return['type'] = $mediaFileTypesByExtension[$extension]['mediaType'];
 		$return['mime'] = $mediaFileTypesByExtension[$extension]['mimeType'];
-		if ($return['type'] === 'image') {
-			$return['url'] = $this->system->staticMediaBaseUri . $collectionName . '/image/large/' . $filePath;
-			$return['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/image/thumbnail/' . $filePath;
-		} else {
-			$return['url'] =
-				$this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/' . $filePath;
-			$return['thumbnail'] =
-				$this->system->staticMediaBaseUri . $collectionName . '/thumbnail/' . $filePath . '.png';
+		switch ($return['type']) {
+			case 'image' :
+				$return['url'] = $this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/large/' . $filePath;
+				$return['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/thumbnail/' . $filePath;
+				break;
+
+			case 'audio' :
+				$return['url'] =
+					$this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/' . $filePath;
+				$return['thumbnail'] =
+					$this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/thumbnail/' . $filePath . '.png';
+				$return['waveform'] =
+					$this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/waveform/' . $filePath . '.png';
+				break;
+
+			case 'video' :
+				$return['url'] =
+					$this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/' . $filePath;
+				$return['thumbnail'] =
+					$this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/thumbnail/' . $filePath . '.png';
+				break;
 		}
 
 		return $return;

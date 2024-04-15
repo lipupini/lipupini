@@ -33,7 +33,7 @@ case 'audio' : ?>
 	<audio controls="controls" preload="metadata">
 		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</audio>
-	<div class="waveform" style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/thumbnail/' . $urlEncodedFilename . '.waveform.png') ?>')">
+	<div class="waveform" style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/audio/waveform/' . $urlEncodedFilename . '.png') ?>')">
 		<div class="elapsed hidden"></div>
 	</div>
 	<?php if (!empty($this->fileData['thumbnail'])) : ?>

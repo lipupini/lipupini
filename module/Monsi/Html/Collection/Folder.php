@@ -29,12 +29,12 @@ if ($extension) :
 switch ($mediaTypesByExtension[$extension]['mediaType']) :
 case 'audio' :
 
-$style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/thumbnail/' . $urlEncodedFilename . '.png')  . '\')"' : '';
+$style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/audio/thumbnail/' . $urlEncodedFilename . '.png')  . '\')"' : '';
 ?>
 
 <div class="audio-container audio-waveform-seek"<?php echo $style ?>>
 	<div class="caption"><a href="/@/<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
-	<div class="waveform" style="background-image:url('<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/thumbnail/' . $urlEncodedFilename . '.waveform.png') ?>')">
+	<div class="waveform" style="background-image:url('<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/waveform/' . $urlEncodedFilename . '.png') ?>')">
 		<div class="elapsed hidden"></div>
 		<audio controls="controls" preload="metadata">
 			<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">

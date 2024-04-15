@@ -116,7 +116,7 @@ class Image {
 		// In the collection's `.lipupini` folder if there is a subfolder with the same name as the `$sizePreset`
 		// and an image exists in there with the same name, symlink that instead of processing the size automatically.
 		// This makes sure that work on custom thumbnails is not lost.
-		$customImagePath = $collectionPath . '/.lipupini/' . $sizePreset . '/' . $filePath;
+		$customImagePath = $collectionPath . '/.lipupini/image/' . $sizePreset . '/' . $filePath;
 		// If the custom image exists, a cache file for the custom image should be a symlink so check that it is correct
 		if (file_exists($customImagePath) && (!is_link($fileCachePath) || readlink($fileCachePath) !== $customImagePath)) {
 			if ($echoStatus) {

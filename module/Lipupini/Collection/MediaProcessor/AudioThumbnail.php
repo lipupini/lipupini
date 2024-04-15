@@ -4,20 +4,19 @@ namespace Module\Lipupini\Collection\MediaProcessor;
 
 use Imagine;
 use Module\Lipupini\Collection\Cache;
-use Module\Lipupini\Collection\Utility;
 use Module\Lipupini\State;
 
 class AudioThumbnail {
 	public static function cacheSymlinkAudioThumbnail(State $systemState, string $collectionName, string $audioPath, bool $echoStatus = false): false|string {
 		$cache = new Cache($systemState, $collectionName);
 		$thumbnailPath = $audioPath . '.png';
-		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/thumbnail/' . $thumbnailPath;
+		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/audio/thumbnail/' . $thumbnailPath;
 
 		if (!file_exists($thumbnailPathFull)) {
 			return false;
 		}
 
-		$fileCachePath = $cache->path() . '/thumbnail/' . $thumbnailPath;
+		$fileCachePath = $cache->path() . '/audio/thumbnail/' . $thumbnailPath;
 
 		$cache::staticCacheSymlink($systemState, $collectionName);
 

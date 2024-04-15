@@ -8,7 +8,7 @@ class AudioWaveformRequest extends MediaProcessorRequest {
 	use Collection\MediaProcessor\Trait\CacheSymlink;
 
 	public function initialize(): void {
-		if (!preg_match('#^' . preg_quote(static::relativeStaticCachePath($this->system)) . '([^/]+)/thumbnail/(.+\.(' . implode('|', array_keys($this->system->mediaType['audio'])) . ')\.waveform\.(' . implode('|', array_keys($this->system->mediaType['image'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^' . preg_quote(static::relativeStaticCachePath($this->system)) . '([^/]+)/audio/waveform/(.+\.(' . implode('|', array_keys($this->system->mediaType['audio'])) . ')\.(' . implode('|', array_keys($this->system->mediaType['image'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -16,15 +16,15 @@ class AudioWaveformRequest extends MediaProcessorRequest {
 		$this->system->shutdown = true;
 
 		$collectionName = $matches[1];
-		$thumbnailPath = rawurldecode($matches[2]);
-		$thumbnailExtension = $matches[4];
-		$audioPath = preg_replace('#\.waveform\.' . $thumbnailExtension . '$#', '', $thumbnailPath);
+		$waveformPath = rawurldecode($matches[2]);
+		$waveformExtension = $matches[4];
+		$audioPath = preg_replace('#\.' . $waveformExtension . '$#', '', $waveformPath);
 
 		(new Collection\Utility($this->system))->validateCollectionName($collectionName);
 
 		$this->serve(
 			Collection\MediaProcessor\AudioWaveform::cacheSymlinkAudioWaveform($this->system, $collectionName, $audioPath),
-			$this->system->mediaType['image'][$thumbnailExtension]
+			$this->system->mediaType['image'][$waveformExtension]
 		);
 	}
 }

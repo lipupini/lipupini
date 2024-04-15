@@ -98,43 +98,34 @@ class Utility {
 			$return[$filePath] = [];
 		}
 
+		// Process thumbnails for audio and video
 		$processThumbnailTypes = array_merge($this->system->mediaType['audio'] ?? [], $this->system->mediaType['video'] ?? []);
-
 		foreach ($return as $mediaFilePath => $mediaFileData) {
 			// If it doesn't already have a caption, use the filename without the extension
 			if (empty($mediaFileData['caption'])) {
 				$return[$mediaFilePath]['caption'] = pathinfo($mediaFilePath, PATHINFO_FILENAME);
 			}
-			// Process thumbnails for audio and video
 			$extension = pathinfo($mediaFilePath, PATHINFO_EXTENSION);
 			if (in_array(pathinfo($mediaFilePath, PATHINFO_EXTENSION), array_keys($processThumbnailTypes))) {
+				$mediaType = str_starts_with($processThumbnailTypes[$extension], 'audio') ? 'audio' : 'video';
 				// If the media file has a thumbnail specified in `files.json` already then skip it
 				if (!empty($mediaFileData['thumbnail'])) {
 					if (!parse_url($mediaFileData['thumbnail'], PHP_URL_HOST)) {
-						$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/thumbnail/' . $mediaFileData['thumbnail'];
+						$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/' . $mediaType . '/thumbnail/' . $mediaFileData['thumbnail'];
 					}
 					continue;
 				}
-				$isAudio = str_starts_with($processThumbnailTypes[$extension], 'audio');
 				// Check if a corresponding thumbnail file is saved by the same name
-				$thumbnailFile = $collectionRootPath . '/.lipupini/thumbnail/' . $mediaFilePath . '.png';
-				$waveformFile = $collectionRootPath . '/.lipupini/thumbnail/' . $mediaFilePath . '.waveform.png';
+				$thumbnailFile = $collectionRootPath . '/.lipupini/' . $mediaType . '/thumbnail/' . $mediaFilePath . '.png';
 				// If `useFfmpeg` is not enabled and the thumbnail does not already exist, then skip it because we won't try to create it in this case
-				if (
-					!$this->system->useFfmpeg &&
-					(
-						(!$isAudio && !file_exists($thumbnailFile)) ||
-						($isAudio && !file_exists($waveformFile))
-					)
-				) {
-					continue;
+				if (file_exists($thumbnailFile) || ($mediaType === 'video' && $this->system->useFfmpeg)) {
+					$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/' . $mediaType . '/thumbnail/' . $mediaFilePath . '.png';
 				}
-				// We found a thumbnail file (or plan to try and generate one) so add it to `$return`
-				if ($isAudio) {
-					$return[$mediaFilePath]['waveform'] = $this->system->staticMediaBaseUri . $collectionName . '/thumbnail/' . $mediaFilePath . '.waveform.png';
-				}
-				if (!$isAudio || file_exists($thumbnailFile)) {
-					$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/thumbnail/' . $mediaFilePath . '.png';
+				if ($mediaType === 'audio') {
+					$waveformFile = $collectionRootPath . '/.lipupini/' . $mediaType . '/waveform/' . $mediaFilePath . '.png';
+					if (file_exists($waveformFile) || $this->system->useFfmpeg) {
+						$return[$mediaFilePath]['waveform'] = $this->system->staticMediaBaseUri . $collectionName . '/' . $mediaType . '/waveform/' . $mediaFilePath . '.png';
+					}
 				}
 			}
 		}
