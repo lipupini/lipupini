@@ -63,3 +63,10 @@ footer {
 	opacity: 0.125;
 	cursor: unset;
 }
+.centered-content {
+	display: flex;
+	height: 100%;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+}
