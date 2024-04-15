@@ -119,18 +119,23 @@ class Cache {
 			}
 
 			// Images above are a special case, process everything else here
-			foreach ($filePaths as $filePath) {
+			foreach ($filePaths as $cacheFilePath) {
+				$collectionFilePath = $cacheFilePath;
 				if ($fileType === 'text') {
-					$filePath = preg_replace('#\.html$#', '', $filePath);
+					$collectionFilePath = preg_replace('#\.html$#', '', $collectionFilePath);
 				}
-				if (!file_exists($collectionPath . '/' . $filePath)) {
-					$cacheFilePath = $this->path() . '/' . $fileType . '/' . $filePath;
+				// Extract collection filename from thumbnail or waveform path (if applicable)
+				if (preg_match('#^(?:thumbnail|waveform)/(.+)\.(?:' . implode('|', array_keys($this->system->mediaType['image'])) . ')$#', $collectionFilePath, $matches)) {
+					$collectionFilePath = $matches[1];
+				}
+				if (!file_exists($collectionPath . '/' . $collectionFilePath)) {
+					$cacheFilePathFull = $this->path() . '/' . $fileType . '/' . $cacheFilePath;
 					if ($echoStatus) {
-						echo 'Media file does not exist in collection, deleting cache file `' . $cacheFilePath . '`...' . "\n";
+						echo 'Media file does not exist in collection, deleting cache file `' . $cacheFilePathFull . '`...' . "\n";
 					}
-					unlink($cacheFilePath);
+					unlink($cacheFilePathFull);
 					if ($fileType === 'text') {
-						unlink($cacheFilePath . '.html');
+						unlink($cacheFilePathFull . '.html');
 					}
 				}
 			}
