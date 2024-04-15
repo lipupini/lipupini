@@ -95,9 +95,9 @@ class FolderRequest extends Http {
 		$avatarUrlPath = Collection\MediaProcessor\Avatar::avatarUrlPath($this->system, $this->collectionName);
 		$this->pageImagePreviewUri = $avatarUrlPath ?? null;
 
-		$this->htmlHead .= '<link rel="stylesheet" href="/css/Folder.css">' . "\n";
+		$this->htmlHead .= '<link rel="stylesheet" href="/css/Folder.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n";
 		foreach (array_keys($this->system->mediaType) as $mediaType) {
-			$this->htmlHead .= '<link rel="stylesheet" href="/css/MediaType/' . htmlentities(ucfirst($mediaType)) . '.css">' . "\n";
+			$this->htmlHead .= '<link rel="stylesheet" href="/css/MediaType/' . htmlentities(ucfirst($mediaType)) . '.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n";
 		}
 		$this->htmlHead .= '<link rel="alternate" type="application/rss+xml" title="'
 				. htmlentities($this->collectionName .  '@' . $this->system->host) . '" href="'

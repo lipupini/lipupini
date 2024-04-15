@@ -3,6 +3,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+const FRONTEND_CACHE_VERSION = '1';
+
 require(__DIR__ . '/../../module/Lipupini/vendor/autoload.php');
 
 $httpHost = php_sapi_name() === 'cli' && empty($_SERVER['HTTP_HOST']) ? 'localhost' : $_SERVER['HTTP_HOST'];

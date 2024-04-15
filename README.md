@@ -10,7 +10,7 @@
 
 [Features](#features)
 
-[Lipupini Docker Setup](system/DEPLOY.md#deploying-with-docker)
+[Lipupini Docker Setup](system/README.md#deploying-with-docker)
 
 [Starting Lipupini with PHP](#starting-the-php-webserver)
 
@@ -57,7 +57,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - API for retrieving collection data. See [module/Lipupini/Collection/ApiRequest.php](module/Lipupini/Api/ApiRequest.php)
 - Media collections are self-contained, served as they are on your filesystem. Lipupini-specific collection files are stored in a special `.lipupini` folder, making account collections completely portable.
 - Module system paves a way for collaborative development.
-- Docker support. See [deployment instructions](system/DEPLOY.md#deploying-with-docker).
+- Docker support. See [deployment instructions](system/README.md#deploying-with-docker).
 - Show an avatar PNG when searching from an external ActivityPub or RSS client.
 - Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `system/config/state.php` for the option.
 - Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
@@ -66,7 +66,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 
 ## Starting the PHP Webserver
 
-Make sure all [dependencies are installed first](system/DEPLOY.md#installing-system-dependencies).
+Make sure all [dependencies are installed first](system/README.md#installing-system-dependencies).
 
 1) Clone the app and `cd` into the project root
 

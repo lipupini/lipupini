@@ -13,8 +13,8 @@ inbox account:
 	ls -l --color=auto --format=single-column collection/{{account}}/.lipupini/inbox
 
 # Start PHP's built-in webserver
-serve port='4000':
-	cd module/Lukinview/webroot && PHP_CLI_SERVER_WORKERS=2 php -S localhost:{{port}} index.php
+serve frontend='Lukinview' port='4000':
+	cd module/{{frontend}}/webroot && PHP_CLI_SERVER_WORKERS=2 php -S localhost:{{port}} index.php
 
 # Build a Lipupini Docker image from `system/docker`
 docker-build:
@@ -23,3 +23,7 @@ docker-build:
 # Run Docker container from a Lipupini Docker image
 docker-up:
 	docker-compose --file system/docker/docker-compose.yml up
+
+# Grab and integrate the latest demo version
+upgrade-latest-demo:
+	git stash && git fetch origin demo && git rebase origin/demo && git stash pop

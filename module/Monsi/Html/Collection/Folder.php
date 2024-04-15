@@ -77,7 +77,7 @@ else : ?>
 <?php endif;
 endforeach ?>
 
-<script src="/js/audio-waveform-seek.js"></script>
+<script src="/js/audio-waveform-seek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 </main>
 <footer>
 	<nav>

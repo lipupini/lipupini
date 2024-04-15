@@ -1,4 +1,9 @@
 {
+	"scripts": {
+		"post-install-cmd": [
+			"php -r \"copy('../../system/config/state.example.php', '../../system/config/state.php');\""
+		]
+	},
 	"require": {
 		"php": "^8.0",
 		"ext-curl": "*",

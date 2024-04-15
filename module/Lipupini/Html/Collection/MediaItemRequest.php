@@ -91,8 +91,8 @@ class MediaItemRequest extends Http {
 			$this->parentPath .= '?page=' . $matches[1];
 		}
 		$this->htmlHead =
-			'<link rel="stylesheet" href="/css/MediaItem.css">' . "\n" .
-			'<link rel="stylesheet" href="/css/MediaType/' . htmlentities(ucfirst($this->mediaType)) . '.css">' . "\n";
+			'<link rel="stylesheet" href="/css/MediaItem.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n" .
+			'<link rel="stylesheet" href="/css/MediaType/' . htmlentities(ucfirst($this->mediaType)) . '.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n";
 
 		return true;
 	}

@@ -9,7 +9,7 @@ class ListRequest extends Http {
 	public array $collectionNames = [];
 
 	public string $pageTitle = '@';
-	public string $htmlHead = '<link rel="stylesheet" href="/css/CollectionList.css">' . "\n";
+	public string $htmlHead = '<link rel="stylesheet" href="/css/CollectionList.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n";
 
 	public function initialize(): void {
 		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@[/?]?$#', $_SERVER['REQUEST_URI'])) {
