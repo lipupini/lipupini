@@ -24,6 +24,9 @@ docker-build:
 docker-up:
 	docker-compose --file system/docker/docker-compose.yml up
 
+test:
+	cd test && npx playwright test --ui
+
 # Grab and integrate the latest demo version
 upgrade-latest-demo:
 	git stash && git fetch origin demo && git rebase origin/demo && git stash pop
