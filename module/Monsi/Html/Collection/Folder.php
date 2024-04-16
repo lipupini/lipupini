@@ -28,13 +28,12 @@ $extension = pathinfo($filename, PATHINFO_EXTENSION);
 if ($extension) :
 switch ($mediaTypesByExtension[$extension]['mediaType']) :
 case 'audio' :
-
 $style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/audio/thumbnail/' . $urlEncodedFilename . '.png')  . '\')"' : '';
 ?>
 
 <div class="audio-container audio-waveform-seek"<?php echo $style ?>>
 	<div class="caption"><a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
-	<div class="waveform" style="background-image:url('<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/waveform/' . $urlEncodedFilename . '.png') ?>')">
+	<div class="waveform" style="background-image:url('<?php echo htmlentities($item['waveform'] ?? '') ?>')">
 		<div class="elapsed hidden"></div>
 		<audio controls="controls" preload="metadata">
 			<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
@@ -61,7 +60,7 @@ case 'text' : ?>
 case 'video' : ?>
 
 <div class="video-container">
-	<video class="video-js" controls="" preload="metadata" loop="" title="<?php echo htmlentities($item['caption']) ?>" poster="<?php echo htmlentities($item['thumbnail']) ?>" data-setup="{}">
+	<video class="video-js" controls="" preload="metadata" loop="" title="<?php echo htmlentities($item['caption']) ?>" poster="<?php echo htmlentities($item['thumbnail'] ?? '') ?>" data-setup="{}">
 		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</video>
 </div>

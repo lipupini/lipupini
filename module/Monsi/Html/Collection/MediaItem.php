@@ -33,7 +33,7 @@ case 'audio' : ?>
 	<audio controls="controls" preload="metadata">
 		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</audio>
-	<div class="waveform" style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/audio/waveform/' . $urlEncodedFilename . '.png') ?>')">
+	<div class="waveform" style="background-image:url('<?php echo htmlentities($this->fileData['waveform']) ?>')">
 		<div class="elapsed hidden"></div>
 	</div>
 	<?php if (!empty($this->fileData['thumbnail'])) : ?>
@@ -58,7 +58,7 @@ case 'text' : ?>
 case 'video' : ?>
 
 <div class="video-container">
-	<video class="video-js" controls="" preload="metadata" loop="" title="<?php echo htmlentities($this->fileData['caption']) ?>" poster="<?php echo htmlentities($this->fileData['thumbnail']) ?>" data-setup="{}">
+	<video class="video-js" controls="" preload="metadata" loop="" title="<?php echo htmlentities($this->fileData['caption']) ?>" poster="<?php echo htmlentities($this->fileData['thumbnail'] ?? '') ?>" data-setup="{}">
 		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</video>
 </div>
