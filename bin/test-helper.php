@@ -82,7 +82,7 @@ switch ($argv[1]) {
 					break;
 
 				case 'video':
-					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['file'])) {
+					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['file'] ?? [])) {
 						$errors[] = 'Video file cache mismatch';
 					}
 					if (count($fileInfo) && $hasFfmpeg && empty($lipupiniFolderHashTable[$mediaType]['thumbnail'])) {
