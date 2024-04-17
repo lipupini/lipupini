@@ -51,10 +51,6 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\Request::class => null, // This is where the collection name and folder is determined for subsequent modules
 		Module\Lipupini\Api\Request::class => null,
 		Module\Lipupini\Rss\Request::class => null,
-		Module\Lipupini\Html\Collection\MediaItemRequest::class => null, // Must be before Html\Collection\FolderRequest
-		Module\Lipupini\Html\Collection\FolderRequest::class => null,
-		Module\Lipupini\Html\Collection\ListRequest::class => null,
-		Module\Lipupini\ActivityPub\Request::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\AudioRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\AudioThumbnailRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\AudioWaveformRequest::class => null,
@@ -63,6 +59,10 @@ return new Module\Lipupini\State(
 		Module\Lipupini\Collection\MediaProcessor\Request\TextRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\VideoRequest::class => null,
 		Module\Lipupini\Collection\MediaProcessor\Request\VideoThumbnailRequest::class => null,
+		Module\Lipupini\Html\Collection\MediaItemRequest::class => null, // Must be before Html\Collection\FolderRequest
+		Module\Lipupini\Html\Collection\FolderRequest::class => null,
+		Module\Lipupini\Html\Collection\ListRequest::class => null,
+		Module\Lipupini\ActivityPub\Request::class => null,
 	],
 	activityPubLog: false,
 	debug: false
