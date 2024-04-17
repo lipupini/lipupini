@@ -22,13 +22,13 @@
 	top: 0;
 	left: 0;
 	z-index: 5;
-	opacity: .9;
 	transition-duration: .25s;
 	transition-property: opacity;
 	background-color: rgba(0, 0, 0, .6);
 	font-size: .9rem;
 	color: #ddd;
 	width: 100%;
+	opacity: 0;
 }
 .video-container.playing .caption,
 .video-container:hover .caption {
