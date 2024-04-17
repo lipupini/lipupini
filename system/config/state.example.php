@@ -17,7 +17,7 @@ return new Module\Lipupini\State(
 	frontendModule: 'Lukinview',
 	viewLanguage: 'english',
 	itemsPerPage: 36,
-	mediaSize: ['large' => [5000, 5000], 'thumbnail' => [600, 600]], // Default [width, height] for each preset. You can add more, and renaming the defaults is not recommended
+	mediaSize: ['large' => [5000, 5000], 'thumbnail' => [500, 500]], // Default [width, height] for each preset. You can add more, and renaming the defaults is not recommended
 	mediaType: [
 		'audio' => [
 			'flac' => 'audio/flac',
