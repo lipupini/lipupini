@@ -3,6 +3,7 @@
 namespace Module\Lipupini\ActivityPub;
 
 use Module\Lipupini\Request\Incoming\Http;
+use const Module\Lipupini\LIPUPINI_VERSION;
 
 // https://github.com/jhass/nodeinfo/blob/main/PROTOCOL.md
 
@@ -40,21 +41,23 @@ class NodeInfoRequest extends Http {
 			'version' => '2.0',
 			'software' => [
 				'name' => 'lipupini',
-				'version' => '69.420',
+				'version' => LIPUPINI_VERSION,
 			],
 			'protocols' => [
 				'activitypub',
 				'rss',
 			],
 			'openRegistrations' => 'false',
+			// Lipupini itself does not record usage data, so random numbers are used
+			// If you really want, you can parse logs and cache them in `/tmp`
 			'usage' => [
 				'users' => [
-					'total' => 1,
-					'activeHalfYear' => 1,
-					'activeMonth' => 1,
+					'total' => rand(69, 420),
+					'activeHalfYear' => rand(69, 420),
+					'activeMonth' => rand(69, 420),
 				],
-				'localPosts' => 420,
-				'localComments' => 69,
+				'localPosts' => rand(69, 420),
+				'localComments' => rand(69, 420),
 			],
 			'services' => [
 				'outbound' => [],

@@ -2,6 +2,8 @@
 
 namespace Module\Lipupini;
 
+const LIPUPINI_VERSION = 5; // Try not to forget to update this during major API releases
+
 use Module\Lipupini\L18n\A;
 
 class State {
@@ -22,7 +24,7 @@ class State {
 		public string $staticMediaBaseUri = 'http://dev.null/c/', // Also has a trailing slash
 		public string $frontendModule     = 'Lukinview',
 		public string $viewLanguage       = 'english',
-		public string $userAgent          = '(Lipupini/5; +https://github.com/lipupini/lipupini)', // Try not to forget to update this during major API releases
+		public string $userAgent          = '(Lipupini/' . LIPUPINI_VERSION . '; +https://github.com/lipupini/lipupini)',
 		public int    $itemsPerPage       = 36,
 		public array  $mediaSize          = ['large' => [5000, 5000], 'thumbnail' => [600, 600]], // Default [width, height] for each preset
 		public array  $mediaType          = [
@@ -87,8 +89,8 @@ class State {
 		// For security reasons, a completely random version number is always statically served. Lipupini should
 		// not change anything about the ActivityPub protocol, therefore the version is irrelevant to other
 		// instances and particularly to any instance that may suspect that the version number is relevant.
-		if ($this->userAgent === '(Lipupini/69.420; +https://github.com/lipupini/lipupini)') {
-			$this->userAgent = '(Lipupini/69.420; +' . $this->baseUri . ')';
+		if ($this->userAgent === '(Lipupini/' . LIPUPINI_VERSION . '; +https://github.com/lipupini/lipupini)') {
+			$this->userAgent = '(Lipupini/' . LIPUPINI_VERSION . '; +' . $this->baseUri . ')';
 		}
 
 		A::initializeViewLanguages($this);
