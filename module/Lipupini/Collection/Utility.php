@@ -17,13 +17,13 @@ class Utility {
 		}
 
 		if (!is_dir($this->system->dirCollection . '/' . $collectionName)) {
-			throw new Exception('Collection not found: ' . htmlentities($collectionName));
+			throw new Exception('Collection not found: ' . htmlentities($collectionName), 404);
 		}
 	}
 
 	public function validateCollectionFolder(string $collectionName, string $collectionFolder): void {
 		if (!is_dir($this->system->dirCollection . '/' . $collectionName . '/' . $collectionFolder)) {
-			throw new Exception('Could not find collection folder: ' . htmlentities($collectionFolder));
+			throw new Exception('Could not find collection folder: ' . htmlentities($collectionFolder), 404);
 		}
 	}
 

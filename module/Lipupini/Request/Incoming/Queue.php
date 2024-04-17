@@ -64,7 +64,7 @@ class Queue {
 		try {
 			$this->processRequestQueue();
 		} catch (\Exception $e) {
-			http_response_code(500);
+			http_response_code($e->getCode() ?: 500);
 			$message = [
 				htmlentities($e->getMessage()),
 				'File: ' . str_replace($this->system->dirRoot, '', $e->getFile()),
