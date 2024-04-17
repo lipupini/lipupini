@@ -194,7 +194,6 @@ ActivityPub inspiration: [@dansup@pixelfed.social](https://pixelfed.social/dansu
   - Read EXIF data if available for setting a default `date`
 - Something else besides exception when file in `files.json` does not exist in collection
 - Create script to normalize file and directory user/group/permissions
-- Output errors in layout
 - Check on cross-platform compatibility, MacOS and Windows with and without Docker. While only tested on Linux, I believe it will work on all three OSes including `ffmpeg` interfaces as long as symlinking is supported.
 - Look into:
   - https://indieweb.org/Webmention
