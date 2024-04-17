@@ -12,6 +12,9 @@ html, body {
 body, a {
 	color: #bfbfbf;
 }
+body > main {
+	padding-block: 0;
+}
 a {
 	text-decoration: none;
 }
@@ -33,35 +36,39 @@ footer {
 	text-align: center;
 	padding-bottom: 1.5rem;
 }
-.app-bar nav {
+nav {
 	display: flex;
 	align-items: center;
+	text-align: center;
 	padding: 1rem;
 }
-.app-bar nav > div {
+nav > div {
 	width: 100%;
 }
-.app-bar .parent {
+nav .parent {
 	flex: 1;
 	text-align: center;
 }
-.app-bar .next {
+nav .next {
 	text-align: left;
 }
-.app-bar .previous {
+nav .previous {
 	text-align: right;
 }
-.app-bar .next,
-.app-bar .previous {
+nav .next,
+nav .previous {
 	flex: 2;
 }
-.app-bar .pagination a.button img {
+nav .pagination a.button img {
 	width: 1.8rem;
 	height: 1.8rem;
 }
-.app-bar a.button[disabled] {
+nav a.button[disabled] {
 	opacity: 0.125;
 	cursor: unset;
+}
+footer nav .parent {
+	visibility: hidden;
 }
 .centered-content {
 	display: flex;
