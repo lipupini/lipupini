@@ -6,10 +6,11 @@ use Module\Lipupini\State;
 use Module\Lipupini\Collection\MediaProcessor\Request\MediaProcessorRequest;
 
 class Cache {
+	const DIRNAME = '.cache';
 	private string $path;
 
 	public function __construct(private State $system, protected string $collectionName) {
-		$path = $this->system->dirCollection . '/' . $this->collectionName . '/.lipupini/cache';
+		$path = $this->system->dirCollection . '/' . $this->collectionName . '/.lipupini/' . static::DIRNAME;
 
 		if (!is_dir($path)) {
 			mkdir($path, 0755, true);
@@ -122,6 +123,7 @@ class Cache {
 			foreach ($filePaths as $cacheFilePath) {
 				$collectionFilePath = $cacheFilePath;
 				if ($fileType === 'text') {
+					$collectionFilePath = preg_replace('#^(html|markdown)/#', '', $collectionFilePath);
 					$collectionFilePath = preg_replace('#\.html$#', '', $collectionFilePath);
 				}
 				// Extract collection filename from thumbnail or waveform path (if applicable)

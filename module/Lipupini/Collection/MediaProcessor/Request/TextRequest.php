@@ -7,7 +7,7 @@ use Module\Lipupini\Collection\MediaProcessor\Text;
 
 class TextRequest extends MediaProcessorRequest {
 	public function initialize(): void {
-		if (!preg_match('#^' . preg_quote(static::relativeStaticCachePath($this->system)) . '([^/]+)/text/(.+\.(' . implode('|', array_keys($this->system->mediaType['text'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!preg_match('#^' . preg_quote(static::relativeStaticCachePath($this->system)) . '([^/]+)/text/(html|markdown)/(.+\.(' . implode('|', array_keys($this->system->mediaType['text'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
 			return;
 		}
 
@@ -15,13 +15,20 @@ class TextRequest extends MediaProcessorRequest {
 		$this->system->shutdown = true;
 
 		$collectionName = $matches[1];
-		$filePath = rawurldecode($matches[2]);
-		$extension = $matches[3];
+		$outputType = $matches[2];
+		$filePath = $matches[3];
+		$extension = $matches[4];
 
 		if ($extension === 'html') {
-			$mdFilePath = rawurldecode(preg_replace('#\.html$#', '', $filePath));
+			if ($outputType !== 'html') {
+				throw new Exception('File path mismatch: ' . $_SERVER['REQUEST_URI']);
+			}
+			$mdFilePath = preg_replace('#\.html$#', '', $filePath);
 		} else {
-			$mdFilePath = rawurldecode($_SERVER['REQUEST_URI'] . '.html');
+			if ($outputType !== 'markdown') {
+				throw new Exception('File path mismatch: ' . $_SERVER['REQUEST_URI']);
+			}
+			$mdFilePath = $_SERVER['REQUEST_URI'];
 		}
 
 		$pathOriginal = $this->system->dirCollection . '/' . $collectionName . '/' . $mdFilePath;

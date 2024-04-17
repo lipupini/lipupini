@@ -35,11 +35,6 @@ class AudioThumbnail {
 			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);
 		}
 
-		// If `$fileCachePath` is already there we don't need to do a cache symlink, and we can use what's there
-		if (file_exists($fileCachePath)) {
-			return $fileCachePath;
-		}
-
 		if ($echoStatus) {
 			echo 'Symlinking audio thumbnail to cache for `' . $thumbnailPath . '`...' . "\n";
 		}

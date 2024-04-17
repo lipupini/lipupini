@@ -6,13 +6,13 @@
 	flex-direction: column;
 	justify-content: center;
 }
-#folder .grid .text-container a {
+#folder .grid a.text-container {
 	text-decoration: underline;
 }
-#folder .grid .text-container a:hover {
+#folder .grid a.text-container:hover {
 	color: #fff;
 }
-#folder .grid .text-container a > div {
+#folder .grid .text-container > div {
 	padding: 1rem .5rem;
 }
 #media-item {

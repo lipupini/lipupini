@@ -2,7 +2,6 @@
 
 namespace Module\Lipupini\Collection;
 
-use Module\Lipupini\Collection\MediaProcessor\Video;
 use Module\Lipupini\State;
 
 class Utility {
@@ -160,12 +159,12 @@ class Utility {
 	public function allCollectionFolders(): array {
 		$dir = new \DirectoryIterator($this->system->dirCollection);
 		$collectionFolders = [];
-		foreach ($dir as $fileinfo) {
-			if (!$fileinfo->isDir() || $fileinfo->getFilename()[0] === '.') {
+		foreach ($dir as $fileInfo) {
+			if (!$fileInfo->isDir() || $fileInfo->getFilename()[0] === '.') {
 				continue;
 			}
 
-			$collectionFolders[] = $fileinfo->getFilename();
+			$collectionFolders[] = $fileInfo->getFilename();
 		}
 		return $collectionFolders;
 	}

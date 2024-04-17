@@ -33,15 +33,15 @@ footer {
 	text-align: center;
 	padding-bottom: 1.5rem;
 }
-.app-bar {
+.app-bar nav {
 	display: flex;
 	align-items: center;
 	padding: 1rem;
 }
-.app-bar > div {
+.app-bar nav > div {
 	width: 100%;
 }
-.app-bar .index {
+.app-bar .parent {
 	flex: 1;
 	text-align: center;
 }

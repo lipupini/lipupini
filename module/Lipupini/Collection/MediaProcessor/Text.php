@@ -8,7 +8,7 @@ use Module\Lipupini\State;
 class Text {
 	public static function processAndCache(State $systemState, string $collectionName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): string {
 		$cache = new Cache($systemState, $collectionName);
-		$fileCachePathMd = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath;
+		$fileCachePathMd = $cache->path() . '/' . $fileTypeFolder . '/markdown/' . $filePath;
 		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
 
 		$cache::staticCacheSymlink($systemState, $collectionName);
@@ -19,12 +19,16 @@ class Text {
 
 		if (!file_exists($fileCachePathMd)) {
 			if ($echoStatus) {
-				echo 'Symlinking Markdown cache files for `' . $filePath . '`...' . "\n";
+				echo 'Symlinking Markdown cache file for `' . $filePath . '`...' . "\n";
 			}
 			$cache::createSymlink($collectionPath . '/' . $filePath, $fileCachePathMd);
 		}
 
-		$fileCachePathHtml = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath . '.html';
+		$fileCachePathHtml = $cache->path() . '/' . $fileTypeFolder . '/html/' . $filePath . '.html';
+
+		if (!is_dir(pathinfo($fileCachePathHtml, PATHINFO_DIRNAME))) {
+			mkdir(pathinfo($fileCachePathHtml, PATHINFO_DIRNAME), 0755, true);
+		}
 
 		if (file_exists($fileCachePathHtml)) {
 			if (filemtime($collectionPath . '/' . $filePath) < filemtime($fileCachePathHtml)) {

@@ -10,6 +10,9 @@
 .video-container video {
 	background-color: rgba(0, 0, 0, .5);
 }
+.video-container .caption {
+	display: none;
+}
 #folder .grid .video-container {
 	aspect-ratio: 1;
 }

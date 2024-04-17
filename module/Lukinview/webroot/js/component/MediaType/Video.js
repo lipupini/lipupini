@@ -1,6 +1,6 @@
 import van from '/lib/van-1.5.0.min.js'
 
-const { div, video, source } = van.tags
+const { a, div, video, source } = van.tags
 
 const Video = ({collection, baseUri, filename, data, mimeType}) => {
 	collection = encodeURIComponent(collection)
@@ -10,6 +10,7 @@ const Video = ({collection, baseUri, filename, data, mimeType}) => {
 		attributes.poster = encodeURI(data.thumbnail)
 	}
 	return div({class: 'video-container'},
+			div({class: 'caption'}, a({href: `/@${collection}/${filenameEncoded}.html`}, data.caption)),
 			video(attributes, source({src: `${baseUri}${collection}/video/${filenameEncoded}`, type: mimeType})
 		),
 	)

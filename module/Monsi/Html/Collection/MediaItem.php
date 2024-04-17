@@ -20,7 +20,7 @@ require(__DIR__ . '/../Core/Open.php') ?>
 <div id="media-item" class="<?php echo htmlentities($this->mediaType) ?>-item">
 <header>
 	<nav>
-		<div class="index pagination"><a href="/<?php echo htmlentities($this->parentPath) ?>" class="button" title="<?php echo $this->parentPath ? htmlentities($parentPathLastSegment) : A::z('Homepage') ?>"><img src="/img/arrow-up-bold.svg" alt="<?php echo $this->parentPath ? htmlentities($parentPathLastSegment) : A::z('Homepage') ?>"></a></div>
+		<div class="pagination parent"><a href="/<?php echo htmlentities($this->parentPath) ?>" class="button" title="<?php echo $this->parentPath ? htmlentities($parentPathLastSegment) : A::z('Homepage') ?>"><img src="/img/arrow-up-bold.svg" alt="<?php echo $this->parentPath ? htmlentities($parentPathLastSegment) : A::z('Homepage') ?>"></a></div>
 	</nav>
 </header>
 <main>
@@ -33,7 +33,7 @@ case 'audio' : ?>
 	<audio controls="controls" preload="metadata">
 		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</audio>
-	<div class="waveform" style="background-image:url('<?php echo htmlentities($this->fileData['waveform']) ?>')">
+	<div class="waveform" style="background-image:url('<?php echo htmlentities($this->fileData['waveform'] ?? '') ?>')">
 		<div class="elapsed hidden"></div>
 	</div>
 	<?php if (!empty($this->fileData['thumbnail'])) : ?>
@@ -52,7 +52,7 @@ case 'image' : ?>
 case 'text' : ?>
 
 <div class="text-container">
-	<object type="text/html" data="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/text/' . $urlEncodedFilename) ?>.html"></object>
+	<object type="text/html" data="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/text/html/' . $urlEncodedFilename) ?>.html"></object>
 </div>
 <?php break;
 case 'video' : ?>
@@ -66,8 +66,8 @@ case 'video' : ?>
 endswitch;
 ?>
 
-<script src="/js/audio-waveform-seek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 </main>
+<script src="/js/audio-waveform-seek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 <footer>
 	<div class="about">
 		<a href="https://github.com/lipupini/lipupini" target="_blank" rel="noopener noreferrer" class="button" title="<?php echo A::z('More information about this software') ?>">?</a>

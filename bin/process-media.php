@@ -91,7 +91,7 @@ $defaultAvatarSha1 = sha1_file($defaultAvatarPath);
 // BEGIN: Process avatar cache
 $collectionFolderPath = $systemState->dirCollection . '/' . $collectionName;
 $collectionAvatarPath = $collectionFolderPath . '/.lipupini/avatar.png';
-$collectionCacheAvatarPath = $collectionFolderPath . '/.lipupini/cache/avatar.png';
+$collectionCacheAvatarPath = $collectionCache->path() . '/avatar.png';
 $collectionCacheAvatarSha1 = file_exists($collectionCacheAvatarPath) ? sha1_file($collectionCacheAvatarPath) : null;
 
 // If the default avatar is currently cached in a collection, but the avatar image has since been updated

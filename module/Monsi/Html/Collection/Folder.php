@@ -51,16 +51,15 @@ case 'image' : ?>
 <?php break;
 case 'text' : ?>
 
-<div class="text-container">
-	<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html">
-		<div><?php echo htmlentities($item['caption']) ?></div>
-	</a>
-</div>
+<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html" class="text-container">
+	<div><?php echo htmlentities($item['caption']) ?></div>
+</a>
 <?php break;
 case 'video' : ?>
 
 <div class="video-container">
-	<video class="video-js" controls="" preload="metadata" loop="" title="<?php echo htmlentities($item['caption']) ?>" poster="<?php echo htmlentities($item['thumbnail'] ?? '') ?>" data-setup="{}">
+	<div class="caption"><a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
+	<video class="video-js" controls="" preload="metadata" loop="" title="<?php echo htmlentities($item['caption']) ?>" poster="<?php echo htmlentities($item['thumbnail'] ?? '') ?>" data-setup="{}" onplay="this.closest('.video-container').classList.add('playing')" onpause="this.closest('.video-container').classList.remove('playing')">
 		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</video>
 </div>
@@ -76,8 +75,8 @@ else : ?>
 <?php endif;
 endforeach ?>
 
-<script src="/js/audio-waveform-seek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 </main>
+<script src="/js/audio-waveform-seek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 <footer>
 	<nav>
 		<div class="pagination previous"><a href="<?php echo $this->prevUrl ? htmlentities($this->prevUrl) : 'javascript:void(0)' ?>" class="button" title="<?php echo A::z('Previous') ?>"<?php if (!$this->prevUrl) : ?> disabled<?php endif ?>><img src="/img/arrow-left-bold.svg" alt="<?php echo A::z('Previous') ?>"></a></div>

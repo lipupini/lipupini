@@ -10,7 +10,7 @@ const Text = ({collection, baseUri, filename, data, gridView}) => {
 			a({href: `/@${collection}/${filenameEncoded}.html`},
 				div(data.caption ?? filename.split(/[\\\/]/).pop()),
 			) :
-			object({type: 'text/html', data: `${baseUri}${collection}/text/${filenameEncoded}.html`})
+			object({type: 'text/html', data: `${baseUri}${collection}/text/html/${filenameEncoded}.html`})
 	)
 }
 
