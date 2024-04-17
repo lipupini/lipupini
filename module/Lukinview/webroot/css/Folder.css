@@ -1,5 +1,5 @@
 #folder .grid {
-	gap: 0;
+	gap: 1px;
 	grid-template-columns: repeat(2, minmax(0px, 1fr));
 	display: grid;
 }
