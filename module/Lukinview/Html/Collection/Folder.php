@@ -74,7 +74,7 @@ else : ?>
 <?php endif;
 endforeach ?>
 </main>
-<script src="/js/audio-waveform-seek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
+<script src="/js/AudioWaveformSeek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 <footer>
 	<nav>
 		<div class="pagination previous"><a href="<?php echo $this->prevUrl ? htmlentities($this->prevUrl) : 'javascript:void(0)' ?>" class="button" title="<?php echo A::z('Previous') ?>"<?php if (!$this->prevUrl) : ?> disabled<?php endif ?>><img src="/img/arrow-left-bold.svg" alt="<?php echo A::z('Previous') ?>"></a></div>

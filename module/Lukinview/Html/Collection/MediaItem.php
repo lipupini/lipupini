@@ -67,7 +67,7 @@ endswitch;
 ?>
 
 </main>
-<script src="/js/audio-waveform-seek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
+<script src="/js/AudioWaveformSeek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 <footer>
 	<div class="about">
 		<a href="https://github.com/lipupini/lipupini" target="_blank" rel="noopener noreferrer" class="button" title="<?php echo A::z('More information about this software') ?>">?</a>
