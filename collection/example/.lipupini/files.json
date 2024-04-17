@@ -5,15 +5,15 @@
 	"Memes": {
 		"caption": "Memes"
 	},
-	"Poetry": {
-		"caption": "Poetry"
+	"dup.mp4": {
+		"caption": "dup",
+		"thumbnail": "dup.mp4.png"
 	},
 	"cat-hat.png": {
 		"caption": "Hat Cat"
 	},
-	"dup.mp4": {
-		"caption": "dup",
-		"thumbnail": "dup.mp4.png"
+	"Poetry": {
+		"caption": "Poetry"
 	},
 	"frm3-focus-demo.ogg": {
 		"caption": "Fitzhugh Ralph Mason III - Focus (Demo)"
