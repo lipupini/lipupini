@@ -61,7 +61,17 @@ class Queue {
 			return false;
 		}
 
-		$this->processRequestQueue();
+		try {
+			$this->processRequestQueue();
+		} catch (\Exception $e) {
+			http_response_code(500);
+			$message = [
+				htmlentities($e->getMessage()),
+				'File: ' . str_replace($this->system->dirRoot, '', $e->getFile()),
+				'Line: ' . $e->getLine(),
+			];
+			$this->system->responseContent = '<p>' . implode('</p><p>', $message) . '</p>';
+		}
 
 		$microtimeLater = microtime(true);
 		$this->system->executionTimeSeconds = $microtimeLater - $this->system->microtimeInit;

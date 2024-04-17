@@ -24,6 +24,8 @@ class MediaItemRequest extends Http {
 			return;
 		}
 
+		$this->system->shutdown = true;
+
 		$collectionHtmlFile = $this->system->request[Collection\Request::class]->file;
 
 		// Only applies to, e.g. http://locahost/@example/memes/cat-computer.jpg.html
@@ -47,7 +49,6 @@ class MediaItemRequest extends Http {
 		}
 
 		$this->renderHtml();
-		$this->system->shutdown = true;
 	}
 
 	public function renderHtml(): void {
