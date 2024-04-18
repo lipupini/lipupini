@@ -32,7 +32,8 @@ const testAssetFiles = [
 ]
 
 const askPhp = to => {
-	return JSON.parse(execSync('php "' + __dirname + '/../../bin/test-helper.php" ' + to).toString())
+	const command = 'php "' + __dirname + '/../../bin/test-helper.php" ' + to
+	return JSON.parse(execSync(command, {stdio: 'pipe'}).toString())
 }
 
 const hasFfmpeg = askPhp('determineFfmpegSupport')
