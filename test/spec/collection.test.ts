@@ -1,6 +1,6 @@
 import { test, expect, Page } from '@playwright/test'
 
-const host = 'http://localhost:4000'
+const host = 'http://localhost:4000' // Without trailing slash
 
 const glob = require('glob')
 const path = require('path')
@@ -33,7 +33,13 @@ const testAssetFiles = [
 
 const askPhp = to => {
 	const command = 'php "' + __dirname + '/../../bin/test-helper.php" ' + to
-	return JSON.parse(execSync(command, {stdio: 'pipe'}).toString())
+	const answer = execSync(command, {stdio: 'pipe'}).toString()
+	try {
+		return JSON.parse(answer)
+	} catch (e) {
+		console.log(answer)
+		throw e
+	}
 }
 
 const hasFfmpeg = askPhp('determineFfmpegSupport')
@@ -57,13 +63,13 @@ if (createNewCollection) {
 	testCollectionFolder.cache = testCollectionFolder.root + '/.lipupini/.cache'
 }
 
-test('clicks into collection list from homepage', async ({ page }) => {
+test('click into collection list from homepage and verify all', async ({ page }) => {
 	await page.goto(host + '/')
 
 	await page.locator('a >> nth=0').click()
 	await expect(page).toHaveURL(host + '/@')
 
-	const collections = glob.sync(testCollectionFolder.root + '/*')
+	const collections = glob.sync(collectionRootFolder + '/*')
 
 	for (let i = 0; i < collections.length; i++) {
 		if (
@@ -72,14 +78,13 @@ test('clicks into collection list from homepage', async ({ page }) => {
 			collections[i].charAt(0) === '.'
 		)  continue
 
-		collections[i] = path.basename(collections[i])
-		await expect(page.locator('li a:text-is("' + collections[i] + '")')).toBeVisible()
+		await expect(page.locator('li a:text-is("' + path.basename(collections[i]) + '")')).toBeVisible()
 	}
 })
 
 test.describe.serial('test collection', () => {
 	if (createNewCollection) {
-		test('create a new test collection', async ({page}) => {
+		test('creates a new test collection', async () => {
 			// Create the folder
 			fs.mkdirSync(testCollectionFolder.root)
 			// Populate some test files
@@ -103,7 +108,7 @@ test.describe.serial('test collection', () => {
 		})
 	}
 
-	test('open collection in list and view every item', async ({ page }) => {
+	test('open collection in list and view every item', async ({ page, request }) => {
 		test.slow()
 		await page.goto(host + '/@')
 		await expect(page.locator('li a:text-is("' + testCollectionName + '")')).toBeVisible()
@@ -121,17 +126,65 @@ test.describe.serial('test collection', () => {
 				case 'image':
 					await page.goto(await page.locator('main a').getAttribute('href'))
 					break
-				case 'video':
 				case 'audio':
-					await page.waitForLoadState('load')
+					const audioSrc = await page.locator('main source').getAttribute('src')
+					expect((await request.get(audioSrc)).ok()).toBeTruthy()
+					const waveform = (await page.locator('main .waveform').getAttribute('style'))
+						.match(/background-image:url\('(.+)'\);?/)[1]
+					expect((await request.get(waveform)).ok()).toBeTruthy()
+					break
+				case 'video':
+					const videoSrc = await page.locator('main source').getAttribute('src')
+					expect((await request.get(videoSrc)).ok()).toBeTruthy()
+					const videoPoster = await page.locator('main video').getAttribute('poster')
+					expect((await request.get(videoPoster)).ok()).toBeTruthy()
 					break
 			}
 		}
 	})
 
+	test('check WebFinger URL', async ({page, request}) => {
+		expect(
+			(await request.get(
+					host + '/.well-known/webfinger?resource=acct:' + testCollectionName + '@' + host.replace(/^https?:\/\//, ''))
+			).ok()
+		).toBeTruthy()
+	})
+
+	test('check RSS URLs', async ({page, request}) => {
+		const rssUrl = host + '/rss/' + testCollectionName + '/' + testCollectionName + '-feed.rss'
+		await page.goto(host + '/@' + testCollectionName)
+		await expect(await page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveAttribute('href', rssUrl)
+		expect((await request.get(rssUrl)).ok()).toBeTruthy()
+	})
+
+	test('check API URLs', async ({page, request}) => {
+		const apiUrl = host + '/api/' + testCollectionName
+		const apiResponse = await request.get(apiUrl)
+		expect(apiResponse.ok()).toBeTruthy()
+		const apiResponseBody = JSON.parse((await apiResponse.body()).toString());
+		expect(Object.keys(apiResponseBody.data).length).toEqual(12)
+		expect((await request.get(apiUrl + '/blank.png.json')).ok()).toBeTruthy()
+	})
+
+	test('check ActivityPub endpoints', async ({page, request}) => {
+		const apBaseUrl = host + '/ap/' + testCollectionName
+		expect((await request.get(apBaseUrl)).status()).toEqual(302)
+		expect((await request.get(apBaseUrl + '/followers')).ok()).toBeTruthy()
+		expect((await request.get(apBaseUrl + '/following')).ok()).toBeTruthy()
+		expect((await request.post(apBaseUrl + '/inbox')).status()).toEqual(400)
+		expect((await request.get(apBaseUrl + '/outbox')).ok()).toBeTruthy()
+		expect((await request.get(apBaseUrl + '/profile')).ok()).toBeTruthy()
+		expect((await request.post(apBaseUrl + '/sharedInbox')).status()).toEqual(400)
+
+		expect((await request.get(host + '/.well-known/nodeinfo')).ok()).toBeTruthy()
+		expect((await request.get(host + '/.well-known/nodeinfo?local')).ok()).toBeTruthy()
+	})
+
 	test('analyze collection cache files', async () => {
-		const analyzeCache = askPhp('analyzeCache ' + testCollectionName)
-		await expect(analyzeCache.messages).toEqual(undefined)
+		const analyzeCacheResult = askPhp('analyzeCache ' + testCollectionName)
+		console.log(analyzeCacheResult)
+		await expect(analyzeCacheResult.messages).toEqual(undefined)
 	})
 
 	if (testCollectionPagination) {

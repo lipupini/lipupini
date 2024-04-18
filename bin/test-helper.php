@@ -56,7 +56,7 @@ switch ($argv[1]) {
 		foreach ($collectionHashTable as $mediaType => $fileInfo) {
 			switch ($mediaType) {
 				case 'audio':
-					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['file'])) {
+					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['file'] ?? [])) {
 						$errors[] = 'Audio file cache mismatch';
 					}
 					if (count($fileInfo) && $hasFfmpeg && empty($lipupiniFolderHashTable[$mediaType]['waveform'])) {
@@ -66,17 +66,17 @@ switch ($argv[1]) {
 
 				case 'image':
 					foreach (array_keys($systemState->mediaSize) as $mediaSize) {
-						if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType][$mediaSize])) {
+						if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType][$mediaSize] ?? [])) {
 							$errors[] = 'Image ' . $mediaSize . ' cache mismatch';
 						}
 					}
 					break;
 
 				case 'text':
-					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['html'])) {
+					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['html'] ?? [])) {
 						$errors[] = 'Text HTML cache mismatch';
 					}
-					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['markdown'])) {
+					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['markdown']) ?? []) {
 						$errors[] = 'Text markdown cache mismatch';
 					}
 					break;
@@ -107,7 +107,7 @@ switch ($argv[1]) {
 				case 'image':
 					foreach ($classificationInfo as $mediaSize => $fileInfo) {
 						foreach ($fileInfo as $collectionPath => $sha256) {
-							if ($sha256 !== $cacheFolderHashTable[$mediaType][$mediaSize][$collectionPath]) {
+							if ($sha256 !== ($cacheFolderHashTable[$mediaType][$mediaSize][$collectionPath] ?? null)) {
 								$errors[] = 'Image custom size ' . $mediaSize . ' cache SHA256 mismatch';
 							}
 						}
