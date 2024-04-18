@@ -7,6 +7,8 @@ use Module\Lipupini\Request\Outgoing;
 use Module\Lipupini\State;
 
 class Follow {
+	use Collection\Trait\CollectionRequest;
+
 	public function __construct(protected State $system) { }
 
 	public function request(string $remote): bool {
@@ -46,22 +48,22 @@ class Follow {
 			throw new Exception('Could not determine inbox URL', 400);
 		}
 
-		$collectionName = $this->system->request[Collection\Request::class]->name;
+		$this->collectionNameFromSegment(2);
 
 		// Create the JSON payload for the Follow activity (adjust as needed)
 		$followActivity = [
 			'@context' => 'https://www.w3.org/ns/activitystreams',
-			'id' => $this->system->baseUri . 'ap/' . $collectionName . '/profile#follow/' . md5(rand(0, 1000000) . microtime(true)),
+			'id' => $this->system->baseUri . 'ap/' . $this->collectionName . '/profile#follow/' . md5(rand(0, 1000000) . microtime(true)),
 			'type' => 'Follow',
-			'actor' => $this->system->baseUri . 'ap/' . $collectionName . '/profile',
+			'actor' => $this->system->baseUri . 'ap/' . $this->collectionName . '/profile',
 			'object' => $remoteActor->getId(),
 		];
 
 		$activityJson = json_encode($followActivity, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
 		Outgoing\Http::sendSigned(
-			keyId: $this->system->baseUri . 'ap/' . $collectionName . '/profile#main-key',
-			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $collectionName . '/.lipupini/rsakey.private'),
+			keyId: $this->system->baseUri . 'ap/' . $this->collectionName . '/profile#main-key',
+			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $this->collectionName . '/.lipupini/rsakey.private'),
 			inboxUrl: $remoteActor->getInboxUrl(),
 			body: $activityJson,
 			headers: [

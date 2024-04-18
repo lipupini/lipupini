@@ -39,6 +39,7 @@ class Utility {
 			throw new Exception('`$collectionFolder` should be a directory, not a file');
 		}
 
+		// Not sure if it is only the browser that will prevent this type of breach
 		if (str_contains($collectionRootPath, '..')) {
 			throw new Exception('Suspicious collection path (E5)');
 		}

@@ -12,7 +12,8 @@ class ListRequest extends Http {
 	public string $htmlHead = '<link rel="stylesheet" href="/css/CollectionList.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n";
 
 	public function initialize(): void {
-		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@[/?]?$#', $_SERVER['REQUEST_URI'])) {
+		// The URL path must be `/@` or `/@/`
+		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@/?$#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))) {
 			return;
 		}
 

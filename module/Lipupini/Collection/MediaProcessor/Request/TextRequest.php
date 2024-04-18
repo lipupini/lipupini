@@ -7,17 +7,18 @@ use Module\Lipupini\Collection\MediaProcessor\Text;
 
 class TextRequest extends MediaProcessorRequest {
 	public function initialize(): void {
-		if (!preg_match('#^' . preg_quote(static::relativeStaticCachePath($this->system)) . '([^/]+)/text/(html|markdown)/(.+\.(' . implode('|', array_keys($this->system->mediaType['text'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!($mediaRequest = $this->validateMediaProcessorRequest())) return;
+
+		if (!preg_match('#^text/(html|markdown)/(.+\.(' . implode('|', array_keys($this->system->mediaType['text'])) . '))$#', $mediaRequest, $matches)) {
 			return;
 		}
 
 		// If the URL has matched, we're going to shutdown after this module returns no matter what
 		$this->system->shutdown = true;
 
-		$collectionName = $matches[1];
-		$outputType = $matches[2];
-		$filePath = $matches[3];
-		$extension = $matches[4];
+		$outputType = $matches[1];
+		$filePath = rawurldecode($matches[2]);
+		$extension = $matches[3];
 
 		if ($extension === 'html') {
 			if ($outputType !== 'html') {
@@ -31,9 +32,9 @@ class TextRequest extends MediaProcessorRequest {
 			$mdFilePath = $_SERVER['REQUEST_URI'];
 		}
 
-		$pathOriginal = $this->system->dirCollection . '/' . $collectionName . '/' . $mdFilePath;
+		$pathOriginal = $this->system->dirCollection . '/' . $this->collectionName . '/' . $mdFilePath;
 
-		(new Collection\Utility($this->system))->validateCollectionName($collectionName);
+		(new Collection\Utility($this->system))->validateCollectionName($this->collectionName);
 
 		if (!file_exists($pathOriginal)) {
 			return;
@@ -41,7 +42,7 @@ class TextRequest extends MediaProcessorRequest {
 
 		$this->system->responseType = $this->system->mediaType['text'][$extension];
 		$this->system->responseContent = file_get_contents(
-			Text::processAndCache($this->system, $collectionName, 'text', $mdFilePath)
+			Text::processAndCache($this->system, $this->collectionName, 'text', $mdFilePath)
 		);
 	}
 }

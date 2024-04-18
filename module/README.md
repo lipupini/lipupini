@@ -109,16 +109,10 @@ return new Module\Lipupini\State(
 );
 ```
 
-Request modules are initialized in the order they are specified in `system/config/state.php`. Since your module comes after `Collection\Request`, it will have available to it the currently requested collection folder and collection path, if present, because those are initialized **and** validated in the `Collection\Request` module.
+Request modules are initialized in the order they are specified in `system/config/state.php`.
 
-See [Module\Lipupini\Rss\Request](Lipupini/Rss/Request.php) for an example of using the extracted collection information from `Collection\Request`.
+See [Module\Lipupini\Api\Request](Lipupini/Api/Request.php) for an example of extracting a collection name from a URL. For example, `mycollection` is derived from the 2nd path segment of URL `/api/mycollection/cat.jpg.json` and then available via `$this->collectionName`. Using `collectionNameFromSegment` is preferred because it is verified before it can be used.
 
 ```php
-if (empty($this->system->request[Collection\Request::class]->name)) {
-	return;
-}
-
-$collectionName = $this->system->request[Collection\Request::class]->name;
+$this->collectionNameFromSegment(2);
 ```
-
-It should be best to use them in the same way, since they are sanitized and verified before they become available to subsequent modules in the request queue.

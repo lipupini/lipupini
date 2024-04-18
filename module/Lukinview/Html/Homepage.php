@@ -1,9 +1,5 @@
 <?php
 
-use Module\Lipupini\Collection;
-
-$localCollections = (new Collection\Utility($this->system))->allCollectionFolders();
-
 require(__DIR__ . '/Core/Open.php') ?>
 
 <div class="centered-content">

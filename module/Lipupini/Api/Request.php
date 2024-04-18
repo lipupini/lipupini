@@ -9,45 +9,51 @@ class Request extends Http {
 	public array $collectionData = [];
 
 	use Collection\Trait\HasPaginatedCollectionData;
+	use Collection\Trait\CollectionRequest;
 
 	public function initialize(): void {
-		if (empty($this->system->request[Collection\Request::class]->name)) {
+		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . 'api/?#', $_SERVER['REQUEST_URI'])) return;
+
+		if (rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/') === '/api') {
+			$this->system->responseType = 'application/json';
+			$this->system->responseContent = json_encode((new Collection\Utility($this->system))->allCollectionFolders());
 			return;
 		}
 
-		$collectionName = $this->system->request[Collection\Request::class]->name;
-
-		if (!preg_match('#^/api/[^/]+/?(.*)$#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), $matches)) {
-			return;
-		}
-
-		$collectionPath = $matches[1] ?? '';
-		$collectionPathExtension = pathinfo($collectionPath, PATHINFO_EXTENSION);
-
-		if ($collectionPath) {
-			if ($collectionPathExtension && $collectionPathExtension !== 'json') {
-				throw new Exception('API request for media file must end in `.json');
-			}
-			// We only use the `.json` to ensure an API request. Remove `.json` to expose the collection filename
-			$collectionPath = preg_replace('#\.json$#', '', $collectionPath);
-		}
-
-		$collectionUtility = new Collection\Utility($this->system);
-		$collectionUtility->validateCollectionName($collectionName);
-
-		$this->system->responseType = 'application/json';
-
-		if (pathinfo($collectionPath, PATHINFO_EXTENSION)) {
-			$this->system->responseContent = $this->renderCollectionFileJson($collectionName, $collectionPath);
-		} else {
-			$this->system->responseContent = $this->renderCollectionFolderJson($collectionName, $collectionPath, $collectionUtility);
-		}
+		$this->collectionNameFromSegment(2);
 
 		$this->system->shutdown = true;
+
+		$collectionApiPath = preg_replace(
+			'#^/api/' . preg_quote($this->collectionName) . '/?#', '',
+			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+		);
+
+		$collectionUtility = new Collection\Utility($this->system);
+
+		if (!pathinfo($collectionApiPath, PATHINFO_EXTENSION)) {
+			$this->system->responseType = 'application/json';
+			$this->system->responseContent = $this->renderCollectionFolderJson($collectionApiPath, $collectionUtility);
+			return;
+		}
+
+		if (pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION) !== 'json') {
+			throw new Exception('API request for media file must end in `.json');
+		};
+
+		$collectionFilePath = rawurldecode(preg_replace('#\.json$#', '', $collectionApiPath));
+
+		// Make sure file in collection exists before proceeding
+		if (
+			!file_exists($this->system->dirCollection . '/' . $this->collectionName . '/' . $collectionFilePath)
+		) return;
+
+		$this->system->responseType = 'application/json';
+		$this->system->responseContent = $this->renderCollectionFileJson($collectionFilePath);
 	}
 
-	public function renderCollectionFolderJson(string $collectionName, string $collectionPath, Collection\Utility $collectionUtility) {
-		$this->collectionData = (new Collection\Utility($this->system))->getCollectionData($collectionName, $collectionPath);
+	public function renderCollectionFolderJson(string $collectionPath, Collection\Utility $collectionUtility) {
+		$this->collectionData = (new Collection\Utility($this->system))->getCollectionData($this->collectionName, $collectionPath);
 		$this->loadPaginationAttributes();
 		$mediaFileTypesByExtension = $collectionUtility->mediaTypesByExtension();
 
@@ -60,8 +66,10 @@ class Request extends Http {
 				continue;
 			}
 
-			$this->collectionData[$filePath] += $this->getMediaInfo($mediaFileTypesByExtension, $collectionName, $filePath);
-			$this->collectionData[$filePath]['item'] = $this->system->baseUri . 'api/' . $collectionName . '/' . $filePath . '.json';
+			$urlEncodedFilePath = implode('/', array_map('rawurlencode', explode('/', $filePath)));
+
+			$this->collectionData[$filePath] += $this->getMediaInfo($mediaFileTypesByExtension, $filePath);
+			$this->collectionData[$filePath]['item'] = $this->system->baseUri . 'api/' . $this->collectionName . '/' . $urlEncodedFilePath . '.json';
 		}
 
 		return json_encode([
@@ -73,8 +81,10 @@ class Request extends Http {
 		]);
 	}
 
-	public function getMediaInfo(array $mediaFileTypesByExtension, string $collectionName, string $filePath) {
+	public function getMediaInfo(array $mediaFileTypesByExtension, string $filePath) {
 		$extension = pathinfo($filePath, PATHINFO_EXTENSION);
+
+		$filePath = implode('/', array_map('rawurlencode', explode('/', $filePath)));
 
 		$return = [];
 
@@ -82,32 +92,32 @@ class Request extends Http {
 		$return['mime'] = $mediaFileTypesByExtension[$extension]['mimeType'];
 		switch ($return['type']) {
 			case 'image' :
-				$return['url'] = $this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/large/' . $filePath;
-				$return['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/thumbnail/' . $filePath;
+				$return['url'] = $this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/large/' . $filePath;
+				$return['thumbnail'] = $this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/thumbnail/' . $filePath;
 				break;
 
 			case 'audio' :
 				$return['url'] =
-					$this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/' . $filePath;
+					$this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/' . $filePath;
 				$return['thumbnail'] =
-					$this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/thumbnail/' . $filePath . '.png';
+					$this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/thumbnail/' . $filePath . '.png';
 				$return['waveform'] =
-					$this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/waveform/' . $filePath . '.png';
+					$this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/waveform/' . $filePath . '.png';
 				break;
 
 			case 'video' :
 				$return['url'] =
-					$this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/' . $filePath;
+					$this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/' . $filePath;
 				$return['thumbnail'] =
-					$this->system->staticMediaBaseUri . $collectionName . '/' . $return['type'] . '/thumbnail/' . $filePath . '.png';
+					$this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/thumbnail/' . $filePath . '.png';
 				break;
 		}
 
 		return $return;
 	}
 
-	public function renderCollectionFileJson(string $collectionName, string $collectionFilePath) {
-		if (!file_exists($this->system->dirCollection . '/' . $collectionName . '/' . $collectionFilePath)) {
+	public function renderCollectionFileJson(string $collectionFilePath) {
+		if (!file_exists($this->system->dirCollection . '/' . $this->collectionName . '/' . $collectionFilePath)) {
 			http_response_code(404);
 			return json_encode(['error' => ['code' => 404, 'message' => 'File not found']]);
 		}
@@ -117,7 +127,7 @@ class Request extends Http {
 
 		$collectionUtility = new Collection\Utility($this->system);
 
-		$this->collectionData = $collectionUtility->getCollectionData($collectionName, $collectionDirectory, true);
+		$this->collectionData = $collectionUtility->getCollectionData($this->collectionName, $collectionDirectory, true);
 
 		if (
 			!array_key_exists($collectionFilePath, $this->collectionData) ||
@@ -128,8 +138,8 @@ class Request extends Http {
 		}
 
 		$this->collectionData[$collectionFilePath] +=
-			$this->getMediaInfo($collectionUtility->mediaTypesByExtension(), $collectionName, $collectionFilePath);
+			$this->getMediaInfo($collectionUtility->mediaTypesByExtension(), $collectionFilePath);
 
-		return json_encode(['collection' => $collectionName, 'filename' => $collectionFilePath] + $this->collectionData[$collectionFilePath]);
+		return json_encode(['collection' => $this->collectionName, 'filename' => $collectionFilePath] + $this->collectionData[$collectionFilePath]);
 	}
 }

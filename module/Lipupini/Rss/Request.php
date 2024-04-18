@@ -6,16 +6,19 @@ use Module\Lipupini\Collection;
 use Module\Lipupini\Request\Incoming\Http;
 
 class Request extends Http {
+	public string $collectionName;
+	use Collection\Trait\CollectionRequest;
+
 	public function initialize(): void {
-		if (empty($this->system->request[Collection\Request::class]->name)) {
-			return;
-		}
+		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . 'rss/?#', $_SERVER['REQUEST_URI'])) return;
+		$this->collectionNameFromSegment(2);
 
-		if (!preg_match('#^/rss/([^/]+)/([^/]+)-feed\.rss$#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), $matches)) {
-			return;
-		}
+		$this->system->shutdown = true;
 
-		if ($matches[1] !== $matches[2]) {
+		if (!preg_match('#^' . preg_quote($this->collectionName) . '-feed\.rss$#', preg_replace(
+			'#^/rss/' . preg_quote($this->collectionName) . '/?#', '',
+			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+		))) {
 			throw new Exception('RSS URL mismatch');
 		}
 
@@ -37,38 +40,36 @@ class Request extends Http {
 		$rss->appendChild($channel);
 		$dom->appendChild($rss);
 
-		$collectionName = $this->system->request[Collection\Request::class]->name;
-
-		$channel->appendChild($dom->createElement('title', htmlentities($collectionName . '@' . $this->system->host)));
-		$channel->appendChild($dom->createElement('description', htmlentities($collectionName . '@' . $this->system->host)));
+		$channel->appendChild($dom->createElement('title', htmlentities($this->collectionName . '@' . $this->system->host)));
+		$channel->appendChild($dom->createElement('description', htmlentities($this->collectionName . '@' . $this->system->host)));
 
 		$linkSelf = $dom->createElement('atom:link');
 		$linkSelf->setAttribute('rel', 'self');
-		$linkSelf->setAttribute('href', $this->system->baseUri . 'rss/' . $collectionName . '/' . $collectionName . '-feed.rss');
+		$linkSelf->setAttribute('href', $this->system->baseUri . 'rss/' . $this->collectionName . '/' . $this->collectionName . '-feed.rss');
 		$linkSelf->setAttribute('type', 'application/rss+xml');
 		$channel->appendChild($linkSelf);
 
-		$link = $dom->createElement('link', htmlentities($this->system->baseUri . '@' . $collectionName));
+		$link = $dom->createElement('link', htmlentities($this->system->baseUri . '@' . $this->collectionName));
 		$channel->appendChild($link);
 
 		$image = $dom->createElement('image');
-		$image->appendChild($dom->createElement('url', htmlentities($this->system->staticMediaBaseUri . $collectionName . '/avatar.png')));
-		$image->appendChild($dom->createElement('title', htmlentities($collectionName . '@' . $this->system->host)));
-		$image->appendChild($dom->createElement('link', htmlentities($this->system->baseUri . '@' . $collectionName)));
+		$image->appendChild($dom->createElement('url', htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/avatar.png')));
+		$image->appendChild($dom->createElement('title', htmlentities($this->collectionName . '@' . $this->system->host)));
+		$image->appendChild($dom->createElement('link', htmlentities($this->system->baseUri . '@' . $this->collectionName)));
 		$channel->appendChild($image);
 
-		$this->renderRssItems($dom, $channel, $collectionName);
+		$this->renderRssItems($dom, $channel);
 
 		$this->system->responseType = 'application/rss+xml';
 		$this->system->responseContent = $dom->saveXML();
 	}
 
-	public function renderRssItems(\DOMDocument $dom, \DOMElement $channel, string $collectionName): void {
-		$collectionData = (new Collection\Utility($this->system))->getCollectionDataRecursive($collectionName);
+	public function renderRssItems(\DOMDocument $dom, \DOMElement $channel): void {
+		$collectionData = (new Collection\Utility($this->system))->getCollectionDataRecursive($this->collectionName);
 		foreach ($collectionData as $filePath => &$metaData) {
 			if (empty($metaData['date'])) {
 				$metaData['date'] = (new \DateTime)
-					->setTimestamp(filemtime($this->system->dirCollection . '/' . $collectionName . '/' . $filePath))
+					->setTimestamp(filemtime($this->system->dirCollection . '/' . $this->collectionName . '/' . $filePath))
 					->format(\DateTime::RSS);
 			} else {
 				$metaData['date'] = (new \DateTime($metaData['date']))
@@ -83,36 +84,36 @@ class Request extends Http {
 			if (in_array($extension, array_keys($this->system->mediaType['image']))) {
 				$metaData['medium'] = 'image';
 				$metaData['mime'] = $this->system->mediaType['image'][$extension];
-				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionName . '/image/large/' . $filePath;
+				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $this->collectionName . '/image/large/' . $filePath;
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<img src="' . $metaData['cacheUrl'] . '" alt="' . $filePath . '"/>';
 			} else if (in_array($extension, array_keys($this->system->mediaType['video']))) {
 				$metaData['medium'] = 'video';
 				$metaData['mime'] = $this->system->mediaType['video'][$extension];
-				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionName . '/video/' . $filePath;
+				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $filePath;
 				$thumbnail = !empty($metaData['thumbnail']) ? ' thumbnail="' . htmlentities($metaData['thumbnail']) . '"' : '';
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<video controls loop' . $thumbnail . '><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></video>';
 			} else if (in_array($extension, array_keys($this->system->mediaType['audio']))) {
 				$metaData['medium'] = 'audio';
 				$metaData['mime'] = $this->system->mediaType['audio'][$extension];
-				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionName . '/audio/' . $filePath;
+				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $filePath;
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<audio controls><source src="' . $metaData['cacheUrl'] . '" type="' . $metaData['mime'] . '"/></audio>';
 			} else if (in_array($extension, array_keys($this->system->mediaType['text']))) {
 				$metaData['medium'] = 'document';
 				$metaData['mime'] = $this->system->mediaType['text'][$extension];
-				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $collectionName . '/text/' . $filePath . '.html';
+				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $this->collectionName . '/text/' . $filePath . '.html';
 				$metaData['content'] = 	'<p><a href="' . $metaData['cacheUrl'] . '">' . htmlentities($metaData['caption'] ?? $filePath) . '</a></p>';
 			} else {
 				throw new Exception('Unexpected file extension: ' . $extension);
 			}
 
 			$item = $dom->createElement('item');
-			$item->appendChild($dom->createElement('guid', htmlentities($this->system->baseUri . '@' . $collectionName . '/' . $filePath . '.html')));
+			$item->appendChild($dom->createElement('guid', htmlentities($this->system->baseUri . '@' . $this->collectionName . '/' . $filePath . '.html')));
 			$item->appendChild($dom->createElement('title', htmlentities($filePath)));
 
-			$link = $dom->createElement('link', htmlentities($this->system->baseUri . '@' . $collectionName . '/' . $filePath . '.html'));
+			$link = $dom->createElement('link', htmlentities($this->system->baseUri . '@' . $this->collectionName . '/' . $filePath . '.html'));
 			$item->appendChild($link);
 
 			$item->appendChild($dom->createElement('description', htmlentities($filePath)));

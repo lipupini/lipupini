@@ -5,14 +5,14 @@ use Module\Lipupini\L18n\A;
 
 $collectionUtility = new Collection\Utility($this->system);
 $mediaTypesByExtension = $collectionUtility->mediaTypesByExtension();
-$extension = pathinfo($this->collectionFileName, PATHINFO_EXTENSION);
+$extension = pathinfo($this->collectionFilePath, PATHINFO_EXTENSION);
 
 if ($mediaTypesByExtension[$extension]['mediaType'] === 'video') {
 	$this->htmlHead .= '<link rel="stylesheet" href="/lib/videojs/video-js.min.css">' . "\n"
 		.  '<script src="/lib/videojs/video.min.js"></script>' . "\n";
 }
 
-$urlEncodedFilename = implode('/', array_map('rawurlencode', explode('/', $this->collectionFileName)));
+$urlEncodedFilename = implode('/', array_map('rawurlencode', explode('/', $this->collectionFilePath)));
 $parentPathLastSegment = explode('/', $this->parentPath)[substr_count($this->parentPath, '/')];
 
 require(__DIR__ . '/../Core/Open.php') ?>

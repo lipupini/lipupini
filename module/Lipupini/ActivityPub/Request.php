@@ -8,22 +8,29 @@ use Module\Lipupini\Request\Incoming\Http;
 class Request extends Http {
 	public static string $mimeType = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
 
+	use Collection\Trait\CollectionRequest;
+
 	public function initialize(): void {
-		if (empty($this->system->request[Collection\Request::class]->name)) {
+		if (!str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . 'ap/')) return;
+		$this->collectionNameFromSegment(2);
+
+		$apRequestUri = preg_replace(
+			'#^/ap/' . preg_quote($this->collectionName) . '/?#', '',
+			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+		);
+
+		if (strpos($apRequestUri, '/')) {
 			return;
 		}
 
-		if (preg_match('#^/ap/[^/]+[/?]?$#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), $matches)) {
+		// No action specified, only collection name
+		if ($apRequestUri === '') {
 			http_response_code(302);
 			$this->system->responseContent = '302 Found';
 			return;
 		}
 
-		if (!preg_match('#^/ap/[^/]+/(.*)$#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), $matches)) {
-			return;
-		}
-
-		$activityPubRequest = ucfirst($matches[1]);
+		$activityPubRequest = ucfirst($apRequestUri);
 
 		// This will compute to a class in the `./Request` folder e.g. `./Request/Follow.php`;
 		if (!class_exists($activityPubRequestClass = '\\Module\\Lipupini\\ActivityPub\\Request\\' . $activityPubRequest)) {

@@ -17,33 +17,24 @@ class FolderRequest extends Http {
 	public string|null $pageImagePreviewUri = null;
 	public string $htmlHead = '';
 
-	public string $collectionName = '';
 	public string $collectionFolder = '';
 
+	use Collection\Trait\CollectionRequest;
+
 	public function initialize(): void {
-		// URLs start with `/@`
-		if (!str_starts_with($_SERVER['REQUEST_URI'], '/@')) {
-			return;
-		}
+		// URLs start with `/@` (but must be followed by something and something other than `/` or `?`)
+		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@(?!/|$)#', $_SERVER['REQUEST_URI'])) return;
+		// To be considered a folder request, there must not be an extension
+		if (pathinfo(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), PATHINFO_EXTENSION)) return;
 
-		// Must have a collection name populated to proceed
-		if (empty($this->system->request[Collection\Request::class]->name)) {
-			return;
-		}
+		$this->collectionNameFromSegment(1, '@');
 
-		$this->collectionName = $this->system->request[Collection\Request::class]->name;
+		$this->collectionFolder = preg_replace(
+			'#^/@' . preg_quote($this->collectionName) . '/?#', '',
+			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+		);
 
-		// Only applies to, e.g. http://locahost/@example
-		// Does not apply to http://locahost/@example/memes/cat-computer.jpg.html
-		if (pathinfo($this->collectionFolder, PATHINFO_EXTENSION)) {
-			return;
-		} else if (!is_dir($this->system->dirCollection . '/' . $this->collectionName . '/' . $this->collectionFolder)) {
-			return;
-		}
-
-		$folder = $this->system->request[Collection\Request::class]->folder;
-		(new Collection\Utility($this->system))->validateCollectionFolder($this->collectionName, $folder);
-		$this->collectionFolder = $folder;
+		(new Collection\Utility($this->system))->validateCollectionFolder($this->collectionName, $this->collectionFolder);
 
 		$this->renderHtml();
 		$this->system->shutdown = true;

@@ -11,24 +11,25 @@ use Module\Lipupini\Collection\MediaProcessor\Image;
 
 class ImageRequest extends MediaProcessorRequest {
 	public function initialize(): void {
-		if (!preg_match('#^' . preg_quote(static::relativeStaticCachePath($this->system)) . '([^/]+)/image/(' . implode('|', array_keys($this->system->mediaSize)) . ')/(.+\.(' . implode('|', array_keys($this->system->mediaType['image'])) . '))$#', $_SERVER['REQUEST_URI'], $matches)) {
+		if (!($mediaRequest = $this->validateMediaProcessorRequest())) return;
+
+		if (!preg_match('#^image/(' . implode('|', array_keys($this->system->mediaSize)) . ')/(.+\.(' . implode('|', array_keys($this->system->mediaType['image'])) . '))$#', $mediaRequest, $matches)) {
 			return;
 		}
 
 		// If the URL has matched, we're going to shutdown after this module returns no matter what
 		$this->system->shutdown = true;
 
-		$collectionName = $matches[1];
-		$sizePreset = $matches[2];
-		$imagePath = rawurldecode($matches[3]);
-		$extension = $matches[4];
+		$sizePreset = $matches[1];
+		$imagePath = rawurldecode($matches[2]);
+		$extension = $matches[3];
 
 		// We can use the same function that `Module\Lipupini\Collection\Request` uses
 		// Doing it again here because this one comes from a different part of a URL from the regex
-		(new Collection\Utility($this->system))->validateCollectionName($collectionName);
+		(new Collection\Utility($this->system))->validateCollectionName($this->collectionName);
 
 		$this->serve(
-			Image::processAndCache($this->system, $collectionName, 'image', $sizePreset, $imagePath),
+			Image::processAndCache($this->system, $this->collectionName, 'image', $sizePreset, $imagePath),
 			$this->system->mediaType['image'][$extension]
 		);
 	}
