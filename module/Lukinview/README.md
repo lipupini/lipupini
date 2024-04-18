@@ -1,4 +1,4 @@
-`Lukinview` is a decoupled frontend module for Lupupini that ships by default.
+`Lukinview` is a frontend module for Lupupini.
 
 The webserver's document root (`webroot`) is contained here. You can symlink it elsewhere.
 
