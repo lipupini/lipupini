@@ -75,8 +75,9 @@ class VideoThumbnail {
 			echo 'Saving video thumbnail for `' . $videoPath . '`...' . "\n";
 		}
 
-		$command = $systemState->dirRoot . '/bin/ffmpeg-video-thumbnail.php ' . escapeshellarg($collectionPath . '/' . $videoPath) . ' ' . escapeshellarg($thumbnailPathFull) . ' > /dev/null 2>&1';
-		// `ffmpeg` output is purged from display with `> /dev/null 2>&1`. Remove it to see `ffmpeg` output
+		$command = $systemState->dirRoot . '/bin/ffmpeg-video-thumbnail.php ' . escapeshellarg($collectionPath . '/' . $videoPath) . ' ' . escapeshellarg($thumbnailPathFull);
+		// `ffmpeg` output is purged from display with `> /dev/null 2>&1`. Remove it to see `ffmpeg` output in webserver logs
+		$command .= ' > /dev/null 2>&1';
 		exec($command, $output, $returnCode);
 
 		if ($returnCode !== 0) {

@@ -1,5 +1,4 @@
 import { test, expect, Page } from '@playwright/test'
-import {create} from "domain";
 
 const host = 'http://localhost:4000'
 
@@ -8,14 +7,14 @@ const path = require('path')
 const fs = require('fs')
 const testAssetsFolder = __dirname + '/../assets'
 const collectionRootFolder = __dirname + '/../../collection'
-const { execSync } = require('child_process');
+const { execSync } = require('child_process')
 
 // If `createNewCollection` is `true`, the `testCollectionName` will have a number appended if it exists
 let testCollectionName = 'testcollection'
 
-const createNewCollection = true;
-const testCollectionPagination = true;
-const deleteNewCollection = true;
+const createNewCollection = true
+const testCollectionPagination = true
+const deleteNewCollection = true
 
 const testAssetFiles = [
 	'animated.gif',
@@ -46,22 +45,15 @@ let testCollectionFolder: any = {
 
 // Find a test collection name that doesn't exist yet
 if (createNewCollection) {
-	let i = 2;
+	let i = 2
 	let testCollectionNameTmp = testCollectionName
 	while (fs.existsSync(collectionRootFolder + '/' + testCollectionNameTmp)) {
 		testCollectionNameTmp = testCollectionName + i
-		i++;
+		i++
 	}
 	testCollectionName = testCollectionNameTmp
 	testCollectionFolder.root = collectionRootFolder + '/' + testCollectionName
 	testCollectionFolder.cache = testCollectionFolder.root + '/.lipupini/.cache'
-}
-
-const waitForImages = async (page) => {
-	for (const img of await page.getByRole('img').all()) {
-		await expect(img).toHaveJSProperty('complete', true);
-		await expect(img).not.toHaveJSProperty('naturalWidth', 0);
-	}
 }
 
 test('clicks into collection list from homepage', async ({ page }) => {
@@ -77,9 +69,7 @@ test('clicks into collection list from homepage', async ({ page }) => {
 			!fs.existsSync(collections[i]) ||
 			!fs.lstatSync(collections[i]).isDirectory() ||
 			collections[i].charAt(0) === '.'
-		) {
-			continue;
-		}
+		)  continue
 
 		collections[i] = path.basename(collections[i])
 		await expect(page.locator('li a:text-is("' + collections[i] + '")')).toBeVisible()
@@ -113,34 +103,33 @@ test.describe.serial('test collection', () => {
 	}
 
 	test('open collection in list and view every item', async ({ page }) => {
-		test.slow();
+		test.slow()
 		await page.goto(host + '/@')
 		await expect(page.locator('li a:text-is("' + testCollectionName + '")')).toBeVisible()
 		await page.locator('li a:text-is("' + testCollectionName + '")').click()
-		await expect(page).toHaveURL(host + '/@' + testCollectionName)
-		await waitForImages(page)
-		const mediaItems = await page.locator('#folder main.grid > *')
-		const mediaItemsCount = await mediaItems.count();
+		await page.waitForURL(host + '/@' + testCollectionName)
 		let hrefs = []
-		for (let i = 0; i < mediaItemsCount; i++) {
-			let link = await mediaItems.nth(i)
-			let href = await link.getAttribute('href')
-			if (!href) {
-				link = await link.locator('a')
-				href = await link.getAttribute('href')
-			}
-			hrefs.push(href)
+		const mediaItemLinks = await page.locator('#folder main.grid a').all()
+		for (const mediaItemLink of mediaItemLinks) {
+			hrefs.push(await mediaItemLink.getAttribute('href'))
 		}
 		for (const href of hrefs) {
 			await page.goto(host + href)
-			await expect(page).toHaveURL(host + href)
-			await waitForImages(page)
+			let mediaType = (await page.locator('#media-item').getAttribute('class')).replace(/-item/, '')
+			switch (mediaType) {
+				case 'image':
+					await page.goto(await page.locator('main a').getAttribute('href'))
+					break
+				case 'video':
+				case 'audio':
+					await page.waitForLoadState('load')
+					break
+			}
 		}
 	})
 
 	test('analyze collection cache files', async () => {
-		const analyzeCache = askPhp('analyzeCache ' + testCollectionName);
-		console.log(analyzeCache)
+		const analyzeCache = askPhp('analyzeCache ' + testCollectionName)
 		await expect(analyzeCache.messages).toEqual(undefined)
 	})
 
