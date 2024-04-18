@@ -30,7 +30,7 @@ class State {
 		public array  $mediaType          = [
 			'audio' => [
 				'flac' => 'audio/flac',
-				'm4a' => 'audio/m4a',
+				'm4a' => 'audio/mp4',
 				'mp3' => 'audio/mp3',
 				'ogg' => 'audio/ogg',
 			],
