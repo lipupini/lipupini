@@ -4,8 +4,7 @@ require(__DIR__ . '/Core/Open.php') ?>
 
 <div class="centered-content">
 	<div>
-		<h1><?php echo $this->system->frontendModule ?> Module</h1>
-		<p><a href="<?php echo $this->system->baseUri ?>@">View Collections</a></p>
+		<p><strong><a href="<?php echo $this->system->baseUri ?>@">View Collections</a></strong></p>
 	</div>
 </div>
 
