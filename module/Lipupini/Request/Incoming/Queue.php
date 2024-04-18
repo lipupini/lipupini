@@ -86,6 +86,10 @@ class Queue {
 			header('Content-type: ' . $this->system->responseType);
 		}
 
+		$expiresOffset = 86400; // 1 day
+		header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expiresOffset) . ' GMT');
+		header('Cache-Control: public, max-age=' . $expiresOffset);
+
 		if ($this->system->responseContent) {
 			echo $this->system->responseContent;
 		} else {

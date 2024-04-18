@@ -1,1 +1,15 @@
 FallbackResource /index.php
+
+<IfModule mod_expires.c>
+	ExpiresActive on
+	ExpiresByType text/html;charset=UTF-8             "access plus 1 day"
+	ExpiresByType application/javascript              "access plus 1 year"
+	ExpiresByType application/x-javascript            "access plus 1 year"
+	ExpiresByType text/javascript                     "access plus 1 year"
+	ExpiresByType text/css                            "access plus 1 year"
+	ExpiresByType audio/*                             "access plus 1 month"
+	ExpiresByType image/*                             "access plus 1 month"
+	ExpiresByType video/*                             "access plus 1 month"
+	ExpiresByType font/*                              "access plus 1 year"
+	ExpiresDefault                                    "access plus 2 days"
+</IfModule>
