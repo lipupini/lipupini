@@ -64,19 +64,11 @@ class MediaItemRequest extends Http {
 		} else {
 			$this->fileData = [];
 		}
-
 		if (($this->fileData['visibility'] ?? null) === 'hidden') {
 			return false;
 		}
-
 		$this->mediaType = $collectionUtility->mediaTypesByExtension()[pathinfo($this->collectionFilePath, PATHINFO_EXTENSION)]['mediaType'];
-
-		if ($this->mediaType === 'image') {
-			$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $this->collectionName . '/image/thumbnail/' . $this->collectionFilePath;
-		} else {
-			$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $this->collectionName . '/thumbnail/' . $this->collectionFilePath . '.png';
-		}
-
+		$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $this->collectionName . '/' . $this->mediaType . '/thumbnail/' . $this->collectionFilePath . '.png';
 		$parentFolder = dirname($this->collectionFilePath);
 		$this->parentPath = '@' . $this->collectionName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
 		if (!empty($_SERVER['HTTP_REFERER']) && preg_match('#' . preg_quote($this->parentPath) . '\?page=([0-9]+)$#', $_SERVER['HTTP_REFERER'], $matches)) {
