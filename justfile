@@ -24,8 +24,8 @@ docker-build:
 docker-up:
 	docker-compose --file system/docker/docker-compose.yml up
 
-test:
-	cd test && npx playwright test --ui
+test *args:
+	cd test && npx playwright test {{args}}
 
 # Grab and integrate the latest demo version
 upgrade-latest-demo:
