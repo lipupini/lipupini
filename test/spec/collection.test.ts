@@ -23,7 +23,7 @@ const createNewCollection = true
 const testCollectionPagination = false
 const deleteNewCollection = true
 
-const testAssetFiles = [
+const testCollectionFiles: string[] = [
 	'animated.gif',
 	'blank.jpg',
 	'blank.png',
@@ -33,7 +33,16 @@ const testAssetFiles = [
 	'beep.ogg',
 	'huddle-invite.m4a',
 	'needs-moar.jpeg',
-	'winamp-intro.mp3'
+	'winamp-intro.mp3',
+]
+
+const testCollectionCustomAssets: string[] = [
+	'audio/thumbnail/winamp-intro.mp3.png',
+	'audio/waveform/beep.ogg.png',
+	'audio/waveform/huddle-invite.m4a.png',
+	'audio/waveform/winamp-intro.mp3.png',
+	'image/thumbnail/blank.png',
+	'video/thumbnail/dup.mp4.png',
 ]
 
 const askPhp = (to: string) => {
@@ -55,24 +64,24 @@ let testCollectionFolder: any = {
 	cache: collectionRootFolder + '/' + testCollectionName + '/.lipupini/.cache'
 }
 
-// Find a test collection name that doesn't exist yet
-if (createNewCollection) {
-	let i = 2
-	let testCollectionNameTmp = testCollectionName
-	while (fs.existsSync(collectionRootFolder + '/' + testCollectionNameTmp)) {
-		testCollectionNameTmp = testCollectionName + i
-		i++
-	}
-	testCollectionName = testCollectionNameTmp
-	console.log('Using collection name ' + testCollectionName)
-	testCollectionFolder.root = collectionRootFolder + '/' + testCollectionName
-	testCollectionFolder.cache = testCollectionFolder.root + '/.lipupini/.cache'
-}
-
-let totalTestAssetsUsed = testAssetFiles.length
+let totalTestAssetsUsed = testCollectionFiles.length
 
 test.beforeAll(async ({browser}) => {
 	const page = await (await browser.newContext()).newPage()
+
+	// Find a test collection name that doesn't exist yet
+	if (createNewCollection) {
+		let i = 2
+		let testCollectionNameTmp = testCollectionName + '-' + browser.browserType().name()
+		while (fs.existsSync(collectionRootFolder + '/' + testCollectionNameTmp)) {
+			testCollectionNameTmp = testCollectionName + i
+			i++
+		}
+		testCollectionName = testCollectionNameTmp
+		testCollectionFolder.root = collectionRootFolder + '/' + testCollectionName
+		testCollectionFolder.cache = testCollectionFolder.root + '/.lipupini/.cache'
+	}
+
 	if (await page.evaluate(async () => {
 		if (typeof createImageBitmap === 'undefined') return false
 		const avifData = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A='
@@ -81,15 +90,16 @@ test.beforeAll(async ({browser}) => {
 			.then(() => true)
 			.catch(() => false)
 	})) {
-		testAssetFiles.push('test.avif')
+		testCollectionFiles.push('test.avif')
 		totalTestAssetsUsed++
 	}
+
 	if ((browser.browserType().name() !== 'chromium' || !chromiumDisableFlac) &&
 		await page.evaluate(async () => {
 		const audio = document.createElement('audio');
 		return audio.canPlayType('audio/wav') !== ''
 	})) {
-		testAssetFiles.push('test.flac')
+		testCollectionFiles.push('test.flac')
 		totalTestAssetsUsed++
 	}
 })
@@ -116,6 +126,7 @@ test('click into collection list from homepage and verify all', async ({ page}) 
 test.describe.serial('test collection', () => {
 	if (createNewCollection) {
 		test('creates a new test collection', async ({page}) => {
+			console.log('Using collection name ' + testCollectionName)
 			// Create the collection root folder
 			fs.mkdirSync(testCollectionFolder.root)
 			// Create the collection's `.lipupini` folder
@@ -124,7 +135,7 @@ test.describe.serial('test collection', () => {
 			const generateKeysResult = askPhp('generateKeys ' + testCollectionName)
 			expect(generateKeysResult.messages).toEqual(undefined)
 			// Populate some test files
-			for (const fileName of testAssetFiles) {
+			for (const fileName of testCollectionFiles) {
 				fs.copyFileSync(testAssetsFolder + '/' + fileName, testCollectionFolder.root + '/' + fileName)
 			}
 			await page.waitForTimeout(500) // A little delay to help ensure that the new files are available
@@ -139,8 +150,12 @@ test.describe.serial('test collection', () => {
 				fs.mkdirSync(testCollectionFolder.root + '/.lipupini/audio')
 				fs.cpSync(testAssetsFolder + '/audio/thumbnail', testCollectionFolder.root + '/.lipupini/audio/thumbnail', {recursive: true})
 			} else {
-				fs.cpSync(testAssetsFolder + '/audio', testCollectionFolder.root + '/.lipupini/audio', {recursive: true})
-				fs.cpSync(testAssetsFolder + '/video', testCollectionFolder.root + '/.lipupini/video', {recursive: true})
+				testCollectionCustomAssets.forEach(assetPath => {
+					fs.cpSync(testAssetsFolder + '/' + assetPath, testCollectionFolder.root + '/.lipupini/' + assetPath)
+				})
+				if (testCollectionFiles.indexOf('test.flac') > -1) {
+					fs.cpSync(testAssetsFolder + '/audio/waveform/test.flac.png', testCollectionFolder.root + '/.lipupini/audio/waveform/test.flac.png')
+				}
 			}
 			await page.waitForTimeout(500) // A little delay to help ensure that the new files are available
 		})
