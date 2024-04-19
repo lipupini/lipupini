@@ -20,7 +20,7 @@ const chromiumDisableFlac = true
 let testCollectionName = 'test-collection'
 
 const createNewCollection = true
-const testCollectionPagination = false
+const testCollectionPagination = true
 const deleteNewCollection = true
 
 const testCollectionFiles: string[] = [
