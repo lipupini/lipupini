@@ -45,7 +45,7 @@ const testCollectionCustomAssets: string[] = [
 	'video/thumbnail/dup.mp4.png',
 ]
 
-const askPhp = (to: string) => {
+const askPhp = (to: string): any => {
 	const command = 'php "' + __dirname + '/../../bin/test-helper.php" ' + to
 	const answer = execSync(command, {stdio: 'pipe'}).toString()
 	try {
@@ -56,7 +56,9 @@ const askPhp = (to: string) => {
 	}
 }
 
-const hasFfmpeg = askPhp('determineFfmpegSupport')
+const itemsPerPage: number = askPhp('getItemsPerPage')
+
+const hasFfmpeg: boolean = askPhp('determineFfmpegSupport')
 //console.log('`ffmpeg` is ' + (hasFfmpeg ? 'enabled' : 'not enabled'))
 
 let testCollectionFolder: any = {
@@ -252,7 +254,7 @@ test.describe.serial('test collection', () => {
 		test('test pagination and navigation in header and footer', async ({page}) => {
 			if (createNewCollection) {
 				// Add just enough files to paginate into the next page
-				for (let i = 1; i <= (25 + totalTestAssetsUsed + (12 - totalTestAssetsUsed)); i++) {
+				for (let i = 1; i <= itemsPerPage - totalTestAssetsUsed + 1; i++) {
 					fs.copyFileSync(testAssetsFolder + '/blank.png', testCollectionFolder.root + '/' + i + '.png')
 				}
 			}

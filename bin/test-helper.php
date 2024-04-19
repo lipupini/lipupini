@@ -35,7 +35,10 @@ switch ($argv[1]) {
 			privateKeyBits: 2048,
 		);
 		echo json_encode(['result' => 'success']);
-		exit();
+		exit(0);
+	case 'getItemsPerPage' :
+		echo $systemState->itemsPerPage;
+		exit(0);
 	default:
 		throw new Exception('No action specified');
 }
