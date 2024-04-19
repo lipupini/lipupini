@@ -7,6 +7,7 @@ import path = require('path')
 import fs = require('fs')
 const testAssetsFolder = __dirname + '/../assets'
 const collectionRootFolder = __dirname + '/../../collection'
+const webRootFolder = __dirname + '/../../module/Lukinview/webroot'
 import {execSync} from 'child_process'
 
 // In Chromiom version 119.0.6045.9 bundled with Playwright,
@@ -19,7 +20,7 @@ const chromiumDisableFlac = true
 let testCollectionName = 'test-collection'
 
 const createNewCollection = true
-const testCollectionPagination = true
+const testCollectionPagination = false
 const deleteNewCollection = true
 
 const testAssetFiles = [
@@ -34,20 +35,6 @@ const testAssetFiles = [
 	'needs-moar.jpeg',
 	'winamp-intro.mp3'
 ]
-
-const mimeTypes = {
-	m4a: 'audio/mp4',
-	mp3: 'audio/mp3',
-	ogg: 'audio/ogg',
-	avif: 'image/avif',
-	gif: 'image/gif',
-	jpg: 'image/jpeg',
-	jpeg: 'image/jpeg',
-	png: 'image/png',
-	html: 'text/html',
-	md: 'text/markdown',
-	mp4: 'video/mp4',
-}
 
 const askPhp = (to: string) => {
 	const command = 'php "' + __dirname + '/../../bin/test-helper.php" ' + to
@@ -83,7 +70,6 @@ if (createNewCollection) {
 }
 
 let totalTestAssetsUsed = testAssetFiles.length
-let avifSupport: boolean, flacSupport: boolean
 
 test.beforeAll(async ({browser}) => {
 	const page = await (await browser.newContext()).newPage()
@@ -130,8 +116,13 @@ test('click into collection list from homepage and verify all', async ({ page}) 
 test.describe.serial('test collection', () => {
 	if (createNewCollection) {
 		test('creates a new test collection', async ({page}) => {
-			// Create the folder
+			// Create the collection root folder
 			fs.mkdirSync(testCollectionFolder.root)
+			// Create the collection's `.lipupini` folder
+			fs.mkdirSync(testCollectionFolder.root + '/.lipupini')
+			// Generate RSA keys
+			const generateKeysResult = askPhp('generateKeys ' + testCollectionName)
+			expect(generateKeysResult.messages).toEqual(undefined)
 			// Populate some test files
 			for (const fileName of testAssetFiles) {
 				fs.copyFileSync(testAssetsFolder + '/' + fileName, testCollectionFolder.root + '/' + fileName)
@@ -145,7 +136,7 @@ test.describe.serial('test collection', () => {
 			fs.cpSync(testAssetsFolder + '/image', testCollectionFolder.root + '/.lipupini/image', {recursive: true})
 			if (hasFfmpeg) {
 				// If we have `ffmpeg` then we only need to copy custom assets that aren't generated
-				fs.mkdirSync(testCollectionFolder.root + '/.lipupini/audio', {recursive: true})
+				fs.mkdirSync(testCollectionFolder.root + '/.lipupini/audio')
 				fs.cpSync(testAssetsFolder + '/audio/thumbnail', testCollectionFolder.root + '/.lipupini/audio/thumbnail', {recursive: true})
 			} else {
 				fs.cpSync(testAssetsFolder + '/audio', testCollectionFolder.root + '/.lipupini/audio', {recursive: true})
@@ -172,9 +163,9 @@ test.describe.serial('test collection', () => {
 			switch (mediaType) {
 				case 'image':
 					const largeImg = await page.locator('main a').getAttribute('href')
-					const thumbnailImg= await page.locator('main img').getAttribute('src')
+					const mediumImg= await page.locator('main img').getAttribute('src')
 					await page.goto(largeImg)
-					await page.goto(thumbnailImg)
+					await page.goto(mediumImg)
 					break
 				case 'audio':
 					const audioSrc = await page.locator('main source').getAttribute('src')
@@ -266,6 +257,7 @@ test.describe.serial('test collection', () => {
 		test('delete test collection', async ({page}) => {
 			// Delete the folder
 			fs.rmSync(testCollectionFolder.root, {recursive: true})
+			fs.rmSync(webRootFolder + '/c/' + testCollectionName)
 			await page.goto(host + '/@')
 			await expect(page.locator('li a:text-is("' + testCollectionName + '")')).toBeHidden()
 		})

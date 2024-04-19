@@ -3,12 +3,10 @@
 
 use Module\Lipupini\State;
 use Module\Lipupini\Collection;
-
-// See `readline` note in root README.md as this script might benefit from prompts
+use Module\Lipupini\Encryption;
 
 /** @var State $systemState */
 $systemState = require(__DIR__ . '/../system/config/state.php');
-
 $collectionUtility = new Collection\Utility($systemState);
 
 switch ($argv[1]) {
@@ -16,6 +14,10 @@ switch ($argv[1]) {
 		echo json_encode($collectionUtility::hasFfmpeg($systemState));
 		exit(0);
 	case 'analyzeCache' :
+		$collectionName = $argv[2];
+		analyzeCache($systemState, $collectionUtility, $collectionName);
+		exit(0);
+	case 'generateKeys' :
 		$collectionName = $argv[2];
 
 		try {
@@ -25,135 +27,15 @@ switch ($argv[1]) {
 			exit(0);
 		}
 
-		try {
-			$collectionFolder = $systemState->dirCollection . '/' . $collectionName;
-			$collectionHashTable = getCollectionHashTableByMediaType($collectionUtility, $collectionFolder);
-		} catch (Exception $e) {
-			error([$e->getMessage()]);
-			exit(0);
-		}
+		$lipupiniPath = $systemState->dirCollection . '/' . $collectionName . '/.lipupini';
 
-		try {
-			$lipupiniFolder = $collectionFolder . '/.lipupini';
-			$lipupiniFolderHashTable = getLipupiniFolderHashTable($lipupiniFolder);
-		} catch (Exception $e) {
-			error([$e->getMessage()]);
-			exit(0);
-		}
-
-		$cache = new Collection\Cache($systemState, $collectionName);
-
-		try {
-			$cacheFolderHashTable = getCacheFolderHashTable($collectionUtility, $cache->path());
-		} catch (Exception $e) {
-			error([$e->getMessage()]);
-			exit(0);
-		}
-
-		$errors = [];
-		$hasFfmpeg = $collectionUtility::hasFfmpeg($systemState);
-
-		foreach ($collectionHashTable as $mediaType => $fileInfo) {
-			switch ($mediaType) {
-				case 'audio':
-					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['file'] ?? [])) {
-						$errors[] = 'Audio file cache mismatch';
-						$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
-						$errors[] = '$cacheFolderHashTable[$mediaType][file] = ' . print_r($cacheFolderHashTable[$mediaType]['file'] ?? [], true);
-					}
-					if (count($fileInfo) && $hasFfmpeg && empty($lipupiniFolderHashTable[$mediaType]['waveform'])) {
-						$errors[] = 'Missing one or more audio waveforms (using `ffmpeg`)';
-					}
-					break;
-
-				case 'image':
-					foreach (array_keys($systemState->mediaSize) as $mediaSize) {
-						if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType][$mediaSize] ?? [])) {
-							$errors[] = 'Image ' . $mediaSize . ' cache mismatch';
-							$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
-							$errors[] = '$cacheFolderHashTable[$mediaType][$mediaSize] = ' . print_r($cacheFolderHashTable[$mediaType][$mediaSize] ?? [], true);
-						}
-					}
-					break;
-
-				case 'text':
-					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['html'] ?? [])) {
-						$errors[] = 'Text HTML cache mismatch';
-						$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
-						$errors[] = '$cacheFolderHashTable[$mediaType][$mediaSize] = ' . print_r($cacheFolderHashTable[$mediaType][$mediaType]['html'] ?? [], true);
-					}
-					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['markdown']) ?? []) {
-						$errors[] = 'Text markdown cache mismatch';
-						$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
-						$errors[] = '$cacheFolderHashTable[$mediaType][$mediaSize] = ' . print_r($cacheFolderHashTable[$mediaType][$mediaType]['markdown'] ?? [], true);
-					}
-					break;
-
-				case 'video':
-					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['file'] ?? [])) {
-						$errors[] = 'Video file cache mismatch';
-						$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
-						$errors[] = '$cacheFolderHashTable[$mediaType][file] = ' . print_r($cacheFolderHashTable[$mediaType]['file'] ?? [], true);
-					}
-					if (count($fileInfo) && $hasFfmpeg && empty($lipupiniFolderHashTable[$mediaType]['thumbnail'])) {
-						$errors[] = 'Missing one or more video thumbnails (using `ffmpeg`)';
-						$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
-						$errors[] = '$lipupiniFolderHashTable[$mediaType][thumbnail] = ' . print_r($lipupiniFolderHashTable[$mediaType]['thumbnail'] ?? [], true);
-					}
-					break;
-			}
-		}
-
-		// Custom and generated assets
-		foreach ($lipupiniFolderHashTable as $mediaType => $classificationInfo) {
-			switch ($mediaType) {
-				case 'audio':
-					if (count($classificationInfo['thumbnail'] ?? []) !== count($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [])) {
-						$errors[] = 'Audio thumbnail cache mismatch';
-						$errors[] = '$classificationInfo[thumbnail] = ' . print_r($classificationInfo['thumbnail'] ?? [], true);
-						$errors[] = '$cacheFolderHashTable[$mediaType][thumbnail] = ' . print_r($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [], true);
-					}
-					if (count($classificationInfo['waveform'] ?? []) !== count($cacheFolderHashTable[$mediaType]['waveform'] ?? [])) {
-						$errors[] = 'Audio waveform cache mismatch';
-						$errors[] = '$classificationInfo[waveform] = ' . print_r($classificationInfo['waveform'] ?? [], true);
-						$errors[] = '$cacheFolderHashTable[$mediaType][waveform] = ' . print_r($cacheFolderHashTable[$mediaType]['waveform'] ?? [], true);
-					}
-					break;
-
-				case 'image':
-					foreach ($classificationInfo as $mediaSize => $fileInfo) {
-						foreach ($fileInfo as $collectionPath => $sha256) {
-							if ($sha256 !== ($cacheFolderHashTable[$mediaType][$mediaSize][$collectionPath] ?? null)) {
-								$errors[] = 'Image custom size ' . $mediaSize . ' cache SHA256 mismatch';
-								$errors[] = '$collectionPath = ' . $collectionPath;
-							}
-						}
-					}
-					break;
-
-				case 'text':
-					/*if (count($classificationInfo['thumbnail']) !== $cacheFolderHashTable[$mediaType]['thumbnail']) {
-						$errors[] = 'Text thumbnail cache mismatch';
-					}*/
-					break;
-
-				case 'video':
-					if (count($classificationInfo['thumbnail'] ?? []) !== count($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [])) {
-						$errors[] = 'Video thumbnail cache mismatch';
-						$errors[] = '$classificationInfo[thumbnail] = ' . print_r($classificationInfo['thumbnail'] ?? [], true);
-						$errors[] = '$cacheFolderHashTable[$mediaType][thumbnail] = ' . print_r($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [], true);
-					}
-					break;
-			}
-		}
-
-		if (count($errors)) {
-			error($errors);
-		} else {
-			echo json_encode(['result' => 'success']);
-		}
-
-		exit(0);
+		(new Encryption\Key)->generateAndSave(
+			privateKeyPath: $lipupiniPath . '/rsakey.private',
+			publicKeyPath: $lipupiniPath . '/rsakey.public',
+			privateKeyBits: 2048,
+		);
+		echo json_encode(['result' => 'success']);
+		exit();
 	default:
 		throw new Exception('No action specified');
 }
@@ -163,6 +45,143 @@ function error($errors) {
 		'result' => 'error',
 		'messages' => $errors,
 	]);
+}
+
+function analyzeCache(State $systemState, Collection\Utility $collectionUtility, string $collectionName) {
+	try {
+		$collectionUtility->validateCollectionName($collectionName);
+	} catch (Collection\Exception $e) {
+		error([$e->getMessage()]);
+		exit(0);
+	}
+
+	try {
+		$collectionFolder = $systemState->dirCollection . '/' . $collectionName;
+		$collectionHashTable = getCollectionHashTableByMediaType($collectionUtility, $collectionFolder);
+	} catch (Exception $e) {
+		error([$e->getMessage()]);
+		exit(0);
+	}
+
+	try {
+		$lipupiniFolder = $collectionFolder . '/.lipupini';
+		$lipupiniFolderHashTable = getLipupiniFolderHashTable($lipupiniFolder);
+	} catch (Exception $e) {
+		error([$e->getMessage()]);
+		exit(0);
+	}
+
+	$cache = new Collection\Cache($systemState, $collectionName);
+
+	try {
+		$cacheFolderHashTable = getCacheFolderHashTable($collectionUtility, $cache->path());
+	} catch (Exception $e) {
+		error([$e->getMessage()]);
+		exit(0);
+	}
+
+	$errors = [];
+	$hasFfmpeg = $collectionUtility::hasFfmpeg($systemState);
+
+	foreach ($collectionHashTable as $mediaType => $fileInfo) {
+		switch ($mediaType) {
+			case 'audio':
+				if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['file'] ?? [])) {
+					$errors[] = 'Audio file cache mismatch';
+					$errors[] = '$fileInfo = ' . var_export($fileInfo, true);
+					$errors[] = '$cacheFolderHashTable[$mediaType][file] = ' . var_export($cacheFolderHashTable[$mediaType]['file'] ?? [], true);
+				}
+				if (count($fileInfo) && $hasFfmpeg && empty($lipupiniFolderHashTable[$mediaType]['waveform'])) {
+					$errors[] = 'Missing one or more audio waveforms (using `ffmpeg`)';
+				}
+				break;
+
+			case 'image':
+				foreach (array_keys($systemState->mediaSize) as $mediaSize) {
+					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType][$mediaSize] ?? [])) {
+						$errors[] = 'Image ' . $mediaSize . ' cache mismatch';
+						$errors[] = '$fileInfo = ' . var_export($fileInfo, true);
+						$errors[] = '$cacheFolderHashTable[$mediaType][$mediaSize] = ' . var_export($cacheFolderHashTable[$mediaType][$mediaSize] ?? [], true);
+					}
+				}
+				break;
+
+			case 'text':
+				if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['html'] ?? [])) {
+					$errors[] = 'Text HTML cache mismatch';
+					$errors[] = '$fileInfo = ' . var_export($fileInfo, true);
+					$errors[] = '$cacheFolderHashTable[$mediaType][$mediaSize] = ' . var_export($cacheFolderHashTable[$mediaType][$mediaType]['html'] ?? [], true);
+				}
+				if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['markdown']) ?? []) {
+					$errors[] = 'Text markdown cache mismatch';
+					$errors[] = '$fileInfo = ' . var_export($fileInfo, true);
+					$errors[] = '$cacheFolderHashTable[$mediaType][$mediaSize] = ' . var_export($cacheFolderHashTable[$mediaType][$mediaType]['markdown'] ?? [], true);
+				}
+				break;
+
+			case 'video':
+				if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['file'] ?? [])) {
+					$errors[] = 'Video file cache mismatch';
+					$errors[] = '$fileInfo = ' . var_export($fileInfo, true);
+					$errors[] = '$cacheFolderHashTable[$mediaType][file] = ' . var_export($cacheFolderHashTable[$mediaType]['file'] ?? [], true);
+				}
+				if (count($fileInfo) && $hasFfmpeg && empty($lipupiniFolderHashTable[$mediaType]['thumbnail'])) {
+					$errors[] = 'Missing one or more video thumbnails (using `ffmpeg`)';
+					$errors[] = '$fileInfo = ' . var_export($fileInfo, true);
+					$errors[] = '$lipupiniFolderHashTable[$mediaType][thumbnail] = ' . var_export($lipupiniFolderHashTable[$mediaType]['thumbnail'] ?? [], true);
+				}
+				break;
+		}
+	}
+
+	// Custom and generated assets
+	foreach ($lipupiniFolderHashTable as $mediaType => $classificationInfo) {
+		switch ($mediaType) {
+			case 'audio':
+				if (count($classificationInfo['thumbnail'] ?? []) !== count($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [])) {
+					$errors[] = 'Audio thumbnail cache mismatch';
+					$errors[] = '$classificationInfo[thumbnail] = ' . var_export($classificationInfo['thumbnail'] ?? [], true);
+					$errors[] = '$cacheFolderHashTable[$mediaType][thumbnail] = ' . var_export($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [], true);
+				}
+				if (count($classificationInfo['waveform'] ?? []) !== count($cacheFolderHashTable[$mediaType]['waveform'] ?? [])) {
+					$errors[] = 'Audio waveform cache mismatch';
+					$errors[] = '$classificationInfo[waveform] = ' . var_export($classificationInfo['waveform'] ?? [], true);
+					$errors[] = '$cacheFolderHashTable[$mediaType][waveform] = ' . var_export($cacheFolderHashTable[$mediaType]['waveform'] ?? [], true);
+				}
+				break;
+
+			case 'image':
+				foreach ($classificationInfo as $mediaSize => $fileInfo) {
+					foreach ($fileInfo as $collectionPath => $sha256) {
+						if ($sha256 !== ($cacheFolderHashTable[$mediaType][$mediaSize][$collectionPath] ?? null)) {
+							$errors[] = 'Image custom size ' . $mediaSize . ' cache SHA256 mismatch';
+							$errors[] = '$collectionPath = ' . $collectionPath;
+						}
+					}
+				}
+				break;
+
+			case 'text':
+				/*if (count($classificationInfo['thumbnail']) !== $cacheFolderHashTable[$mediaType]['thumbnail']) {
+					$errors[] = 'Text thumbnail cache mismatch';
+				}*/
+				break;
+
+			case 'video':
+				if (count($classificationInfo['thumbnail'] ?? []) !== count($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [])) {
+					$errors[] = 'Video thumbnail cache mismatch';
+					$errors[] = '$classificationInfo[thumbnail] = ' . var_export($classificationInfo['thumbnail'] ?? [], true);
+					$errors[] = '$cacheFolderHashTable[$mediaType][thumbnail] = ' . var_export($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [], true);
+				}
+				break;
+		}
+	}
+
+	if (count($errors)) {
+		error($errors);
+	} else {
+		echo json_encode(['result' => 'success']);
+	}
 }
 
 function getCollectionHashTableByMediaType(Collection\Utility $collectionUtility, string $startPath) {
