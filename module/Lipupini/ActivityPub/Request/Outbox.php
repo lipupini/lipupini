@@ -89,7 +89,7 @@ class Outbox extends Request {
 				$object['attachment'] = [
 					'type' => 'Image',
 					'mediaType' => $this->system->mediaType['image'][$extension],
-					'url' => $this->system->staticMediaBaseUri . $this->collectionName . '/image/large/' . $filePath,
+					'url' => $this->system->staticMediaBaseUri . $this->collectionName . '/image/medium/' . $filePath,
 					'name' => $filePath,
 				];
 			} else if (in_array($extension, array_keys($this->system->mediaType['video']))) {

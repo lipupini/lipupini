@@ -84,7 +84,7 @@ class Request extends Http {
 			if (in_array($extension, array_keys($this->system->mediaType['image']))) {
 				$metaData['medium'] = 'image';
 				$metaData['mime'] = $this->system->mediaType['image'][$extension];
-				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $this->collectionName . '/image/large/' . $filePath;
+				$metaData['cacheUrl'] = $this->system->staticMediaBaseUri . $this->collectionName . '/image/medium/' . $filePath;
 				$metaData['content'] = 	'<p>' . htmlentities($metaData['caption'] ?? $filePath) . '</p>' . "\n"
 					. '<img src="' . $metaData['cacheUrl'] . '" alt="' . $filePath . '"/>';
 			} else if (in_array($extension, array_keys($this->system->mediaType['video']))) {

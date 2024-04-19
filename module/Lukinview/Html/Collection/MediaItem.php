@@ -46,7 +46,7 @@ case 'audio' : ?>
 case 'image' : ?>
 
 <a href="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/image/large/' . $urlEncodedFilename) ?>" target="_blank" class="image-container">
-	<img src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/image/large/' . $urlEncodedFilename) ?>" title="<?php echo htmlentities($this->fileData['caption']) ?>">
+	<img src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/image/medium/' . $urlEncodedFilename) ?>" title="<?php echo htmlentities($this->fileData['caption']) ?>">
 </a>
 <?php break;
 case 'text' : ?>

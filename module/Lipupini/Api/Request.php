@@ -83,17 +83,15 @@ class Request extends Http {
 
 	public function getMediaInfo(array $mediaFileTypesByExtension, string $filePath) {
 		$extension = pathinfo($filePath, PATHINFO_EXTENSION);
-
 		$filePath = implode('/', array_map('rawurlencode', explode('/', $filePath)));
-
 		$return = [];
-
 		$return['type'] = $mediaFileTypesByExtension[$extension]['mediaType'];
 		$return['mime'] = $mediaFileTypesByExtension[$extension]['mimeType'];
 		switch ($return['type']) {
 			case 'image' :
-				$return['url'] = $this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/large/' . $filePath;
-				$return['thumbnail'] = $this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/thumbnail/' . $filePath;
+				foreach (array_keys($this->system->mediaSize) as $mediaSize) {
+					$return[$mediaSize] = $this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/' . $mediaSize . '/' . $filePath;
+				}
 				break;
 
 			case 'audio' :
