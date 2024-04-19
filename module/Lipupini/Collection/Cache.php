@@ -30,8 +30,15 @@ class Cache {
 		);
 	}
 
-	// This handles a few extra useful steps with managing symlink creation
+	// This handles a few extra useful steps with managing symlink cre	ation
 	public static function createSymlink(string $linkTarget, string $linkName, bool $echoStatus = false) {
+		if (!file_exists($linkTarget)) {
+			throw new Exception('Could not find link target/source:' . $linkTarget);
+		}
+
+		clearstatcache(true, $linkName);
+
+		// If link already exists and is valid
 		if (file_exists($linkName)) {
 			return;
 		}
