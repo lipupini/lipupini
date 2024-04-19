@@ -9,6 +9,12 @@ const testAssetsFolder = __dirname + '/../assets'
 const collectionRootFolder = __dirname + '/../../collection'
 import {execSync} from 'child_process'
 
+// In Chromiom version 119.0.6045.9 bundled with Playwright,
+// there is an issue when loading the .flac example
+// See version info with:
+// cd ~/.cache/ms-playwright/chromium-1084/chrome-linux && ./chrome --version
+const chromiumDisableFlac = true
+
 // If `createNewCollection` is `true`, the `testCollectionName` will have a number appended if it exists
 let testCollectionName = 'test-collection'
 
@@ -22,14 +28,26 @@ const testAssetFiles = [
 	'blank.png',
 	'dup.mp4',
 	'logo_static.gif',
-	'test.avif',
 	'toki-ipsum.md',
 	'beep.ogg',
 	'huddle-invite.m4a',
 	'needs-moar.jpeg',
-	'test.flac',
 	'winamp-intro.mp3'
 ]
+
+const mimeTypes = {
+	m4a: 'audio/mp4',
+	mp3: 'audio/mp3',
+	ogg: 'audio/ogg',
+	avif: 'image/avif',
+	gif: 'image/gif',
+	jpg: 'image/jpeg',
+	jpeg: 'image/jpeg',
+	png: 'image/png',
+	html: 'text/html',
+	md: 'text/markdown',
+	mp4: 'video/mp4',
+}
 
 const askPhp = (to: string) => {
 	const command = 'php "' + __dirname + '/../../bin/test-helper.php" ' + to
@@ -40,17 +58,6 @@ const askPhp = (to: string) => {
 		console.log(answer)
 		throw e
 	}
-}
-
-const supportsAvif = async (page: Page) => {
-	return await page.evaluate(async () => {
-		if (typeof createImageBitmap === 'undefined') return false
-		const avifData = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A='
-		const avifBlob = await fetch(avifData).then((r) => r.blob());
-		return createImageBitmap(avifBlob)
-			.then(() => true)
-			.catch(() => false)
-	})
 }
 
 const hasFfmpeg = askPhp('determineFfmpegSupport')
@@ -70,9 +77,36 @@ if (createNewCollection) {
 		i++
 	}
 	testCollectionName = testCollectionNameTmp
+	console.log('Using collection name ' + testCollectionName)
 	testCollectionFolder.root = collectionRootFolder + '/' + testCollectionName
 	testCollectionFolder.cache = testCollectionFolder.root + '/.lipupini/.cache'
 }
+
+let totalTestAssetsUsed = testAssetFiles.length
+let avifSupport: boolean, flacSupport: boolean
+
+test.beforeAll(async ({browser}) => {
+	const page = await (await browser.newContext()).newPage()
+	if (await page.evaluate(async () => {
+		if (typeof createImageBitmap === 'undefined') return false
+		const avifData = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A='
+		const avifBlob = await fetch(avifData).then((r) => r.blob());
+		return createImageBitmap(avifBlob)
+			.then(() => true)
+			.catch(() => false)
+	})) {
+		testAssetFiles.push('test.avif')
+		totalTestAssetsUsed++
+	}
+	if ((browser.browserType().name() !== 'chromium' || !chromiumDisableFlac) &&
+		await page.evaluate(async () => {
+		const audio = document.createElement('audio');
+		return audio.canPlayType('audio/wav') !== ''
+	})) {
+		testAssetFiles.push('test.flac')
+		totalTestAssetsUsed++
+	}
+})
 
 test('click into collection list from homepage and verify all', async ({ page}) => {
 	await page.goto(host + '/')
@@ -98,11 +132,8 @@ test.describe.serial('test collection', () => {
 		test('creates a new test collection', async ({page}) => {
 			// Create the folder
 			fs.mkdirSync(testCollectionFolder.root)
-			const supportsAvifResult = await supportsAvif(page)
 			// Populate some test files
 			for (const fileName of testAssetFiles) {
-				const extension = fileName.match(/\.(.+)$/)[1]
-				if (extension === 'avif' && !supportsAvifResult) continue
 				fs.copyFileSync(testAssetsFolder + '/' + fileName, testCollectionFolder.root + '/' + fileName)
 			}
 			await page.waitForTimeout(500) // A little delay to help ensure that the new files are available
@@ -130,7 +161,6 @@ test.describe.serial('test collection', () => {
 		await expect(page.locator('li a:text-is("' + testCollectionName + '")')).toBeVisible()
 		await page.locator('li a:text-is("' + testCollectionName + '")').click()
 		await page.waitForURL(host + '/@' + testCollectionName)
-		await page.waitForTimeout(2000) // Because we're also testing on-demand static generation which adds some stress
 		let hrefs = []
 		const mediaItemLinks = await page.locator('#folder main.grid a').all()
 		for (const mediaItemLink of mediaItemLinks) {
@@ -138,24 +168,31 @@ test.describe.serial('test collection', () => {
 		}
 		for (const href of hrefs) {
 			await page.goto(host + href)
-			await page.waitForTimeout(750) // Because we're also testing on-demand static generation which adds some stress
 			let mediaType = (await page.locator('#media-item').getAttribute('class')).replace(/-item/, '')
 			switch (mediaType) {
 				case 'image':
-					await page.goto(await page.locator('main a').getAttribute('href'))
+					const largeImg = await page.locator('main a').getAttribute('href')
+					const thumbnailImg= await page.locator('main img').getAttribute('src')
+					await page.goto(largeImg)
+					await page.goto(thumbnailImg)
 					break
 				case 'audio':
 					const audioSrc = await page.locator('main source').getAttribute('src')
-					expect((await request.get(audioSrc)).ok()).toBeTruthy()
 					const waveform = (await page.locator('main .waveform').getAttribute('style'))
 						.match(/background-image:url\('(.+)'\);?/)[1]
-					expect((await request.get(waveform)).ok()).toBeTruthy()
+					await page.goto(waveform)
+					await page.goto(audioSrc, {waitUntil: 'commit'})
+					await page.waitForURL(audioSrc)
+					break
+				case 'text':
+					await page.goto(await page.locator('main object').getAttribute('data'))
 					break
 				case 'video':
 					const videoSrc = await page.locator('main source').getAttribute('src')
-					expect((await request.get(videoSrc)).ok()).toBeTruthy()
 					const videoPoster = await page.locator('main video').getAttribute('poster')
-					expect((await request.get(videoPoster)).ok()).toBeTruthy()
+					await page.goto(videoPoster)
+					await page.goto(videoSrc)
+					await page.waitForURL(videoSrc)
 					break
 			}
 		}
@@ -181,8 +218,7 @@ test.describe.serial('test collection', () => {
 		const apiResponse = await request.get(apiUrl)
 		expect(apiResponse.ok()).toBeTruthy()
 		const apiResponseBody = JSON.parse((await apiResponse.body()).toString());
-		const supportsAvifResult = await supportsAvif(page)
-		expect(Object.keys(apiResponseBody.data).length).toEqual(supportsAvifResult ? 12 : 11)
+		expect(Object.keys(apiResponseBody.data).length).toEqual(totalTestAssetsUsed)
 		expect((await request.get(apiUrl + '/blank.png.json')).ok()).toBeTruthy()
 	})
 
@@ -209,9 +245,8 @@ test.describe.serial('test collection', () => {
 	if (testCollectionPagination) {
 		test('test pagination and navigation in header and footer', async ({page}) => {
 			if (createNewCollection) {
-				const supportsAvifResult = await supportsAvif(page)
-				// Add enough files to paginate
-				for (let i = 1; i <= (supportsAvifResult ? 25 : 26); i++) {
+				// Add just enough files to paginate into the next page
+				for (let i = 1; i <= (25 + totalTestAssetsUsed + (12 - totalTestAssetsUsed)); i++) {
 					fs.copyFileSync(testAssetsFolder + '/blank.png', testCollectionFolder.root + '/' + i + '.png')
 				}
 			}

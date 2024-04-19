@@ -58,6 +58,8 @@ switch ($argv[1]) {
 				case 'audio':
 					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['file'] ?? [])) {
 						$errors[] = 'Audio file cache mismatch';
+						$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
+						$errors[] = '$cacheFolderHashTable[$mediaType][file] = ' . print_r($cacheFolderHashTable[$mediaType]['file'] ?? [], true);
 					}
 					if (count($fileInfo) && $hasFfmpeg && empty($lipupiniFolderHashTable[$mediaType]['waveform'])) {
 						$errors[] = 'Missing one or more audio waveforms (using `ffmpeg`)';
@@ -68,6 +70,8 @@ switch ($argv[1]) {
 					foreach (array_keys($systemState->mediaSize) as $mediaSize) {
 						if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType][$mediaSize] ?? [])) {
 							$errors[] = 'Image ' . $mediaSize . ' cache mismatch';
+							$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
+							$errors[] = '$cacheFolderHashTable[$mediaType][$mediaSize] = ' . print_r($cacheFolderHashTable[$mediaType][$mediaSize] ?? [], true);
 						}
 					}
 					break;
@@ -75,18 +79,26 @@ switch ($argv[1]) {
 				case 'text':
 					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['html'] ?? [])) {
 						$errors[] = 'Text HTML cache mismatch';
+						$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
+						$errors[] = '$cacheFolderHashTable[$mediaType][$mediaSize] = ' . print_r($cacheFolderHashTable[$mediaType][$mediaType]['html'] ?? [], true);
 					}
 					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['markdown']) ?? []) {
 						$errors[] = 'Text markdown cache mismatch';
+						$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
+						$errors[] = '$cacheFolderHashTable[$mediaType][$mediaSize] = ' . print_r($cacheFolderHashTable[$mediaType][$mediaType]['markdown'] ?? [], true);
 					}
 					break;
 
 				case 'video':
 					if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['file'] ?? [])) {
 						$errors[] = 'Video file cache mismatch';
+						$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
+						$errors[] = '$cacheFolderHashTable[$mediaType][file] = ' . print_r($cacheFolderHashTable[$mediaType]['file'] ?? [], true);
 					}
 					if (count($fileInfo) && $hasFfmpeg && empty($lipupiniFolderHashTable[$mediaType]['thumbnail'])) {
 						$errors[] = 'Missing one or more video thumbnails (using `ffmpeg`)';
+						$errors[] = '$fileInfo = ' . print_r($fileInfo, true);
+						$errors[] = '$lipupiniFolderHashTable[$mediaType][thumbnail] = ' . print_r($lipupiniFolderHashTable[$mediaType]['thumbnail'] ?? [], true);
 					}
 					break;
 			}
@@ -98,9 +110,13 @@ switch ($argv[1]) {
 				case 'audio':
 					if (count($classificationInfo['thumbnail'] ?? []) !== count($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [])) {
 						$errors[] = 'Audio thumbnail cache mismatch';
+						$errors[] = '$classificationInfo[thumbnail] = ' . print_r($classificationInfo['thumbnail'] ?? [], true);
+						$errors[] = '$cacheFolderHashTable[$mediaType][thumbnail] = ' . print_r($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [], true);
 					}
 					if (count($classificationInfo['waveform'] ?? []) !== count($cacheFolderHashTable[$mediaType]['waveform'] ?? [])) {
 						$errors[] = 'Audio waveform cache mismatch';
+						$errors[] = '$classificationInfo[waveform] = ' . print_r($classificationInfo['waveform'] ?? [], true);
+						$errors[] = '$cacheFolderHashTable[$mediaType][waveform] = ' . print_r($cacheFolderHashTable[$mediaType]['waveform'] ?? [], true);
 					}
 					break;
 
@@ -109,6 +125,7 @@ switch ($argv[1]) {
 						foreach ($fileInfo as $collectionPath => $sha256) {
 							if ($sha256 !== ($cacheFolderHashTable[$mediaType][$mediaSize][$collectionPath] ?? null)) {
 								$errors[] = 'Image custom size ' . $mediaSize . ' cache SHA256 mismatch';
+								$errors[] = '$collectionPath = ' . $collectionPath;
 							}
 						}
 					}
@@ -123,6 +140,8 @@ switch ($argv[1]) {
 				case 'video':
 					if (count($classificationInfo['thumbnail'] ?? []) !== count($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [])) {
 						$errors[] = 'Video thumbnail cache mismatch';
+						$errors[] = '$classificationInfo[thumbnail] = ' . print_r($classificationInfo['thumbnail'] ?? [], true);
+						$errors[] = '$cacheFolderHashTable[$mediaType][thumbnail] = ' . print_r($cacheFolderHashTable[$mediaType]['thumbnail'] ?? [], true);
 					}
 					break;
 			}
