@@ -7,13 +7,23 @@ use Module\Lipupini\State;
 
 trait CacheSymlink {
 	public static function cacheSymlink(State $systemState, string $collectionName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): string {
+		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
+
+		// Make sure the files exists in the collection before proceeding
+		if (!file_exists($collectionPath . '/' . $filePath)) {
+			return false;
+		}
+
 		$cache = new Cache($systemState, $collectionName);
 		$fileCachePath = $cache->path() . '/' . $fileTypeFolder . '/' . $filePath;
 
-		$cache::staticCacheSymlink($systemState, $collectionName);
-
 		if (file_exists($fileCachePath)) {
 			return $fileCachePath;
+		} else {
+			$fileCacheDir = pathinfo($fileCachePath, PATHINFO_DIRNAME);
+			if (!is_dir($fileCacheDir)) {
+				mkdir($fileCacheDir, 0755, true);
+			}
 		}
 
 		if ($echoStatus) {
@@ -22,13 +32,10 @@ trait CacheSymlink {
 			error_log('Symlinking cache files for `' . $filePath . '`...');
 		}
 
-		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
-
-		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
-			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);
-		}
-
 		$cache::createSymlink($collectionPath . '/' . $filePath, $fileCachePath);
+
+		// Create the collection's cache link in `webroot` if it does not exist
+		$cache::staticCacheSymlink($systemState, $collectionName);
 
 		return $fileCachePath;
 	}

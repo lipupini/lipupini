@@ -8,31 +8,34 @@ use Module\Lipupini\State;
 
 class AudioThumbnail {
 	public static function cacheSymlinkAudioThumbnail(State $systemState, string $collectionName, string $audioPath, bool $echoStatus = false): false|string {
-		$cache = new Cache($systemState, $collectionName);
-		$thumbnailPath = $audioPath . '.png';
-		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/audio/thumbnail/' . $thumbnailPath;
-
-		if (!file_exists($thumbnailPathFull)) {
-			return false;
-		}
-
-		$fileCachePath = $cache->path() . '/audio/thumbnail/' . $thumbnailPath;
-
-		$cache::staticCacheSymlink($systemState, $collectionName);
-
-		// One tradeoff with doing this first is that the file can be deleted from the collection's `thumbnail` folder but still show if it stays in `cache`
-		// The benefit is that it won't try to use `ffmpeg` and grab the frame if it hasn't yet, so it's potentially faster to check this way
-		if (file_exists($fileCachePath)) {
-			return $fileCachePath;
-		}
-
 		// Make sure the file exists in the collection before proceeding
 		if (!file_exists($systemState->dirCollection . '/' . $collectionName . '/' . $audioPath)) {
 			return false;
 		}
 
-		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
-			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);
+		$thumbnailPath = $audioPath . '.png';
+		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/audio/thumbnail/' . $thumbnailPath;
+
+		// If there's no custom cover art (thumbnail) present, there's nothing to do
+		if (!file_exists($thumbnailPathFull)) {
+			return false;
+		}
+
+		$cache = new Cache($systemState, $collectionName);
+		$fileCachePath = $cache->path() . '/audio/thumbnail/' . $thumbnailPath;
+
+		// If `$fileCachePath` is already there we don't need to do a cache symlink it so return
+		if (file_exists($fileCachePath)) {
+			if (is_link($fileCachePath)) {
+				return $fileCachePath;
+			}
+			// If it's not a symlink, let's delete what's there and make it a symlink
+			unlink($fileCachePath);
+		} else {
+			$fileCacheDir = pathinfo($fileCachePath, PATHINFO_DIRNAME);
+			if (!is_dir($fileCacheDir)) {
+				mkdir($fileCacheDir, 0755, true);
+			}
 		}
 
 		if ($echoStatus) {
@@ -44,6 +47,9 @@ class AudioThumbnail {
 			$thumbnailPathFull,
 			$fileCachePath
 		);
+
+		// Create the collection's cache link in `webroot` if it does not exist
+		$cache::staticCacheSymlink($systemState, $collectionName);
 
 		return $fileCachePath;
 	}

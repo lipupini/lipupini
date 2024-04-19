@@ -103,14 +103,15 @@ class Image {
 				// Otherwise, the cache file is current and we can serve it
 				return $fileCachePath;
 			}
+		} else {
+			$fileCacheDir = pathinfo($fileCachePath, PATHINFO_DIRNAME);
+			if (!is_dir($fileCacheDir)) {
+				mkdir($fileCacheDir, 0755, true);
+			}
 		}
 
 		if ($echoStatus) {
 			echo 'Creating ' . $sizePreset . ' cache file for `' . $filePath . '`...' . "\n";
-		}
-
-		if (!is_dir(pathinfo($fileCachePath, PATHINFO_DIRNAME))) {
-			mkdir(pathinfo($fileCachePath, PATHINFO_DIRNAME), 0755, true);
 		}
 
 		// In the collection's `.lipupini` folder if there is a subfolder with the same name as the `$sizePreset`
@@ -129,7 +130,7 @@ class Image {
 		if (pathinfo($filePath, PATHINFO_EXTENSION) === 'gif') {
 			if (static::isAnimatedGif($collectionPath . '/' . $filePath)) {
 				// Check whether the animated .gif symlink is already there, if so return it
-				if (is_link($fileCachePath)) {
+				if (file_exists($fileCachePath)) {
 					return $fileCachePath;
 				}
 				if ($echoStatus) {

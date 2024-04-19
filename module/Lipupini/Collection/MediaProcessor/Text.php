@@ -7,17 +7,22 @@ use Module\Lipupini\State;
 
 class Text {
 	public static function processAndCache(State $systemState, string $collectionName, string $fileTypeFolder, string $filePath, bool $echoStatus = false): string {
-		$cache = new Cache($systemState, $collectionName);
-		$fileCachePathMd = $cache->path() . '/' . $fileTypeFolder . '/markdown/' . $filePath;
 		$collectionPath = $systemState->dirCollection . '/' . $collectionName;
 
-		$cache::staticCacheSymlink($systemState, $collectionName);
-
-		if (!is_dir(pathinfo($fileCachePathMd, PATHINFO_DIRNAME))) {
-			mkdir(pathinfo($fileCachePathMd, PATHINFO_DIRNAME), 0755, true);
+		// Make sure the file exists in the collection before proceeding
+		if (!file_exists($collectionPath . '/' . $filePath)) {
+			return false;
 		}
 
+		$cache = new Cache($systemState, $collectionName);
+		$fileCachePathMd = $cache->path() . '/' . $fileTypeFolder . '/markdown/' . $filePath;
+
 		if (!file_exists($fileCachePathMd)) {
+			$fileCacheDirMd = pathinfo($fileCachePathMd, PATHINFO_DIRNAME);
+			if (!is_dir($fileCacheDirMd)) {
+				mkdir($fileCacheDirMd, 0755, true);
+			}
+
 			if ($echoStatus) {
 				echo 'Symlinking Markdown cache file for `' . $filePath . '`...' . "\n";
 			}
@@ -25,10 +30,6 @@ class Text {
 		}
 
 		$fileCachePathHtml = $cache->path() . '/' . $fileTypeFolder . '/html/' . $filePath . '.html';
-
-		if (!is_dir(pathinfo($fileCachePathHtml, PATHINFO_DIRNAME))) {
-			mkdir(pathinfo($fileCachePathHtml, PATHINFO_DIRNAME), 0755, true);
-		}
 
 		if (file_exists($fileCachePathHtml)) {
 			if (filemtime($collectionPath . '/' . $filePath) < filemtime($fileCachePathHtml)) {
@@ -38,6 +39,11 @@ class Text {
 				echo 'Deleting outdated cache file for `' . $filePath . '`...' . "\n";
 			}
 			unlink($fileCachePathHtml);
+		} else {
+			$fileCacheDirHtml = pathinfo($fileCachePathHtml, PATHINFO_DIRNAME);
+			if (!is_dir($fileCacheDirHtml)) {
+				mkdir($fileCacheDirHtml, 0755, true);
+			}
 		}
 
 		if ($echoStatus) {
@@ -55,6 +61,9 @@ class Text {
 			. '</body></html>' . "\n";
 
 		file_put_contents($fileCachePathHtml, $rendered);
+
+		// Create the collection's cache link in `webroot` if it does not exist
+		$cache::staticCacheSymlink($systemState, $collectionName);
 
 		return $fileCachePathHtml;
 	}

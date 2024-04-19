@@ -103,5 +103,10 @@ if (
 	unlink($collectionCacheAvatarPath);
 }
 
-MediaProcessor\Avatar::cacheSymlinkAvatar($systemState, $collectionName, $collectionAvatarPath, true);
 // BEGIN: Process avatar cache
+MediaProcessor\Avatar::cacheSymlinkAvatar($systemState, $collectionName, $collectionAvatarPath, true);
+// END: Process avatar cache
+
+// START: Create the collection's cache link in `webroot` if it does not exist
+$collectionCache::staticCacheSymlink($systemState, $collectionName);
+// END: Create the collection's cache link in `webroot` if it does not exist
