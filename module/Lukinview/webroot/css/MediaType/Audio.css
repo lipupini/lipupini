@@ -15,6 +15,24 @@
 	width: 100%;
 	opacity: .95;
 }
+.audio-container .playing-indicator {
+	display: none;
+	animation: blinker 1s linear infinite;
+
+}
+@keyframes blinker {
+	50% {
+		opacity: 0;
+	}
+}
+.audio-container.playing .caption {
+	font-weight: bold;
+}
+.audio-container.playing .playing-indicator {
+	display: inline;
+}
+.blink_me {
+}
 .audio-container .waveform {
 	height: 75px;
 	background-size: 100% 110%;
