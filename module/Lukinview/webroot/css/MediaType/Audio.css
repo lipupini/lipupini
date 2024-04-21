@@ -28,7 +28,7 @@
 .audio-container.playing .caption {
 	font-weight: bold;
 }
-.audio-container.playing .playing-indicator {
+.audio-container.playing:not(.loading) .playing-indicator {
 	display: inline;
 }
 .blink_me {
@@ -71,6 +71,16 @@
 /* Prevent rounded corners in Chrome */
 .audio-container audio::-webkit-media-controls-enclosure {
 	border-radius: 0;
+}
+.audio-container.loading {
+	background-image: url('/img/loading.gif') !important;
+	background-size: unset;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-color: rgba(100, 100, 100, .25);
+}
+.audio-container.loading .waveform {
+	display: none;
 }
 #folder .grid .audio-container .waveform {
 	flex: 1;

@@ -1,4 +1,4 @@
-document.querySelectorAll('.audio-waveform-seek').forEach(container => {
+document.querySelectorAll('.audio-container').forEach(container => {
 	const isTouchDevice = 'ontouchstart' in document.documentElement
 	const audio = container.querySelector('audio')
 	const waveform = container.querySelector('.waveform')

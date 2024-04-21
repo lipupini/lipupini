@@ -8,8 +8,10 @@ $mediaTypesByExtension = $collectionUtility->mediaTypesByExtension();
 $extension = pathinfo($this->collectionFilePath, PATHINFO_EXTENSION);
 
 if ($mediaTypesByExtension[$extension]['mediaType'] === 'video') {
-	$this->htmlHead .= '<link rel="stylesheet" href="/lib/videojs/video-js.min.css">' . "\n"
-		.  '<script src="/lib/videojs/video.min.js"></script>' . "\n";
+	$this->htmlHead .=
+		'<link rel="stylesheet" href="/lib/videojs/video-js.min.css">' . "\n" .
+		'<script src="/lib/videojs/video.min.js"></script>' . "\n"
+	;
 }
 
 $urlEncodedFilename = implode('/', array_map('rawurlencode', explode('/', $this->collectionFilePath)));
@@ -28,12 +30,12 @@ require(__DIR__ . '/../Core/Open.php') ?>
 switch ($mediaTypesByExtension[$extension]['mediaType']) :
 case 'audio' : ?>
 
-<div class="audio-container audio-waveform-seek">
+<div class="audio-container">
 	<div class="caption"><span><?php echo htmlentities($this->fileData['caption']) ?></span></div>
 	<audio controls="controls" preload="metadata">
 		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</audio>
-	<div class="waveform" style="background-image:url('<?php echo htmlentities($this->fileData['waveform'] ?? '') ?>')">
+	<div class="waveform" style="background-image:url('<?php echo $collectionUtility::urlEncodeUrl($this->fileData['waveform'] ?? '') ?>')">
 		<div class="elapsed hidden"></div>
 	</div>
 	<?php if (!empty($this->fileData['thumbnail'])) : ?>
@@ -42,6 +44,7 @@ case 'audio' : ?>
 	<?php endif ?>
 
 </div>
+<script src="/js/AudioVideo.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 <script src="/js/AudioWaveformSeek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 <?php break;
 case 'image' : ?>

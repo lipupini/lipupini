@@ -3,8 +3,10 @@
 use Module\Lipupini\Collection\Utility;
 use Module\Lipupini\L18n\A;
 
-$this->htmlHead .= '<link rel="stylesheet" href="/lib/videojs/video-js.min.css">
-<script src="/lib/videojs/video.min.js"></script>' . "\n";
+$this->htmlHead .=
+	'<link rel="stylesheet" href="/lib/videojs/video-js.min.css">' . "\n" .
+	'<script src="/lib/videojs/video.min.js"></script>' . "\n"
+;
 
 $collectionUtility = new Utility($this->system);
 $mediaTypesByExtension = $collectionUtility->mediaTypesByExtension();
@@ -31,16 +33,17 @@ case 'audio' :
 	$style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/audio/thumbnail/' . $urlEncodedFilename . '.png')  . '\')"' : '';
 ?>
 
-<div class="audio-container audio-waveform-seek"<?php echo $style ?>>
+<div class="audio-container"<?php echo $style ?> title="<?php echo htmlentities($item['caption']) ?>">
 	<div class="caption">
 		<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html">
 			<span class="playing-indicator">➤</span>
 			<?php echo htmlentities($item['caption']) ?>
+
 		</a>
 	</div>
-	<div class="waveform" style="background-image:url('<?php echo htmlentities($item['waveform'] ?? '') ?>')">
+	<div class="waveform" style="background-image:url('<?php echo $collectionUtility::urlEncodeUrl($item['waveform'] ?? '') ?>')">
 		<div class="elapsed hidden"></div>
-		<audio controls="controls" preload="metadata" onplay="this.closest('.audio-container').classList.add('playing')" onpause="this.closest('.audio-container').classList.remove('playing')">
+		<audio controls="controls" preload="metadata">
 			<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 		</audio>
 	</div>
@@ -48,9 +51,9 @@ case 'audio' :
 <?php break;
 case 'image' : ?>
 
-<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html" class="image-container">
+<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html" class="image-container" title="<?php echo htmlentities($item['caption']) ?>">
 	<div style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/image/thumbnail/' . $urlEncodedFilename) ?>')">
-		<img src="/img/1x1.png" title="<?php echo htmlentities($item['caption']) ?>" loading="lazy">
+		<img src="/img/1x1.png" loading="lazy">
 	</div>
 </a>
 <?php break;
@@ -62,9 +65,9 @@ case 'text' : ?>
 <?php break;
 case 'video' : ?>
 
-<div class="video-container">
+<div class="video-container" title="<?php echo htmlentities($item['caption']) ?>">
 	<div class="caption"><a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
-	<video class="video-js" controls="" preload="metadata" loop="" title="<?php echo htmlentities($item['caption']) ?>" poster="<?php echo htmlentities($item['thumbnail'] ?? '') ?>" data-setup="{}" onplay="this.closest('.video-container').classList.add('playing')" onpause="this.closest('.video-container').classList.remove('playing')">
+	<video class="video-js" controls="" preload="metadata" loop="" poster="<?php echo htmlentities($item['thumbnail'] ?? '') ?>" data-setup="{}">
 		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</video>
 </div>
@@ -79,6 +82,7 @@ else : ?>
 <?php endif;
 endforeach ?>
 </main>
+<script src="/js/AudioVideo.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 <script src="/js/AudioWaveformSeek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 <footer>
 	<nav>

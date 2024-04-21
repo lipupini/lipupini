@@ -190,4 +190,19 @@ class Utility {
 		}
 		return $mediaTypesByExtension;
 	}
+
+	// https://stackoverflow.com/q/7973790
+	public static function urlEncodeUrl($url) {
+		$parse_url = parse_url($url);
+		if (!empty($parse_url['path'])) {
+			$parse_url['path'] = join('/', array_map('rawurlencode', explode('/', $parse_url['path'])));
+		}
+		return ((isset($parse_url['scheme'])) ? $parse_url['scheme'] . '://' : '')
+			. ((isset($parse_url['user'])) ? $parse_url['user'] . ((isset($parse_url['pass'])) ? ':' . $parse_url['pass'] : '') . '@' : '')
+			. ((isset($parse_url['host'])) ? $parse_url['host'] : '')
+			. ((isset($parse_url['port'])) ? ':' . $parse_url['port'] : '')
+			. ((isset($parse_url['path'])) ? $parse_url['path'] : '')
+			. ((isset($parse_url['query'])) ? '?' . $parse_url['query'] : '')
+			. ((isset($parse_url['fragment'])) ? '#' . $parse_url['fragment'] : '');
+	}
 }
