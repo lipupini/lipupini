@@ -32,7 +32,6 @@ class State {
 				'flac' => 'audio/flac',
 				'm4a' => 'audio/mp4',
 				'mp3' => 'audio/mp3',
-				'ogg' => 'audio/ogg',
 			],
 			'image' => [
 				'avif' => 'image/avif',
