@@ -9,15 +9,8 @@ use Module\Lipupini\State;
 abstract class MediaProcessorRequest extends Http {
 	use CollectionRequest;
 
-	public function validateMediaProcessorRequest() {
-		$relativeStaticCachePath = static::relativeStaticCachePath($this->system);
-		if (!str_starts_with($_SERVER['REQUEST_URI'], $relativeStaticCachePath)) return false;
-		$this->collectionNameFromSegment(1, '', $relativeStaticCachePath);
-
-		return preg_replace(
-			'#^' . preg_quote($relativeStaticCachePath) . preg_quote($this->collectionName) . '/#', '',
-			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
-		);
+	public static function relativeStaticCachePath(State $systemState) {
+		return parse_url($systemState->staticMediaBaseUri, PHP_URL_PATH);
 	}
 
 	public function serve(string $filePath, string $mimeType): void {
@@ -32,7 +25,14 @@ abstract class MediaProcessorRequest extends Http {
 		exit();
 	}
 
-	public static function relativeStaticCachePath(State $systemState) {
-		return parse_url($systemState->staticMediaBaseUri, PHP_URL_PATH);
+	public function validateMediaProcessorRequest() {
+		$relativeStaticCachePath = static::relativeStaticCachePath($this->system);
+		if (!str_starts_with($_SERVER['REQUEST_URI'], $relativeStaticCachePath)) return false;
+		$this->collectionNameFromSegment(1, '', $relativeStaticCachePath);
+
+		return preg_replace(
+			'#^' . preg_quote($relativeStaticCachePath) . preg_quote($this->collectionName) . '/#', '',
+			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+		);
 	}
 }
