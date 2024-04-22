@@ -2,7 +2,7 @@
 
 ## Hypermedia Organization and Showcase System
 
-### Photo and Video gallery, Music player, Text document viewer
+### Photo and Video Gallery, Music Player, Text Document Viewer
 
 Lipupini is a public domain platform for organizing and displaying digital art such as images, videos, sounds and writings that you might want to display under your domain on the Internet. Lipupini aims to support RSS and Fediverse protocols.
 
