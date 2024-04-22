@@ -38,9 +38,8 @@ document.querySelectorAll('.audio-container').forEach(container => {
 
 	const mouseDownTouchStart = (e) => {
 		/* See CSS hover state for waveform, on mobile it takes effect on touch */
-		if (isTouchDevice && window.getComputedStyle(waveform).opacity === '0') {
-			return
-		}
+		if (isTouchDevice && window.getComputedStyle(waveform).opacity === '0') return
+		if (e.target.tagName !== 'DIV') return
 		elapsed.classList.remove('hidden')
 		elapsed.style.width = ((e.layerX / waveform.scrollWidth) * 100) + '%'
 		if (isTouchDevice) {

@@ -5,10 +5,12 @@
 }
 #folder .grid .folder-container {
 	aspect-ratio: 1;
-	box-sizing: border-box;
 	background: radial-gradient(circle, #424242 0%, #2d2d2d 100%);
 	border: 1px solid rgba(255, 255, 255, 0.75);
 	padding: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 #folder .grid .folder-container:hover {
 	background: radial-gradient(circle, #484848 0%, #2d2d2d 100%);
@@ -16,11 +18,7 @@
 	font-size: 110%;
 }
 #folder .grid .folder-container a {
-	height: 100%;
-	display: flex;
-	align-items: center;
 	color: #fff;
-	justify-content: center;
 	font-weight: bold;
 	transition-property: font-size;
 	transition-duration: .15s;

@@ -18,7 +18,6 @@
 .audio-container .playing-indicator {
 	display: none;
 	animation: blinker 1s linear infinite;
-
 }
 @keyframes blinker {
 	50% {
