@@ -53,6 +53,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Allows subscribing to your content collection via RSS2.0.
 - Search Lipupini accounts from other Fediverse platforms via the ActivityPub protocol.
 - Supports translations/internationalization: See [module/Lukinview/L18n](module/Lukinview/L18n)
+- Robust cross-browser E2E test suite
 - Automatically fix image orientation and strip private metadata thanks to [Imagine](https://github.com/php-imagine/Imagine) library
 - With [ffmpeg](https://ffmpeg.org) available and `useFfmpeg` [enabled](system/config/state.php), video thumbnails and audio waveforms can be generated automatically.
 - Supports both `"hidden"` and `"unlisted"` options in [files.json](collection/README.md)
@@ -63,6 +64,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Docker support. See [deployment instructions](system/README.md#deploying-with-docker).
 - Show an avatar image when searching from an external ActivityPub or RSS client.
 - Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `system/config/state.php` for the option.
+- Built-in JS/CSS cache busting mechanism. Increment `system/config/state.php` to bust that cache!
 - Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
 - On-demand caching system creates and serves static media files. Support for custom caching URL can facilitate the use of a CDN.
 - [Public domain](LICENSE.md) source code is the most permissive license there is. You can do whatever you want with this thing. Please feel free to contribute back to upstream, post in discussions, etc. There is no obligation of any kind.
