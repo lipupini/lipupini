@@ -55,7 +55,7 @@ case 'image' : ?>
 	class="image-container"
 	title="<?php echo htmlentities($item['caption']) ?>"
 	style="background-image:url('<?php echo $collectionUtility::urlEncodeUrl($collectionUtility->assetUrl($this->collectionName, 'image/thumbnail', $filename)) ?>')"
->N</a>
+></a>
 <?php break;
 case 'text' : ?>
 
