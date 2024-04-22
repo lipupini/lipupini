@@ -74,13 +74,13 @@ case 'video' : ?>
 <?php break;
 endswitch;
 else : ?>
-<div class="folder-container">
-	<a href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>" title="<?php echo htmlentities($item['caption']) ?>">
-		<span><?php echo htmlentities($item['caption']) ?></span>
-	</a>
-</div>
+
+<a class="folder-container" href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>" title="<?php echo htmlentities($item['caption']) ?>">
+	<span><?php echo htmlentities($item['caption']) ?></span>
+</a>
 <?php endif;
 endforeach ?>
+
 </main>
 <script src="/js/AudioVideo.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 <script src="/js/AudioWaveformSeek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>

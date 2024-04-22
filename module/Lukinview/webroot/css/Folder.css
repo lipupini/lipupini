@@ -17,7 +17,7 @@
 	border-width: 2px;
 	font-size: 110%;
 }
-#folder .grid .folder-container a {
+#folder .grid .folder-container {
 	color: #fff;
 	font-weight: bold;
 	transition-property: font-size;
