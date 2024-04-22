@@ -1,5 +1,7 @@
 <?php
 
+// Toki Pona translation
+
 return [
 	'Previous' => 'Lipu pini',
 	'Next' => 'Lipu namako',
