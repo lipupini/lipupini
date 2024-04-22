@@ -58,7 +58,7 @@ class AudioWaveform {
 	}
 
 	public static function saveAudioWaveform(State $systemState, string $collectionName, string $audioPath, string $waveformPathFull, bool $echoStatus = false) {
-		if (!Utility::hasFfmpeg($systemState)) {
+		if (!(new Utility($systemState))->hasFfmpeg()) {
 			return false;
 		}
 

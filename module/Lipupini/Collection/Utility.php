@@ -7,24 +7,17 @@ use Module\Lipupini\State;
 class Utility {
 	public function __construct(private State $system) { }
 
-	public function validateCollectionName(string $collectionName): void {
-		if (!$collectionName || strlen($collectionName) > 200) {
-			throw new Exception('Suspicious collection identifier (E1)');
-		}
+	public function allCollectionFolders(): array {
+		$dir = new \DirectoryIterator($this->system->dirCollection);
+		$collectionFolders = [];
+		foreach ($dir as $fileInfo) {
+			if (!$fileInfo->isDir() || $fileInfo->getFilename()[0] === '.') {
+				continue;
+			}
 
-		if (substr_count($collectionName, '@')) {
-			throw new Exception('Suspicious collection identifier (E2)');
+			$collectionFolders[] = $fileInfo->getFilename();
 		}
-
-		if (!is_dir($this->system->dirCollection . '/' . $collectionName)) {
-			throw new Exception('Collection not found: ' . htmlentities($collectionName), 404);
-		}
-	}
-
-	public function validateCollectionFolder(string $collectionName, string $collectionFolder): void {
-		if (!is_dir($this->system->dirCollection . '/' . $collectionName . '/' . $collectionFolder)) {
-			throw new Exception('Could not find collection folder: ' . htmlentities($collectionFolder), 404);
-		}
+		return $collectionFolders;
 	}
 
 	public function getCollectionData(string $collectionName, string $collectionFolder, bool $includeHidden = false) {
@@ -98,35 +91,57 @@ class Utility {
 			$return[$filePath] = [];
 		}
 
-		// Process thumbnails for audio and video
-		$processThumbnailTypes = array_merge($this->system->mediaType['audio'] ?? [], $this->system->mediaType['video'] ?? []);
+		// Process thumbnails
+		$processThumbnailTypes = $this->mediaTypesByExtension();
 		foreach ($return as $mediaFilePath => $mediaFileData) {
 			// If it doesn't already have a caption, use the filename without the extension
 			if (empty($mediaFileData['caption'])) {
 				$return[$mediaFilePath]['caption'] = pathinfo($mediaFilePath, PATHINFO_FILENAME);
 			}
 			$extension = pathinfo($mediaFilePath, PATHINFO_EXTENSION);
-			if (in_array(pathinfo($mediaFilePath, PATHINFO_EXTENSION), array_keys($processThumbnailTypes))) {
-				$mediaType = str_starts_with($processThumbnailTypes[$extension], 'audio') ? 'audio' : 'video';
-				// If the media file has a thumbnail specified in `files.json` already then skip it
-				if (!empty($mediaFileData['thumbnail'])) {
-					if (!parse_url($mediaFileData['thumbnail'], PHP_URL_HOST)) {
-						$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/' . $mediaType . '/thumbnail/' . $mediaFileData['thumbnail'];
-					}
-					continue;
+			if ($extension === '') continue;
+			$mediaType = explode('/', $processThumbnailTypes[$extension]['mediaType'])[0];
+			// If the media file has a thumbnail specified in `files.json` already then skip it
+			if (!empty($mediaFileData['thumbnail'])) {
+				if (!parse_url($mediaFileData['thumbnail'], PHP_URL_HOST)) {
+					// Reconstruct the thumbnail URL from `files.json` if it does not contain the hostname
+					$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/' . $mediaType . '/thumbnail/' . $mediaFileData['thumbnail'];
 				}
-				// Check if a corresponding thumbnail file is saved by the same name
-				$thumbnailFile = $collectionRootPath . '/.lipupini/' . $mediaType . '/thumbnail/' . $mediaFilePath . '.png';
-				// If `useFfmpeg` is not enabled and the thumbnail does not already exist, then skip it because we won't try to create it in this case
-				if (file_exists($thumbnailFile) || ($mediaType === 'video' && $this->system->useFfmpeg)) {
-					$return[$mediaFilePath]['thumbnail'] = $this->system->staticMediaBaseUri . $collectionName . '/' . $mediaType . '/thumbnail/' . $mediaFilePath . '.png';
-				}
-				if ($mediaType === 'audio') {
+				continue;
+			}
+			// Check if a corresponding thumbnail file is saved by the same name
+			$thumbnailFile = $collectionRootPath . '/.lipupini/' . $mediaType . '/thumbnail/' . $mediaFilePath . '.jpg';
+			switch ($mediaType) {
+				case 'audio':
 					$waveformFile = $collectionRootPath . '/.lipupini/' . $mediaType . '/waveform/' . $mediaFilePath . '.png';
+					// If the waveform file doesn't exist yet, we might be generating it with `ffmpeg`
 					if (file_exists($waveformFile) || $this->system->useFfmpeg) {
-						$return[$mediaFilePath]['waveform'] = $this->system->staticMediaBaseUri . $collectionName . '/' . $mediaType . '/waveform/' . $mediaFilePath . '.png';
+						$return[$mediaFilePath]['waveform'] = $this->assetUrl($collectionName, $mediaType . '/waveform', $mediaFilePath);
 					}
-				}
+					// The thumbnail file must exist to use it
+					if (file_exists($thumbnailFile)) {
+						$return[$mediaFilePath]['thumbnail'] = $this->assetUrl($collectionName, $mediaType . '/thumbnail', $mediaFilePath);
+					}
+					break;
+
+				case 'image':
+					// Assume there is going to be a thumbnail for images
+					$return[$mediaFilePath]['thumbnail'] = $this->assetUrl($collectionName, $mediaType . '/thumbnail', $mediaFilePath);
+					break;
+
+				case 'text':
+					// The thumbnail file must exist to use it
+					if (file_exists($thumbnailFile)) {
+						$return[$mediaFilePath]['thumbnail'] = $this->assetUrl($collectionName, $mediaType . '/thumbnail', $mediaFilePath);
+					}
+					break;
+
+				case 'video':
+					// If `useFfmpeg` is not enabled and the thumbnail does not already exist, then skip it because we won't try to create it in this case
+					if (file_exists($thumbnailFile) || $this->system->useFfmpeg) {
+						$return[$mediaFilePath]['thumbnail'] = $this->assetUrl($collectionName, $mediaType . '/thumbnail', $mediaFilePath);
+					}
+					break;
 			}
 		}
 
@@ -157,22 +172,9 @@ class Utility {
 		return $collectionData;
 	}
 
-	public function allCollectionFolders(): array {
-		$dir = new \DirectoryIterator($this->system->dirCollection);
-		$collectionFolders = [];
-		foreach ($dir as $fileInfo) {
-			if (!$fileInfo->isDir() || $fileInfo->getFilename()[0] === '.') {
-				continue;
-			}
-
-			$collectionFolders[] = $fileInfo->getFilename();
-		}
-		return $collectionFolders;
-	}
-
 	// https://beamtic.com/if-command-exists-php
-	public static function hasFfmpeg(State $systemState) {
-		if (!$systemState->useFfmpeg) {
+	public function hasFfmpeg() {
+		if (!$this->system->useFfmpeg) {
 			return false;
 		}
 
@@ -191,18 +193,43 @@ class Utility {
 		return $mediaTypesByExtension;
 	}
 
+	public function assetUrl(string $collectionName, string $asset, string $collectionFilePath) {
+		return $this->system->staticMediaBaseUri
+			. $collectionName . '/' . $asset . $collectionFilePath
+			. (str_starts_with($asset, 'image') ? '' : '.jpg');
+	}
+
 	// https://stackoverflow.com/q/7973790
-	public static function urlEncodeUrl($url) {
-		$parse_url = parse_url($url);
-		if (!empty($parse_url['path'])) {
-			$parse_url['path'] = join('/', array_map('rawurlencode', explode('/', $parse_url['path'])));
+	public static function urlEncodeUrl(string $url) {
+		// If it's only a path and not a full URL, do it this way instead
+		if (empty(parse_url($url, PHP_URL_HOST))) {
+			return join('/', array_map('rawurlencode', explode('/', $url)));
 		}
-		return ((isset($parse_url['scheme'])) ? $parse_url['scheme'] . '://' : '')
-			. ((isset($parse_url['user'])) ? $parse_url['user'] . ((isset($parse_url['pass'])) ? ':' . $parse_url['pass'] : '') . '@' : '')
-			. ((isset($parse_url['host'])) ? $parse_url['host'] : '')
-			. ((isset($parse_url['port'])) ? ':' . $parse_url['port'] : '')
-			. ((isset($parse_url['path'])) ? $parse_url['path'] : '')
-			. ((isset($parse_url['query'])) ? '?' . $parse_url['query'] : '')
-			. ((isset($parse_url['fragment'])) ? '#' . $parse_url['fragment'] : '');
+
+		// `parse_url` does not handle all the filepath characters that Lipupini wants to support
+		// So we can't use `PHP_URL_PATH' key from that, instead we have to use RegExp
+		return preg_replace_callback('#://([^/]+)/([^?]+)#', function ($match) {
+			return '://' . $match[1] . '/' . self::urlEncodeUrl($match[2]);
+		}, $url);
+	}
+
+	public function validateCollectionFolder(string $collectionName, string $collectionFolder): void {
+		if (!is_dir($this->system->dirCollection . '/' . $collectionName . '/' . $collectionFolder)) {
+			throw new Exception('Could not find collection folder: ' . htmlentities($collectionFolder), 404);
+		}
+	}
+
+	public function validateCollectionName(string $collectionName): void {
+		if (!$collectionName || strlen($collectionName) > 200) {
+			throw new Exception('Suspicious collection identifier (E1)');
+		}
+
+		if (substr_count($collectionName, '@')) {
+			throw new Exception('Suspicious collection identifier (E2)');
+		}
+
+		if (!is_dir($this->system->dirCollection . '/' . $collectionName)) {
+			throw new Exception('Collection not found: ' . htmlentities($collectionName), 404);
+		}
 	}
 }

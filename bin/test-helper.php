@@ -11,7 +11,7 @@ $collectionUtility = new Collection\Utility($systemState);
 
 switch ($argv[1]) {
 	case 'determineFfmpegSupport' :
-		echo json_encode($collectionUtility::hasFfmpeg($systemState));
+		echo json_encode($collectionUtility->hasFfmpeg());
 		exit(0);
 	case 'analyzeCache' :
 		$collectionName = $argv[2];
@@ -84,7 +84,7 @@ function analyzeCache(State $systemState, Collection\Utility $collectionUtility,
 	}
 
 	$errors = [];
-	$hasFfmpeg = $collectionUtility::hasFfmpeg($systemState);
+	$hasFfmpeg = $collectionUtility->hasFfmpeg();
 
 	foreach ($collectionHashTable as $mediaType => $fileInfo) {
 		switch ($mediaType) {

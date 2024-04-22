@@ -58,7 +58,7 @@ class VideoThumbnail {
 	}
 
 	public static function saveMiddleFramePng(State $systemState, string $collectionName, string $videoPath, string $thumbnailPathFull, bool $echoStatus = false) {
-		if (!Utility::hasFfmpeg($systemState)) {
+		if (!(new Utility($systemState))->hasFfmpeg()) {
 			return false;
 		}
 
