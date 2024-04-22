@@ -25,17 +25,16 @@ require(__DIR__ . '/../Core/Open.php') ?>
 <main class="grid">
 <?php
 foreach ($this->collectionData as $filename => $item) :
-$urlEncodedFilename = implode('/', array_map('rawurlencode', explode('/', $filename)));
 $extension = pathinfo($filename, PATHINFO_EXTENSION);
 if ($extension) :
 switch ($mediaTypesByExtension[$extension]['mediaType']) :
 case 'audio' :
-	$style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/audio/thumbnail/' . $urlEncodedFilename . '.png')  . '\')"' : '';
+	$style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  $collectionUtility::urlEncodeUrl($item['thumbnail'])  . '\')"' : '';
 ?>
 
 <div class="audio-container"<?php echo $style ?> title="<?php echo htmlentities($item['caption']) ?>">
 	<div class="caption">
-		<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html">
+		<a href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>.html">
 			<span class="playing-indicator">➤</span>
 			<?php echo htmlentities($item['caption']) ?>
 
@@ -44,38 +43,39 @@ case 'audio' :
 	<div class="waveform" style="background-image:url('<?php echo $collectionUtility::urlEncodeUrl($item['waveform'] ?? '') ?>')">
 		<div class="elapsed hidden"></div>
 		<audio controls="controls" preload="metadata">
-			<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+			<source src="<?php echo $collectionUtility::urlEncodeUrl($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $filename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 		</audio>
 	</div>
 </div>
 <?php break;
 case 'image' : ?>
 
-<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html" class="image-container" title="<?php echo htmlentities($item['caption']) ?>">
-	<div style="background-image:url('<?php echo addslashes($this->system->staticMediaBaseUri . $this->collectionName . '/image/thumbnail/' . $urlEncodedFilename) ?>')">
-		<img src="/img/1x1.png" loading="lazy">
-	</div>
-</a>
+<a
+	href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>.html"
+	class="image-container"
+	title="<?php echo htmlentities($item['caption']) ?>"
+	style="background-image:url('<?php echo $collectionUtility::urlEncodeUrl($collectionUtility->assetUrl($this->collectionName, 'image/thumbnail', $filename)) ?>')"
+>N</a>
 <?php break;
 case 'text' : ?>
 
-<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html" class="text-container">
+<a href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>.html" class="text-container">
 	<div><?php echo htmlentities($item['caption']) ?></div>
 </a>
 <?php break;
 case 'video' : ?>
 
 <div class="video-container" title="<?php echo htmlentities($item['caption']) ?>">
-	<div class="caption"><a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
-	<video class="video-js" controls="" preload="metadata" loop="" poster="<?php echo htmlentities($item['thumbnail'] ?? '') ?>" data-setup="{}">
-		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+	<div class="caption"><a href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
+	<video class="video-js" controls="" preload="metadata" loop="" poster="<?php echo $collectionUtility::urlEncodeUrl($item['thumbnail'] ?? '') ?>" data-setup="{}">
+		<source src="<?php echo $collectionUtility::urlEncodeUrl($this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $filename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
 	</video>
 </div>
 <?php break;
 endswitch;
 else : ?>
 <div class="folder-container">
-	<a href="/@<?php echo htmlentities($this->collectionName . '/' . $urlEncodedFilename) ?>" title="<?php echo htmlentities($item['caption']) ?>">
+	<a href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>" title="<?php echo htmlentities($item['caption']) ?>">
 		<span><?php echo htmlentities($item['caption']) ?></span>
 	</a>
 </div>

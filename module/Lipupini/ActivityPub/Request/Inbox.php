@@ -54,7 +54,7 @@ class Inbox extends Request {
 		if (!(new Incoming\Signature)->verify(
 			$remoteActor->getPublicKeyPem(),
 			$_SERVER,
-			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), // Path without query string
+			parse_url($_SERVER['REQUEST_URI_DECODED'], PHP_URL_PATH), // Path without query string
 			$requestBody
 		)) {
 			throw new Exception('HTTP Signature did not validate', 403);

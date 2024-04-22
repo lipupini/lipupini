@@ -32,7 +32,7 @@ use Module\Lipupini\WebFinger;
 class Request extends WebFinger\Request {
 	// This will override the `initialize()` method of the parent/extended WebFinger class
 	public function initialize(): void {
-		if (!str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . '.well-known/webfinger')) {
+		if (!str_starts_with($_SERVER['REQUEST_URI_DECODED'], $this->system->baseUriPath . '.well-known/webfinger')) {
 			return false;
 		}
 
@@ -70,7 +70,7 @@ return;
 
 ### Detecting a route from a module
 
-If more complex route detection is needed, use `preg_match` instead of checking `$_SERVER['REQUEST_URI']`. See [Lipupini/Collection/MediaProcessor/Request/AvatarRequest.php](Lipupini/Collection/MediaProcessor/Request/AvatarRequest.php) for one such example.
+If more complex route detection is needed, use `preg_match` instead of checking `$_SERVER['REQUEST_URI_DECODED']` directly. See [Lipupini/Collection/MediaProcessor/Request/AvatarRequest.php](Lipupini/Collection/MediaProcessor/Request/AvatarRequest.php) for one such example.
 
 ```php
 <?php
@@ -81,7 +81,7 @@ use Module\Lipupini\Request\Incoming\Http;
 
 class HasARouteRequest extends Http {
 	public function initialize(): void {
-		if ($_SERVER['REQUEST_URI'] !== '/myroute') {
+		if ($_SERVER['REQUEST_URI_DECODED'] !== '/myroute') {
 			return;
 		}
 

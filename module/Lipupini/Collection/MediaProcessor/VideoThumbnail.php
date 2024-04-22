@@ -14,7 +14,7 @@ class VideoThumbnail {
 			return false;
 		}
 
-		$thumbnailPath = $videoPath . '.png';
+		$thumbnailPath = $videoPath . '.jpg';
 		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/video/thumbnail/' . $thumbnailPath;
 
 		// Try to create the video thumbnail if it isn't already there

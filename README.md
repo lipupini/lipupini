@@ -61,7 +61,7 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Media collections are self-contained, served as they are on your filesystem. Lipupini-specific collection files are stored in a special `.lipupini` folder, making account collections completely portable.
 - Module system paves a way for collaborative development.
 - Docker support. See [deployment instructions](system/README.md#deploying-with-docker).
-- Show an avatar PNG when searching from an external ActivityPub or RSS client.
+- Show an avatar image when searching from an external ActivityPub or RSS client.
 - Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `system/config/state.php` for the option.
 - Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
 - On-demand caching system creates and serves static media files. Support for custom caching URL can facilitate the use of a CDN.

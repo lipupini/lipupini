@@ -16,7 +16,7 @@ class AudioRequest extends MediaProcessorRequest {
 		// If the URL has matched, we're going to shutdown after this module returns no matter what
 		$this->system->shutdown = true;
 
-		$filePath = rawurldecode($matches[1]);
+		$filePath = $matches[1];
 		$extension = $matches[2];
 
 		// Once the file is symlinked, the file is considered cached and should be served statically on subsequent page refreshes

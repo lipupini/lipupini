@@ -18,19 +18,19 @@ class MediaItemRequest extends Http {
 
 	public function initialize(): void {
 		// URLs start with `/@` (but must be followed by something and something other than `/` or `?`)
-		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@(?!/|\?|$)#', $_SERVER['REQUEST_URI'])) return;
+		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@(?!/|\?|$)#', $_SERVER['REQUEST_URI_DECODED'])) return;
 		// Media item HTML requests must have a `.html` extension
-		if (pathinfo(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), PATHINFO_EXTENSION) !== 'html') return;
+		// Remove any query with `preg_replace`, cannot use `PHP_URL_PATH` because of special character support
+		if (pathinfo($_SERVER['REQUEST_URI_DECODED'], PATHINFO_EXTENSION) !== 'html') return;
 
 		$this->collectionNameFromSegment(1, '@');
 
-		$this->collectionFilePath = rawurldecode(
+		$this->collectionFilePath =
 			preg_replace('#\.html$#', '',
 				preg_replace(
 					'#^/@' . preg_quote($this->collectionName) . '/?#', '',
-					parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+					$_SERVER['REQUEST_URI_DECODED'] // Automatically strips query string
 				)
-			)
 		);
 
 		// Make sure file in collection exists before proceeding
@@ -68,7 +68,7 @@ class MediaItemRequest extends Http {
 			return false;
 		}
 		$this->mediaType = $collectionUtility->mediaTypesByExtension()[pathinfo($this->collectionFilePath, PATHINFO_EXTENSION)]['mediaType'];
-		$this->pageImagePreviewUri = $this->system->staticMediaBaseUri . $this->collectionName . '/' . $this->mediaType . '/thumbnail/' . $this->collectionFilePath . '.png';
+		$this->pageImagePreviewUri = $collectionUtility->assetUrl($this->collectionName, $this->mediaType . '/thumbnail', $this->collectionFilePath, true);
 		$parentFolder = dirname($this->collectionFilePath);
 		$this->parentPath = '@' . $this->collectionName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
 		if (!empty($_SERVER['HTTP_REFERER']) && preg_match('#' . preg_quote($this->parentPath) . '\?page=([0-9]+)$#', $_SERVER['HTTP_REFERER'], $matches)) {

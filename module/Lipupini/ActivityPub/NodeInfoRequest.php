@@ -9,7 +9,7 @@ use const Module\Lipupini\LIPUPINI_VERSION;
 
 class NodeInfoRequest extends Http {
 	public function initialize(): void {
-		if (!str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . '.well-known/nodeinfo')) {
+		if (!str_starts_with($_SERVER['REQUEST_URI_DECODED'], $this->system->baseUriPath . '.well-known/nodeinfo')) {
 			return;
 		}
 

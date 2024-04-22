@@ -17,7 +17,7 @@ class VideoThumbnailRequest extends MediaProcessorRequest {
 		// If the URL has matched, we're going to shutdown after this module returns no matter what
 		$this->system->shutdown = true;
 
-		$thumbnailPath = rawurldecode($matches[1]);
+		$thumbnailPath = $matches[1];
 		$thumbnailExtension = $matches[3];
 		$videoPath = preg_replace('#\.' . $thumbnailExtension . '$#', '', $thumbnailPath);
 

@@ -32,11 +32,6 @@ class Utility {
 			throw new Exception('`$collectionFolder` should be a directory, not a file');
 		}
 
-		// Not sure if it is only the browser that will prevent this type of breach
-		if (str_contains($collectionRootPath, '..')) {
-			throw new Exception('Suspicious collection path (E5)');
-		}
-
 		$return = [];
 		$filesJsonPath = $collectionRootPath . '/.lipupini/files.json';
 		$skipFiles = [];
@@ -80,7 +75,7 @@ class Utility {
 				continue;
 			}
 			// May be in a subdirectory relative to the collection root
-			$filePath = $collectionFolder ? rtrim($collectionFolder, '/') . '/' . $fileData->getFilename() : $fileData->getFilename();
+			$filePath = $collectionFolder ? $collectionFolder . '/' . $fileData->getFilename() : $fileData->getFilename();
 			if (!$includeHidden && in_array($filePath, $skipFiles, true)) {
 				continue;
 			}
@@ -193,9 +188,15 @@ class Utility {
 		return $mediaTypesByExtension;
 	}
 
-	public function assetUrl(string $collectionName, string $asset, string $collectionFilePath) {
+	public function assetUrl(string $collectionName, string $asset, string $collectionFilePath, bool $mustExist = false): string {
+		$path = $collectionName . '/' . $asset . '/' . ltrim($collectionFilePath, '/')
+			. (str_starts_with($asset, 'image') ? '' : '.jpg')
+		;
+		if ($mustExist && !file_exists((new Cache($this->system, $collectionName))->path() . $path)) {
+			return '';
+		}
 		return $this->system->staticMediaBaseUri
-			. $collectionName . '/' . $asset . $collectionFilePath
+			. $collectionName . '/' . $asset . '/' . ltrim($collectionFilePath, '/')
 			. (str_starts_with($asset, 'image') ? '' : '.jpg');
 	}
 

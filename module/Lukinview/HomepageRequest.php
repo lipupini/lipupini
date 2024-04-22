@@ -9,7 +9,7 @@ class HomepageRequest extends Http {
 	public string $htmlHead = '';
 
 	public function initialize(): void  {
-		if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) !== $this->system->baseUriPath) {
+		if (parse_url($_SERVER['REQUEST_URI_DECODED'], PHP_URL_PATH) !== $this->system->baseUriPath) {
 			return;
 		}
 

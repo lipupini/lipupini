@@ -27,12 +27,13 @@ abstract class MediaProcessorRequest extends Http {
 
 	public function validateMediaProcessorRequest() {
 		$relativeStaticCachePath = static::relativeStaticCachePath($this->system);
-		if (!str_starts_with($_SERVER['REQUEST_URI'], $relativeStaticCachePath)) return false;
+		if (!str_starts_with($_SERVER['REQUEST_URI_DECODED'], $relativeStaticCachePath)) return false;
 		$this->collectionNameFromSegment(1, '', $relativeStaticCachePath);
 
 		return preg_replace(
-			'#^' . preg_quote($relativeStaticCachePath) . preg_quote($this->collectionName) . '/#', '',
-			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+			'#^' . preg_quote($relativeStaticCachePath) . preg_quote($this->collectionName) . '/#',
+			'',
+			$_SERVER['REQUEST_URI_DECODED']
 		);
 	}
 }

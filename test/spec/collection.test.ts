@@ -26,23 +26,22 @@ const deleteNewCollection = true
 const testCollectionFiles: string[] = [
 	'animated.gif',
 	'blank.jpg',
-	'blank.png',
+	'!ñ\'@ #$+á%é^&().png',
 	'dup.mp4',
 	'logo_static.gif',
 	'toki-ipsum.md',
-	'beep.ogg',
 	'huddle-invite.m4a',
 	'needs-moar.jpeg',
 	'winamp-intro.mp3',
 ]
 
 const testCollectionCustomAssets: string[] = [
-	'audio/thumbnail/winamp-intro.mp3.png',
+	'audio/thumbnail/winamp-intro.mp3.jpg',
+	'image/thumbnail/blank.jpg',
+	'video/thumbnail/dup.mp4.jpg',
 	'audio/waveform/beep.ogg.png',
 	'audio/waveform/huddle-invite.m4a.png',
 	'audio/waveform/winamp-intro.mp3.png',
-	'image/thumbnail/blank.png',
-	'video/thumbnail/dup.mp4.png',
 ]
 
 const askPhp = (to: string): any => {
@@ -76,7 +75,7 @@ test.beforeAll(async ({browser}) => {
 		let i = 2
 		let testCollectionNameTmp = testCollectionName + '-' + browser.browserType().name()
 		while (fs.existsSync(collectionRootFolder + '/' + testCollectionNameTmp)) {
-			testCollectionNameTmp = testCollectionName + i
+			testCollectionNameTmp = testCollectionName + '-' + browser.browserType().name() + i
 			i++
 		}
 		testCollectionName = testCollectionNameTmp
@@ -227,7 +226,7 @@ test.describe.serial('test collection', () => {
 		expect(apiResponse.ok()).toBeTruthy()
 		const apiResponseBody = JSON.parse((await apiResponse.body()).toString());
 		expect(Object.keys(apiResponseBody.data).length).toEqual(totalTestAssetsUsed)
-		expect((await request.get(apiUrl + '/blank.png.json')).ok()).toBeTruthy()
+		expect((await request.get(apiUrl + '/blank.jpg.json')).ok()).toBeTruthy()
 	})
 
 	test('check ActivityPub endpoints', async ({page, request}) => {
@@ -255,7 +254,7 @@ test.describe.serial('test collection', () => {
 			if (createNewCollection) {
 				// Add just enough files to paginate into the next page
 				for (let i = 1; i <= itemsPerPage - totalTestAssetsUsed + 1; i++) {
-					fs.copyFileSync(testAssetsFolder + '/blank.png', testCollectionFolder.root + '/' + i + '.png')
+					fs.copyFileSync(testAssetsFolder + '/blank.jpg', testCollectionFolder.root + '/' + i + '.jpg')
 				}
 			}
 			for (const navLocation of ['header', 'footer']) {

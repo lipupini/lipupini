@@ -17,11 +17,11 @@ class ImageRequest extends MediaProcessorRequest {
 			return;
 		}
 
-		// If the URL has matched, we're going to shutdown after this module returns no matter what
+		// If the URL has matched, we're going to shut down after this module returns no matter what
 		$this->system->shutdown = true;
 
 		$sizePreset = $matches[1];
-		$imagePath = rawurldecode($matches[2]);
+		$imagePath = $matches[2];
 		$extension = $matches[3];
 
 		// We can use the same function that `Module\Lipupini\Collection\Request` uses

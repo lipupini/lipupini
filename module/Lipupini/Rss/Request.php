@@ -10,14 +10,14 @@ class Request extends Http {
 	use Collection\Trait\CollectionRequest;
 
 	public function initialize(): void {
-		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . 'rss/?#', $_SERVER['REQUEST_URI'])) return;
+		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . 'rss/?#', $_SERVER['REQUEST_URI_DECODED'])) return;
 		$this->collectionNameFromSegment(2);
 
 		$this->system->shutdown = true;
 
 		if (!preg_match('#^' . preg_quote($this->collectionName) . '-feed\.rss$#', preg_replace(
 			'#^/rss/' . preg_quote($this->collectionName) . '/?#', '',
-			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+			parse_url($_SERVER['REQUEST_URI_DECODED'], PHP_URL_PATH)
 		))) {
 			throw new Exception('RSS URL mismatch');
 		}

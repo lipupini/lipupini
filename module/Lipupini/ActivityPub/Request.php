@@ -11,12 +11,12 @@ class Request extends Http {
 	use Collection\Trait\CollectionRequest;
 
 	public function initialize(): void {
-		if (!str_starts_with($_SERVER['REQUEST_URI'], $this->system->baseUriPath . 'ap/')) return;
+		if (!str_starts_with($_SERVER['REQUEST_URI_DECODED'], $this->system->baseUriPath . 'ap/')) return;
 		$this->collectionNameFromSegment(2);
 
 		$apRequestUri = preg_replace(
 			'#^/ap/' . preg_quote($this->collectionName) . '/?#', '',
-			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+			parse_url($_SERVER['REQUEST_URI_DECODED'], PHP_URL_PATH)
 		);
 
 		if (strpos($apRequestUri, '/')) {

@@ -17,7 +17,7 @@ class AudioWaveformRequest extends MediaProcessorRequest {
 		// If the URL has matched, we're going to shutdown after this module returns no matter what
 		$this->system->shutdown = true;
 
-		$waveformPath = rawurldecode($matches[1]);
+		$waveformPath = $matches[1];
 		$waveformExtension = $matches[3];
 		$audioPath = preg_replace('#\.' . $waveformExtension . '$#', '', $waveformPath);
 

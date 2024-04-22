@@ -23,15 +23,15 @@ class FolderRequest extends Http {
 
 	public function initialize(): void {
 		// URLs start with `/@` (but must be followed by something and something other than `/` or `?`)
-		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@(?!/|$)#', $_SERVER['REQUEST_URI'])) return;
+		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@(?!/|$)#', $_SERVER['REQUEST_URI_DECODED'])) return;
 		// To be considered a folder request, there must not be an extension
-		if (pathinfo(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), PATHINFO_EXTENSION)) return;
+		if (pathinfo($_SERVER['REQUEST_URI_DECODED'], PATHINFO_EXTENSION)) return;
 
 		$this->collectionNameFromSegment(1, '@');
 
 		$this->collectionFolder = preg_replace(
 			'#^/@' . preg_quote($this->collectionName) . '/?#', '',
-			parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)
+			$_SERVER['REQUEST_URI_DECODED']
 		);
 
 		(new Collection\Utility($this->system))->validateCollectionFolder($this->collectionName, $this->collectionFolder);

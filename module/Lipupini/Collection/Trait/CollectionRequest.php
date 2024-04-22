@@ -10,7 +10,7 @@ trait CollectionRequest {
 
 	public function collectionNameFromSegment(int $segmentIndex, string $prefix = '', string $baseUri = null) {
 		if (!$baseUri) $baseUri = $this->system->baseUriPath;
-		$uri = preg_replace('#^' . preg_quote($baseUri) . '#', '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+		$uri = preg_replace('#^' . preg_quote($baseUri) . '#', '', parse_url($_SERVER['REQUEST_URI_DECODED'], PHP_URL_PATH));
 		$segments = explode('/', $uri);
 		$segmentIndex--;
 		if (empty($segments[$segmentIndex])) return false;
@@ -24,7 +24,7 @@ trait CollectionRequest {
 		}
 
 		// Not sure if it is only the browser that will prevent this type of breach
-		if (str_contains($_SERVER['REQUEST_URI'], '..')) {
+		if (str_contains($_SERVER['REQUEST_URI_DECODED'], '..')) {
 			throw new Collection\Exception('Suspicious collection URL');
 		}
 

@@ -57,6 +57,10 @@ class State {
 	) {
 		session_start();
 
+		// `REQUEST_URI` comes in URL-encoded. Because Lipupini uses any filenames it can, it will need to be decoded.
+		// RegExp is use to filter the query string since `PHP_URL_PATH` can have trouble with special characters.
+		$_SERVER['REQUEST_URI_DECODED'] = preg_replace('#\?.*$#', '', rawurldecode($_SERVER['REQUEST_URI'] ?? ''));
+
 		if ($this->baseUri === 'http://dev.null/') {
 			throw new Exception('`baseUri` is required');
 		}

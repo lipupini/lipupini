@@ -7,13 +7,12 @@ use Module\Lipupini\Request\Incoming\Http;
 
 class ListRequest extends Http {
 	public array $collectionNames = [];
-
 	public string $pageTitle = '@';
 	public string $htmlHead = '<link rel="stylesheet" href="/css/CollectionList.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n";
 
 	public function initialize(): void {
 		// The URL path must be `/@` or `/@/`
-		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@/?$#', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH))) {
+		if (!preg_match('#^' . preg_quote($this->system->baseUriPath) . '@/?$#', parse_url($_SERVER['REQUEST_URI_DECODED'], PHP_URL_PATH))) {
 			return;
 		}
 

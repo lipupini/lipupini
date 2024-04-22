@@ -9,6 +9,10 @@ use Module\Lipupini\Encryption;
 $systemState = require(__DIR__ . '/../system/config/state.php');
 $collectionUtility = new Collection\Utility($systemState);
 
+if (empty($argv[1])) {
+	error('Missing action');
+}
+
 switch ($argv[1]) {
 	case 'determineFfmpegSupport' :
 		echo json_encode($collectionUtility->hasFfmpeg());
@@ -24,7 +28,6 @@ switch ($argv[1]) {
 			$collectionUtility->validateCollectionName($collectionName);
 		} catch (Collection\Exception $e) {
 			error([$e->getMessage()]);
-			exit(0);
 		}
 
 		$lipupiniPath = $systemState->dirCollection . '/' . $collectionName . '/.lipupini';
@@ -48,6 +51,8 @@ function error($errors) {
 		'result' => 'error',
 		'messages' => $errors,
 	]);
+	// Have to exit 0 or else the test will not see the error message
+	exit(0);
 }
 
 function analyzeCache(State $systemState, Collection\Utility $collectionUtility, string $collectionName) {
@@ -55,7 +60,6 @@ function analyzeCache(State $systemState, Collection\Utility $collectionUtility,
 		$collectionUtility->validateCollectionName($collectionName);
 	} catch (Collection\Exception $e) {
 		error([$e->getMessage()]);
-		exit(0);
 	}
 
 	try {
@@ -63,7 +67,6 @@ function analyzeCache(State $systemState, Collection\Utility $collectionUtility,
 		$collectionHashTable = getCollectionHashTableByMediaType($collectionUtility, $collectionFolder);
 	} catch (Exception $e) {
 		error([$e->getMessage()]);
-		exit(0);
 	}
 
 	try {
@@ -71,7 +74,6 @@ function analyzeCache(State $systemState, Collection\Utility $collectionUtility,
 		$lipupiniFolderHashTable = getLipupiniFolderHashTable($lipupiniFolder);
 	} catch (Exception $e) {
 		error([$e->getMessage()]);
-		exit(0);
 	}
 
 	$cache = new Collection\Cache($systemState, $collectionName);
@@ -80,7 +82,6 @@ function analyzeCache(State $systemState, Collection\Utility $collectionUtility,
 		$cacheFolderHashTable = getCacheFolderHashTable($collectionUtility, $cache->path());
 	} catch (Exception $e) {
 		error([$e->getMessage()]);
-		exit(0);
 	}
 
 	$errors = [];

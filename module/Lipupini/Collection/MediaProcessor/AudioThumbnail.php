@@ -13,7 +13,7 @@ class AudioThumbnail {
 			return false;
 		}
 
-		$thumbnailPath = $audioPath . '.png';
+		$thumbnailPath = $audioPath . '.jpg';
 		$thumbnailPathFull = $systemState->dirCollection . '/' . $collectionName . '/.lipupini/audio/thumbnail/' . $thumbnailPath;
 
 		// If there's no custom cover art (thumbnail) present, there's nothing to do

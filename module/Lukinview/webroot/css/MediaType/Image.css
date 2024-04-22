@@ -1,15 +1,8 @@
 #folder .grid .image-container {
-	aspect-ratio: 1;
-}
-#folder .grid .image-container img {
-	/* 1x1 pixel background image */
-	width: 100%;
-}
-#folder .grid .image-container > div {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
-	height: 100%;
+	aspect-ratio: 1;
 }
 #media-item {
 	text-align: center;

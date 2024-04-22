@@ -17,19 +17,19 @@ class TextRequest extends MediaProcessorRequest {
 		$this->system->shutdown = true;
 
 		$outputType = $matches[1];
-		$filePath = rawurldecode($matches[2]);
+		$filePath = $matches[2];
 		$extension = $matches[3];
 
 		if ($extension === 'html') {
 			if ($outputType !== 'html') {
-				throw new Exception('File path mismatch: ' . $_SERVER['REQUEST_URI']);
+				throw new Exception('File path mismatch: ' . $_SERVER['REQUEST_URI_DECODED']);
 			}
 			$mdFilePath = preg_replace('#\.html$#', '', $filePath);
 		} else {
 			if ($outputType !== 'markdown') {
-				throw new Exception('File path mismatch: ' . $_SERVER['REQUEST_URI']);
+				throw new Exception('File path mismatch: ' . $_SERVER['REQUEST_URI_DECODED']);
 			}
-			$mdFilePath = $_SERVER['REQUEST_URI'];
+			$mdFilePath = $_SERVER['REQUEST_URI_DECODED'];
 		}
 
 		$pathOriginal = $this->system->dirCollection . '/' . $this->collectionName . '/' . $mdFilePath;
