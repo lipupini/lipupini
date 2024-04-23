@@ -6,7 +6,7 @@ use Module\Lipupini\Exception;
 use Module\Lipupini\State;
 
 class A {
-	public static string $viewLanguage = 'english';
+	public static string $viewLanguage = 'en';
 	public static string $path = __DIR__;
 	private static array $_languageData = [];
 
