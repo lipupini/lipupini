@@ -84,17 +84,17 @@ class FolderRequest extends Request\Html {
 		$avatarUrlPath = Collection\MediaProcessor\Avatar::avatarUrlPath($this->system, $this->collectionName);
 		$this->pageImagePreviewUri = $avatarUrlPath ?? null;
 
+		$this->addScript('/lib/videojs/video.min.js');
+		$this->addStyle('/lib/videojs/video-js.min.css');
+		$this->addScript('/js/Audio.js');
+		$this->addScript('/js/AudioWaveformSeek.js');
+
 		$this->addStyle('/css/Global.css');
 		$this->addStyle('/css/Folder.css');
-		$this->addStyle('/lib/videojs/video-js.min.css');
 
 		foreach (array_keys($this->system->mediaType) as $mediaType) {
 			$this->addStyle('/css/MediaType/' . ucfirst($mediaType) . '.css');
 		}
-
-		$this->addScript('/lib/videojs/video.min.js');
-		$this->addScript('/js/Audio.js');
-		$this->addScript('/js/AudioWaveformSeek.js');
 
 		$this->preloadReady();
 
