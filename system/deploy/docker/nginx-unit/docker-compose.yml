@@ -1,0 +1,11 @@
+services:
+  lipupini:
+    build:
+      context: ../../../..
+      dockerfile: ./system/deploy/docker/nginx-unit/Dockerfile
+      tags:
+        - "dcc2/nginx-unit-lipupini:latest"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../../../../collection:/app/collection:rw

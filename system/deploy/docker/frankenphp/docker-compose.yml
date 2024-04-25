@@ -3,6 +3,8 @@ services:
     build:
       context: ../../../..
       dockerfile: ./system/deploy/docker/frankenphp/Dockerfile
+      tags:
+        - "dcc2/frankenphp-lipupini:latest"
     ports:
       - "80:80" # HTTP
       - "443:443" # HTTPS

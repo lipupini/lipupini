@@ -16,17 +16,23 @@ RUN adduser -D ${APPUSER}; \
 	# Give write access to /data/caddy and /config/caddy
 	chown -R ${APPUSER}:${APPUSER} /data/caddy && chown -R ${APPUSER}:${APPUSER} /config/caddy;
 
+# Add the app user to `xfs` group for volumes
+RUN addgroup ${APPUSER} xfs
+
 # Copy the application files inside the image
 COPY --chown=${APPUSER}:${APPUSER} ../../../../.. /app/
 
 # Custom PHP config
-RUN ln -sf /app/system/deploy/docker/frankenphp/php.ini $PHP_INI_DIR/php.ini
+RUN cp -f /app/system/deploy/docker/frankenphp/php.ini $PHP_INI_DIR/php.ini
 
 # Custom Caddy config
-RUN ln -sf /app/system/deploy/docker/frankenphp/Caddyfile /etc/caddy/Caddyfile
+RUN cp -f /app/system/deploy/docker/frankenphp/Caddyfile /etc/caddy/Caddyfile
 
 # Create a volume for collections
 VOLUME /app/collection
+
+# Default webserver root can be deleted
+RUN rm -r /app/public
 
 # Switch to the application user
 USER ${APPUSER}

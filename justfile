@@ -19,12 +19,12 @@ serve frontend='Lukinview' port='4000':
 # Build a Lipupini Docker image from `system/docker`
 docker-build type='frankenphp':
 	docker-compose --file system/deploy/docker/{{type}}/docker-compose.yml build
-	# docker build --tag lipupini-{{type}} --file system/deploy/docker/{{type}}/Dockerfile .
+	# docker build --tag lipupini/lipupini-{{type}}:latest --file system/deploy/docker/{{type}}/Dockerfile .
 
 # Run Docker container from a Lipupini Docker image
 docker-up type='frankenphp':
 	docker-compose --file system/deploy/docker/{{type}}/docker-compose.yml up
-	# docker run -it --rm --name lipupini-{{type}} lipupini-{{type}}
+	# docker run -it --rm --name lipupini/lipupini-{{type}}:latest lipupini-{{type}}
 
 test *args:
 	cd test && npx playwright test {{args}}
