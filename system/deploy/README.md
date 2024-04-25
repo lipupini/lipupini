@@ -18,7 +18,7 @@ Build and run the Docker image from the project directory using `docker-compose`
 # Start in the project root
 cd path/to/project/root
 # Open the system Docker directory
-cd system/docker
+cd system/deploy/docker/frankenphp
 # Build the image
 docker-compose up
 ```
