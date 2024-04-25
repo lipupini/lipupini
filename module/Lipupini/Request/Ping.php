@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Lipupini\Request\Outgoing;
+namespace Module\Lipupini\Request;
 
 class Ping {
 	public static function host(string $host) : bool {

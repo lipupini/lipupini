@@ -2,8 +2,8 @@
 
 namespace Module\Lipupini\ActivityPub;
 
+use Module\Lipupini\Request\Http;
 use Module\Lipupini\WebFinger;
-use Module\Lipupini\Request\Outgoing;
 
 class RemoteActor {
 	public array $cache = [];
@@ -106,7 +106,7 @@ class RemoteActor {
 
 	public function getProfileJson() {
 		return $this->cached('profile', function() {
-			return Outgoing\Http::get($this->profileUrl, ['Accept' => Request::$mimeType])['body'];
+			return Http::get($this->profileUrl, ['Accept' => Request::$mimeType])['body'];
 		});
 	}
 

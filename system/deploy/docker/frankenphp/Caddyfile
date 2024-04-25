@@ -1,0 +1,36 @@
+{
+	{$CADDY_GLOBAL_OPTIONS}
+
+	frankenphp {
+		#worker /path/to/your/worker.php
+		{$FRANKENPHP_CONFIG}
+	}
+
+	# Enables static caching
+	order php_server before file_server
+	order php before file_server
+
+	# Disable Caddy admin API
+	admin off
+}
+
+{$CADDY_EXTRA_CONFIG}
+
+{$SERVER_NAME:localhost} {
+	root * module/Lukinview/webroot/
+
+	# Output compression
+	encode br zstd gzip
+
+	{$CADDY_SERVER_EXTRA_DIRECTIVES}
+
+	# Static file serving
+	file_server
+
+	# Execute PHP files in the current directory and serve assets
+	php_server
+}
+
+# Refer to the Caddy docs for more information:
+# https://caddyserver.com/docs/caddyfile
+# https://github.com/dunglas/frankenphp/blob/fe7d69d01bcd9bc55e57aa972b0b4bf072ec2ef6/docs/config.md

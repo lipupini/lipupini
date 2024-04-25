@@ -14,7 +14,7 @@ RUN docker-php-ext-install gd curl
 
 RUN adduser -D app
 
-COPY --chown=app:app ../.. /app/
+COPY --chown=app:app ../../../../.. /app/
 VOLUME /app/collection
 
 USER app

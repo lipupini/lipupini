@@ -2,9 +2,9 @@
 
 namespace Module\Lipupini\WebFinger;
 
-use Module\Lipupini\Request\Incoming\Http;
+use Module\Lipupini\Request\Queued;
 
-class Request extends Http {
+class Request extends Queued {
 	public static string $mimeType = 'application/jrd+json';
 
 	public function initialize(): void {

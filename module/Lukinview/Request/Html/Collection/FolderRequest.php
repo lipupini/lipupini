@@ -1,11 +1,11 @@
 <?php
 
-namespace Module\Lipupini\Html\Collection;
+namespace Module\Lukinview\Request\Html\Collection;
 
 use Module\Lipupini\Collection;
-use Module\Lipupini\Request\Incoming\Http;
+use Module\Lipupini\Request;
 
-class FolderRequest extends Http {
+class FolderRequest extends Request\Html {
 	public array $collectionData = [];
 
 	protected string|null $nextUrl = null;
@@ -13,9 +13,7 @@ class FolderRequest extends Http {
 
 	use Collection\Trait\HasPaginatedCollectionData;
 
-	public string $pageTitle = '';
 	public string|null $pageImagePreviewUri = null;
-	public string $htmlHead = '';
 
 	public string $collectionFolder = '';
 
@@ -86,10 +84,20 @@ class FolderRequest extends Http {
 		$avatarUrlPath = Collection\MediaProcessor\Avatar::avatarUrlPath($this->system, $this->collectionName);
 		$this->pageImagePreviewUri = $avatarUrlPath ?? null;
 
-		$this->htmlHead .= '<link rel="stylesheet" href="/css/Folder.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n";
+		$this->addStyle('/css/Global.css');
+		$this->addStyle('/css/Folder.css');
+		$this->addStyle('/lib/videojs/video-js.min.css');
+
 		foreach (array_keys($this->system->mediaType) as $mediaType) {
-			$this->htmlHead .= '<link rel="stylesheet" href="/css/MediaType/' . htmlentities(ucfirst($mediaType)) . '.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n";
+			$this->addStyle('/css/MediaType/' . ucfirst($mediaType) . '.css');
 		}
+
+		$this->addScript('/lib/videojs/video.min.js');
+		$this->addScript('/js/Audio.js');
+		$this->addScript('/js/AudioWaveformSeek.js');
+
+		$this->preloadReady();
+
 		$this->htmlHead .= '<link rel="alternate" type="application/rss+xml" title="'
 				. htmlentities($this->collectionName .  '@' . $this->system->host) . '" href="'
 				. htmlentities($this->system->baseUri . 'rss/' . $this->collectionName . '/' . $this->collectionName . '-feed.rss')

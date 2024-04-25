@@ -2,12 +2,12 @@
 
 namespace Module\Lipupini\ActivityPub;
 
-use Module\Lipupini\Request\Incoming\Http;
+use Module\Lipupini\Request\Queued;
 use const Module\Lipupini\LIPUPINI_VERSION;
 
 // https://github.com/jhass/nodeinfo/blob/main/PROTOCOL.md
 
-class NodeInfoRequest extends Http {
+class NodeInfoRequest extends Queued {
 	public function initialize(): void {
 		if (!str_starts_with($_SERVER['REQUEST_URI_DECODED'], $this->system->baseUriPath . '.well-known/nodeinfo')) {
 			return;

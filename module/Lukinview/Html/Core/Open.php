@@ -1,6 +1,6 @@
 <?php
 use Module\Lipupini\L18n\A;
-A::$path = realpath(__DIR__ . '/../../');
+A::$path = realpath(__DIR__ . '/../../../Lukinview/');
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,7 +11,6 @@ A::$path = realpath(__DIR__ . '/../../');
 <meta property="og:image" content="<?php echo htmlentities($this->pageImagePreviewUri) ?>">
 <?php endif ?>
 <title><?php echo htmlentities($this->pageTitle) ?></title>
-<link rel="stylesheet" href="/css/Global.css?v=<?php echo FRONTEND_CACHE_VERSION ?>">
 <?php echo $this->htmlHead ?? '' ?>
 </head>
 <body>

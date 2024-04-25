@@ -1,8 +1,6 @@
 <?php
 
-namespace Module\Lipupini\Request\Outgoing;
-
-use Module\Lipupini\Request\Outgoing;
+namespace Module\Lipupini\Request;
 
 class Http {
 	public function __construct(public string $cacheDir) { }
@@ -41,7 +39,7 @@ class Http {
 	}
 
 	public static function sendSigned(string $keyId, string $privateKeyPem, string $inboxUrl, string $body, array $headers) {
-		$headers = Outgoing\Signature::sign(
+		$headers = Signature::sign(
 			$keyId,
 			$privateKeyPem,
 			$inboxUrl,

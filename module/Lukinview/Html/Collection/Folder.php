@@ -3,14 +3,8 @@
 use Module\Lipupini\Collection\Utility;
 use Module\Lipupini\L18n\A;
 
-$this->htmlHead .=
-	'<link rel="stylesheet" href="/lib/videojs/video-js.min.css">' . "\n" .
-	'<script src="/lib/videojs/video.min.js"></script>' . "\n"
-;
-
 $collectionUtility = new Utility($this->system);
-$mediaTypesByExtension = $collectionUtility->mediaTypesByExtension();
-$parentPathLastSegment = explode('/', $this->parentPath)[substr_count($this->parentPath, '/')];
+$parentPathLastSegment = explode('/', preg_replace('#\?.*$#', '', $this->parentPath))[substr_count($this->parentPath, '/')];
 
 require(__DIR__ . '/../Core/Open.php') ?>
 
@@ -27,7 +21,7 @@ require(__DIR__ . '/../Core/Open.php') ?>
 foreach ($this->collectionData as $filename => $item) :
 $extension = pathinfo($filename, PATHINFO_EXTENSION);
 if ($extension) :
-switch ($mediaTypesByExtension[$extension]['mediaType']) :
+switch ($item['mediaType']) :
 case 'audio' :
 	$style = !empty($item['thumbnail']) ? ' style="background-image:url(\'' .  $collectionUtility::urlEncodeUrl($item['thumbnail'])  . '\')"' : '';
 ?>
@@ -43,7 +37,7 @@ case 'audio' :
 	<div class="waveform" style="background-image:url('<?php echo $collectionUtility::urlEncodeUrl($item['waveform'] ?? '') ?>')">
 		<div class="elapsed hidden"></div>
 		<audio controls="controls" preload="metadata">
-			<source src="<?php echo $collectionUtility::urlEncodeUrl($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $filename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+			<source src="<?php echo $collectionUtility::urlEncodeUrl($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $filename) ?>" type="<?php echo htmlentities($item['mimeType']) ?>">
 		</audio>
 	</div>
 </div>
@@ -51,15 +45,15 @@ case 'audio' :
 case 'image' : ?>
 
 <a
-	href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>.html"
 	class="image-container"
+	href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>.html"
 	title="<?php echo htmlentities($item['caption']) ?>"
 	style="background-image:url('<?php echo $collectionUtility::urlEncodeUrl($collectionUtility->assetUrl($this->collectionName, 'image/thumbnail', $filename)) ?>')"
 ></a>
 <?php break;
 case 'text' : ?>
 
-<a href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>.html" class="text-container">
+<a class="text-container" href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>.html">
 	<div><?php echo htmlentities($item['caption']) ?></div>
 </a>
 <?php break;
@@ -68,7 +62,7 @@ case 'video' : ?>
 <div class="video-container" title="<?php echo htmlentities($item['caption']) ?>">
 	<div class="caption"><a href="/@<?php echo $collectionUtility::urlEncodeUrl($this->collectionName . '/' . $filename) ?>.html"><?php echo htmlentities($item['caption']) ?></a></div>
 	<video class="video-js" controls="" preload="metadata" loop="" poster="<?php echo $collectionUtility::urlEncodeUrl($item['thumbnail'] ?? '') ?>" data-setup="{}">
-		<source src="<?php echo $collectionUtility::urlEncodeUrl($this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $filename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+		<source src="<?php echo $collectionUtility::urlEncodeUrl($this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $filename) ?>" type="<?php echo htmlentities($item['mimeType']) ?>">
 	</video>
 </div>
 <?php break;
@@ -82,8 +76,6 @@ else : ?>
 endforeach ?>
 
 </main>
-<script src="/js/AudioVideo.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
-<script src="/js/AudioWaveformSeek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
 <footer>
 	<nav>
 		<div class="pagination previous"><a href="<?php echo $this->prevUrl ? htmlentities($this->prevUrl) : 'javascript:void(0)' ?>" class="button" title="<?php echo A::z('Previous') ?>"<?php if (!$this->prevUrl) : ?> disabled<?php endif ?>><img src="/img/arrow-left-bold.svg" alt="<?php echo A::z('Previous') ?>"></a></div>

@@ -1,0 +1,18 @@
+services:
+  lipupini:
+    build:
+      context: ../../../..
+      dockerfile: ./system/deploy/docker/frankenphp/Dockerfile
+    ports:
+      - "80:80" # HTTP
+      - "443:443" # HTTPS
+      - "443:443/udp" # HTTP/3
+    restart: unless-stopped
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ../../../../collection:/app/collection:rw
+
+volumes:
+  caddy_data:
+  caddy_config:

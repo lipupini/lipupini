@@ -4,22 +4,11 @@ use Module\Lipupini\Collection;
 use Module\Lipupini\L18n\A;
 
 $collectionUtility = new Collection\Utility($this->system);
-$mediaTypesByExtension = $collectionUtility->mediaTypesByExtension();
-$extension = pathinfo($this->collectionFilePath, PATHINFO_EXTENSION);
-
-if ($mediaTypesByExtension[$extension]['mediaType'] === 'video') {
-	$this->htmlHead .=
-		'<link rel="stylesheet" href="/lib/videojs/video-js.min.css">' . "\n" .
-		'<script src="/lib/videojs/video.min.js"></script>' . "\n"
-	;
-}
-
-$urlEncodedFilename = implode('/', array_map('rawurlencode', explode('/', $this->collectionFilePath)));
-$parentPathLastSegment = explode('/', $this->parentPath)[substr_count($this->parentPath, '/')];
+$parentPathLastSegment = explode('/', preg_replace('#\?.*$#', '', $this->parentPath))[substr_count($this->parentPath, '/')];
 
 require(__DIR__ . '/../Core/Open.php') ?>
 
-<div id="media-item" class="<?php echo htmlentities($this->mediaType) ?>-item">
+<div id="media-item" class="<?php echo htmlentities($this->fileData['mediaType']) ?>-item">
 <header>
 	<nav>
 		<div class="pagination parent"><a href="/<?php echo htmlentities($this->parentPath) ?>" class="button" title="<?php echo $this->parentPath ? htmlentities($parentPathLastSegment) : A::z('Homepage') ?>"><img src="/img/arrow-up-bold.svg" alt="<?php echo $this->parentPath ? htmlentities($parentPathLastSegment) : A::z('Homepage') ?>"></a></div>
@@ -27,43 +16,43 @@ require(__DIR__ . '/../Core/Open.php') ?>
 </header>
 <main>
 <?php
-switch ($mediaTypesByExtension[$extension]['mediaType']) :
+switch ($this->fileData['mediaType']) :
 case 'audio' : ?>
 
 <div class="audio-container">
 	<div class="caption"><span><?php echo htmlentities($this->fileData['caption']) ?></span></div>
 	<audio controls="controls" preload="metadata">
-		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/audio/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+		<source src="<?php echo $collectionUtility::urlEncodeUrl($collectionUtility->assetUrl($this->collectionName, 'audio', $this->collectionFilePath)) ?>" type="<?php echo htmlentities($this->fileData['mimeType']) ?>">
 	</audio>
 	<div class="waveform" style="background-image:url('<?php echo $collectionUtility::urlEncodeUrl($this->fileData['waveform'] ?? '') ?>')">
 		<div class="elapsed hidden"></div>
 	</div>
 	<?php if (!empty($this->fileData['thumbnail'])) : ?>
 
-	<img src="<?php echo htmlentities($this->fileData['thumbnail']) ?>">
+	<img src="<?php echo $collectionUtility::urlEncodeUrl($this->fileData['thumbnail']) ?>">
 	<?php endif ?>
 
 </div>
-<script src="/js/AudioVideo.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
-<script src="/js/AudioWaveformSeek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>"></script>
+<script src="/js/AudioVideo.js?v=<?php echo FRONTEND_CACHE_VERSION ?>" async></script>
+<script src="/js/AudioWaveformSeek.js?v=<?php echo FRONTEND_CACHE_VERSION ?>" async></script>
 <?php break;
 case 'image' : ?>
 
-<a href="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/image/large/' . $urlEncodedFilename) ?>" target="_blank" class="image-container">
-	<img src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/image/medium/' . $urlEncodedFilename) ?>" title="<?php echo htmlentities($this->fileData['caption']) ?>">
+<a href="<?php echo $collectionUtility::urlEncodeUrl($collectionUtility->assetUrl($this->collectionName, 'image/large', $this->collectionFilePath)) ?>" target="_blank" class="image-container">
+	<img src="<?php echo $collectionUtility::urlEncodeUrl($collectionUtility->assetUrl($this->collectionName, 'image/medium', $this->collectionFilePath)) ?>" title="<?php echo htmlentities($this->fileData['caption']) ?>">
 </a>
 <?php break;
 case 'text' : ?>
 
 <div class="text-container">
-	<object type="text/html" data="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/text/html/' . $urlEncodedFilename) ?>.html"></object>
+	<object type="text/html" data="<?php echo $collectionUtility::urlEncodeUrl($collectionUtility->assetUrl( $this->collectionName, 'text/html', $this->collectionFilePath)) ?>.html"></object>
 </div>
 <?php break;
 case 'video' : ?>
 
 <div class="video-container">
-	<video class="video-js" controls="" preload="metadata" loop="" title="<?php echo htmlentities($this->fileData['caption']) ?>" poster="<?php echo htmlentities($this->fileData['thumbnail'] ?? '') ?>" data-setup="{}">
-		<source src="<?php echo htmlentities($this->system->staticMediaBaseUri . $this->collectionName . '/video/' . $urlEncodedFilename) ?>" type="<?php echo htmlentities($mediaTypesByExtension[$extension]['mimeType']) ?>">
+	<video class="video-js" controls loop preload="metadata" title="<?php echo htmlentities($this->fileData['caption']) ?>" poster="<?php echo $collectionUtility::urlEncodeUrl($this->fileData['thumbnail'] ?? '') ?>" data-setup="{}">
+		<source src="<?php echo $collectionUtility::urlEncodeUrl($collectionUtility->assetUrl($this->collectionName, 'video', $this->collectionFilePath)) ?>" type="<?php echo htmlentities($this->fileData['mimeType']) ?>">
 	</video>
 </div>
 <?php break;

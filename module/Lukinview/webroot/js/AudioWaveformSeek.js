@@ -32,7 +32,7 @@ document.querySelectorAll('.audio-container').forEach(container => {
 		}
 		trackingMouseMove = false
 		if (e.type === 'touchcancel') return
-		audio.currentTime = ((parseFloat(elapsed.style.width || 0)) / 100) * (audio.duration || 0)
+		audio.currentTime = ((parseFloat(elapsed.style.width || '0')) / 100) * (audio.duration || 0)
 		elapsed.style.transitionDuration = transitionDuration
 	}
 

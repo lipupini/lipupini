@@ -6,7 +6,7 @@ This document outlines deployment processes and other DevOps concerns.
 
 [Installing System Dependencies](#installing-system-dependencies)
 
-[Using PHP's Built-in Webserver](../README.md#starting-the-php-webserver)
+[Using PHP's Built-in Webserver](../../README.md#starting-the-php-webserver)
 
 ---
 
@@ -34,7 +34,7 @@ just docker-up
 
 Lipupini should then be accessible at `http://localhost:4000`
 
-A `docker-build` command is also available in the [justfile](../justfile).
+A `docker-build` command is also available in the [justfile](../../justfile).
 
 ## System Dependencies
 

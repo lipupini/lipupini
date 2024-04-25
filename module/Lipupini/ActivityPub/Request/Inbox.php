@@ -5,9 +5,8 @@ namespace Module\Lipupini\ActivityPub\Request;
 use Module\Lipupini\ActivityPub\Exception;
 use Module\Lipupini\ActivityPub\RemoteActor;
 use Module\Lipupini\ActivityPub\Request;
-use Module\Lipupini\Collection;
-use Module\Lipupini\Request\Incoming;
-use Module\Lipupini\Request\Outgoing;
+use Module\Lipupini\Request\Http;
+use Module\Lipupini\Request\Signature;
 
 class Inbox extends Request {
 	public function initialize(): void {
@@ -51,7 +50,7 @@ class Inbox extends Request {
 			cacheDir: __DIR__ . '/../cache'
 		);
 
-		if (!(new Incoming\Signature)->verify(
+		if (!(new Signature)->verify(
 			$remoteActor->getPublicKeyPem(),
 			$_SERVER,
 			parse_url($_SERVER['REQUEST_URI_DECODED'], PHP_URL_PATH), // Path without query string
@@ -103,7 +102,7 @@ class Inbox extends Request {
 
 		$activityJson = json_encode($jsonData, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
-		Outgoing\Http::sendSigned(
+		Http::sendSigned(
 			keyId: $this->system->baseUri . 'ap/' . $this->collectionName . '/profile#main-key',
 			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $this->collectionName . '/.lipupini/rsakey.private'),
 			inboxUrl: $remoteActor->getInboxUrl(),

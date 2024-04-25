@@ -3,7 +3,8 @@
 namespace Module\Lipupini\ActivityPub;
 
 use Module\Lipupini\Collection;
-use Module\Lipupini\Request\Outgoing;
+use Module\Lipupini\Request\Http;
+use Module\Lipupini\Request\Ping;
 use Module\Lipupini\State;
 
 class Follow {
@@ -33,7 +34,7 @@ class Follow {
 		// Ideally it will always be possible to test between localhost ports
 		$exploded = explode('@', $remote);
 
-		if (!Outgoing\Ping::host($exploded[1])) {
+		if (!Ping::host($exploded[1])) {
 			throw new Exception('Could not ping remote host @ ' . $exploded[1] . ', giving up', 400);
 		}
 
@@ -61,7 +62,7 @@ class Follow {
 
 		$activityJson = json_encode($followActivity, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
-		Outgoing\Http::sendSigned(
+		Http::sendSigned(
 			keyId: $this->system->baseUri . 'ap/' . $this->collectionName . '/profile#main-key',
 			privateKeyPem: file_get_contents($this->system->dirCollection . '/' . $this->collectionName . '/.lipupini/rsakey.private'),
 			inboxUrl: $remoteActor->getInboxUrl(),

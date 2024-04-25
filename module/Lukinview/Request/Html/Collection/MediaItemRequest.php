@@ -1,18 +1,16 @@
 <?php
 
-namespace Module\Lipupini\Html\Collection;
+namespace Module\Lukinview\Request\Html\Collection;
 
 use Module\Lipupini\Collection;
-use Module\Lipupini\Request\Incoming\Http;
+use Module\Lipupini\Exception;
+use Module\Lipupini\Request;
 
-class MediaItemRequest extends Http {
-	public string $pageTitle = '';
-	public string $htmlHead = '';
+class MediaItemRequest extends Request\Html {
 	public string|null $pageImagePreviewUri = null;
 	private array $fileData = [];
 	private string|null $parentPath = null;
 	public string|null $collectionFilePath = null;
-	public string|null $mediaType = null;
 
 	use Collection\Trait\CollectionRequest;
 
@@ -67,16 +65,53 @@ class MediaItemRequest extends Http {
 		if (($this->fileData['visibility'] ?? null) === 'hidden') {
 			return false;
 		}
-		$this->mediaType = $collectionUtility->mediaTypesByExtension()[pathinfo($this->collectionFilePath, PATHINFO_EXTENSION)]['mediaType'];
-		$this->pageImagePreviewUri = $collectionUtility->assetUrl($this->collectionName, $this->mediaType . '/thumbnail', $this->collectionFilePath, true);
+
+		$this->pageImagePreviewUri = $collectionUtility->thumbnailUrl($this->collectionName, $this->fileData['mediaType'] . '/thumbnail', $this->collectionFilePath, true);
 		$parentFolder = dirname($this->collectionFilePath);
 		$this->parentPath = '@' . $this->collectionName . ($parentFolder !== '.' ? '/' . $parentFolder : '');
 		if (!empty($_SERVER['HTTP_REFERER']) && preg_match('#' . preg_quote($this->parentPath) . '\?page=([0-9]+)$#', $_SERVER['HTTP_REFERER'], $matches)) {
 			$this->parentPath .= '?page=' . $matches[1];
 		}
-		$this->htmlHead =
-			'<link rel="stylesheet" href="/css/MediaItem.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n" .
-			'<link rel="stylesheet" href="/css/MediaType/' . htmlentities(ucfirst($this->mediaType)) . '.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n";
+
+		$this->addStyle('/css/Global.css');
+
+		switch ($this->fileData['mediaType']) {
+			case 'audio':
+				$this->preloadMedia($collectionUtility->assetUrl($this->collectionName, 'audio', $this->collectionFilePath), $this->fileData['mediaType']);
+				if (!empty($this->fileData['thumbnail'])) {
+					$this->preloadMedia($this->fileData['thumbnail'], 'image');
+				}
+				if (!empty($this->fileData['waveform'])) {
+					$this->preloadMedia($this->fileData['waveform'], 'image');
+					$this->addScript('/js/AudioWaveformSeek.js');
+				}
+				$this->addScript('/js/Audio.js');
+				break;
+			case 'image':
+				$this->preloadMedia($collectionUtility->assetUrl($this->collectionName, 'image/medium', $this->collectionFilePath), $this->fileData['mediaType']);
+				break;
+			case 'text':
+				$this->preloadMedia($collectionUtility->assetUrl($this->collectionName, 'text/html', $this->collectionFilePath), $this->fileData['mediaType']);
+				if (!empty($this->fileData['thumbnail'])) {
+					$this->preloadMedia($this->fileData['thumbnail'], 'image');
+				}
+				break;
+			case 'video':
+				$this->preloadMedia($collectionUtility->assetUrl($this->collectionName, 'video', $this->collectionFilePath), $this->fileData['mediaType']);
+				if (!empty($this->fileData['thumbnail'])) {
+					$this->preloadMedia($this->fileData['thumbnail'], 'image');
+				}
+				$this->addStyle('/lib/videojs/video-js.min.css');
+				$this->addScript('/lib/videojs/video.min.js');
+				break;
+			default:
+				throw new Exception('Could not determine `mediaType');
+		}
+
+		$this->addStyle('/css/MediaItem.css');
+		$this->addStyle('/css/MediaType/' . htmlentities(ucfirst($this->fileData['mediaType'])) . '.css');
+
+		$this->preloadReady();
 
 		return true;
 	}

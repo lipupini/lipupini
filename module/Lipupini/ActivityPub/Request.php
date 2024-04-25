@@ -3,9 +3,9 @@
 namespace Module\Lipupini\ActivityPub;
 
 use Module\Lipupini\Collection;
-use Module\Lipupini\Request\Incoming\Http;
+use module\Lipupini\Request\Queued;
 
-class Request extends Http {
+class Request extends Queued {
 	public static string $mimeType = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
 
 	use Collection\Trait\CollectionRequest;

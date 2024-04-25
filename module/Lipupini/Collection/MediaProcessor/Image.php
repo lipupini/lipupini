@@ -32,7 +32,7 @@ class Image {
 		while (!feof($fh) && $totalCount < 2) {
 			// Read 100kb at a time and append it to the remaining chunk.
 			$chunk .= fread($fh, 1024 * 100);
-			$count = preg_match_all('#\x00\x21\xF9\x04.{4}\x00(\x2C|\x21)#s', $chunk, $matches);
+			$count = preg_match_all('#\x00\x21\xF9\x04.{4}\x00[\x2C|\x21]#s', $chunk, $matches);
 			$totalCount += $count;
 
 			// Execute this block only if we found at least one match,

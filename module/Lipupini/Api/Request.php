@@ -3,9 +3,9 @@
 namespace Module\Lipupini\Api;
 
 use Module\Lipupini\Collection;
-use Module\Lipupini\Request\Incoming\Http;
+use Module\Lipupini\Request\Queued;
 
-class Request extends Http {
+class Request extends Queued {
 	public array $collectionData = [];
 
 	use Collection\Trait\HasPaginatedCollectionData;
@@ -90,19 +90,19 @@ class Request extends Http {
 		switch ($return['type']) {
 			case 'image' :
 				foreach (array_keys($this->system->mediaSize) as $mediaSize) {
-					$return[$mediaSize] = $this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/' . $mediaSize . '/' . $filePath;
+					$return[$mediaSize] = $collectionUtility->assetUrl($this->collectionName, $return['type'] . '/' . $mediaSize, $filePath);
 				}
 				break;
 
 			case 'audio' :
-				$return['url'] = $this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/' . $filePath;
-				$return['thumbnail'] = $collectionUtility->assetUrl($this->collectionName, $return['type'] . '/thumbnail', $filePath);
-				$return['waveform'] = $collectionUtility->assetUrl($this->collectionName, $return['type'] . '/waveform', $filePath);
+				$return['url'] = $collectionUtility->assetUrl($this->collectionName, $return['type'], $filePath);
+				$return['thumbnail'] = $collectionUtility->thumbnailUrl($this->collectionName, $return['type'] . '/thumbnail', $filePath);
+				$return['waveform'] = $collectionUtility->waveformUrl($this->collectionName, $return['type'] . '/waveform', $filePath);
 				break;
 
 			case 'video' :
-				$return['url'] = $this->system->staticMediaBaseUri . $this->collectionName . '/' . $return['type'] . '/' . $filePath;
-				$return['thumbnail'] = $collectionUtility->assetUrl($this->collectionName, $return['type'] . '/thumbnail', $filePath);
+				$return['url'] = $collectionUtility->assetUrl($this->collectionName, $return['type'], $filePath);
+				$return['thumbnail'] = $collectionUtility->thumbnailUrl($this->collectionName, $return['type'] . '/thumbnail', $filePath);
 				break;
 		}
 

@@ -1,3 +1,18 @@
+.image-container {
+	display: inline-block;
+	position: relative;
+}
+.image-container:before {
+	content: '';
+	background-image: url('/img/loading.gif') !important;
+	background-repeat: no-repeat;
+	background-position: center center;
+	width: 100%;
+	height: 100%;
+	display: block;
+	position: absolute;
+	z-index: -1;
+}
 #folder .grid .image-container {
 	background-repeat: no-repeat;
 	background-position: center;

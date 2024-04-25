@@ -32,6 +32,8 @@ class Utility {
 			throw new Exception('`$collectionFolder` should be a directory, not a file');
 		}
 
+		$mediaTypesByExtension = $this->mediaTypesByExtension();
+
 		$return = [];
 		$filesJsonPath = $collectionRootPath . '/.lipupini/files.json';
 		$skipFiles = [];
@@ -40,29 +42,30 @@ class Utility {
 			// Grab the media file data from `files.json` into an array
 			$collectionFilesJsonData = json_decode(file_get_contents($filesJsonPath), true);
 			// Process collection data first, since it can determine the display order
-			foreach ($collectionFilesJsonData as $filename => $fileData) {
+			foreach ($collectionFilesJsonData as $filePath => $fileData) {
 				// If we are getting data from a collection subfolder, filter out other directories
 				if ($collectionFolder) {
-					if (!str_starts_with($filename, $collectionFolder) || $filename === $collectionFolder) {
+					if (!str_starts_with($filePath, $collectionFolder) || $filePath === $collectionFolder) {
 						continue;
 					}
 				// If we are getting data from a collection root folder, filter out any subdirectories
-				} else if (pathinfo($filename, PATHINFO_DIRNAME) !== '.') {
+				} else if (pathinfo($filePath, PATHINFO_DIRNAME) !== '.') {
 					continue;
 				}
 				// If the file is set to be hidden or unlisted, add it to the `$skipFiles` array
 				if (in_array($fileData['visibility'] ?? null, ['hidden', 'unlisted'], true)) {
-					$skipFiles[] = $filename;
+					$skipFiles[] = $filePath;
 					// Don't add file to return array if we are not including hidden files
 					if (!$includeHidden) {
 						continue;
 					}
 				}
-				if (!file_exists($collectionRootPath . '/' . $filename)) {
-					throw new Exception('Could not find file for entry in `' . $collectionName . '/.lipupini/files.json`: ' . $filename);
+				if (!file_exists($collectionRootPath . '/' . $filePath)) {
+					throw new Exception('Could not find file for entry in `' . $collectionName . '/.lipupini/files.json`: ' . $filePath);
 				}
+				$extension = pathinfo($filePath, PATHINFO_EXTENSION);
 				// Add the file's data to the return array
-				$return[$filename] = $fileData;
+				$return[$filePath] = $fileData + ($extension ? $mediaTypesByExtension[$extension] : ['mediaType' => 'folder']);
 			}
 		}
 
@@ -82,8 +85,9 @@ class Utility {
 			if (array_key_exists($filePath, $return)) {
 				continue;
 			}
-			// Initialize media file's data to empty array since it doesn't have an entry in `files.json`
-			$return[$filePath] = [];
+			$extension = pathinfo($filePath, PATHINFO_EXTENSION);
+			// Initialize media file's data with basic info since it doesn't have an entry in `files.json`
+			$return[$filePath] = $extension ? $mediaTypesByExtension[$extension] : ['mediaType' => 'folder'];
 		}
 
 		// Process thumbnails
@@ -111,11 +115,11 @@ class Utility {
 					$waveformFile = $collectionRootPath . '/.lipupini/' . $mediaType . '/waveform/' . $mediaFilePath . '.png';
 					// If the waveform file doesn't exist yet, we might be generating it with `ffmpeg`
 					if (file_exists($waveformFile) || $this->system->useFfmpeg) {
-						$return[$mediaFilePath]['waveform'] = $this->assetUrl($collectionName, $mediaType . '/waveform', $mediaFilePath);
+						$return[$mediaFilePath]['waveform'] = $this->waveformUrl($collectionName, $mediaType . '/waveform', $mediaFilePath);
 					}
 					// The thumbnail file must exist to use it
 					if (file_exists($thumbnailFile)) {
-						$return[$mediaFilePath]['thumbnail'] = $this->assetUrl($collectionName, $mediaType . '/thumbnail', $mediaFilePath);
+						$return[$mediaFilePath]['thumbnail'] = $this->thumbnailUrl($collectionName, $mediaType . '/thumbnail', $mediaFilePath);
 					}
 					break;
 
@@ -127,14 +131,14 @@ class Utility {
 				case 'text':
 					// The thumbnail file must exist to use it
 					if (file_exists($thumbnailFile)) {
-						$return[$mediaFilePath]['thumbnail'] = $this->assetUrl($collectionName, $mediaType . '/thumbnail', $mediaFilePath);
+						$return[$mediaFilePath]['thumbnail'] = $this->thumbnailUrl($collectionName, $mediaType . '/thumbnail', $mediaFilePath);
 					}
 					break;
 
 				case 'video':
 					// If `useFfmpeg` is not enabled and the thumbnail does not already exist, then skip it because we won't try to create it in this case
 					if (file_exists($thumbnailFile) || $this->system->useFfmpeg) {
-						$return[$mediaFilePath]['thumbnail'] = $this->assetUrl($collectionName, $mediaType . '/thumbnail', $mediaFilePath);
+						$return[$mediaFilePath]['thumbnail'] = $this->thumbnailUrl($collectionName, $mediaType . '/thumbnail', $mediaFilePath);
 					}
 					break;
 			}
@@ -189,15 +193,19 @@ class Utility {
 	}
 
 	public function assetUrl(string $collectionName, string $asset, string $collectionFilePath, bool $mustExist = false): string {
-		$path = $collectionName . '/' . $asset . '/' . ltrim($collectionFilePath, '/')
-			. (str_starts_with($asset, 'image') ? '' : '.jpg')
-		;
+		$path = $collectionName . '/' . $asset . '/' . ltrim($collectionFilePath, '/');
 		if ($mustExist && !file_exists((new Cache($this->system, $collectionName))->path() . $path)) {
 			return '';
 		}
-		return $this->system->staticMediaBaseUri
-			. $collectionName . '/' . $asset . '/' . ltrim($collectionFilePath, '/')
-			. (str_starts_with($asset, 'image') ? '' : '.jpg');
+		return $this->system->staticMediaBaseUri . $collectionName . '/' . $asset . '/' . ltrim($collectionFilePath, '/');
+	}
+
+	public function thumbnailUrl(string $collectionName, string $asset, string $collectionFilePath, bool $mustExist = false): string {
+		return $this->assetUrl($collectionName, $asset, $collectionFilePath . '.jpg', $mustExist);
+	}
+
+	public function waveformUrl(string $collectionName, string $asset, string $collectionFilePath, bool $mustExist = false): string {
+		return $this->assetUrl($collectionName, $asset, $collectionFilePath . '.png', $mustExist);
 	}
 
 	// https://stackoverflow.com/q/7973790

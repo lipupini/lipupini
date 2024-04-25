@@ -3,9 +3,9 @@
 namespace Module\Lipupini\Rss;
 
 use Module\Lipupini\Collection;
-use Module\Lipupini\Request\Incoming\Http;
+use Module\Lipupini\Request\Queued;
 
-class Request extends Http {
+class Request extends Queued {
 	public string $collectionName;
 	use Collection\Trait\CollectionRequest;
 

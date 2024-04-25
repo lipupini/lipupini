@@ -1,14 +1,12 @@
 <?php
 
-namespace Module\Lipupini\Html\Collection;
+namespace Module\Lukinview\Request\Html\Collection;
 
 use Module\Lipupini\Collection;
-use Module\Lipupini\Request\Incoming\Http;
+use Module\Lipupini\Request;
 
-class ListRequest extends Http {
+class ListRequest extends Request\Html {
 	public array $collectionNames = [];
-	public string $pageTitle = '@';
-	public string $htmlHead = '<link rel="stylesheet" href="/css/CollectionList.css?v=' . FRONTEND_CACHE_VERSION . '">' . "\n";
 
 	public function initialize(): void {
 		// The URL path must be `/@` or `/@/`
@@ -16,8 +14,10 @@ class ListRequest extends Http {
 			return;
 		}
 
+		$this->pageTitle = '@';
 		$this->collectionNames = (new Collection\Utility($this->system))->allCollectionFolders();
-
+		$this->addStyle('/css/Global.css');
+		$this->addStyle('/css/CollectionList.css');
 		$this->renderHtml();
 		$this->system->shutdown = true;
 	}

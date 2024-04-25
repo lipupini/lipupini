@@ -3,10 +3,10 @@
 namespace Module\Lipupini\Collection\MediaProcessor\Request;
 
 use Module\Lipupini\Collection\Trait\CollectionRequest;
-use Module\Lipupini\Request\Incoming\Http;
+use Module\Lipupini\Request\Queued;
 use Module\Lipupini\State;
 
-abstract class MediaProcessorRequest extends Http {
+abstract class MediaProcessorRequest extends Queued {
 	use CollectionRequest;
 
 	public static function relativeStaticCachePath(State $systemState) {

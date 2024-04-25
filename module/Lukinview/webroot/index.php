@@ -8,6 +8,6 @@ $projectRootDir = realpath(__DIR__ . '/../../../');
 /** @var State $systemState */
 $systemState = require($projectRootDir . '/system/config/state.php');
 
-return (new Request\Incoming\Queue(
+return (new Request\Queue(
 	$systemState
 ))->render();
