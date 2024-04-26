@@ -49,6 +49,15 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 
 ## Features
 
+### Some aspects that make Lipupini unique
+
+- Collections are completely portable on the file system.
+- There is no database needed. Metadata can optionally be stored in JSON files contained within collections.
+- JavaScript can be disabled and the default frontend module will still display media.
+- Media files are added via file transfer directly into the collection folder. [Lots of apps](collection/README.md#vision) can already be used for managing Lipupini collections.
+
+### More
+
 - Support for the following media file formats: AVIF, FLAC, GIF, JPG, PNG, M4A, MP3, MP4, Markdown, OGG Vorbis
 - Allows subscribing to your content collection via RSS2.0.
 - Search Lipupini accounts from other Fediverse platforms via the ActivityPub protocol.
