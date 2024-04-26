@@ -3,7 +3,7 @@
 namespace Module\Lipupini\ActivityPub;
 
 use Module\Lipupini\Collection;
-use module\Lipupini\Request\Queued;
+use Module\Lipupini\Request\Queued;
 
 class Request extends Queued {
 	public static string $mimeType = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
