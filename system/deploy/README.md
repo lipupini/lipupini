@@ -12,7 +12,9 @@ This document outlines deployment processes and other DevOps concerns.
 
 ## Deploying with Docker
 
-Build and run the Docker image from the project directory using `docker-compose`:
+There are multiple Docker patterns shipped with Lipupini. These are works in progress with no particular deployment goals yet. The official demo runs on a shared PHP server. Please feel free to contribute to these Docker patterns.
+
+Build and run a Docker image from the project directory using `docker-compose`, for example FrankenPHP:
 
 ```shell
 # Start in the project root
@@ -32,7 +34,9 @@ cd path/to/project/root
 just docker-up
 ```
 
-Lipupini should then be accessible at `http://localhost:4000`
+Lipupini should then be accessible at `https://localhost` (with cert warning from `localhost`, see [FrankenPHP](https://frankenphp.dev) documentation for more info).
+
+HTTP-only Docker setups designed for proxying will often default to port 8080.
 
 A `docker-build` command is also available in the [justfile](../../justfile).
 

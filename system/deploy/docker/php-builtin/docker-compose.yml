@@ -6,7 +6,7 @@ services:
       tags:
         - "dcc2/php-builtin-lipupini:latest"
     ports:
-      - "80:80" # HTTP
+      - "8080:8080" # HTTP
     restart: unless-stopped
     volumes:
       - ../../../collection:/app/collection:rw

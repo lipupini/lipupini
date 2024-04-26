@@ -14,12 +14,8 @@ RUN apk add --no-cache zlib-dev libpng-dev libjpeg-turbo-dev libavif-dev curl-de
 RUN docker-php-ext-configure gd --with-jpeg --with-avif
 RUN docker-php-ext-install gd curl
 
-RUN adduser -D app
-
-COPY --chown=app:app ../../../../.. /app/
+COPY ../../../../.. /app/
 VOLUME /app/collection
-
-USER app
 
 RUN cd /app/module/Lipupini && composer install --no-interaction --no-dev --prefer-dist
 

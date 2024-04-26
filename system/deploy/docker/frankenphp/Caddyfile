@@ -2,7 +2,6 @@
 	{$CADDY_GLOBAL_OPTIONS}
 
 	frankenphp {
-		#worker /path/to/your/worker.php
 		{$FRANKENPHP_CONFIG}
 	}
 
@@ -17,7 +16,7 @@
 {$CADDY_EXTRA_CONFIG}
 
 {$SERVER_NAME:localhost} {
-	root * module/Lukinview/webroot/
+	root * /app/module/Lukinview/webroot/
 
 	# Output compression
 	encode br zstd gzip
