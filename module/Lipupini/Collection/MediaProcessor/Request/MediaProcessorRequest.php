@@ -18,6 +18,9 @@ abstract class MediaProcessorRequest extends Queued {
 			return;
 		}
 
+		$expiresOffset = 86400; // 1 day
+		header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expiresOffset) . ' GMT');
+		header('Cache-Control: public, max-age=' . $expiresOffset);
 		header('Content-type: ' . $mimeType);
 		// With the possibility of very large files, and even though a static file is supposed to be served after caching,
 		// we are not using the `$this->system->responseContent` option here and going with `readfile` for media

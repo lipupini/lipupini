@@ -193,15 +193,18 @@ class Utility {
 	}
 
 	public function assetUrl(string $collectionName, string $asset, string $collectionFilePath, bool $mustExist = false): string {
-		$path = $collectionName . '/' . $asset . '/' . ltrim($collectionFilePath, '/');
-		if ($mustExist && !file_exists((new Cache($this->system, $collectionName))->path() . $path)) {
+		$path = $asset . '/' . ltrim($collectionFilePath, '/');
+		if ($mustExist && !file_exists((new Cache($this->system, $collectionName))->path() . '/' . $path)) {
 			return '';
 		}
-		return $this->system->staticMediaBaseUri . $collectionName . '/' . $asset . '/' . ltrim($collectionFilePath, '/');
+		return $this->system->staticMediaBaseUri . $collectionName . '/' . $path;
 	}
 
 	public function thumbnailUrl(string $collectionName, string $asset, string $collectionFilePath, bool $mustExist = false): string {
-		return $this->assetUrl($collectionName, $asset, $collectionFilePath . '.jpg', $mustExist);
+		if (!str_starts_with($asset, 'image')) {
+			$collectionFilePath .= '.jpg';
+		}
+		return $this->assetUrl($collectionName, $asset, $collectionFilePath, $mustExist);
 	}
 
 	public function waveformUrl(string $collectionName, string $asset, string $collectionFilePath, bool $mustExist = false): string {

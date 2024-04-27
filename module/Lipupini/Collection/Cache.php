@@ -9,9 +9,11 @@ class Cache {
 	const DIRNAME = '.cache';
 	private string $path;
 
-	public function __construct(private State $system, protected string $collectionName) {
+	public function __construct(private State $system, protected string $collectionName, bool $private = false) {
 		$path = $this->system->dirCollection . '/' . $this->collectionName . '/.lipupini/' . static::DIRNAME;
-
+		if ($private) {
+			$path .= '-private';
+		}
 		if (!is_dir($path)) {
 			mkdir($path, 0755, true);
 		}
