@@ -25,7 +25,7 @@ abstract class Html extends Queued {
 		}
 		// Stylesheet preloads in HTML are close in proximity to the actual stylesheets, probably don't need them?
 		// And if we're sending `Link` headers, even less reason to use them
-		//$this->htmlHead .= '<link href="' . $encodedSrc . '?v=' . FRONTEND_CACHE_VERSION . '" rel="preload" as="style">' . "\n";
+		$this->htmlHead .= '<link href="' . $encodedSrc . '?v=' . FRONTEND_CACHE_VERSION . '" rel="preload" as="style">' . "\n";
 		$this->htmlHead .= '<link href="' . $encodedSrc . '?v=' . FRONTEND_CACHE_VERSION . '" rel="stylesheet">' . "\n";
 	}
 
