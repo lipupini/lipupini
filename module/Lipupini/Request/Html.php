@@ -23,7 +23,7 @@ abstract class Html extends Queued {
 		if (function_exists('headers_send')) {
 			header('Link: <' . $encodedSrc . '?v=' . FRONTEND_CACHE_VERSION . '>; rel=preload; as=style', false);
 		}
-		$this->htmlHead .= '<link href="' . $encodedSrc . '?v=' . FRONTEND_CACHE_VERSION . '" rel="stylesheet">' . "\n";
+		$this->htmlHead .= '<link href="' . $encodedSrc . '?v=' . FRONTEND_CACHE_VERSION . '" rel="stylesheet" type="text/css">' . "\n";
 	}
 
 	public function preloadMedia(string $src, string $type) {
