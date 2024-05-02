@@ -6,7 +6,7 @@
 
 Lipupini is a public domain platform for organizing and displaying digital art such as images, videos, sounds and writings that you might want to display under your domain on the Internet. Lipupini aims to support RSS and Fediverse protocols.
 
-### Version 5.x
+### Version 6.x
 
 ---
 
