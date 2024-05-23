@@ -56,7 +56,7 @@ The root `.lipupini` folder also contains public and private RSA keys for the co
 
 ## Vision
 
-Linux user folders symlinked into `collection`, for example:
+Linux user folders mounted into `collection`, for example:
 
 ```shell
 bob@domain $ pwd
