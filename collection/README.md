@@ -70,7 +70,11 @@ webserver@domain $ su - webserver
 webserver@domain $ pwd
 /var/www/lipupini
 
-webserver@domain $ sudo ln -s /home/bob/Lipupini /var/www/lipupini/collection/bob
+# Create the mount
+webserver@domain $ sudo mount --bind /home/bob/collection /var/www/lipupini/collection/bob
+
+# Update `fstab` to make the mount persist restarts, add this line:
+# /home/bob/collection   /var/www/lipupini/collection   none   bind   0 0
 
 webserver@domain $ ls -A collection/bob
 cat-hat.png  cat-scarf.jpg  dup.mp4  .lipupini  memes  poetry  winamp-intro.mp3
