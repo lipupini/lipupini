@@ -116,7 +116,7 @@ function analyzeCache(State $systemState, Collection\Utility $collectionUtility,
 					$errors[] = '$fileInfo = ' . var_export($fileInfo, true);
 					$errors[] = '$cacheFolderHashTable[$mediaType][$mediaSize] = ' . var_export($cacheFolderHashTable[$mediaType][$mediaType]['html'] ?? [], true);
 				}
-				if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['markdown']) ?? []) {
+				if (count($fileInfo) !== count($cacheFolderHashTable[$mediaType]['markdown'] ?? [])) {
 					$errors[] = 'Text markdown cache mismatch';
 					$errors[] = '$fileInfo = ' . var_export($fileInfo, true);
 					$errors[] = '$cacheFolderHashTable[$mediaType][$mediaSize] = ' . var_export($cacheFolderHashTable[$mediaType][$mediaType]['markdown'] ?? [], true);
