@@ -38,7 +38,7 @@ Lipupini is a public domain platform for organizing and displaying digital art s
 
 ## Status
 
-For displaying a media portfolio or posts on the Internet, despite currently limited ActivityPub support the [latest release of Lipupini](https://github.com/lipupini/lipupini/releases/latest) is considered to be **production-ready**. The [demo site](https://lipupini-demo.dup.bz/@example) is running the `demo` branch which is usually ahead of the latest release.
+For displaying a media portfolio or posts on the Internet, despite currently limited ActivityPub support the [latest release of Lipupini](https://github.com/lipupini/lipupini/releases/latest) is considered to be **production-ready**.
 
 1) Install dependencies and clone the repository to the [latest release tag](https://github.com/lipupini/lipupini/releases/latest). While the demo site has maintained the same respository since version `1.x`, avoid using the `demo` branch in production unless you are interested in keeping up with development and have a mechanism for rollbacks.
 2) Add and [initialize](#add-your-collection) your collection, customize `.lipupini/files.json` with captions, and delete the example collection.
