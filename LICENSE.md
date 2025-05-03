@@ -1,7 +1,5 @@
 License: Public Domain
 
-You are not required to report back to upstream if you add anything to improve it, but would be great if you did.
-
 Licenses of select dependencies:
 
 - vanjs-org/van: MIT @ https://github.com/vanjs-org/van/blob/main/LICENSE
