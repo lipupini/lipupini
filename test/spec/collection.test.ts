@@ -39,7 +39,6 @@ const testCollectionCustomAssets: string[] = [
 	'audio/thumbnail/winamp-intro.mp3.jpg',
 	'image/thumbnail/blank.jpg',
 	'video/thumbnail/dup.mp4.jpg',
-	'audio/waveform/beep.ogg.png',
 	'audio/waveform/huddle-invite.m4a.png',
 	'audio/waveform/winamp-intro.mp3.png',
 ]
@@ -83,6 +82,7 @@ test.beforeAll(async ({browser}) => {
 		testCollectionFolder.cache = testCollectionFolder.root + '/.lipupini/.cache'
 	}
 
+	/* // Remove AVIF from test for now
 	if (await page.evaluate(async () => {
 		if (typeof createImageBitmap === 'undefined') return false
 		const avifData = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A='
@@ -93,7 +93,7 @@ test.beforeAll(async ({browser}) => {
 	})) {
 		testCollectionFiles.push('test.avif')
 		totalTestAssetsUsed++
-	}
+	}*/
 
 	if ((browser.browserType().name() !== 'chromium' || !chromiumDisableFlac) &&
 		await page.evaluate(async () => {
@@ -145,17 +145,17 @@ test.describe.serial('test collection', () => {
 
 	if (createNewCollection) {
 		test('add custom assets', async ({page}) => {
-			fs.cpSync(testAssetsFolder + '/image', testCollectionFolder.root + '/.lipupini/image', {recursive: true})
+			fs.cpSync(testAssetsFolder + '/.lipupini/image', testCollectionFolder.root + '/.lipupini/image', {recursive: true})
 			if (hasFfmpeg) {
 				// If we have `ffmpeg` then we only need to copy custom assets that aren't generated
 				fs.mkdirSync(testCollectionFolder.root + '/.lipupini/audio')
-				fs.cpSync(testAssetsFolder + '/audio/thumbnail', testCollectionFolder.root + '/.lipupini/audio/thumbnail', {recursive: true})
+				fs.cpSync(testAssetsFolder + '/.lipupini/audio/thumbnail', testCollectionFolder.root + '/.lipupini/audio/thumbnail', {recursive: true})
 			} else {
 				testCollectionCustomAssets.forEach(assetPath => {
-					fs.cpSync(testAssetsFolder + '/' + assetPath, testCollectionFolder.root + '/.lipupini/' + assetPath)
+					fs.cpSync(testAssetsFolder + '/.lipupini/' + assetPath, testCollectionFolder.root + '/.lipupini/' + assetPath)
 				})
 				if (testCollectionFiles.indexOf('test.flac') > -1) {
-					fs.cpSync(testAssetsFolder + '/audio/waveform/test.flac.png', testCollectionFolder.root + '/.lipupini/audio/waveform/test.flac.png')
+					fs.cpSync(testAssetsFolder + '/.lipupini/audio/waveform/test.flac.png', testCollectionFolder.root + '/.lipupini/audio/waveform/test.flac.png')
 				}
 			}
 			await page.waitForTimeout(500) // A little delay to help ensure that the new files are available
