@@ -218,13 +218,15 @@ test.describe.serial('test collection', () => {
 		await page.goto(host + '/@' + testCollectionName)
 		await expect(page.locator('link[rel="alternate"][type="application/rss+xml"]')).toHaveAttribute('href', rssUrl)
 		expect((await request.get(rssUrl)).ok()).toBeTruthy()
+		await page.goto(rssUrl)
+		expect(await page.content()).toEqual(expect.stringContaining('rss version="2.0" xmlns'));
 	})
 
 	test('check API URLs', async ({page, request}) => {
 		const apiUrl = host + '/api/' + testCollectionName
 		const apiResponse = await request.get(apiUrl)
 		expect(apiResponse.ok()).toBeTruthy()
-		const apiResponseBody = JSON.parse((await apiResponse.body()).toString());
+		const apiResponseBody = JSON.parse((await apiResponse.body()).toString())
 		expect(Object.keys(apiResponseBody.data).length).toEqual(totalTestAssetsUsed)
 		expect((await request.get(apiUrl + '/blank.jpg.json')).ok()).toBeTruthy()
 	})
