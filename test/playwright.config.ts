@@ -70,7 +70,7 @@ export default defineConfig({
 
 	/* Run your local dev server before starting the tests */
 	webServer: {
-		command: 'cd ../module/Lukinview/webroot && PHP_CLI_SERVER_WORKERS=2 php -S localhost:4000 index.php',
+		command: 'cd ../src/Lukinview/webroot && PHP_CLI_SERVER_WORKERS=2 php -S localhost:4000 index.php',
 		url: 'http://localhost:4000',
 		reuseExistingServer: !process.env.CI,
 	},

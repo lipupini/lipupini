@@ -23,7 +23,7 @@ class A {
 			return;
 		}
 
-		$languages = scandir($system->dirRoot . '/module/' . $system->frontendModule . '/L18n');
+		$languages = scandir($system->dirRoot . '/src/' . $system->frontendModule . '/L18n');
 
 		if (!in_array($setLanguage . '.php', $languages)) {
 			throw new Exception('Could not find l18n information');

@@ -7,7 +7,7 @@ Using this pattern, things like `favicon.ico`, loaded modules, and the entire fr
 The `c` folder in `webroot` needs to be writeable as it will store cache. This should be performed as the webserver user. If the `c` folder is already there, then it was writeable and this step can be skipped.
 
 ```shell
-cd module/Lukinview/webroot
+cd src/Lukinview/webroot
 mkdir c || chmod 755 c
 ```
 

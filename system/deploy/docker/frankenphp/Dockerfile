@@ -23,4 +23,4 @@ VOLUME /app/collection
 RUN rm -r /app/public
 
 # Install Composer dependencies
-RUN cd /app/module/Lipupini && composer install --no-interaction --no-dev --prefer-dist
+RUN cd /app/src/Lipupini && composer install --no-interaction --no-dev --prefer-dist

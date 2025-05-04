@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 const FRONTEND_CACHE_VERSION = '1';
 
-require(__DIR__ . '/../../module/Lipupini/vendor/autoload.php');
+require(__DIR__ . '/../../src/Lipupini/vendor/autoload.php');
 
 $httpHost = php_sapi_name() === 'cli' && empty($_SERVER['HTTP_HOST']) ? 'localhost' : $_SERVER['HTTP_HOST'];
 $isHttps = !empty($_SERVER['HTTPS']) || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');

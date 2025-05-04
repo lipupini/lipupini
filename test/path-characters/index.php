@@ -18,7 +18,7 @@ if (pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION)) {
 
 use Module\Lipupini\Collection\Utility;
 
-require(__DIR__ . '/../../module/Lipupini/vendor/autoload.php');
+require(__DIR__ . '/../../src/Lipupini/vendor/autoload.php');
 
 $collectionUtility = new Utility(
 	require(__DIR__ . '/../../system/config/state.php')

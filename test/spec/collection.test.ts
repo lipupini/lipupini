@@ -7,7 +7,7 @@ import path = require('path')
 import fs = require('fs')
 const testAssetsFolder = __dirname + '/../assets'
 const collectionRootFolder = __dirname + '/../../collection'
-const webRootFolder = __dirname + '/../../module/Lukinview/webroot'
+const webRootFolder = __dirname + '/../../src/Lukinview/webroot'
 import {execSync} from 'child_process'
 
 // In Chromiom version 119.0.6045.9 bundled with Playwright,

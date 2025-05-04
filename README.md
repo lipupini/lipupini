@@ -92,7 +92,7 @@ cd lipupini
 2) Install Composer dependencies and go back to project root. Composer should automatically create the config file after installing. See [system/config/README.md](system/config/README.md)
 
 ```shell
-cd module/Lipupini
+cd src/Lipupini
 composer install
 cd ../..
 ```
@@ -100,7 +100,7 @@ cd ../..
 3. Navigate to the webserver document root and start PHP's built-in webserver. See [module/Lukinview/README.md](module/Lukinview/README.md)
 
 ```shell
-cd module/Lukinview/webroot
+cd src/Lukinview/webroot
 PHP_CLI_SERVER_WORKERS=2 php -S localhost:4000 index.php
 ```
 

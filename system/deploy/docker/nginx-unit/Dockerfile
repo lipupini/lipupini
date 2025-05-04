@@ -29,4 +29,4 @@ COPY ../../../../.. /app/
 VOLUME /app/collection
 
 # Install Composer dependencies
-RUN cd /app/module/Lipupini && composer install --no-interaction --no-dev --prefer-dist
+RUN cd /app/src/Lipupini && composer install --no-interaction --no-dev --prefer-dist

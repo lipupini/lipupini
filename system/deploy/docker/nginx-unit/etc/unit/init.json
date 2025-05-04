@@ -7,7 +7,7 @@
 	"routes": [
 		{
 			"action": {
-				"share": "/app/module/Lukinview/webroot/$uri",
+				"share": "/app/src/Lukinview/webroot/$uri",
 				"fallback": {
 					"pass": "applications/app"
 				}
@@ -17,7 +17,7 @@
 	"applications": {
 		"app": {
 			"type": "php",
-			"root": "/app/module/Lukinview/webroot",
+			"root": "/app/src/Lukinview/webroot",
 			"script": "index.php",
 			"user": "root",
 			"group": "root"

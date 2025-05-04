@@ -79,7 +79,7 @@ class State {
 		}
 
 		if ($this->dirModule === '/dev/null') {
-			$this->dirModule = $this->dirRoot . '/module';
+			$this->dirModule = $this->dirRoot . '/src';
 		}
 
 		if ($this->dirWebroot === '/dev/null') {

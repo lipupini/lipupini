@@ -17,10 +17,10 @@ RUN docker-php-ext-install gd curl
 COPY ../../../../.. /app/
 VOLUME /app/collection
 
-RUN cd /app/module/Lipupini && composer install --no-interaction --no-dev --prefer-dist
+RUN cd /app/src/Lipupini && composer install --no-interaction --no-dev --prefer-dist
 
 ENTRYPOINT ["tini", "--"]
-CMD ["ash", "-c", "cd /app/module/Lukinview/webroot && PHP_CLI_SERVER_WORKERS=2 php -S 0.0.0.0:8080 index.php"]
+CMD ["ash", "-c", "cd /app/src/Lukinview/webroot && PHP_CLI_SERVER_WORKERS=2 php -S 0.0.0.0:8080 index.php"]
 
 WORKDIR /app
 EXPOSE 8080
