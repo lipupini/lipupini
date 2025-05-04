@@ -81,28 +81,6 @@ test.beforeAll(async ({browser}) => {
 		testCollectionFolder.root = collectionRootFolder + '/' + testCollectionName
 		testCollectionFolder.cache = testCollectionFolder.root + '/.lipupini/.cache'
 	}
-
-	/* // Remove AVIF from test for now
-	if (await page.evaluate(async () => {
-		if (typeof createImageBitmap === 'undefined') return false
-		const avifData = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAAB0AAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLaXBjbwAAABRpc3BlAAAAAAAAAAIAAAACAAAAEHBpeGkAAAAAAwgICAAAAAxhdjFDgQ0MAAAAABNjb2xybmNseAACAAIAAYAAAAAXaXBtYQAAAAAAAAABAAEEAQKDBAAAACVtZGF0EgAKCBgANogQEAwgMg8f8D///8WfhwB8+ErK42A='
-		const avifBlob = await fetch(avifData).then((r) => r.blob());
-		return createImageBitmap(avifBlob)
-			.then(() => true)
-			.catch(() => false)
-	})) {
-		testCollectionFiles.push('test.avif')
-		totalTestAssetsUsed++
-	}*/
-
-	if ((browser.browserType().name() !== 'chromium' || !chromiumDisableFlac) &&
-		await page.evaluate(async () => {
-		const audio = document.createElement('audio');
-		return audio.canPlayType('audio/wav') !== ''
-	})) {
-		testCollectionFiles.push('test.flac')
-		totalTestAssetsUsed++
-	}
 })
 
 test('click into collection list from homepage and verify all', async ({ page}) => {
