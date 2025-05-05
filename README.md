@@ -61,20 +61,19 @@ Updating Lipupini can be as simple as running `git pull` from your environment d
 - Support for the following media file formats: AVIF, FLAC, GIF, JPG, PNG, M4A, MP3, MP4, Markdown, OGG Vorbis
 - Allows subscribing to your content collection via RSS2.0.
 - Search Lipupini accounts from other Fediverse platforms via the ActivityPub protocol.
-- Supports translations/internationalization: See [module/Lukinview/L18n](module/Lukinview/L18n)
+- Supports translations/internationalization: See [src/Frontend/Languages](src/Frontend/Languages)
 - Robust cross-browser E2E test suite
 - Automatically fix image orientation and strip private metadata thanks to [Imagine](https://github.com/php-imagine/Imagine) library
 - With [ffmpeg](https://ffmpeg.org) available and `useFfmpeg` [enabled](system/config/state.php), video thumbnails and audio waveforms can be generated automatically.
 - Supports both `"hidden"` and `"unlisted"` options in [files.json](collection/README.md)
 - Once dependencies are installed, Lipupini is designed to get up and running quickly.
-- API for retrieving collection data. See [module/Lipupini/Collection/ApiRequest.php](module/Lipupini/Api/ApiRequest.php)
 - Media collections are self-contained, served as they are on your filesystem. Lipupini-specific collection files are stored in a special `.lipupini` folder, making account collections completely portable.
-- Module system paves a way for collaborative development.
+- Composer pattern paves a way for new request modules in packages.
 - Docker support. See [deployment instructions](system/deploy/README.md#deploying-with-docker).
 - Show an avatar image when searching from an external ActivityPub or RSS client.
 - Lipupini manages to implement ActivityPub without a database. Certain inbox activities can be logged to your collection in raw JSON. See `system/config/state.php` for the option.
 - Built-in JS/CSS cache busting mechanism. Increment `system/config/state.php` to bust that cache!
-- Minimalist grid layout. Frontend is ready to be customized, or you can make an entirely new frontend module.
+- Minimalist grid layout. Frontend is ready to be customized.
 - On-demand caching system creates and serves static media files. Support for custom caching URL can facilitate the use of a CDN.
 - [Public domain](LICENSE.md) source code is the most permissive license there is. You can do whatever you want with this thing. Please feel free to contribute back to upstream, post in discussions, etc. There is no obligation of any kind.
 
@@ -97,10 +96,10 @@ composer install
 cd ../..
 ```
 
-3. Navigate to the webserver document root and start PHP's built-in webserver. See [module/Lukinview/README.md](module/Lukinview/README.md)
+3. Navigate to the webserver document root and start PHP's built-in webserver
 
 ```shell
-cd src/Lukinview/webroot
+cd webroot
 PHP_CLI_SERVER_WORKERS=2 php -S localhost:4000 index.php
 ```
 
@@ -176,9 +175,7 @@ The demo is the `demo` branch running on Apache2. If you already have Apache2 co
 
 ## Contributing
 
-You are welcome to fork it, change it, add modules! Please don't hesitate to make a PR that includes your own modules - it could be shipped with or integrated into core.
-
-I hope that the module architecture makes for a good workflow, especially being open to merging new modules. In theory, modules could just as easily be Composer packages and not have a `module` directory at all. The current architecture can still work seamlessly with the Composer pattern as well.
+You are welcome to fork it, change it, add modules! Please don't hesitate to make a PR.
 
 Email apps [at] dup.bz if you'd like a point of contact or post in [discussions](https://github.com/lipupini/lipupini/issues)! Please reach out if you begin to find any aspect frustrating or feel that it should be done in a different way.
 
@@ -204,6 +201,7 @@ ActivityPub inspiration: [@dansup@pixelfed.social](https://pixelfed.social/dansu
   - Do not overwrite entries, or add option
   - Read EXIF data if available for setting a default `date`
 - Something else besides exception when file in `files.json` does not exist in collection
+- Test language switching mechanism
 - Create script to normalize file and directory user/group/permissions
 - Check on cross-platform compatibility, MacOS and Windows with and without Docker. While only tested on Linux, I believe it will work on all three OSes including `ffmpeg` interfaces as long as symlinking is supported.
 - Look into:

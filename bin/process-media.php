@@ -4,9 +4,9 @@
 ini_set('max_execution_time', 0);
 ini_set('memory_limit', '512M');
 
-use Module\Lipupini\Collection;
-use Module\Lipupini\Collection\MediaProcessor;
-use Module\Lipupini\State;
+use Lipupini\Collection;
+use Lipupini\Collection\MediaProcessor;
+use Lipupini\State;
 
 // See `readline` note in root README.md as this script might benefit from prompts
 

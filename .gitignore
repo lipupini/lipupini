@@ -1,5 +1,7 @@
-# If you choose to symlink `webroot` from the project root, don't track it in the repository
-/webroot
+/webroot/c/*
+!/webroot/c/index.html
+!/webroot/c/README.md
+
 /vendor
 
 # IDE

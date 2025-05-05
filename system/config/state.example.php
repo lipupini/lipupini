@@ -11,7 +11,7 @@ $httpHost = php_sapi_name() === 'cli' && empty($_SERVER['HTTP_HOST']) ? 'localho
 $isHttps = !empty($_SERVER['HTTPS']) || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
 $baseUri = 'http' . ($isHttps ? 's' : '') . '://' . $httpHost . '/';
 
-return new Module\Lipupini\State(
+return new Lipupini\State(
 	baseUri: $baseUri, // Include trailing slash
 	staticMediaBaseUri: $baseUri . 'c/', // You can put a CDN URL here. Include trailing slash.
 	frontendModule: 'Lukinview',
@@ -42,25 +42,25 @@ return new Module\Lipupini\State(
 	imageQuality: ['avif_quality' => 69, 'jpeg_quality' => 86, 'png_compression_level' => 9],
 	useFfmpeg: false, // You can try enabling this if you have `ffmpeg` installed for processing videos
 	request: [
-		// Once instantiated by Module\Lipupini\Request\Incoming\Queue `render()`,
+		// Once instantiated by Lipupini\Request\Incoming\Queue `render()`,
 		// each `request` key here will instead hold the module instance itself
-		Module\Lukinview\Request\Html\HomepageRequest::class => null,
-		Module\Lipupini\Api\Request::class => null,
-		Module\Lipupini\Rss\Request::class => null,
-		Module\Lipupini\WebFinger\Request::class => null,
-		Module\Lipupini\ActivityPub\Request::class => null,
-		Module\Lipupini\ActivityPub\NodeInfoRequest::class => null,
-		Module\Lukinview\Request\Html\Collection\FolderRequest::class => null,
-		Module\Lukinview\Request\Html\Collection\MediaItemRequest::class => null,
-		Module\Lukinview\Request\Html\Collection\ListRequest::class => null,
-		Module\Lipupini\Collection\MediaProcessor\Request\AudioRequest::class => null,
-		Module\Lipupini\Collection\MediaProcessor\Request\AudioThumbnailRequest::class => null,
-		Module\Lipupini\Collection\MediaProcessor\Request\AudioWaveformRequest::class => null,
-		Module\Lipupini\Collection\MediaProcessor\Request\AvatarRequest::class => null,
-		Module\Lipupini\Collection\MediaProcessor\Request\ImageRequest::class => null,
-		Module\Lipupini\Collection\MediaProcessor\Request\TextRequest::class => null,
-		Module\Lipupini\Collection\MediaProcessor\Request\VideoRequest::class => null,
-		Module\Lipupini\Collection\MediaProcessor\Request\VideoThumbnailRequest::class => null,
+		Lipupini\Request\Html\HomepageRequest::class => null,
+		Lipupini\Api\Request::class => null,
+		Lipupini\Rss\Request::class => null,
+		Lipupini\WebFinger\Request::class => null,
+		Lipupini\ActivityPub\Request::class => null,
+		Lipupini\ActivityPub\NodeInfoRequest::class => null,
+		Lipupini\Request\Html\Collection\FolderRequest::class => null,
+		Lipupini\Request\Html\Collection\MediaItemRequest::class => null,
+		Lipupini\Request\Html\Collection\ListRequest::class => null,
+		Lipupini\Collection\MediaProcessor\Request\AudioRequest::class => null,
+		Lipupini\Collection\MediaProcessor\Request\AudioThumbnailRequest::class => null,
+		Lipupini\Collection\MediaProcessor\Request\AudioWaveformRequest::class => null,
+		Lipupini\Collection\MediaProcessor\Request\AvatarRequest::class => null,
+		Lipupini\Collection\MediaProcessor\Request\ImageRequest::class => null,
+		Lipupini\Collection\MediaProcessor\Request\TextRequest::class => null,
+		Lipupini\Collection\MediaProcessor\Request\VideoRequest::class => null,
+		Lipupini\Collection\MediaProcessor\Request\VideoThumbnailRequest::class => null,
 	],
 	activityPubLog: false,
 	debug: false

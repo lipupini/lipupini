@@ -1,0 +1,13 @@
+<?php
+
+namespace Lipupini\ActivityPub;
+
+class Exception extends \Lipupini\Exception {
+	public function __toString(): string {
+		http_response_code($this->getCode());
+		return json_encode([
+			'error' => $this->getMessage(),
+			'code' => $this->getCode(),
+		]);
+	}
+}

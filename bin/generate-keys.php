@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-use Module\Lipupini\Collection;
-use Module\Lipupini\State;
-use Module\Lipupini\Encryption;
+use Lipupini\Collection;
+use Lipupini\State;
+use Lipupini\Encryption;
 
 /** @var State $systemState */
 $systemState = require(__DIR__ . '/../system/config/state.php');

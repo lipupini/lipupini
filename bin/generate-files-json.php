@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
 
-use Module\Lipupini\Collection;
-use Module\Lipupini\State;
+use Lipupini\Collection;
+use Lipupini\State;
 
 /** @var State $systemState */
 $systemState = require(__DIR__ . '/../system/config/state.php');

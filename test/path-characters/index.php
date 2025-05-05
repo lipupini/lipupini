@@ -16,7 +16,7 @@ if (pathinfo($_SERVER['REQUEST_URI'], PATHINFO_EXTENSION)) {
 	return false;
 }
 
-use Module\Lipupini\Collection\Utility;
+use Lipupini\Collection\Utility;
 
 require(__DIR__ . '/../../src/Lipupini/vendor/autoload.php');
 

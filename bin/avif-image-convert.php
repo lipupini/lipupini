@@ -4,8 +4,8 @@
 ini_set('max_execution_time', 0);
 ini_set('memory_limit', '512M');
 
-use Module\Lipupini\Collection;
-use Module\Lipupini\State;
+use Lipupini\Collection;
+use Lipupini\State;
 
 // See `readline` note in root README.md
 $sleepFor = 10;
@@ -41,7 +41,7 @@ foreach ($collectionData as $filepath => $metadata) {
 	$avifPath = $collectionPath . '/' . preg_replace('#\.jpe?g$#', '.avif', $filepath);
 
 	if (!file_exists($avifPath)) {
-		Module\Lipupini\Collection\MediaProcessor\Image::imagine()->open($jpegPath)
+		Lipupini\Collection\MediaProcessor\Image::imagine()->open($jpegPath)
 			->save($avifPath, $systemState->imageQuality)
 		;
 	} else {
