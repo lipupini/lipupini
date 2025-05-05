@@ -2,7 +2,7 @@
 
 namespace Lipupini;
 
-const LIPUPINI_VERSION = 5; // Try not to forget to update this during major API releases
+const LIPUPINI_VERSION = 7; // Try not to forget to update this during major API releases
 
 use Lipupini\Translation\A;
 

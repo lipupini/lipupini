@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 
 const FRONTEND_CACHE_VERSION = '1';
 
-require(__DIR__ . '/../../src/Lipupini/vendor/autoload.php');
+require(__DIR__ . '/../../vendor/autoload.php');
 
 $httpHost = php_sapi_name() === 'cli' && empty($_SERVER['HTTP_HOST']) ? 'localhost' : $_SERVER['HTTP_HOST'];
 $isHttps = !empty($_SERVER['HTTPS']) || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
@@ -14,7 +14,6 @@ $baseUri = 'http' . ($isHttps ? 's' : '') . '://' . $httpHost . '/';
 return new Lipupini\State(
 	baseUri: $baseUri, // Include trailing slash
 	staticMediaBaseUri: $baseUri . 'c/', // You can put a CDN URL here. Include trailing slash.
-	frontendModule: 'Lukinview',
 	viewLanguage: 'en',
 	itemsPerPage: 36,
 	mediaSize: ['large' => [7680, 4320], 'medium' => [2000, 1500], 'thumbnail' => [500, 500]], // Default [width, height] for each preset. You can add more, and renaming the defaults is not recommended
@@ -44,15 +43,15 @@ return new Lipupini\State(
 	request: [
 		// Once instantiated by Lipupini\Request\Incoming\Queue `render()`,
 		// each `request` key here will instead hold the module instance itself
-		Lipupini\Request\Html\HomepageRequest::class => null,
+		Lipupini\Request\Page\HomepageRequest::class => null,
 		Lipupini\Api\Request::class => null,
 		Lipupini\Rss\Request::class => null,
 		Lipupini\WebFinger\Request::class => null,
 		Lipupini\ActivityPub\Request::class => null,
 		Lipupini\ActivityPub\NodeInfoRequest::class => null,
-		Lipupini\Request\Html\Collection\FolderRequest::class => null,
-		Lipupini\Request\Html\Collection\MediaItemRequest::class => null,
-		Lipupini\Request\Html\Collection\ListRequest::class => null,
+		Lipupini\Request\Collection\FolderRequest::class => null,
+		Lipupini\Request\Collection\MediaItemRequest::class => null,
+		Lipupini\Request\Collection\ListRequest::class => null,
 		Lipupini\Collection\MediaProcessor\Request\AudioRequest::class => null,
 		Lipupini\Collection\MediaProcessor\Request\AudioThumbnailRequest::class => null,
 		Lipupini\Collection\MediaProcessor\Request\AudioWaveformRequest::class => null,
