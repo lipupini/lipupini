@@ -88,7 +88,7 @@ git clone https://github.com/lipupini/lipupini.git
 cd lipupini
 ```
 
-2) Install Composer dependencies and go back to project root. Composer should automatically create the config file after installing. See [system/config/README.md](system/config/README.md)
+2) Install Composer dependencies. Composer should automatically create the config file after installing. See [system/config/README.md](system/config/README.md)
 
 ```shell
 composer install
