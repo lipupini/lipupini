@@ -10,12 +10,6 @@ const collectionRootFolder = __dirname + '/../../collection'
 const webRootFolder = __dirname + '/../../webroot'
 import {execSync} from 'child_process'
 
-// In Chromiom version 119.0.6045.9 bundled with Playwright,
-// there is an issue when loading the .flac example
-// See version info with:
-// cd ~/.cache/ms-playwright/chromium-1084/chrome-linux && ./chrome --version
-const chromiumDisableFlac = true
-
 // If `createNewCollection` is `true`, the `testCollectionName` will have a number appended if it exists
 let testCollectionName = 'test-collection'
 
