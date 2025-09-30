@@ -91,8 +91,8 @@ class Queue {
 			header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expiresOffset) . ' GMT');
 			header('Cache-Control: public, max-age=' . $expiresOffset);
 		} else {
-			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
-			header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
+			header('Expires: Wed, 11 Jan 1984 05:00:00 GMT');
+			header('Cache-Control: no-cache, must-revalidate, max-age=0');
 		}
 
 		if ($this->system->responseContent) {
