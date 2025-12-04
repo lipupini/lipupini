@@ -18,7 +18,7 @@ class HomepageRequest extends Request\Html {
 
 	public function renderHtml(): void {
 		ob_start();
-		require(__DIR__ . '/Homepage.phtml');
+		require(__DIR__ . '/Html/Homepage.phtml');
 		$this->system->responseContent = ob_get_clean();
 	}
 }

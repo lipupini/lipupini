@@ -6,7 +6,7 @@ use Lipupini\Translation\A;
 $collectionUtility = new Utility($this->system);
 $parentPathLastSegment = explode('/', preg_replace('#\?.*$#', '', $this->parentPath))[substr_count($this->parentPath, '/')];
 
-require(__DIR__ . '/../Page/Core/Open.phtml') ?>
+require(__DIR__ . '/../../Page/Html/Open.phtml') ?>
 
 <div id="folder">
 <header>
@@ -88,4 +88,4 @@ endforeach ?>
 </footer>
 </div>
 
-<?php require(__DIR__ . '/../Page/Core/Close.phtml') ?>
+<?php require(__DIR__ . '/../../Page/Html/Close.phtml') ?>

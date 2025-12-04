@@ -24,7 +24,7 @@ class ListRequest extends Request\Html {
 
 	public function renderHtml(): void {
 		ob_start();
-		require(__DIR__ . '/List.phtml');
+		require(__DIR__ . '/Html/List.phtml');
 		$this->system->responseContent = ob_get_clean();
 		$this->system->responseType = 'text/html';
 	}

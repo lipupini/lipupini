@@ -41,7 +41,7 @@ class FolderRequest extends Request\Html {
 	public function renderHtml(): void {
 		$this->loadViewData();
 		ob_start();
-		require(__DIR__ . '/Folder.phtml');
+		require(__DIR__ . '/Html/Folder.phtml');
 		$this->system->responseContent = ob_get_clean();
 		$this->system->responseType = 'text/html';
 	}

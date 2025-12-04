@@ -45,7 +45,7 @@ class MediaItemRequest extends Request\Html {
 
 	public function renderHtml(): void {
 		ob_start();
-		require(__DIR__ . '/MediaItem.phtml');
+		require(__DIR__ . '/Html/MediaItem.phtml');
 		$this->system->responseContent = ob_get_clean();
 		$this->system->responseType = 'text/html';
 	}
