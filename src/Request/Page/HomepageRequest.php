@@ -18,8 +18,7 @@ class HomepageRequest extends Request\Html {
 
 	public function renderHtml(): void {
 		ob_start();
-		header('Content-type: text/html');
-		require(__DIR__ . '/../../Frontend/View/Homepage.php');
+		require(__DIR__ . '/Html/Homepage.phtml');
 		$this->system->responseContent = ob_get_clean();
 	}
 }

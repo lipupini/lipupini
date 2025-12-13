@@ -52,12 +52,12 @@ class NodeInfoRequest extends Queued {
 			// If you really want, you can parse logs and cache them in `/tmp`
 			'usage' => [
 				'users' => [
-					'total' => rand(69, 420),
-					'activeHalfYear' => rand(69, 420),
-					'activeMonth' => rand(69, 420),
+					'total' => [],
+					'activeHalfYear' => [],
+					'activeMonth' => [],
 				],
-				'localPosts' => rand(69, 420),
-				'localComments' => rand(69, 420),
+				'localPosts' => [],
+				'localComments' => [],
 			],
 			'services' => [
 				'outbound' => [],

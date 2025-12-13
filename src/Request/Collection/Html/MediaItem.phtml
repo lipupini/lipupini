@@ -6,7 +6,7 @@ use Lipupini\Translation\A;
 $collectionUtility = new Collection\Utility($this->system);
 $parentPathLastSegment = explode('/', preg_replace('#\?.*$#', '', $this->parentPath))[substr_count($this->parentPath, '/')];
 
-require(__DIR__ . '/../Core/Open.php') ?>
+require(__DIR__ . '/../../Page/Html/Open.phtml') ?>
 
 <div id="media-item" class="<?php echo htmlentities($this->fileData['mediaType']) ?>-item">
 <header>
@@ -67,4 +67,4 @@ endswitch;
 </footer>
 </div>
 
-<?php require(__DIR__ . '/../Core/Close.php') ?>
+<?php require(__DIR__ . '/../../Page/Html/Close.phtml') ?>
