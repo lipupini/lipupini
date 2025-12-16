@@ -101,8 +101,6 @@ class MediaItemRequest extends Request\Html {
 				if (!empty($this->fileData['thumbnail'])) {
 					$this->preloadMedia($this->fileData['thumbnail'], 'image');
 				}
-				$this->addStyle('/lib/videojs/video-js.min.css');
-				$this->addScript('/lib/videojs/video.min.js');
 				break;
 			default:
 				throw new Exception('Could not determine `mediaType');

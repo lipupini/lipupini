@@ -84,8 +84,6 @@ class FolderRequest extends Request\Html {
 		$avatarUrlPath = Collection\MediaProcessor\Avatar::avatarUrlPath($this->system, $this->collectionName);
 		$this->pageImagePreviewUri = $avatarUrlPath ?? null;
 
-		$this->addScript('/lib/videojs/video.min.js');
-		$this->addStyle('/lib/videojs/video-js.min.css');
 		$this->addScript('/js/Audio.js');
 		$this->addScript('/js/AudioWaveformSeek.js');
 
