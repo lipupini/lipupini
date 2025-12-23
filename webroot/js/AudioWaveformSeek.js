@@ -6,6 +6,18 @@ document.querySelectorAll('.audio-container').forEach(container => {
 	const transitionDuration = elapsed.style.transitionDuration
 	let trackingMouseMove = false
 
+	const convertToBlob = async (url) => {
+		const response = await fetch(url)
+		const blob = await response.blob()
+		const blobUrl = URL.createObjectURL(blob)
+		audio.src = blobUrl
+	}
+
+	// To seek in Chromium-based browers without sending an `Accept-Ranges: bytes` header with every audio file, we'll convert the file to a blob'
+	if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
+		convertToBlob(audio.currentSrc)
+	}
+
 	audio.addEventListener('play', () => {
 		elapsed.classList.remove('hidden')
 	})

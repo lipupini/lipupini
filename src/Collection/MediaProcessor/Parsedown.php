@@ -8,7 +8,7 @@ class Parsedown extends \Parsedown {
 		if (!$return) {
 			return null;
 		}
-		$return['element']['attributes']['target'] = '_blank';
+		$return['element']['attributes']['target'] = md5($return['element']['attributes']['href']);
 		$return['element']['attributes']['rel'] = 'noopener noreferrer';
 		return $return;
 	}
